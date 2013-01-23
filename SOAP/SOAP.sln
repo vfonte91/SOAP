@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP", "SOAP\SOAP.csproj", "{65021195-6C58-4A44-A21B-30CAE0C3FC05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAP.Tests", "SOAP.Tests\SOAP.Tests.csproj", "{7F9BB6E9-626B-4D5E-A452-EEA709677C2D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65021195-6C58-4A44-A21B-30CAE0C3FC05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65021195-6C58-4A44-A21B-30CAE0C3FC05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65021195-6C58-4A44-A21B-30CAE0C3FC05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65021195-6C58-4A44-A21B-30CAE0C3FC05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F9BB6E9-626B-4D5E-A452-EEA709677C2D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F9BB6E9-626B-4D5E-A452-EEA709677C2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F9BB6E9-626B-4D5E-A452-EEA709677C2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F9BB6E9-626B-4D5E-A452-EEA709677C2D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
