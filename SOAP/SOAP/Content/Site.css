@@ -17,25 +17,12 @@ body
     padding: 0;
 }
 
-/* inline label class*/
-form label.inline 
-{
-    font-weight: bold;
-    padding:0 5px 0 0;
-}
-/* inline input class*/
-form input[type="text"].inline
-{
-    border:1px solid #a1a1a1;
-    border-radius:5px;
-    -moz-border-radius:5px; /* Old Firefox */
-}
 /* container for tab navigation and content*/
 #scroll {
 	position: relative;
 	overflow: hidden;
 	border: 1px solid #ddd;
-	width: 80%;
+	width: 90%;
 	height: 650px;
 	margin-left: auto;
 	margin-right: auto;
@@ -48,15 +35,15 @@ form input[type="text"].inline
 #scrollable-items {
 	width: 9999em;
 	position: absolute;
-	height: 400px;
+	height: 85%;
 }
 
 /*single tab content page */
 .item {
 	float: left;
-	width: 1000px;
+	width: 1154px;
 	height: 340px;
-	text-align: center;
+	padding: 15px;
 }
 
 /* container for tabs links */
@@ -102,37 +89,21 @@ form input[type="text"].inline
 	_margin-left: 10px;
 	background: red;
 }
-#t0.active {background-position: -21px 0 !important;}
-#t0:hover {	background-position: -21px -180px;}
-#t0:active {background-position: -21px -270px;}
+#t1 {       background: blue;}
+#t2 {       background: green;}
+#t3 {       background: purple;}
+#t4 {       background: black;}
 
-#t1 {   background-position: -325px -90px;
-    	background: blue;
+/* inline label class*/
+form label.inline 
+{
+    font-weight: bold;
+    padding:0 5px 0 0;
 }
-#t1:hover { 	background-position: -325px -180px;}
-#t1:active {	background-position: -325px -270px;}
-#t1.active {	background-position: -325px 0 !important;}
-
-#t2 {
-	background-position: -435px -90px;
-	background: green;
+/* inline input class*/
+form input[type="text"].inline
+{
+    border:1px solid #a1a1a1;
+    border-radius:5px;
+    -moz-border-radius:5px; /* Old Firefox */
 }
-#t2:hover {	    background-position: -435px -180px;}
-#t2:active {	background-position: -435px -270px;}
-#t2.active {	background-position: -435px 0 !important;}
-
-#t3 {
-	background-position: -545px -90px;
-	background: purple;
-}
-#t3:hover { 	background-position: -545px -180px;}
-#t3:active {	background-position: -545px -270px;}
-#t3.active {	background-position: -545px 0 !important;}
-
-#t4 {
-	background-position: -655px -90px;
-	background: black;
-}
-#t4:hover {	    background-position: -655px -180px;}
-#t4:active {	background-position: -655px -270px;}
-#t4.active {	background-position: -655px 0 !important;}
