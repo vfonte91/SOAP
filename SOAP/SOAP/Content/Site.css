@@ -64,7 +64,7 @@ form input[type="text"].inline
 }
 
 #thumbs {
-	background: g
+	background: grey;
 	height: 90px;
 	position: absolute;
 	top: 425px;
