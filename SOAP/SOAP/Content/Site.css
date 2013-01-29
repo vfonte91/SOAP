@@ -12,8 +12,7 @@ html
 
 body
 {
-    font-size: .85em;
-    font-family: Avant Garde, Helvetica, Sans-Serif;
+    font-family: "Lucida Grande",Avant Garde, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
 }
@@ -36,9 +35,11 @@ form input[type="text"].inline
 	position: relative;
 	overflow: hidden;
 	border: 1px solid #ddd;
-	width: 948px;
-	padding: 15px;
-	height: 473px;
+	width: 80%;
+	height: 650px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 10px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 }
@@ -69,10 +70,9 @@ form input[type="text"].inline
     background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
 	height: 90px;
-	position: absolute;
-	top: 425px;
-	width: 990px;
-	left: -8px;
+	position: relative;
+	top: 90%;
+	width: 100%;
 }
 
 /* tabs link */
