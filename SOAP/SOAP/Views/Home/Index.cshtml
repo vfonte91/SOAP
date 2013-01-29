@@ -1,7 +1,7 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Anesthesia SOAP";
 }
-    <script>
+    <script type="text/javascript">
         // get handle to the scrollable api
         var api = $("#scroll").data("scrollable");
 
@@ -29,6 +29,15 @@
 
         });
     </script>
+    <div id="top">
+        <div id="top-wrap">
+            <div id="title"><p>Ohio State Anesthesia SOAP Plan</p></div>
+            <div id="user-info">
+                <div id="user-name">Brutus.1</div>
+                <div id="sign-out"><a href="#" >Sign Out</a></div>
+            </div>
+        </div>
+    </div>
 <div id="scroll">
 
 		<!-- scrollable items -->
@@ -40,8 +49,8 @@
 			<!-- item #1 -->
 			<div class="item">
 				<form name="input" method="get" action="">
-					<label class="inline">First Name:</label><input type="text" name="FirstName" value="Mickey" class="inline"><br>
-					<label class="inline">Last Name:</label><input type="text" name="LastName" value="Mouse" class="inline"><br>
+					<label class="inline">First Name:</label><input type="text" name="FirstName"  placeholder="Mickey" class="inline"><br>
+					<label class="inline">Last Name:</label><input type="text" name="LastName" placeholder="Mouse" class="inline"><br>
 					<input type="submit" value="Submit">
 				</form>
 			</div>
@@ -70,12 +79,10 @@
 			<div class="item">
 				<form action="" method="post"
 					enctype="text/plain">
-					<label class="inline">Name:</label><input type="text" name="name" value="your name" class="inline"><br />
-					<label class="inline">E-mail:</label><input type="text" name="mail" value="your email" class="inline"><br />
-					<label class="inline">Comment:</label><input type="text" name="comment"
-						value="your comment" class="inline"><br>
-					<br> <input type="submit" value="Send"> <input
-						type="reset" value="Reset">
+					<label class="inline">Name:</label><input type="text" name="name" placeholder="your name" class="inline"><br />
+					<label class="inline">E-mail:</label><input type="text" name="mail" placeholder="your email" class="inline"><br />
+					<label class="inline">Comment:</label><input type="text" name="comment" placeholder="your comment" class="inline"><br><br> 
+                    <input type="submit" value="Send"> <input type="reset" value="Reset">
 				</form>
 			</div>
 
