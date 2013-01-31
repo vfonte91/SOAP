@@ -79,25 +79,25 @@ body
 /*single tab content page */
 .item {
 	float: left;
-	width: 1154px;
+	width: 1120px;
 	height: 340px;
 	padding: 15px;
 }
 
 /* container for tabs links */
 #thumbs {
-	background: #eeeeee; /* Old browsers */
-    background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */
+    background: #383636;
 	height: 90px;
 	position: relative;
 	top: 90%;
 	width: 100%;
+}
+
+/* Class for navigation container */
+.navi {
+	margin-left: auto;
+	margin-right: auto;
+	width: 600px;
 }
 
 /* tabs link */
@@ -106,42 +106,41 @@ body
 	border: 0 !important;
 }
 .t a {
-	margin-left: 11px;
 	display: block;
-	width: 99px;
+	width: 100px;
 	float: left;
 	height: 90px;
 	cursor: pointer;
+	background: url('../Images/InActive.jpg');
+	border: 1px solid #acb0a8;
 }
-.t a.active {	cursor: default !important;}
-
-/* Class for navigation container */
-.navi {
-	margin-left: 314px;
-	_margin-left: 304px;
+.t a.active {	cursor: default !important;
+    background: url('../Images/Active.jpg');
 }
 
-/* Images for tabs links. each number represents it's correseponding tab link*/
-#t0 {
-	margin-left: 20px;
-	_margin-left: 10px;
-	background: red;
+/*Text inside links*/
+.t a div
+{
+    text-align:center;
+    margin-top:25px;
+    color:  #acb0a8;
 }
-#t1 {       background: blue;}
-#t2 {       background: green;}
-#t3 {       background: purple;}
-#t4 {       background: black;}
 
 /* inline label class*/
 form label.inline 
 {
     font-weight: bold;
-    padding:0 5px 0 0;
+    padding:5px 5px 0 0;
+    margin: 5px 0 0 0;
 }
 /* inline input class*/
 form input[type="text"].inline
 {
     border:1px solid #a1a1a1;
+    margin: 5px 0 0 0;
     border-radius:5px;
     -moz-border-radius:5px; /* Old Firefox */
 }
+
+.left {     float:left; }
+.right {    float: right; }

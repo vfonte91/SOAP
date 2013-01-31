@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Anesthesia SOAP";
 }
-    <script type="text/javascript">
+    <script>
         // get handle to the scrollable api
         var api = $("#scroll").data("scrollable");
 
@@ -49,9 +49,18 @@
 			<!-- item #1 -->
 			<div class="item">
 				<form name="input" method="get" action="">
-					<label class="inline">First Name:</label><input type="text" name="FirstName"  placeholder="Mickey" class="inline"><br>
-					<label class="inline">Last Name:</label><input type="text" name="LastName" placeholder="Mouse" class="inline"><br>
-					<input type="submit" value="Submit">
+                    <div class="left">
+					    <label class="inline">Anesthetist:</label><input type="text" name="Anesthetist"  placeholder="Mickey" class="inline"><br>
+                        <label class="inline">Clinician:</label><input type="text" name="Clinician" class="inline"><br>
+                        <label class="inline">Ward Number:</label><input type="text" name="Ward" class="inline"><br>
+                        <label class="inline">Procedure:</label><input type="text" name="Procedure" class="inline"><br>
+                        <label class="inline">Body Weight:</label><input type="text" name="BodyWeight" class="inline"><br>
+                        <label class="inline">Age:</label><input type="text" name="Age" class="inline"><br>
+                        <label class="inline">Temperament:</label><input type="text" name="Temperament" class="inline"><br>
+                    </div>
+                    <div class="right">
+                        <label class="inline">Date:</label><input type="text" id="datepicker" name="Date" class="inline"><br> 
+                    </div>
 				</form>
 			</div>
 
@@ -93,21 +102,15 @@
 
 		<!-- thumbnails -->
 		<div id="thumbs" class="t">
-
-			<!-- intro page navigator button -->
-			<a id="t0" class="active"></a>
-
 			<!-- scrollable navigator root element -->
 			<div class="navi">
-
-				<!-- navigator item for the first empty "page" -->
-				<a style="display: none"></a>
-
+                <!-- intro page navigator button -->
+			    <a id="t0" class="active"></a>
 				<!-- navigator items for the rest of the scrollable items -->
-				<a id="t1"></a>
-				<a id="t2"></a>
-				<a id="t3"></a>
-				<a id="t4"></a>
+				<a id="t1"><div>Section 1</div></a>
+				<a id="t2"><div>Section 2</div></a>
+				<a id="t3"><div>Section 3</div></a>
+				<a id="t4"><div>Section 4</div></a>
 			</div>
 
 		</div>
