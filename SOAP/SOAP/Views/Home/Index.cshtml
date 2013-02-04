@@ -1,45 +1,138 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Anesthesia SOAP";
 }
-@section featured {
-    <section class="featured">
-        <div class="content-wrapper">
-            <hgroup class="title">
-                <h1>@ViewBag.Title.</h1>
-                <h2>@ViewBag.Message</h2>
-            </hgroup>
-            <p>
-                To learn more about ASP.NET MVC visit
-                <a href="http://asp.net/mvc" title="ASP.NET MVC Website">http://asp.net/mvc</a>.
-                The page features <mark>videos, tutorials, and samples</mark> to help you get the most from ASP.NET MVC.
-                If you have any questions about ASP.NET MVC visit
-                <a href="http://forums.asp.net/1146.aspx/1?MVC" title="ASP.NET MVC Forum">our forums</a>.
-            </p>
+    <script type="text/javascript">
+        // get handle to the scrollable api
+        var api = $("#scroll").data("scrollable");
+
+        // this callback does the special handling of our "intro page"
+        api.onStart(function (e, i) {
+
+            // when on the first item: hide the intro
+            if (i) {
+                $("#intro").fadeOut("slow");
+
+                // otherwise show the intro
+            } else {
+                $("#intro").fadeIn(1000);
+            }
+
+            // toggle activity for the intro thumbnail
+            $("#t0").toggleClass("active", i == 0);
+        });
+
+        // a dedicated click event for the intro thumbnail
+        $("#t0").click(function () {
+
+            // seek to the beginning (the hidden first item)
+            $("#scroll").scrollable().begin();
+
+        });
+    </script>
+    <div id="top">
+        <div id="top-wrap">
+            <div id="title"><p>Ohio State Anesthesia SOAP Plan</p></div>
+            <div id="user-info">
+                <div id="user-name">Brutus.1</div>
+                <div id="sign-out"><a href="#" >Sign Out</a></div>
+            </div>
         </div>
-    </section>
-}
-<h3>We suggest the following:</h3>
-<ol class="round">
-    <li class="one">
-        <h5>Getting Started</h5>
-        ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-        enables a clean separation of concerns and that gives you full control over markup
-        for enjoyable, agile development. ASP.NET MVC includes many features that enable
-        fast, TDD-friendly development for creating sophisticated applications that use
-        the latest web standards.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245151">Learn more…</a>
-    </li>
+    </div>
+<div id="scroll">
 
-    <li class="two">
-        <h5>Add NuGet packages and jump-start your coding</h5>
-        NuGet makes it easy to install and update free libraries and tools.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245153">Learn more…</a>
-    </li>
+		<!-- scrollable items -->
+		<div id="scrollable-items">
 
-    <li class="three">
-        <h5>Find Web Hosting</h5>
-        You can easily find a web hosting company that offers the right mix of features
-        and price for your applications.
-        <a href="http://go.microsoft.com/fwlink/?LinkId=245157">Learn more…</a>
-    </li>
-</ol>
+			<!-- empty item -->
+			<div class="item">Welcome to the OSU SOAP Application</div>
+
+			<!-- item #1 -->
+			<div class="item">
+				<form name="input" method="get" action="">
+                    <div class="left half">
+                        <div class="input">
+					        <label>Anesthetist</label>
+                            <input type="text" name="Anesthetist"  placeholder="Mickey">
+                        </div>
+                        <div class="input">
+                            <label>Clinician</label><input type="text" name="Clinician">
+                        </div>
+                        <div class="input">
+                            <label>Ward Number</label><input type="text" name="Ward">
+                        </div>
+                        <div class="input">
+                            <label>Procedure</label><input type="text" name="Procedure">
+                        </div>
+                        <div class="input">
+                            <label>Body Weight</label><input type="text" name="BodyWeight">
+                        </div>
+                        <div class="input">
+                            <label>Age</label><input type="text" name="Age" class="inline">
+                        </div>
+                        <div class="input">
+                            <label>Temperament</label><input type="text" name="Temperament">
+                        </div>
+                    </div>
+                    <div class="right half">
+                        <div class="input">
+                            <label>Date</label><input type="text" id="datepicker" name="Date">
+                        </div>
+                    </div>
+				</form>
+			</div>
+
+			<!-- item #2 -->
+			<div class="item">
+				<form action="">
+					<select name="cars">
+						<option value="volvo">Volvo</option>
+						<option value="saab">Saab</option>
+						<option value="fiat" selected>Fiat</option>
+						<option value="audi">Audi</option>
+					</select>
+				</form>
+			</div>
+
+			<!-- item #3 -->
+			<div class="item">
+				<form action="">
+					<input type="radio" name="sex" value="male">Male<br> <input
+						type="radio" name="sex" value="female">Female
+				</form>
+			</div>
+
+			<!-- item #4 -->
+			<div class="item">
+				<form action="" method="post"
+					enctype="text/plain">
+					<label class="inline">Name:</label><input type="text" name="name" placeholder="your name" class="inline"><br />
+					<label class="inline">E-mail:</label><input type="text" name="mail" placeholder="your email" class="inline"><br />
+					<label class="inline">Comment:</label><input type="text" name="comment" placeholder="your comment" class="inline"><br><br> 
+                    <input type="submit" value="Send"> <input type="reset" value="Reset">
+				</form>
+			</div>
+
+			<!-- the intro "page"  -->
+			<div id="intro" class="item">Welcome to the OSU SOAP Application</div>
+
+		</div>
+
+		<!-- thumbnails -->
+		<div id="thumbs" class="t">
+			<!-- scrollable navigator root element -->
+			<div class="navi">
+                <!-- intro page navigator button -->
+			    <a id="t0" class="active"></a>
+				<!-- navigator items for the rest of the scrollable items -->
+				<a id="t1"><div>Section 1</div></a>
+				<a id="t2"><div>Section 2</div></a>
+				<a id="t3"><div>Section 3</div></a>
+				<a id="t4"><div>Section 4</div></a>
+			</div>
+
+		</div>
+
+	</div>
+	<script type="text/javascript">
+	    $("#scroll").scrollable({ items: '#scrollable-items' }).navigator();
+	</script>
