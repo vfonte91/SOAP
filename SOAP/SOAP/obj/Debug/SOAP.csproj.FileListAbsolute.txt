@@ -104,6 +104,3 @@ C:\Users\rotonda.7\project\SOAP\SOAP\bin\DotNetOpenAuth.OpenId.RelyingParty.xml
 C:\Users\rotonda.7\project\SOAP\SOAP\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\rotonda.7\project\SOAP\SOAP\obj\Debug\SOAP.dll
 C:\Users\rotonda.7\project\SOAP\SOAP\obj\Debug\SOAP.pdb
-C:\Users\mcconnell.189\project\SOAP\SOAP\obj\Debug\ResolveAssemblyReference.cache
-C:\Users\mcconnell.189\project\SOAP\SOAP\obj\Debug\SOAP.dll
-C:\Users\mcconnell.189\project\SOAP\SOAP\obj\Debug\SOAP.pdb

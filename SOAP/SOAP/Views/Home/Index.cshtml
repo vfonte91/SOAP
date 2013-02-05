@@ -43,10 +43,13 @@
 		<!-- scrollable items -->
 		<div id="scrollable-items">
 
-			<!-- empty item -->
-			<div class="item">Welcome to the OSU SOAP Application</div>
+			<!-- Page 0: welcome and emergency dosages -->
+			<div class="item">
+            <h2>Welcome to the OSU SOAP Application</h2>
+            <p>Emergency dosages:</p>
+            </div>
 
-			<!-- item #1 -->
+			<!-- Page 1, Profile -->
 			<div class="item">
             <h2>Profile</h2>
 				<form name="input" method="get" action="">
@@ -69,7 +72,7 @@
 				</form>
 			</div>
 
-			<!-- item #2 -->
+			<!-- Page 2, Patient Information -->
 			<div class="item">
             <h2>Patient Information</h2>
 				<form action="">
@@ -124,7 +127,7 @@
 				</form>
 			</div>
 
-			<!-- item #3 -->
+			<!-- Page 3, Clinical findings -->
 			<div class="item">
             <h2>Clinical Findings</h2>
 				<form action="">
@@ -234,7 +237,7 @@
 				</form>
 			</div>
 
-			<!-- item #4 -->
+			<!-- Page 4, bloodwork -->
 			<div class="item">
             <h2>BloodWork</h2>
 				<form action="">
@@ -308,11 +311,190 @@
                 </div>
 				</form>
 			</div>
+            <!------Page 5, Anesthetic PLan---->
+           <div class="item">
+            <form action="">
+            <div class="left half">
+            <h2>Anesthetic Plan</h2>
+            <h4>Premedication</h4>
+                <div class="input">
+                    <label>Select Drugs: </label>
+                    <select name="PreMedDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Route of Administration: </label>
+                    <select name="PreMedRoute">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="PreMedDosage" class="inline" />
+                </div>
+               <div class="input">
+                   <input type="submit" value="Submit" />
+                </div> '
+            </div>
+                  <!----need output here--->      
+
+            
+            <div class="right half">
+            <h4>Induction</h4>
+                <div class="input">
+                    <label>Select Injectable Drugs: </label>
+                    <select name="InductionDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Select Route of Administration: </label>
+                    <select name="InductionRoute">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="InductionDosage" class="inline" />
+                </div>
+                <div class="input">
+                    <label>Select Inhalant Drugs: </label>
+                    <select name="InhalantDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="InhalantDosage" class="inline" />
+                </div>
+                 <div class="input">
+			       <label>Oxygen Flow Rate: </label>
+                   <input type="text" name="InhalantOxygen" class="inline" />
+                </div>
+               <div class="input">
+                   <input type="submit" value="Submit" />
+                </div> 
+            </div>
+             </form>
+            </div>
+
+            <div class="item">
+            <form action="">
+            <div class="left half">
+            <h2>Maintenance</h2>
+                <div class ="input">
+                    <label>Select Injectable Drugs: </label>
+                    <select name="MaintenDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Select Route of Administration: </label>
+                    <select name="MainenRoute">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="MaintenDosage" class="inline" />
+                </div>
+
+                <div class="input">
+                    <label>Select Inhalant Drugs: </label>
+                    <select name="MaintenInhalantDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <h4>Induction Required: </h4>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="MaintenInducDosage" class="inline" />
+                </div>
+                 <div class="input">
+			       <label>Oxygen Flow Rate: </label>
+                   <input type="text" name="MaintenInducOxygen" class="inline" />
+                </div>
+            </div>
+
+            <div class="right half">
+            <h4>Maintenenance Required:</h4>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="MaintenMaintenDosage" class="inline" />
+                </div>
+                 <div class="input">
+			       <label>Oxygen Flow Rate: </label>
+                   <input type="text" name="MaintenMaintenOxygen" class="inline" />
+                </div>
+            <h4>Equiptment required: </h4>
+                <div class="input">
+                    <label>Breathing System: </label>
+                    <select name="BreathingSystem">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Breathing Bag Size: </label>
+                    <select name="BagSize">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+            <h4>Other</h4>
+                <div class="input">
+                    <label>Intraoperative Analgesia: </label>
+                    <select name="IntraAnalgesia">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                 <div class="input">
+                    <label>Other Anesthetic Drugs (Will you need to paralyze?)</label>
+                    <input type="radio" name="Paralyze" value="ParalyzeYes" />Yes<br />
+                    <input type="radio" name="Paralyze" value="ParalyzeNo" />No<br />
+                </div> 
+            </div>
+            </form>
+            </div>
+            <div class="item"><h2>Monitoring</h2></div>
 
 
-			<!-- the intro "page"  -->
+         </div>
+
+            <!-- the intro "page"  -->
 			<div id="intro" class="item">Welcome to the OSU SOAP Application</div>
-
 		</div>
 
 		<!-- thumbnails -->
@@ -326,11 +508,14 @@
 				<a id="t2"><div>Patient Information</div></a>
 				<a id="t3"><div>Clinical Findings</div></a>
 				<a id="t4"><div>BloodWork</div></a>
+                <a id="t5"><div>Anesthesia Plan</div></a>
+                <a id="t6"><div>Maintenance</div></a>
+                <a id="t7"><div>Monitoring</div></a>
 			</div>
 
 		</div>
 
-	</div>
+	<!---</div>--->
 	<script type="text/javascript">
 	    $("#scroll").scrollable({ items: '#scrollable-items' }).navigator();
 	</script>
