@@ -48,69 +48,267 @@
 
 			<!-- item #1 -->
 			<div class="item">
+            <h2>Profile</h2>
 				<form name="input" method="get" action="">
                     <div class="left half">
                         <div class="input">
-					        <label>Anesthetist</label>
-                            <input type="text" name="Anesthetist"  placeholder="Mickey">
+					        <label>First Name:</label>
+                            <input type="text" name="FName"  placeholder="Nick">
                         </div>
                         <div class="input">
-                            <label>Clinician</label><input type="text" name="Clinician">
+                            <label>Last Name: </label><input type="text" name="LName" class="inline">
                         </div>
                         <div class="input">
-                            <label>Ward Number</label><input type="text" name="Ward">
+                            <label>Email: </label><input type="text" name="email" class="inline">
                         </div>
-                        <div class="input">
-                            <label>Procedure</label><input type="text" name="Procedure">
-                        </div>
-                        <div class="input">
-                            <label>Body Weight</label><input type="text" name="BodyWeight">
-                        </div>
-                        <div class="input">
-                            <label>Age</label><input type="text" name="Age" class="inline">
-                        </div>
-                        <div class="input">
-                            <label>Temperament</label><input type="text" name="Temperament">
+                                                <div class="input">
+                            <label>Date</label><input type="text" id="datepicker" name="Date" class="inline">
                         </div>
                     </div>
-                    <div class="right half">
-                        <div class="input">
-                            <label>Date</label><input type="text" id="datepicker" name="Date">
-                        </div>
-                    </div>
+
 				</form>
 			</div>
 
 			<!-- item #2 -->
 			<div class="item">
+            <h2>Patient Information</h2>
 				<form action="">
-					<select name="cars">
+                <div class="left half">
+                <div class="input">
+                    <label>Procedure: </label>
+                    <select name="Procedure">
+						<option value="None" selected>None</option>
 						<option value="volvo">Volvo</option>
 						<option value="saab">Saab</option>
-						<option value="fiat" selected>Fiat</option>
 						<option value="audi">Audi</option>
 					</select>
+                </div>
+                <div class="input">
+			       <label>Body Weight (kg):</label>
+                   <input type="text" name="weight" class="inline">kg
+                </div>
+                <div class="input">
+			       <label>Age:</label>
+                   <input type="text" name="Years" placeholder="Years" class="inline">
+                   <input type="text" name="months"placeholder="Months" class="inline"/>
+                </div>
+                <div class="input">
+                    <label>Temperament: </label>
+                    <select name="Temperament">
+						<option value="None" selected>N/A</option>
+						<option value="Option1">Nice</option>
+						<option value="Option2">Ok</option>
+						<option value="Option3">Mean</option>
+					</select>
+                </div>
+                <h2>Pain Assesment</h2>
+                <div class="input">
+                    <label>Preoperative: </label>
+                    <select name="PreOp">
+						<option value="None" selected>None</option>
+						<option value="Option1">Mild</option>
+						<option value="Option2">Moderate</option>
+						<option value="Option3">Severe</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Anticipated Postoperative: </label>
+                    <select name="PostOp">
+						<option value="None" selected>None</option>
+						<option value="Option1">Mild</option>
+						<option value="Option2">Moderate</option>
+						<option value="Option3">Severe</option>
+					</select>
+                </div>
+                </div>
 				</form>
 			</div>
 
 			<!-- item #3 -->
 			<div class="item">
+            <h2>Clinical Findings</h2>
 				<form action="">
-					<input type="radio" name="sex" value="male">Male<br> <input
-						type="radio" name="sex" value="female">Female
+                <div class="left half">
+                <div class="input">
+			       <label>Temperature (Fahrenheit):</label>
+                   <input type="text" name="Temp" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Pulse Rate (bpm):</label>
+                   <input type="text" name="Pulse" class="inline"/>
+                </div> 
+                <div class="input">
+                    <label>Cardiac Auscultation: </label>
+                    <select name="Cardiac">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Pulse Quality: </label>
+                    <select name="PulseQuality">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Capillary Refill Time: </label>
+                    <select name="PulseQuality">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Respiratory Auscultation: </label>
+                    <select name="Respitory">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Physical Status Classification: </label>
+                    <select name="Status">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                    <input type="text" name="Pulse" class="inline" id="Reason"/>
+                    <label id="Reason">Reason:</label>
+                </div>
+                                                                                                                              
+                </div>
+                <div class="right half">
+                 <div class="input">
+                    <label>Prior Anesthesia</label>
+                    <input type="radio" name="Prior" value="PriorYes" />Yes<br />
+                    <input type="radio" name="Prior" value="PriorNo" />No<br />
+                </div> 
+                <div class="input">
+			       <label>Date(dd/mm/yyyy):</label>
+                   <input type="text" name="Date" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Problems:</label>
+                   <input type="text" name="Problems" class="inline"/>
+                </div>
+                <div class="input">
+                <label>Concerns:</label>
+                    <input type="checkbox" name="concerns" value="anemia"/>Anemia
+                    <input type="checkbox" name="concerns" value="hypop"/>Hypoproteinmia
+                    <input type="checkbox" name="concerns" value="azo"/>Azotemia
+                    <input type="checkbox" name="concerns" value="hypov"/>Hypovolemia<br />
+                    <input type="checkbox" name="concerns" value="hypog"/>Hypoglycemia
+                    <input type="checkbox" name="concerns" value="arry"/>Arrythmia
+                    <input type="checkbox" name="concerns" value="hypot"/>Hypotension<br />
+                    <input type="checkbox" name="concerns" value="hypox"/>Hypoxemia
+                    <input type="checkbox" name="concerns" value="diffIn"/>Difficult Intubation
+                    <input type="checkbox" name="concerns" value="pain"/>Pain
+                    <input type="checkbox" name="concerns" value="hypoven"/>Hypoventilation<br />
+                    <input type="checkbox" name="concerns" value="hypother"/>Hypothermia
+                    <input type="checkbox" name="concerns" value="bloat"/>Bloat
+                    <input type="checkbox" name="concerns" value="vomit"/>Vomiting
+                    <input type="checkbox" name="concerns" value="drugMet"/>Drug Metabolism
+                    <input type="checkbox" name="concerns" value="blood"/>Blood Loss<br />
+                </div>
+                <div class="input">
+                <h2> </h2>
+                <h3> </h3>
+                    <label>Current Medications: </label>
+                    <select multiple name="CurrentMeds">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                </div>			
 				</form>
 			</div>
 
 			<!-- item #4 -->
 			<div class="item">
-				<form action="" method="post"
-					enctype="text/plain">
-					<label class="inline">Name:</label><input type="text" name="name" placeholder="your name" class="inline"><br />
-					<label class="inline">E-mail:</label><input type="text" name="mail" placeholder="your email" class="inline"><br />
-					<label class="inline">Comment:</label><input type="text" name="comment" placeholder="your comment" class="inline"><br><br> 
-                    <input type="submit" value="Send"> <input type="reset" value="Reset">
+            <h2>BloodWork</h2>
+				<form action="">
+                <div class="left half">
+                <div class="input">
+			       <label>PCV (%):</label>
+                   <input type="text" name="PCV" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>TP (g/dL):</label>
+                   <input type="text" name="TP" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Albumin (g/dL):</label>
+                   <input type="text" name="Albumin" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Globulin (g/dL):</label>
+                   <input type="text" name="Globulin" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>WBC (TBD):</label>
+                   <input type="text" name="WBC" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Na+ (TBD):</label>
+                   <input type="text" name="Na" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>K+ (TBD):</label>
+                   <input type="text" name="K" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Cl- (TBD):</label>
+                   <input type="text" name="Cl" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Ca++ (TBD):</label>
+                   <input type="text" name="Ca" class="inline"/>
+                </div>
+                </div>
+                <div class="right half">
+                <div class="input">
+			       <label>iCa (TBD):</label>
+                   <input type="text" name="iCa" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Glucose (TBD):</label>
+                   <input type="text" name="Glucose" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>ALT (TBD):</label>
+                   <input type="text" name="ALT" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>ALP (TBD):</label>
+                   <input type="text" name="ALP" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>BUN (TBD):</label>
+                   <input type="text" name="BUN" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>CREAT (TBD):</label>
+                   <input type="text" name="CREAT" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>USG (TBD):</label>
+                   <input type="text" name="USG" class="inline"/>
+                </div>
+                </div>
 				</form>
 			</div>
+
 
 			<!-- the intro "page"  -->
 			<div id="intro" class="item">Welcome to the OSU SOAP Application</div>
@@ -124,10 +322,10 @@
                 <!-- intro page navigator button -->
 			    <a id="t0" class="active"></a>
 				<!-- navigator items for the rest of the scrollable items -->
-				<a id="t1"><div>Section 1</div></a>
-				<a id="t2"><div>Section 2</div></a>
-				<a id="t3"><div>Section 3</div></a>
-				<a id="t4"><div>Section 4</div></a>
+				<a id="t1"><div>Anesthetist Profile</div></a>
+				<a id="t2"><div>Patient Information</div></a>
+				<a id="t3"><div>Clinical Findings</div></a>
+				<a id="t4"><div>BloodWork</div></a>
 			</div>
 
 		</div>
