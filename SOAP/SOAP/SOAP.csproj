@@ -161,13 +161,33 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AdministrationSet.cs" />
+    <Compile Include="Models\AnesthesiaConcern.cs" />
+    <Compile Include="Models\AnestheticPlanInhalant.cs" />
+    <Compile Include="Models\AnestheticPlanInjection.cs" />
+    <Compile Include="Models\AnestheticPlanPremedication.cs" />
+    <Compile Include="Models\ASFUser.cs" />
+    <Compile Include="Models\Bloodwork.cs" />
+    <Compile Include="Models\ClinicalFindings.cs" />
+    <Compile Include="Models\CurrentMedication.cs" />
+    <Compile Include="Models\DropdownCategory.cs" />
+    <Compile Include="Models\DropdownValue.cs" />
+    <Compile Include="Models\DrugInformation.cs" />
+    <Compile Include="Models\IntraoperativeAnalgesia.cs" />
+    <Compile Include="Models\IVFluidType.cs" />
+    <Compile Include="Models\MaintenanceInhalantDrug.cs" />
+    <Compile Include="Models\MaintenanceInjectionDrug.cs" />
+    <Compile Include="Models\Monitoring.cs" />
+    <Compile Include="Models\OtherAnestheticDrug.cs" />
+    <Compile Include="Models\Patient.cs" />
+    <Compile Include="Models\PriorAnesthesia.cs" />
+    <Compile Include="Models\Procedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
