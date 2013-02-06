@@ -14,10 +14,14 @@ namespace SOAP.Models
         private decimal _respiratoryRate;
         private int _cardiacAuscultationId;
         private int _pulseQualityId;
+        private string _mucousMembraneColor;
         private decimal _capillaryRefillTime;
         private int _respiratoryAuscultationId;
         private int _physicalStatusClassId;
         private string _reasonForClassification;
+        private List<CurrentMedication> _currentMedications;
+        private List<Bloodwork> _bloodwork;
+        private List<PriorAnesthesia> _priorAnesthesia;
 
         public int Id
         {
@@ -73,6 +77,12 @@ namespace SOAP.Models
             set { _pulseQualityId = value; }
         }
 
+        public string MucousMembraneColor
+        {
+            get { return _mucousMembraneColor; }
+            set { _mucousMembraneColor = value; }
+        }
+
         public decimal CapillaryRefillTime
         {
             get { return _capillaryRefillTime; }
@@ -97,9 +107,30 @@ namespace SOAP.Models
             set { _reasonForClassification = value; }
         }
 
+        public List<CurrentMedication> CurrentMedications
+        {
+            get { return _currentMedications; }
+            set { _currentMedications = value; }
+        }
+
+        public List<Bloodwork> Bloodwork
+        {
+            get { return _bloodwork; }
+            set { _bloodwork = value; }
+        }
+
+        public List<PriorAnesthesia> PriorAnesthesia
+        {
+            get { return _priorAnesthesia; }
+            set { _priorAnesthesia = value; }
+        }
+
         public ClinicalFindings()
         {
             _id = -1;
+            _currentMedications = new List<CurrentMedication>();
+            _bloodwork = new List<Bloodwork>();
+            _priorAnesthesia = new List<PriorAnesthesia>();
         }
 
         public bool ValidateClinicalFindings()

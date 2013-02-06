@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Models\AdministrationSet.cs" />
     <Compile Include="Models\AnesthesiaConcern.cs" />
+    <Compile Include="Models\AnestheticPlan.cs" />
     <Compile Include="Models\AnestheticPlanInhalant.cs" />
     <Compile Include="Models\AnestheticPlanInjection.cs" />
     <Compile Include="Models\AnestheticPlanPremedication.cs" />

@@ -15,6 +15,8 @@ namespace SOAP.Models
         private decimal _bodyWeight;
         private int _ageInYears;
         private int _ageInMonths;
+        private ClinicalFindings _clinicalFindings;
+        private List<AnesthesiaConcern> _anesthesiaConcerns;
 
         public int PatientId
         {
@@ -76,10 +78,23 @@ namespace SOAP.Models
             set { _ageInMonths = value; }
         }
 
+        public ClinicalFindings ClinicalFindings
+        {
+            get { return _clinicalFindings; }
+            set { _clinicalFindings = value; }
+        }
+
+        public List<AnesthesiaConcern> AnesthesiaConcerns
+        {
+            get { return _anesthesiaConcerns; }
+            set { _anesthesiaConcerns = value; }
+        }
+
         public Patient()
         {
             _patientId = -1;
             _formCompleted = 'N';
+            _anesthesiaConcerns = new List<AnesthesiaConcern>();
         }
 
         public bool ValidatePatient()
