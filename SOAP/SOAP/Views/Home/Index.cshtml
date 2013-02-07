@@ -2,8 +2,25 @@
     ViewBag.Title = "Anesthesia SOAP";
 }
     <script type="text/javascript">
-        $("#scroll").tabs();
+        $(function () {
+            $("#tabs").tabs();
+
+            // fix the classes
+            $(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *")
+            .removeClass("ui-corner-all ui-corner-top")
+            .addClass("ui-corner-bottom");
+
+            // move the nav to the bottom
+            $(".tabs-bottom .ui-tabs-nav").appendTo(".tabs-bottom");
+        });
     </script>
+    <style>
+      /* force a height so the tabs don't jump as content height changes */
+      #tabs .tabs-spacer { float: left; height: 600px; }
+      .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
+      .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
+      .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
+    </style>
     <div id="top">
         <div id="top-wrap">
             <div id="title"><p>Ohio State Anesthesia SOAP Plan</p></div>
@@ -13,11 +30,19 @@
             </div>
         </div>
     </div>
-<div id="scroll">
-	<!-- scrollable items -->
-    <div id="scrollable-items">
-
-
+<div id="tabs" class="tabs-bottom">
+    <!-- scrollable navigator root element -->
+	<ul>
+		<li><a id="t1" href="#tab-1" class="active"><div>Home</div></a></li>
+		<li><a id="t2" href="#tab-2"><div>Anesthetist Profile</div></a></li>
+		<li><a id="t3" href="#tab-3"><div>Patient Information</div></a></li>
+		<li><a id="t4" href="#tab-4"><div>Clinical Findings</div></a></li>
+		<li><a id="t5" href="#tab-5"><div>Blood Work</div></a></li>
+        <li><a id="t6" href="#tab-6"><div>Anesthesia Plan</div></a></li>
+        <li><a id="t7" href="#tab-7"><div>Maintenance</div></a></li>
+        <li><a id="t8" href="#tab-8"><div>Monitoring</div></a></li>
+	</ul>
+    <div class="tabs-spacer"></div>
     	<!-- Page 0: welcome and emergency dosages -->
 		<div id="tab-1" class="item">
             <h2>Welcome to the OSU SOAP Application</h2>
@@ -465,23 +490,7 @@
             </div>
             </form>
             </div>
-            <div id="id-8" class="item">
+            <div id="tab-8" class="item">
                 <h2>Monitoring</h2>
             </div>
          </div>
-		</div>
-
-		<!-- thumbnails -->
-<div id="thumbs" class="t">
-	<!-- scrollable navigator root element -->
-	<div class="navi">
-		<a id="t1" href="#tab-1" class="active">Home</a>
-		<a id="t2" href="#tab-2"><div>Anesthetist Profile</div></a>
-		<a id="t3" href="#tab-3"><div>Patient Information</div></a>
-		<a id="t4" href="#tab-4"><div>Clinical Findings</div></a>
-		<a id="t5" href="#tab-5"><div>Blood Work</div></a>
-        <a id="t6" href="#tab-6"><div>Anesthesia Plan</div></a>
-        <a id="t7" href="#tab-7"><div>Maintenance</div></a>
-        <a id="t8" href="#tab-8"><div>Monitoring</div></a>
-	</div>
-</div>
