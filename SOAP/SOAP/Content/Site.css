@@ -56,7 +56,7 @@ body
 }
 
 /* container for tab navigation and content*/
-div#scroll {
+div#tabs {
 	position: relative;
 	overflow: hidden;
 	border: 1px solid #ddd;
@@ -69,22 +69,21 @@ div#scroll {
 	-webkit-border-radius: 5px;
 }
 
-/* container for tab content*/
-div#scroll div#scrollable-items {
-	width: 9999em;
+/* container for tab content
+div#tabs div#tab-items {
 	position: absolute;
 	height: 85%;
 }
-
-/*single tab content page */
+*/
+/*single tab content page 
 .item {
-	float: left;
-	width: 1120px;
-	height: 340px;
-	padding: 15px;
+    float: left;
+    height: 75%;
+    padding: 15px;
+    width: 100%;
 }
-
-/* container for tabs links */
+*/
+/* container for tabs links
 #thumbs {
     background: #383636;
 	height: 90px;
@@ -92,19 +91,21 @@ div#scroll div#scrollable-items {
 	top: 90%;
 	width: 100%;
 }
-
-/* Class for navigation container */
+*/
+/* Class for navigation container 
 div.navi {
 	margin-left: auto;
 	margin-right: auto;
 	width: 1000px;
 }
-
-/* tabs link */
+*/
+/* tabs link 
 .t {
 	padding: 0 !important;
 	border: 0 !important;
 }
+*/
+/*
 .t a {
 	display: block;
 	width: 100px;
@@ -117,15 +118,15 @@ div.navi {
 .t a.active {	cursor: default !important;
     background: url('../Images/Active.jpg');
 }
-
-/*Text inside links*/
+*/
+/*Text inside links
 .t a div
 {
     text-align:center;
     margin-top:25px;
     color:  #acb0a8;
 }
-
+*/
 form div.input 
 {
     height: 35px;
