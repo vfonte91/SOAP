@@ -1,3 +1,6 @@
+#Project Files
+*.csproj
+
 # User-specific files
 *.suo
 *.user
