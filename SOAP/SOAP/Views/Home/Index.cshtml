@@ -3,7 +3,9 @@
 }
     <script type="text/javascript">
         $(function () {
-            $("#tabs").tabs();
+            $("#tabs").tabs({ hide: { effect: "slide", duration: 600},
+                              show: { effect: "slide", duration: 600}
+            });
 
             // fix the classes
             $(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *")
