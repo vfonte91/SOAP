@@ -10,6 +10,7 @@ namespace SOAP.Models
         private int _drugId;
         private decimal _dose;
         private decimal _flowRate;
+        private DrugInformation _drug;
 
         public int Id
         {
@@ -39,6 +40,12 @@ namespace SOAP.Models
         {
             get { return _flowRate; }
             set { _flowRate = value; }
+        }
+
+        public DrugInformation Drug
+        {
+            get { return _drug; }
+            set { _drug = value; }
         }
 
         public AnestheticPlanInhalant()
