@@ -2,32 +2,7 @@
     ViewBag.Title = "Anesthesia SOAP";
 }
     <script type="text/javascript">
-        // get handle to the scrollable api
-        var api = $("#scroll").data("scrollable");
-
-        // this callback does the special handling of our "intro page"
-        api.onStart(function (e, i) {
-
-            // when on the first item: hide the intro
-            if (i) {
-                $("#intro").fadeOut("slow");
-
-                // otherwise show the intro
-            } else {
-                $("#intro").fadeIn(1000);
-            }
-
-            // toggle activity for the intro thumbnail
-            $("#t0").toggleClass("active", i == 0);
-        });
-
-        // a dedicated click event for the intro thumbnail
-        $("#t0").click(function () {
-
-            // seek to the beginning (the hidden first item)
-            $("#scroll").scrollable().begin();
-
-        });
+        $("#scroll").tabs();
     </script>
     <div id="top">
         <div id="top-wrap">
@@ -39,41 +14,43 @@
         </div>
     </div>
 <div id="scroll">
+	<!-- scrollable items -->
+    <div id="scrollable-items">
 
-		<!-- scrollable items -->
-		<div id="scrollable-items">
 
-			<!-- Page 0: welcome and emergency dosages -->
-			<div class="item">
+    	<!-- Page 0: welcome and emergency dosages -->
+		<div id="tab-1" class="item">
             <h2>Welcome to the OSU SOAP Application</h2>
             <p>Emergency dosages:</p>
-            </div>
+        </div>
 
-			<!-- Page 1, Profile -->
-			<div class="item">
+		<!-- Page 1, Profile -->
+		<div id="tab-2" class="item">
             <h2>Profile</h2>
-				<form name="input" method="get" action="">
-                    <div class="left half">
-                        <div class="input">
-					        <label>First Name:</label>
-                            <input type="text" name="FName"  placeholder="Nick">
-                        </div>
-                        <div class="input">
-                            <label>Last Name: </label><input type="text" name="LName" class="inline">
-                        </div>
-                        <div class="input">
-                            <label>Email: </label><input type="text" name="email" class="inline">
-                        </div>
-                                                <div class="input">
-                            <label>Date</label><input type="text" id="datepicker" name="Date" class="inline">
-                        </div>
+			<form name="input" method="get" action="">
+                <div class="left half">
+                    <div class="input">
+					    <label>First Name:</label>
+                        <input type="text" name="FName"  placeholder="Nick">
                     </div>
-
-				</form>
-			</div>
+                    <div class="input">
+                        <label>Last Name: </label>
+                        <input type="text" name="LName" class="inline">
+                    </div>
+                    <div class="input">
+                        <label>Email: </label>
+                        <input type="text" name="email" class="inline">
+                    </div>
+                    <div class="input">
+                        <label>Date</label>
+                        <input type="text" id="datepicker" name="Date" class="inline">
+                    </div>
+                </div>
+			</form>
+		</div>
 
 			<!-- Page 2, Patient Information -->
-			<div class="item">
+			<div id="tab-3" class="item">
             <h2>Patient Information</h2>
 				<form action="">
                 <div class="left half">
@@ -128,7 +105,7 @@
 			</div>
 
 			<!-- Page 3, Clinical findings -->
-			<div class="item">
+			<div id="tab-4" class="item">
             <h2>Clinical Findings</h2>
 				<form action="">
                 <div class="left half">
@@ -238,7 +215,7 @@
 			</div>
 
 			<!-- Page 4, bloodwork -->
-			<div class="item">
+			<div id="tab-5" class="item">
             <h2>BloodWork</h2>
 				<form action="">
                 <div class="left half">
@@ -312,7 +289,7 @@
 				</form>
 			</div>
             <!------Page 5, Anesthetic PLan---->
-           <div class="item">
+           <div id="tab-6" class="item">
             <form action="">
             <div class="left half">
             <h2>Anesthetic Plan</h2>
@@ -394,7 +371,7 @@
              </form>
             </div>
 
-            <div class="item">
+            <div id="tab-7" class="item">
             <form action="">
             <div class="left half">
             <h2>Maintenance</h2>
@@ -488,31 +465,23 @@
             </div>
             </form>
             </div>
-            <div class="item"><h2>Monitoring</h2></div>
-
-
+            <div id="id-8" class="item">
+                <h2>Monitoring</h2>
+            </div>
          </div>
 		</div>
 
 		<!-- thumbnails -->
-		<div id="thumbs" class="t">
-			<!-- scrollable navigator root element -->
-			<div class="navi">
-                <!-- intro page navigator button -->
-			    <a id="t0" class="active"></a>
-				<!-- navigator items for the rest of the scrollable items -->
-				<a id="t1"><div>Anesthetist Profile</div></a>
-				<a id="t2"><div>Patient Information</div></a>
-				<a id="t3"><div>Clinical Findings</div></a>
-				<a id="t4"><div>Blood Work</div></a>
-                <a id="t5"><div>Anesthesia Plan</div></a>
-                <a id="t6"><div>Maintenance</div></a>
-                <a id="t7"><div>Monitoring</div></a>
-			</div>
-
-		</div>
-
-	<!---</div>--->
-	<script type="text/javascript">
-	    $("#scroll").scrollable({ items: '#scrollable-items' }).navigator();
-	</script>
+<div id="thumbs" class="t">
+	<!-- scrollable navigator root element -->
+	<div class="navi">
+		<a id="t1" href="#tab-1" class="active">Home</a>
+		<a id="t2" href="#tab-2"><div>Anesthetist Profile</div></a>
+		<a id="t3" href="#tab-3"><div>Patient Information</div></a>
+		<a id="t4" href="#tab-4"><div>Clinical Findings</div></a>
+		<a id="t5" href="#tab-5"><div>Blood Work</div></a>
+        <a id="t6" href="#tab-6"><div>Anesthesia Plan</div></a>
+        <a id="t7" href="#tab-7"><div>Maintenance</div></a>
+        <a id="t8" href="#tab-8"><div>Monitoring</div></a>
+	</div>
+</div>
