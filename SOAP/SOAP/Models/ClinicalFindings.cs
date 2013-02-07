@@ -8,16 +8,22 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _preOperationPainAssessmentId;
+        private string _preOperationPainAssessmentName;
         private int _postOperationPainAssessmentId;
+        private string _postOperationPainAssessmentName;
         private decimal _temperature;
         private decimal _pulseRate;
         private decimal _respiratoryRate;
         private int _cardiacAuscultationId;
+        private string _cardiacAuscultationName;
         private int _pulseQualityId;
+        private string _pulseQualityName;
         private string _mucousMembraneColor;
         private decimal _capillaryRefillTime;
         private int _respiratoryAuscultationId;
+        private string _respiratoryAuscultationName;
         private int _physicalStatusClassId;
+        private string _physicalStatusClassName;
         private string _reasonForClassification;
         private List<CurrentMedication> _currentMedications;
         private List<Bloodwork> _bloodwork;
@@ -41,10 +47,22 @@ namespace SOAP.Models
             set { _preOperationPainAssessmentId = value; }
         }
 
+        public string PreOperationPainAssessmentName
+        {
+            get { return _preOperationPainAssessmentName; }
+            set { _preOperationPainAssessmentName = value; }
+        }
+
         public int PostOperationPainAssessmentId
         {
             get { return _postOperationPainAssessmentId; }
             set { _postOperationPainAssessmentId = value; }
+        }
+
+        public string PostOperationPainAssessmentName
+        {
+            get { return _postOperationPainAssessmentName; }
+            set { _postOperationPainAssessmentName = value; }
         }
 
         public decimal Temperature
@@ -71,10 +89,22 @@ namespace SOAP.Models
             set { _cardiacAuscultationId = value; }
         }
 
+        public string CardiacAuscultationName
+        {
+            get { return _cardiacAuscultationName; }
+            set { _cardiacAuscultationName = value; }
+        }
+
         public int PulseQualityId
         {
             get { return _pulseQualityId; }
             set { _pulseQualityId = value; }
+        }
+
+        public string PulseQualityName
+        {
+            get { return _pulseQualityName; }
+            set { _pulseQualityName = value; }
         }
 
         public string MucousMembraneColor
@@ -95,10 +125,22 @@ namespace SOAP.Models
             set { _respiratoryAuscultationId = value; }
         }
 
+        public string RespiratoryAuscultationName
+        {
+            get { return _respiratoryAuscultationName; }
+            set { _respiratoryAuscultationName = value; }
+        }
+
         public int PhysicalStatusClassId
         {
             get { return _physicalStatusClassId; }
             set { _physicalStatusClassId = value; }
+        }
+
+        public string PhysicalStatusClassName
+        {
+            get { return _physicalStatusClassName; }
+            set { _physicalStatusClassName = value; }
         }
 
         public string ReasonForClassification

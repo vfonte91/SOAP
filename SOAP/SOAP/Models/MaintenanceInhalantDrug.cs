@@ -8,6 +8,7 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _drugId;
+        private string _drugName;
         private char _inductionReqFlag;
         private decimal _inductionDose;
         private decimal _inductionOxygenFlowRate;
@@ -16,7 +17,9 @@ namespace SOAP.Models
         private decimal _maintenanceOxygenFlowRate;
         private char _equipmentReqFlag;
         private int _breathingSystemId;
+        private string _breathingSystemName;
         private int _breathingBagSizeId;
+        private string _breathingBagSizeName;
 
         public int Id
         {
@@ -34,6 +37,12 @@ namespace SOAP.Models
         {
             get { return _drugId; }
             set { _drugId = value; }
+        }
+
+        public string DrugName
+        {
+            get { return _drugName; }
+            set { _drugName = value; }
         }
 
         public char InductionReqFlag
@@ -84,10 +93,22 @@ namespace SOAP.Models
             set { _breathingSystemId = value; }
         }
 
+        public string BreathingSystemName
+        {
+            get { return _breathingSystemName; }
+            set { _breathingSystemName = value; }
+        }
+
         public int BreathingBagSizeId
         {
             get { return _breathingBagSizeId; }
             set { _breathingBagSizeId = value; }
+        }
+
+        public string BreathingBagSizeName
+        {
+            get { return _breathingBagSizeName; }
+            set { _breathingBagSizeName = value; }
         }
 
         public MaintenanceInhalantDrug()

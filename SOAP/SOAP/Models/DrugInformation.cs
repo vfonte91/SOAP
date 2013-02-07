@@ -7,6 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _drugId;
+        private string _drugName;
         private float _doseMinRange;
         private float _doseMaxRange;
         private float _doseMax;
@@ -25,6 +26,12 @@ namespace SOAP.Models
         {
             get { return _drugId; }
             set { _drugId = value; }
+        }
+
+        public string DrugName
+        {
+            get { return _drugName; }
+            set { _drugName = value; }
         }
 
         public float DoseMinRange

@@ -8,6 +8,7 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _fluidTypeId;
+        private string _fluidTypeName;
         private decimal _dose;
 
         public int Id
@@ -26,6 +27,12 @@ namespace SOAP.Models
         {
             get { return _fluidTypeId; }
             set { _fluidTypeId = value; }
+        }
+
+        public string FluidTypeName
+        {
+            get { return _fluidTypeName; }
+            set { _fluidTypeName = value; }
         }
 
         public decimal Dose

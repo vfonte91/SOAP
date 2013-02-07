@@ -8,6 +8,7 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _bloodworkId;
+        private string _bloodworkName;
         private decimal _value;
 
         public int Id
@@ -26,6 +27,12 @@ namespace SOAP.Models
         {
             get { return _bloodworkId; }
             set { _bloodworkId = value; }
+        }
+
+        public string BloodworkName
+        {
+            get { return _bloodworkName; }
+            set { _bloodworkName = value; }
         }
 
         public decimal Value

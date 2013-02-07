@@ -8,7 +8,9 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _drugId;
+        private string _drugName;
         private int _routeOfAdministrationId;
+        private string _routeOfAdministrationName;
         private decimal _dosage;
         private decimal _dose;
         private DrugInformation _drug;
@@ -31,10 +33,22 @@ namespace SOAP.Models
             set { _drugId = value; }
         }
 
+        public string DrugName
+        {
+            get { return _drugName; }
+            set { _drugName = value; }
+        }
+
         public int RouteOfAdministrationId
         {
             get { return _routeOfAdministrationId; }
             set { _routeOfAdministrationId = value; }
+        }
+
+        public string RouteOfAdministrationName
+        {
+            get { return _routeOfAdministrationName; }
+            set { _routeOfAdministrationName = value; }
         }
 
         public decimal Dosage

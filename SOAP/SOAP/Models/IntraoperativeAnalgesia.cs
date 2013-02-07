@@ -8,6 +8,7 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _analgesiaId;
+        private string _analgesiaName;
 
         public int Id
         {
@@ -25,6 +26,12 @@ namespace SOAP.Models
         {
             get { return _analgesiaId; }
             set { _analgesiaId = value; }
+        }
+
+        public string AnalgesiaName
+        {
+            get { return _analgesiaName; }
+            set { _analgesiaName = value; }
         }
 
         public IntraoperativeAnalgesia()

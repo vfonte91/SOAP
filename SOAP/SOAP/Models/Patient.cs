@@ -7,8 +7,11 @@ namespace SOAP.Models
     {
         private int _patientId;
         private int _studentId;
+        private string _studentFullName;
         private int _clinicianId;
+        private string _clinicianFullName;
         private int _temperamentId;
+        private string _temperamentName;
         private char _formCompleted;
         private DateTime _dateSeenOn;
         private int _cageOrStallNumber;
@@ -30,16 +33,34 @@ namespace SOAP.Models
             set { _studentId = value; }
         }
 
+        public string StudentFullName
+        {
+            get { return _studentFullName; }
+            set { _studentFullName = value; }
+        }
+
         public int ClinicianId
         {
             get { return _clinicianId; }
             set { _clinicianId = value; }
         }
 
+        public string ClinicianFullName
+        {
+            get { return _clinicianFullName; }
+            set { _clinicianFullName = value; }
+        }
+
         public int TemperamentId
         {
             get { return _temperamentId; }
             set { _temperamentId = value; }
+        }
+
+        public string TemperamentName
+        {
+            get { return _temperamentName; }
+            set { _temperamentName = value; }
         }
 
         public char FormCompleted

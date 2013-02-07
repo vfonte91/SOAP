@@ -8,6 +8,7 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private int _equipmentId;
+        private string _equipmentName;
 
         public int Id
         {
@@ -25,6 +26,12 @@ namespace SOAP.Models
         {
             get { return _equipmentId; }
             set { _equipmentId = value; }
+        }
+
+        public string EquipmentName
+        {
+            get { return _equipmentName; }
+            set { _equipmentName = value; }
         }
 
         public Monitoring()
