@@ -6,10 +6,9 @@ namespace SOAP.Models
     public class DropdownCategory
     {
         private int _id;
-
         private string _shortName;
-
         private string _longName;
+        private List<DropdownValue> _dropDownValues;
 
         public int Id
         {
@@ -40,6 +39,12 @@ namespace SOAP.Models
                 return false;
             else
                 return true;
+        }
+
+        public List<DropdownValue> DropDownValues
+        {
+            get { return _dropDownValues; }
+            set { _dropDownValues = value; }
         }
     }
 }
