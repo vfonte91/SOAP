@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Clinical Findings";
+}
+
+ <h2>Clinical Findings</h2>
+				<form action="">
+                <div class="left half">
+                <div class="input">
+			       <label>Temperature (Fahrenheit):</label>
+                   <input type="text" name="Temp" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Pulse Rate (bpm):</label>
+                   <input type="text" name="Pulse" class="inline"/>
+                </div> 
+                <div class="input">
+                    <label>Cardiac Auscultation: </label>
+                    <select name="Cardiac">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Pulse Quality: </label>
+                    <select name="PulseQuality">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Capillary Refill Time: </label>
+                    <select name="PulseQuality">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Respiratory Auscultation: </label>
+                    <select name="Respitory">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Physical Status Classification: </label>
+                    <select name="Status">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                    <input type="text" name="Pulse" class="inline" id="Reason"/>
+                    <label id="Reason">Reason:</label>
+                </div>
+                                                                                                                              
+                </div>
+                <div class="right half">
+                 <div class="input">
+                    <label>Prior Anesthesia</label>
+                    <input type="radio" name="Prior" value="PriorYes" />Yes<br />
+                    <input type="radio" name="Prior" value="PriorNo" />No<br />
+                </div> 
+                <div class="input">
+			       <label>Date(dd/mm/yyyy):</label>
+                   <input type="text" name="Date" class="inline"/>
+                </div>
+                <div class="input">
+			       <label>Problems:</label>
+                   <input type="text" name="Problems" class="inline"/>
+                </div>
+                <div class="input">
+                <label>Concerns:</label>
+                    <input type="checkbox" name="concerns" value="anemia"/>Anemia
+                    <input type="checkbox" name="concerns" value="hypop"/>Hypoproteinmia
+                    <input type="checkbox" name="concerns" value="azo"/>Azotemia
+                    <input type="checkbox" name="concerns" value="hypov"/>Hypovolemia<br />
+                    <input type="checkbox" name="concerns" value="hypog"/>Hypoglycemia
+                    <input type="checkbox" name="concerns" value="arry"/>Arrythmia
+                    <input type="checkbox" name="concerns" value="hypot"/>Hypotension<br />
+                    <input type="checkbox" name="concerns" value="hypox"/>Hypoxemia
+                    <input type="checkbox" name="concerns" value="diffIn"/>Difficult Intubation
+                    <input type="checkbox" name="concerns" value="pain"/>Pain
+                    <input type="checkbox" name="concerns" value="hypoven"/>Hypoventilation<br />
+                    <input type="checkbox" name="concerns" value="hypother"/>Hypothermia
+                    <input type="checkbox" name="concerns" value="bloat"/>Bloat
+                    <input type="checkbox" name="concerns" value="vomit"/>Vomiting
+                    <input type="checkbox" name="concerns" value="drugMet"/>Drug Metabolism
+                    <input type="checkbox" name="concerns" value="blood"/>Blood Loss<br />
+                </div>
+                <div class="input">
+                <h2> </h2>
+                <h3> </h3>
+                    <label>Current Medications: </label>
+                    <select multiple name="CurrentMeds">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                </div>			
+				</form>

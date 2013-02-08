@@ -1,0 +1,96 @@
+﻿@{
+    ViewBag.Title = "Maintenance";
+}
+
+           <form action="">
+            <div class="left half">
+            <h2>Maintenance</h2>
+                <div class ="input">
+                    <label>Select Injectable Drugs: </label>
+                    <select name="MaintenDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Select Route of Administration: </label>
+                    <select name="MainenRoute">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="MaintenDosage" class="inline" />
+                </div>
+
+                <div class="input">
+                    <label>Select Inhalant Drugs: </label>
+                    <select name="MaintenInhalantDrugs">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <h4>Induction Required: </h4>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="MaintenInducDosage" class="inline" />
+                </div>
+                 <div class="input">
+			       <label>Oxygen Flow Rate: </label>
+                   <input type="text" name="MaintenInducOxygen" class="inline" />
+                </div>
+            </div>
+
+            <div class="right half">
+            <h4>Maintenenance Required:</h4>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="MaintenMaintenDosage" class="inline" />
+                </div>
+                 <div class="input">
+			       <label>Oxygen Flow Rate: </label>
+                   <input type="text" name="MaintenMaintenOxygen" class="inline" />
+                </div>
+            <h4>Equiptment required: </h4>
+                <div class="input">
+                    <label>Breathing System: </label>
+                    <select name="BreathingSystem">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Breathing Bag Size: </label>
+                    <select name="BagSize">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+            <h4>Other</h4>
+                <div class="input">
+                    <label>Intraoperative Analgesia: </label>
+                    <select name="IntraAnalgesia">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                 <div class="input">
+                    <label>Other Anesthetic Drugs (Will you need to paralyze?)</label>
+                    <input type="radio" name="Paralyze" value="ParalyzeYes" />Yes<br />
+                    <input type="radio" name="Paralyze" value="ParalyzeNo" />No<br />
+                </div> 
+            </div>
+            </form>
