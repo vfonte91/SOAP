@@ -22,6 +22,7 @@ namespace SOAP.Models
         private List<CurrentMedication> _currentMedications;
         private List<Bloodwork> _bloodwork;
         private List<PriorAnesthesia> _priorAnesthesia;
+        private List<AnesthesiaConcern> _anesthesiaConcerns;
 
         public int Id
         {
@@ -123,6 +124,12 @@ namespace SOAP.Models
         {
             get { return _priorAnesthesia; }
             set { _priorAnesthesia = value; }
+        }
+
+        public List<AnesthesiaConcern> AnesthesiaConcerns
+        {
+            get { return _anesthesiaConcerns; }
+            set { _anesthesiaConcerns = value; }
         }
 
         public ClinicalFindings()
