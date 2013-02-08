@@ -7,23 +7,17 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _preOperationPainAssessmentId;
-        private string _preOperationPainAssessmentName;
-        private int _postOperationPainAssessmentId;
-        private string _postOperationPainAssessmentName;
+        private DropdownValue _preOperationPainAssessment;
+        private DropdownValue _postOperationPainAssessment;
         private decimal _temperature;
         private decimal _pulseRate;
         private decimal _respiratoryRate;
-        private int _cardiacAuscultationId;
-        private string _cardiacAuscultationName;
-        private int _pulseQualityId;
-        private string _pulseQualityName;
+        private DropdownValue _cardiacAuscultation;
+        private DropdownValue _pulseQuality;
         private string _mucousMembraneColor;
         private decimal _capillaryRefillTime;
-        private int _respiratoryAuscultationId;
-        private string _respiratoryAuscultationName;
-        private int _physicalStatusClassId;
-        private string _physicalStatusClassName;
+        private DropdownValue _respiratoryAuscultation;
+        private DropdownValue _physicalStatusClass;
         private string _reasonForClassification;
         private List<CurrentMedication> _currentMedications;
         private List<Bloodwork> _bloodwork;
@@ -41,28 +35,16 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int PreOperationPainAssessmentId
+        public DropdownValue PreOperationPainAssessment
         {
-            get { return _preOperationPainAssessmentId; }
-            set { _preOperationPainAssessmentId = value; }
+            get { return _preOperationPainAssessment; }
+            set { _preOperationPainAssessment = value; }
         }
 
-        public string PreOperationPainAssessmentName
+        public DropdownValue PostOperationPainAssessment
         {
-            get { return _preOperationPainAssessmentName; }
-            set { _preOperationPainAssessmentName = value; }
-        }
-
-        public int PostOperationPainAssessmentId
-        {
-            get { return _postOperationPainAssessmentId; }
-            set { _postOperationPainAssessmentId = value; }
-        }
-
-        public string PostOperationPainAssessmentName
-        {
-            get { return _postOperationPainAssessmentName; }
-            set { _postOperationPainAssessmentName = value; }
+            get { return _postOperationPainAssessment; }
+            set { _postOperationPainAssessment = value; }
         }
 
         public decimal Temperature
@@ -83,28 +65,16 @@ namespace SOAP.Models
             set { _respiratoryRate = value; }
         }
 
-        public int CardiacAuscultationId
+        public DropdownValue CardiacAuscultation
         {
-            get { return _cardiacAuscultationId; }
-            set { _cardiacAuscultationId = value; }
+            get { return _cardiacAuscultation; }
+            set { _cardiacAuscultation = value; }
         }
 
-        public string CardiacAuscultationName
+        public DropdownValue PulseQuality
         {
-            get { return _cardiacAuscultationName; }
-            set { _cardiacAuscultationName = value; }
-        }
-
-        public int PulseQualityId
-        {
-            get { return _pulseQualityId; }
-            set { _pulseQualityId = value; }
-        }
-
-        public string PulseQualityName
-        {
-            get { return _pulseQualityName; }
-            set { _pulseQualityName = value; }
+            get { return _pulseQuality; }
+            set { _pulseQuality = value; }
         }
 
         public string MucousMembraneColor
@@ -119,28 +89,16 @@ namespace SOAP.Models
             set { _capillaryRefillTime = value; }
         }
 
-        public int RespiratoryAuscultationId
+        public DropdownValue RespiratoryAuscultationId
         {
-            get { return _respiratoryAuscultationId; }
-            set { _respiratoryAuscultationId = value; }
+            get { return _respiratoryAuscultation; }
+            set { _respiratoryAuscultation = value; }
         }
 
-        public string RespiratoryAuscultationName
+        public DropdownValue PhysicalStatusClass
         {
-            get { return _respiratoryAuscultationName; }
-            set { _respiratoryAuscultationName = value; }
-        }
-
-        public int PhysicalStatusClassId
-        {
-            get { return _physicalStatusClassId; }
-            set { _physicalStatusClassId = value; }
-        }
-
-        public string PhysicalStatusClassName
-        {
-            get { return _physicalStatusClassName; }
-            set { _physicalStatusClassName = value; }
+            get { return _physicalStatusClass; }
+            set { _physicalStatusClass = value; }
         }
 
         public string ReasonForClassification

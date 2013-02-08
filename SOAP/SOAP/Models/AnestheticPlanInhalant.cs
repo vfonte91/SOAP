@@ -7,7 +7,6 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _drugId;
         private decimal _dose;
         private decimal _flowRate;
         private DrugInformation _drug;
@@ -22,12 +21,6 @@ namespace SOAP.Models
         {
             get { return _patientId; }
             set { _patientId = value; }
-        }
-
-        public int DrugId
-        {
-            get { return _drugId; }
-            set { _drugId = value; }
         }
 
         public decimal Dose
@@ -55,7 +48,7 @@ namespace SOAP.Models
 
         public bool ValidateAnestheticPlanInhalant()
         {
-            if (_id == 0 || _patientId == 0 || _drugId == 0)
+            if (_id == 0 || _patientId == 0 || _drug.Id == 0)
                 return false;
             else
                 return true;

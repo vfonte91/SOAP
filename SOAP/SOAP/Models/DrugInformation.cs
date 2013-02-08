@@ -6,8 +6,7 @@ namespace SOAP.Models
     public class DrugInformation
     {
         private int _id;
-        private int _drugId;
-        private string _drugName;
+        private DropdownValue _drug;
         private float _doseMinRange;
         private float _doseMaxRange;
         private float _doseMax;
@@ -22,16 +21,10 @@ namespace SOAP.Models
             set { _id = value; }
         }
 
-        public int DrugId
+        public DropdownValue Drug
         {
-            get { return _drugId; }
-            set { _drugId = value; }
-        }
-
-        public string DrugName
-        {
-            get { return _drugName; }
-            set { _drugName = value; }
+            get { return _drug; }
+            set { _drug = value; }
         }
 
         public float DoseMinRange
@@ -82,7 +75,7 @@ namespace SOAP.Models
         }
         public bool ValidateDrugInformation()
         {
-            if (_id == 0 || _drugId == 0)
+            if (_id == 0 || _drug.Id == 0)
                 return false;
             else
                 return true;

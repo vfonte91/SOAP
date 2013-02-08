@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _drugId;
-        private string _drugName;
+        private DropdownValue _drug;
 
         public int Id
         {
@@ -22,16 +21,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int DrugId
+        public DropdownValue Drug
         {
-            get { return _drugId; }
-            set { _drugId = value; }
-        }
-
-        public string DrugName
-        {
-            get { return _drugName; }
-            set { _drugName = value; }
+            get { return _drug; }
+            set { _drug = value; }
         }
 
         public OtherAnestheticDrug()
@@ -41,7 +34,7 @@ namespace SOAP.Models
 
         public bool ValidateOtherAnestheticDrug()
         {
-            if (_id == 0 || _patientId == 0 || _drugId == 0)
+            if (_id == 0 || _patientId == 0 || _drug.Id == 0)
                 return false;
             else
                 return true;

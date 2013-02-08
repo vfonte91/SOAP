@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _equipmentId;
-        private string _equipmentName;
+        private DropdownValue _equipment;
 
         public int Id
         {
@@ -22,16 +21,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int EquipmentId
+        public DropdownValue Equipment
         {
-            get { return _equipmentId; }
-            set { _equipmentId = value; }
-        }
-
-        public string EquipmentName
-        {
-            get { return _equipmentName; }
-            set { _equipmentName = value; }
+            get { return _equipment; }
+            set { _equipment = value; }
         }
 
         public Monitoring()
@@ -41,7 +34,7 @@ namespace SOAP.Models
 
         public bool ValidateMonitoring()
         {
-            if (_id == 0 || _patientId == 0 || _equipmentId == 0)
+            if (_id == 0 || _patientId == 0 || _equipment.Id == 0)
                 return false;
             else
                 return true;

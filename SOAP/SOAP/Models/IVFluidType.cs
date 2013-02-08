@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _fluidTypeId;
-        private string _fluidTypeName;
+        private DropdownValue _fluidType;
         private decimal _dose;
 
         public int Id
@@ -23,16 +22,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int FluidTypeId
+        public DropdownValue FluidType
         {
-            get { return _fluidTypeId; }
-            set { _fluidTypeId = value; }
-        }
-
-        public string FluidTypeName
-        {
-            get { return _fluidTypeName; }
-            set { _fluidTypeName = value; }
+            get { return _fluidType; }
+            set { _fluidType = value; }
         }
 
         public decimal Dose
@@ -48,7 +41,7 @@ namespace SOAP.Models
 
         public bool ValidateIVFluidType()
         {
-            if (_id == 0 || _patientId == 0 || _fluidTypeId == 0)
+            if (_id == 0 || _patientId == 0 || _fluidType.Id == 0)
                 return false;
             else
                 return true;

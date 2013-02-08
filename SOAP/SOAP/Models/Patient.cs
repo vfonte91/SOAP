@@ -6,12 +6,9 @@ namespace SOAP.Models
     public class Patient
     {
         private int _patientId;
-        private int _studentId;
-        private string _studentFullName;
-        private int _clinicianId;
-        private string _clinicianFullName;
-        private int _temperamentId;
-        private string _temperamentName;
+        private ASFUser _student;
+        private ASFUser _clinician;
+        private DropdownValue _temperament;
         private char _formCompleted;
         private DateTime _dateSeenOn;
         private int _cageOrStallNumber;
@@ -20,6 +17,7 @@ namespace SOAP.Models
         private int _ageInMonths;
         private ClinicalFindings _clinicalFindings;
         private List<AnesthesiaConcern> _anesthesiaConcerns;
+        private AnestheticPlan _anestheticPlan;
 
         public int PatientId
         {
@@ -27,40 +25,22 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int StudentId
+        public ASFUser Student
         {
-            get { return _studentId; }
-            set { _studentId = value; }
+            get { return _student; }
+            set { _student = value; }
         }
 
-        public string StudentFullName
+        public ASFUser Clinician
         {
-            get { return _studentFullName; }
-            set { _studentFullName = value; }
+            get { return _clinician; }
+            set { _clinician = value; }
         }
 
-        public int ClinicianId
+        public DropdownValue Temperament
         {
-            get { return _clinicianId; }
-            set { _clinicianId = value; }
-        }
-
-        public string ClinicianFullName
-        {
-            get { return _clinicianFullName; }
-            set { _clinicianFullName = value; }
-        }
-
-        public int TemperamentId
-        {
-            get { return _temperamentId; }
-            set { _temperamentId = value; }
-        }
-
-        public string TemperamentName
-        {
-            get { return _temperamentName; }
-            set { _temperamentName = value; }
+            get { return _temperament; }
+            set { _temperament = value; }
         }
 
         public char FormCompleted
@@ -111,6 +91,12 @@ namespace SOAP.Models
             set { _anesthesiaConcerns = value; }
         }
 
+        public AnestheticPlan AnestheticPlan
+        {
+            get { return _anestheticPlan; }
+            set { _anestheticPlan = value; }
+        }
+
         public Patient()
         {
             _patientId = -1;
@@ -120,7 +106,7 @@ namespace SOAP.Models
 
         public bool ValidatePatient()
         {
-            if (_patientId == 0 || _studentId == 0 || _clinicianId == 0)
+            if (_patientId == 0 || _student.UserId == 0 || _clinician.UserId == 0)
                 return false;
             else
                 return true;

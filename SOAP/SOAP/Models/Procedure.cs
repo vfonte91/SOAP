@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _procedureId;
-        private string _procedureName;
+        private DropdownValue _procedureInformation;
 
         public int Id
         {
@@ -22,16 +21,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int ProcedureId
+        public DropdownValue ProcedureInformation
         {
-            get { return _procedureId; }
-            set { _procedureId = value; }
-        }
-
-        public string ProcedureName
-        {
-            get { return _procedureName; }
-            set { _procedureName = value; }
+            get { return _procedureInformation; }
+            set { _procedureInformation = value; }
         }
 
         public Procedure()
@@ -41,7 +34,7 @@ namespace SOAP.Models
 
         public bool ValidateProcedure()
         {
-            if (_id == 0 || _patientId == 0 || _procedureId == 0)
+            if (_id == 0 || _patientId == 0 || _procedureInformation.Id == 0)
                 return false;
             else
                 return true;

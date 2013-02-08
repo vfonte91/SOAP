@@ -7,10 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _drugId;
-        private string _drugName;
-        private int _routeOfAdministrationId;
-        private string _routeOfAdministrationName;
+        private DropdownValue _routeOfAdministration;
         private decimal _dosage;
         private decimal _dose;
         private DrugInformation _drug;
@@ -27,28 +24,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int DrugId
+        public DropdownValue RouteOfAdministration
         {
-            get { return _drugId; }
-            set { _drugId = value; }
-        }
-
-        public string DrugName
-        {
-            get { return _drugName; }
-            set { _drugName = value; }
-        }
-
-        public int RouteOfAdministrationId
-        {
-            get { return _routeOfAdministrationId; }
-            set { _routeOfAdministrationId = value; }
-        }
-
-        public string RouteOfAdministrationName
-        {
-            get { return _routeOfAdministrationName; }
-            set { _routeOfAdministrationName = value; }
+            get { return _routeOfAdministration; }
+            set { _routeOfAdministration = value; }
         }
 
         public decimal Dosage
@@ -76,7 +55,7 @@ namespace SOAP.Models
 
         public bool ValidateMaintenanceInjectionDrug()
         {
-            if (_id == 0 || _patientId == 0 || _drugId == 0)
+            if (_id == 0 || _patientId == 0 || _drug.Drug.Id == 0)
                 return false;
             else
                 return true;

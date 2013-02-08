@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _concernId;
-        private string _concern;
+        private DropdownValue _concern;
 
         public int Id
         {
@@ -22,13 +21,7 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int ConcernId
-        {
-            get { return _concernId; }
-            set { _concernId = value; }
-        }
-
-        public string Concern
+        public DropdownValue Concern
         {
             get { return _concern; }
             set { _concern = value; }
@@ -41,7 +34,7 @@ namespace SOAP.Models
 
         public bool ValidateAnesthesiaConcerns()
         {
-            if (_id == 0 || _patientId == 0 || _concernId == 0)
+            if (_id == 0 || _patientId == 0 || _concern.Id == 0)
                 return false;
             else
                 return true;

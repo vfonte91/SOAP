@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _drugId;
-        private string _drugName;
+        private DropdownValue _drug;
         private char _inductionReqFlag;
         private decimal _inductionDose;
         private decimal _inductionOxygenFlowRate;
@@ -16,10 +15,8 @@ namespace SOAP.Models
         private decimal _maintenanceDose;
         private decimal _maintenanceOxygenFlowRate;
         private char _equipmentReqFlag;
-        private int _breathingSystemId;
-        private string _breathingSystemName;
-        private int _breathingBagSizeId;
-        private string _breathingBagSizeName;
+        private DropdownValue _breathingSystem;
+        private DropdownValue _breathingBagSize;
 
         public int Id
         {
@@ -33,16 +30,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int DrugId
+        public DropdownValue Drug
         {
-            get { return _drugId; }
-            set { _drugId = value; }
-        }
-
-        public string DrugName
-        {
-            get { return _drugName; }
-            set { _drugName = value; }
+            get { return _drug; }
+            set { _drug = value; }
         }
 
         public char InductionReqFlag
@@ -87,28 +78,16 @@ namespace SOAP.Models
             set { _equipmentReqFlag = value; }
         }
 
-        public int BreathingSystemId
+        public DropdownValue BreathingSystem
         {
-            get { return _breathingSystemId; }
-            set { _breathingSystemId = value; }
+            get { return _breathingSystem; }
+            set { _breathingSystem = value; }
         }
 
-        public string BreathingSystemName
+        public DropdownValue BreathingBagSize
         {
-            get { return _breathingSystemName; }
-            set { _breathingSystemName = value; }
-        }
-
-        public int BreathingBagSizeId
-        {
-            get { return _breathingBagSizeId; }
-            set { _breathingBagSizeId = value; }
-        }
-
-        public string BreathingBagSizeName
-        {
-            get { return _breathingBagSizeName; }
-            set { _breathingBagSizeName = value; }
+            get { return _breathingBagSize; }
+            set { _breathingBagSize = value; }
         }
 
         public MaintenanceInhalantDrug()
@@ -118,7 +97,7 @@ namespace SOAP.Models
 
         public bool ValidateMaintenanceInhalantDrug()
         {
-            if (_id == 0 || _patientId == 0 || _drugId == 0)
+            if (_id == 0 || _patientId == 0 || _drug.Id == 0)
                 return false;
             else
                 return true;

@@ -9,10 +9,8 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _drugId;
-        private string _drugName;
-        private int _routeId;
-        private string _route;
+        private DropdownValue _drug;
+        private DropdownValue _route;
         private decimal _dosage;
 
         public int Id
@@ -27,25 +25,13 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int DrugId
+        public DropdownValue Drug
         {
-            get { return _drugId; }
-            set { _drugId = value; }
+            get { return _drug; }
+            set { _drug = value; }
         }
 
-        public string DrugName
-        {
-            get { return _drugName; }
-            set { _drugName = value; }
-        }
-
-        public int RouteId
-        {
-            get { return _routeId; }
-            set { _routeId = value; }
-        }
-
-        public string Route
+        public DropdownValue Route
         {
             get { return _route; }
             set { _route = value; }
@@ -64,7 +50,7 @@ namespace SOAP.Models
 
         public bool ValidateAnestheticPlanPremedication()
         {
-            if (_id == 0 || _patientId == 0 || _drugId == 0)
+            if (_id == 0 || _patientId == 0 || _drug.Id == 0)
                 return false;
             else
                 return true;

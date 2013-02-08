@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _bloodworkId;
-        private string _bloodworkName;
+        private DropdownValue _bloodworkInfo;
         private decimal _value;
 
         public int Id
@@ -23,16 +22,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int BloodworkId
+        public DropdownValue BloodworkInfo
         {
-            get { return _bloodworkId; }
-            set { _bloodworkId = value; }
-        }
-
-        public string BloodworkName
-        {
-            get { return _bloodworkName; }
-            set { _bloodworkName = value; }
+            get { return _bloodworkInfo; }
+            set { _bloodworkInfo = value; }
         }
 
         public decimal Value
@@ -48,7 +41,7 @@ namespace SOAP.Models
 
         public bool ValidateBloodwork()
         {
-            if (_id == 0 || _patientId == 0 || _bloodworkId == 0)
+            if (_id == 0 || _patientId == 0 || _bloodworkInfo.Id == 0)
                 return false;
             else
                 return true;

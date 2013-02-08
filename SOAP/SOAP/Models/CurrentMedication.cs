@@ -7,8 +7,7 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private int _medicationId;
-        private string _medicationName;
+        private DropdownValue _medication;
 
         public int Id
         {
@@ -22,16 +21,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public int MedicationId
+        public DropdownValue Medication
         {
-            get { return _medicationId; }
-            set { _medicationId = value; }
-        }
-
-        public string MedicationName
-        {
-            get { return _medicationName; }
-            set { _medicationName = value; }
+            get { return _medication; }
+            set { _medication = value; }
         }
 
         public CurrentMedication()
@@ -41,7 +34,7 @@ namespace SOAP.Models
 
         public bool ValidateCurrentMedication()
         {
-            if (_id == 0 || _patientId == 0 || _medicationId == 0)
+            if (_id == 0 || _patientId == 0 || _medication.Id == 0)
                 return false;
             else
                 return true;
