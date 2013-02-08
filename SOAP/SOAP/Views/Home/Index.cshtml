@@ -3,34 +3,11 @@
 }
     <script type="text/javascript">
         $(function () {
-            $("#tabs").tabs({ hide: { effect: "slide", duration: 600},
-                              show: { effect: "slide", duration: 600}
-            });
 
-            // fix the classes
-            $(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *")
-            .removeClass("ui-corner-all ui-corner-top")
-            .addClass("ui-corner-bottom");
-
-            // move the nav to the bottom
-            $(".tabs-bottom .ui-tabs-nav").appendTo(".tabs-bottom");
         });
     </script>
-    <style>
-      /* force a height so the tabs don't jump as content height changes */
-      #tabs .tabs-spacer { float: left; height: 600px; }
-      .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
-      .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
-      .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
-    </style>
     <div id="top">
-        <div id="top-wrap">
-            <div id="title"><p>Ohio State Anesthesia SOAP Plan</p></div>
-            <div id="user-info">
-                <div id="user-name">Brutus.1</div>
-                <div id="sign-out"><a href="#" >Sign Out</a></div>
-            </div>
-        </div>
+        @RenderPage("~/Views/Home/Banner.cshtml") 
     </div>
 <div id="tabs" class="tabs-bottom">
     <!-- scrollable navigator root element -->
@@ -44,7 +21,6 @@
         <li><a id="t7" href="#tab-7"><div>Maintenance</div></a></li>
         <li><a id="t8" href="#tab-8"><div>Monitoring</div></a></li>
 	</ul>
-    <div class="tabs-spacer"></div>
     <!-- Page 0: welcome and emergency dosages -->
 	<div id="tab-1" class="item">
         @RenderPage("~/Views/Home/Welcome.cshtml") 
