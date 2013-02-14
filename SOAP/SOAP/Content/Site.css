@@ -198,6 +198,34 @@ form div.input input[type=radio]:checked + label
   border: 1px solid red;
 }
 
+form div.input input.checkbox {
+    display:none;
+}
+
+form div.input label.checkbox {
+  transition: all 0.20s ease-in-out;
+  -webkit-transition: all 0.20s ease-in-out;
+  -moz-transition: all 0.20s ease-in-out;
+    float: right !important;
+    background-color: #f2f2f2;
+    display: inline-block;
+    margin: 4px 5px;
+    padding: 4px !important;
+    font-size: 12px;
+}
+
+form div.input input.checkbox:checked + label
+{
+  box-shadow: 0 0 1px red;
+  border: 1px solid red;
+}
+
+form div.input input.checkbox + label
+{
+  box-shadow: 0 0 5px white;
+  border: 1px solid white;
+}
+
 .left {     float:left; }
 .right {    float: right; }
 .half {     width: 50%; }
