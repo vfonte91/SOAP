@@ -1,83 +1,83 @@
 ﻿@{
     ViewBag.Title = "Anesthesia SOAP";
 }
-    <script type="text/javascript">
-        $(function () {
-            $("#tabs").tabs({ hide: { effect: "slide", duration: 600},
-                              show: { effect: "slide", duration: 600}
-            });
-
-            // fix the classes
-            $(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *")
-            .removeClass("ui-corner-all ui-corner-top")
-            .addClass("ui-corner-bottom");
-
-            // move the nav to the bottom
-            $(".tabs-bottom .ui-tabs-nav").appendTo(".tabs-bottom");
-        });
-    </script>
-    <style>
-      /* force a height so the tabs don't jump as content height changes */
-      #tabs .tabs-spacer { float: left; height: 600px; }
-      .tabs-bottom .ui-tabs-nav { clear: left; padding: 0 .2em .2em .2em; }
-      .tabs-bottom .ui-tabs-nav li { top: auto; bottom: 0; margin: 0 .2em 1px 0; border-bottom: auto; border-top: 0; }
-      .tabs-bottom .ui-tabs-nav li.ui-tabs-active { margin-top: -1px; padding-top: 1px; }
-    </style>
     <div id="top">
-        <div id="top-wrap">
-            <div id="title"><p>Ohio State Anesthesia SOAP Plan</p></div>
-            <div id="user-info">
-                <div id="user-name">Brutus.1</div>
-                <div id="sign-out"><a href="#" >Sign Out</a></div>
-            </div>
-        </div>
+        @RenderPage("~/Views/Home/Banner.cshtml") 
     </div>
-<div id="tabs" class="tabs-bottom">
+<div id="tabs">
     <!-- scrollable navigator root element -->
-	<ul>
-		<li><a id="t1" href="#tab-1" class="active"><div>Home</div></a></li>
-		<li><a id="t2" href="#tab-2"><div>Anesthetist Profile</div></a></li>
-		<li><a id="t3" href="#tab-3"><div>Patient Information</div></a></li>
-		<li><a id="t4" href="#tab-4"><div>Clinical Findings</div></a></li>
-		<li><a id="t5" href="#tab-5"><div>Blood Work</div></a></li>
-        <li><a id="t6" href="#tab-6"><div>Anesthesia Plan</div></a></li>
-        <li><a id="t7" href="#tab-7"><div>Maintenance</div></a></li>
-        <li><a id="t8" href="#tab-8"><div>Monitoring</div></a></li>
-	</ul>
-    <div class="tabs-spacer"></div>
     <!-- Page 0: welcome and emergency dosages -->
 	<div id="tab-1" class="item">
         @RenderPage("~/Views/Home/Welcome.cshtml") 
-    </div>
-
-	<!-- Page 1, Profile -->
+    </div>	
+    
+    <!-- Profile -->
 	<div id="tab-2" class="item">
+        @RenderPage("~/Views/Home/EmergencyDosage.cshtml")
+	</div>
+
+	<!-- Profile -->
+	<div id="tab-3" class="item">
         @RenderPage("~/Views/Home/Profile.cshtml")
 	</div>
 
-	<!-- Page 2, Patient Information -->
-	<div id="tab-3" class="item">
+	<!-- Patient Information -->
+	<div id="tab-4" class="item">
         @RenderPage("~/Views/Home/PatientInfo.cshtml")
 	</div>
 
-	<!-- Page 3, Clinical findings -->
-	<div id="tab-4" class="item">
+	<!--  Clinical findings -->
+	<div id="tab-5" class="item">
         @RenderPage("~/Views/Home/ClinicalFindings.cshtml")
 	</div>
 
-	<!-- Page 4, bloodwork -->
-	<div id="tab-5" class="item">
+	<!-- Bloodwork -->
+	<div id="tab-6" class="item">
         @RenderPage("~/Views/Home/BloodWork.cshtml")
 	</div>
-    <!------Page 5, Anesthetic PLan---->
-    <div id="tab-6" class="item">
+    <!---- Anesthetic PLan---->
+    <div id="tab-7" class="item">
         @RenderPage("~/Views/Home/AnestheticPlan.cshtml")
     </div>
 
-    <div id="tab-7" class="item">
+    <div id="tab-8" class="item">
         @RenderPage("~/Views/Home/Maintenance.cshtml")
     </div>
-    <div id="tab-8" class="item">
+    <div id="tab-9" class="item">
         @RenderPage("~/Views/Home/Monitoring.cshtml")
     </div>
 </div>
+<div class="navi">
+    <div id="thumbs">
+		<a id="t1" nav="tab-1" class="active"><div>Home</div></a>
+		<a id="t2" nav="tab-2" class="not-active"><div>Emergency Dosage</div></a>
+		<a id="t2" nav="tab-3" class="not-active"><div>Anesthetist Profile</div></a>
+		<a id="t3" nav="tab-4" class="not-active"><div>Patient Information</div></a>
+		<a id="t4" nav="tab-5" class="not-active"><div>Clinical Findings</div></a>
+		<a id="t5" nav="tab-6" class="not-active"><div>Blood Work</div></a>
+        <a id="t6" nav="tab-7" class="not-active"><div>Anesthesia Plan</div></a>
+        <a id="t7" nav="tab-8" class="not-active"><div>Maintenance</div></a>
+        <a id="t8" nav="tab-9" class="not-active"><div>Monitoring</div></a>
+	</div>
+</div>
+    <script type="text/javascript">
+
+        $('#thumbs a.not-active').each(function () {
+            var tabContent = $(this).attr('nav');
+            $('#' + tabContent).css('display', 'none');
+        });
+        // When a link is clicked
+        $("#thumbs a").click(function () {
+            if (!$(this).hasClass('active')) {
+                // switch previous tabs off
+                var prevContent = $('a.active').attr('nav');
+                $("a.active").removeClass("active");
+                // switch this tab on
+                $(this).addClass("active");
+                var currentContent = $('a.active').attr('nav');
+                $('#' + prevContent).hide('slide',function() {
+                    $('#' + currentContent).show('slide');            
+                });
+            }
+        });
+    </script>
