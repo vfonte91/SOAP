@@ -177,25 +177,32 @@ form div.input select {
   width: 50%;
 }
 
+form div.input label.radio, form div.input label.checkbox 
+{
+    float: right !important;
+    display: inline-block;
+  transition: all 0.20s ease-in-out;
+  -webkit-transition: all 0.20s ease-in-out;
+  -moz-transition: all 0.20s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+  border: 1px solid #cacece;
+  border-radius: 3px;
+  background-color: #fafafa;    
+}
 form div.input input.radio {
     display:none;
 }
 
 form div.input label.radio {
-  transition: all 0.20s ease-in-out;
-  -webkit-transition: all 0.20s ease-in-out;
-  -moz-transition: all 0.20s ease-in-out;
-    float: right !important;
-    background-color: #f2f2f2;
-    display: inline-block;
     padding: 8px 40px;
     margin: 0px 10px;
 }
 
-form div.input input[type=radio]:checked + label
+
+form div.input input[type=radio]:checked + label, form div.input input.checkbox:checked + label
 {
-  box-shadow: 0 0 5px red;
-  border: 1px solid red;
+  background-color: #756B6F;
+  color: #FFFFFF;
 }
 
 form div.input input.checkbox {
@@ -203,27 +210,9 @@ form div.input input.checkbox {
 }
 
 form div.input label.checkbox {
-  transition: all 0.20s ease-in-out;
-  -webkit-transition: all 0.20s ease-in-out;
-  -moz-transition: all 0.20s ease-in-out;
-    float: right !important;
-    background-color: #f2f2f2;
-    display: inline-block;
     margin: 4px 5px;
     padding: 4px !important;
     font-size: 12px;
-}
-
-form div.input input.checkbox:checked + label
-{
-  box-shadow: 0 0 1px red;
-  border: 1px solid red;
-}
-
-form div.input input.checkbox + label
-{
-  box-shadow: 0 0 5px white;
-  border: 1px solid white;
 }
 
 .left {     float:left; }
