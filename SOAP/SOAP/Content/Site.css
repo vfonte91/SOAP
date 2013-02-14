@@ -69,44 +69,44 @@ div#tabs {
 	-webkit-border-radius: 5px;
 }
 
-/* container for tab content
+/* container for tab content */
 div#tabs div#tab-items {
 	position: absolute;
 	height: 85%;
 }
-*/
-/*single tab content page 
+
+/*single tab content page */
 .item {
     float: left;
     height: 75%;
     padding: 15px;
     width: 100%;
 }
-*/
-/* container for tabs links
-#thumbs {
+
+/* Class for navigation container */
+div.navi{
     background: #383636;
 	height: 90px;
 	position: relative;
 	top: 90%;
 	width: 100%;
 }
-*/
-/* Class for navigation container 
-div.navi {
+
+/* container for tabs links */
+ #thumbs  {
 	margin-left: auto;
 	margin-right: auto;
 	width: 1000px;
 }
-*/
-/* tabs link 
+
+/* tabs link */
 .t {
 	padding: 0 !important;
 	border: 0 !important;
 }
-*/
-/*
-.t a {
+
+
+#thumbs a {
 	display: block;
 	width: 100px;
 	float: left;
@@ -114,19 +114,22 @@ div.navi {
 	cursor: pointer;
 	background: url('../Images/InActive.jpg');
 	border: 1px solid #acb0a8;
+	text-decoration:none;
 }
-.t a.active {	cursor: default !important;
+#thumbs a.active
+{
+    cursor: default !important;
     background: url('../Images/Active.jpg');
 }
-*/
-/*Text inside links
-.t a div
+
+/*Text inside links */
+#thumbs a div
 {
     text-align:center;
     margin-top:25px;
-    color:  #acb0a8;
+    color:  white;
 }
-*/
+
 form div.input 
 {
     height: 35px;
@@ -172,6 +175,27 @@ form div.input select {
   padding: 8px;
   background: #f2f2f2;
   width: 50%;
+}
+
+form div.input input.radio {
+    display:none;
+}
+
+form div.input label.radio {
+  transition: all 0.20s ease-in-out;
+  -webkit-transition: all 0.20s ease-in-out;
+  -moz-transition: all 0.20s ease-in-out;
+    float: right !important;
+    background-color: #f2f2f2;
+    display: inline-block;
+    padding: 8px 40px;
+    margin: 0px 10px;
+}
+
+form div.input input[type=radio]:checked + label
+{
+  box-shadow: 0 0 5px red;
+  border: 1px solid red;
 }
 
 .left {     float:left; }
