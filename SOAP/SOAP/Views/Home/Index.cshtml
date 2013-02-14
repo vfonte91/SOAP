@@ -62,14 +62,16 @@
         });
         // When a link is clicked
         $("#thumbs a").click(function () {
-            // switch previous tabs off
-            var prevContent = $('a.active').attr('nav');
-            $("a.active").removeClass("active");
-            // switch this tab on
-            $(this).addClass("active");
-            var currentContent = $('a.active').attr('nav');
-            $('#' + prevContent).hide('slide',function() {
-                $('#' + currentContent).show('slide');            
-            });
+            if (!$(this).hasClass('active')) {
+                // switch previous tabs off
+                var prevContent = $('a.active').attr('nav');
+                $("a.active").removeClass("active");
+                // switch this tab on
+                $(this).addClass("active");
+                var currentContent = $('a.active').attr('nav');
+                $('#' + prevContent).hide('slide',function() {
+                    $('#' + currentContent).show('slide');            
+                });
+            }
         });
     </script>
