@@ -1,26 +1,11 @@
 ﻿@{
     ViewBag.Title = "Anesthesia SOAP";
 }
-    <script type="text/javascript">
-        $(function () {
-
-        });
-    </script>
     <div id="top">
         @RenderPage("~/Views/Home/Banner.cshtml") 
     </div>
-<div id="tabs" class="tabs-bottom">
+<div id="tabs">
     <!-- scrollable navigator root element -->
-	<ul>
-		<li><a id="t1" href="#tab-1" class="active"><div>Home</div></a></li>
-		<li><a id="t2" href="#tab-2"><div>Anesthetist Profile</div></a></li>
-		<li><a id="t3" href="#tab-3"><div>Patient Information</div></a></li>
-		<li><a id="t4" href="#tab-4"><div>Clinical Findings</div></a></li>
-		<li><a id="t5" href="#tab-5"><div>Blood Work</div></a></li>
-        <li><a id="t6" href="#tab-6"><div>Anesthesia Plan</div></a></li>
-        <li><a id="t7" href="#tab-7"><div>Maintenance</div></a></li>
-        <li><a id="t8" href="#tab-8"><div>Monitoring</div></a></li>
-	</ul>
     <!-- Page 0: welcome and emergency dosages -->
 	<div id="tab-1" class="item">
         @RenderPage("~/Views/Home/Welcome.cshtml") 
@@ -57,3 +42,34 @@
         @RenderPage("~/Views/Home/Monitoring.cshtml")
     </div>
 </div>
+<div class="navi">
+    <div id="thumbs">
+		<a id="t1" nav="tab-1" class="active"><div>Home</div></a>
+		<a id="t2" nav="tab-2" class="not-active"><div>Anesthetist Profile</div></a>
+		<a id="t3" nav="tab-3" class="not-active"><div>Patient Information</div></a>
+		<a id="t4" nav="tab-4" class="not-active"><div>Clinical Findings</div></a>
+		<a id="t5" nav="tab-5" class="not-active"><div>Blood Work</div></a>
+        <a id="t6" nav="tab-6" class="not-active"><div>Anesthesia Plan</div></a>
+        <a id="t7" nav="tab-7" class="not-active"><div>Maintenance</div></a>
+        <a id="t8" nav="tab-8" class="not-active"><div>Monitoring</div></a>
+	</div>
+</div>
+    <script type="text/javascript">
+
+        $('#thumbs a.not-active').each(function () {
+            var tabContent = $(this).attr('nav');
+            $('#' + tabContent).css('display', 'none');
+        });
+        // When a link is clicked
+        $("#thumbs a").click(function () {
+            // switch previous tabs off
+            var prevContent = $('a.active').attr('nav');
+            $("a.active").removeClass("active");
+            // switch this tab on
+            $(this).addClass("active");
+            var currentContent = $('a.active').attr('nav');
+            $('#' + prevContent).hide('slide',function() {
+                $('#' + currentContent).show('slide');            
+            });
+        });
+    </script>
