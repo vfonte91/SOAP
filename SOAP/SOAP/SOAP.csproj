@@ -168,6 +168,7 @@
     </Compile>
     <Compile Include="Models\AdministrationSet.cs" />
     <Compile Include="Models\AnesthesiaConcern.cs" />
+    <Compile Include="Models\AnestheticPlan.cs" />
     <Compile Include="Models\AnestheticPlanInhalant.cs" />
     <Compile Include="Models\AnestheticPlanInjection.cs" />
     <Compile Include="Models\AnestheticPlanPremedication.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Models\MaintenanceInjectionDrug.cs" />
     <Compile Include="Models\Monitoring.cs" />
     <Compile Include="Models\OtherAnestheticDrug.cs" />
+    <Compile Include="Models\Patient.cs" />
     <Compile Include="Models\PriorAnesthesia.cs" />
     <Compile Include="Models\Procedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
