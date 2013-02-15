@@ -8,6 +8,10 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private DropdownValue _concern;
+        
+        public enum LazyComponents { 
+            LOAD_CONCERN_WITH_DETAILS 
+        };
 
         public int Id
         {

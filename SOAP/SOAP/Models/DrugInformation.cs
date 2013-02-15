@@ -7,12 +7,12 @@ namespace SOAP.Models
     {
         private int _id;
         private DropdownValue _drug;
-        private float _doseMinRange;
-        private float _doseMaxRange;
-        private float _doseMax;
+        private decimal _doseMinRange;
+        private decimal _doseMaxRange;
+        private decimal _doseMax;
         private string _doseUnits;
         private string _route;
-        private float _concentration;
+        private decimal _concentration;
         private string _concentrationUnits;
 
         public int Id
@@ -27,19 +27,19 @@ namespace SOAP.Models
             set { _drug = value; }
         }
 
-        public float DoseMinRange
+        public decimal DoseMinRange
         {
             get { return _doseMinRange; }
             set { _doseMinRange = value; }
         }
 
-        public float DoseMaxRange
+        public decimal DoseMaxRange
         {
             get { return _doseMaxRange; }
             set { _doseMaxRange = value; }
         }
 
-        public float DoseMax
+        public decimal DoseMax
         {
             get { return _doseMax; }
             set { _doseMax = value; }
@@ -57,7 +57,7 @@ namespace SOAP.Models
             set { _route = value; }
         }
 
-        public float Concentration
+        public decimal Concentration
         {
             get { return _concentration; }
             set { _concentration = value; }

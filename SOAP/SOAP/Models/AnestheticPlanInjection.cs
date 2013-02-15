@@ -12,6 +12,11 @@ namespace SOAP.Models
         private decimal _dose;
         private DrugInformation _drug;
 
+        public enum LazyComponents {
+            LOAD_ROUTE_WITH_DETAILS,
+            LOAD_DRUG_INFORMATION
+        };
+
         public int Id
         {
             get { return _id; }

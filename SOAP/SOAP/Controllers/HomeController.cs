@@ -12,8 +12,6 @@ namespace SOAP.Controllers
         public ActionResult Index()
         {
             ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-            SampleService s = new SampleService();
-            List<DropdownCategory> ddowns = s.SelectQuery();
             return View();
         }
 
