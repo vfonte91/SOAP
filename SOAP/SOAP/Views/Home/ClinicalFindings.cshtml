@@ -57,6 +57,8 @@
 						<option value="Option2">2</option>
 						<option value="Option3">3</option>
 					</select>
+                </div>
+                <div class="input">
                     <input type="text" name="Pulse" class="inline" id="Reason"/>
                     <label id="Reason">Reason:</label>
                 </div>
@@ -65,8 +67,10 @@
                 <div class="right half">
                  <div class="input">
                     <label>Prior Anesthesia</label>
-                    <input type="radio" name="Prior" value="PriorYes" />Yes<br />
-                    <input type="radio" name="Prior" value="PriorNo" />No<br />
+                    <input type="radio" id="prior1" name="Prior" value="PriorYes" class="radio"/>
+                    <label for="prior1" class="radio">Yes</label>
+                    <input type="radio" id="prior2" name="Prior" value="PriorNo" class="radio"/>
+                    <label for="prior2" class="radio">No</label>
                 </div> 
                 <div class="input">
 			       <label>Date(dd/mm/yyyy):</label>
@@ -78,26 +82,40 @@
                 </div>
                 <div class="input">
                 <label>Concerns:</label>
-                    <input type="checkbox" name="concerns" value="anemia"/>Anemia
-                    <input type="checkbox" name="concerns" value="hypop"/>Hypoproteinmia
-                    <input type="checkbox" name="concerns" value="azo"/>Azotemia
-                    <input type="checkbox" name="concerns" value="hypov"/>Hypovolemia<br />
-                    <input type="checkbox" name="concerns" value="hypog"/>Hypoglycemia
-                    <input type="checkbox" name="concerns" value="arry"/>Arrythmia
-                    <input type="checkbox" name="concerns" value="hypot"/>Hypotension<br />
-                    <input type="checkbox" name="concerns" value="hypox"/>Hypoxemia
-                    <input type="checkbox" name="concerns" value="diffIn"/>Difficult Intubation
-                    <input type="checkbox" name="concerns" value="pain"/>Pain
-                    <input type="checkbox" name="concerns" value="hypoven"/>Hypoventilation<br />
-                    <input type="checkbox" name="concerns" value="hypother"/>Hypothermia
-                    <input type="checkbox" name="concerns" value="bloat"/>Bloat
-                    <input type="checkbox" name="concerns" value="vomit"/>Vomiting
-                    <input type="checkbox" name="concerns" value="drugMet"/>Drug Metabolism
-                    <input type="checkbox" name="concerns" value="blood"/>Blood Loss<br />
+                    <input type="checkbox" id="concerns-1" name="concerns" value="anemia" class="checkbox"/>
+                    <label for="concerns-1" class="checkbox">Anemia</label>
+                    <input type="checkbox" id="concerns-2" name="concerns" value="hypop" class="checkbox"/>
+                    <label for="concerns-2" class="checkbox">Hypoproteinmia</label>
+                    <input type="checkbox" id="concerns-3" name="concerns" value="azo" class="checkbox"/>
+                    <label for="concerns-3" class="checkbox">Azotemia</label>
+                    <input type="checkbox" id="concerns-4" name="concerns" value="hypov" class="checkbox"/>
+                    <label for="concerns-4" class="checkbox">Hypovolemia</label>
+                    <input type="checkbox" id="concerns-5" name="concerns" value="hypog" class="checkbox"/>
+                    <label for="concerns-5" class="checkbox">Hypoglycemia</label>
+                    <input type="checkbox" id="concerns-6" name="concerns" value="arry" class="checkbox"/>
+                    <label for="concerns-6" class="checkbox">Arrythmia</label>
+                    <input type="checkbox" id="concerns-7" name="concerns" value="hypot" class="checkbox"/>
+                    <label for="concerns-7" class="checkbox">Hypotension</label>
+                    <input type="checkbox" id="concerns-8" name="concerns" value="hypox" class="checkbox"/>
+                    <label for="concerns-8" class="checkbox">Hypoxemia</label>
+                    <input type="checkbox" id="concerns-9" name="concerns" value="diffIn" class="checkbox"/>
+                    <label for="concerns-9" class="checkbox">Difficult Intubation</label>
+                    <input type="checkbox" id="concerns-10" name="concerns" value="pain" class="checkbox"/>
+                    <label for="concerns-10" class="checkbox">Pain</label>
+                    <input type="checkbox" id="concerns-11" name="concerns" value="hypoven" class="checkbox"/>
+                    <label for="concerns-11" class="checkbox">Hypoventilation</label>
+                    <input type="checkbox" id="concerns-12" name="concerns" value="hypother" class="checkbox"/>
+                    <label for="concerns-12" class="checkbox">Hypothermia</label>
+                    <input type="checkbox" id="concerns-13" name="concerns" value="bloat" class="checkbox"/>
+                    <label for="concerns-13" class="checkbox">Bloat</label>
+                    <input type="checkbox" id="concerns-14" name="concerns" value="vomit" class="checkbox"/>
+                    <label for="concerns-14" class="checkbox">Vomiting</label>
+                    <input type="checkbox" id="concerns-15" name="concerns" value="drugMet" class="checkbox"/>
+                    <label for="concerns-15" class="checkbox">Drug Metabolism</label>
+                    <input type="checkbox" id="concerns-16" name="concerns" value="blood" class="checkbox"/>
+                    <label for="concerns-16" class="checkbox">Blood Loss</label>
                 </div>
                 <div class="input">
-                <h2> </h2>
-                <h3> </h3>
                     <label>Current Medications: </label>
                     <select multiple name="CurrentMeds">
 						<option value="None" selected>None</option>

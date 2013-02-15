@@ -15,6 +15,7 @@ body
     font-family: "Lucida Grande",Avant Garde, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
+    background-color: #f2f2f2;
 }
 
 #top 
@@ -67,46 +68,47 @@ div#tabs {
 	margin-top: 20px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	background-color:#f9f9f9;
 }
 
-/* container for tab content
+/* container for tab content */
 div#tabs div#tab-items {
 	position: absolute;
 	height: 85%;
 }
-*/
-/*single tab content page 
+
+/*single tab content page */
 .item {
     float: left;
     height: 75%;
     padding: 15px;
     width: 100%;
 }
-*/
-/* container for tabs links
-#thumbs {
+
+/* Class for navigation container */
+div.navi{
     background: #383636;
 	height: 90px;
 	position: relative;
 	top: 90%;
 	width: 100%;
 }
-*/
-/* Class for navigation container 
-div.navi {
+
+/* container for tabs links */
+ #thumbs  {
 	margin-left: auto;
 	margin-right: auto;
 	width: 1000px;
 }
-*/
-/* tabs link 
+
+/* tabs link */
 .t {
 	padding: 0 !important;
 	border: 0 !important;
 }
-*/
-/*
-.t a {
+
+
+#thumbs a {
 	display: block;
 	width: 100px;
 	float: left;
@@ -114,23 +116,33 @@ div.navi {
 	cursor: pointer;
 	background: url('../Images/InActive.jpg');
 	border: 1px solid #acb0a8;
+	text-decoration:none;
 }
-.t a.active {	cursor: default !important;
+#thumbs a.active
+{
+    cursor: default !important;
     background: url('../Images/Active.jpg');
 }
-*/
-/*Text inside links
-.t a div
+
+/*Text inside links */
+#thumbs a div
 {
     text-align:center;
     margin-top:25px;
-    color:  #acb0a8;
+    color:  white;
 }
-*/
+
 form div.input 
 {
     height: 35px;
     padding: 10px;
+    background-color: #f4f4f4;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px #aaa;
+    margin: 5px 0;
+    clear: both;
+    color: #444444;
 }
 
 div.left.half div.input
@@ -157,7 +169,7 @@ form div.input input[type=text], form div.input textarea {
   border: 1px solid #DDDDDD;
   float: right;
   padding: 8px;
-  background: #f2f2f2;
+  background: #ffffff;
   width: 50%;
 }
 
@@ -170,8 +182,46 @@ form div.input select {
   border: 1px solid #DDDDDD;
   float: right;
   padding: 8px;
-  background: #f2f2f2;
+  background: #ffffff;
   width: 50%;
+}
+
+form div.input label.radio, form div.input label.checkbox 
+{
+    float: right !important;
+    display: inline-block;
+  transition: all 0.20s ease-in-out;
+  -webkit-transition: all 0.20s ease-in-out;
+  -moz-transition: all 0.20s ease-in-out;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05), inset 0px -15px 10px -12px rgba(0,0,0,0.05);
+  border: 1px solid #cacece;
+  border-radius: 3px;
+  background-color: #fafafa;    
+}
+form div.input input.radio {
+    display:none;
+}
+
+form div.input label.radio {
+    padding: 8px 40px;
+    margin: 0px 10px;
+}
+
+
+form div.input input[type=radio]:checked + label, form div.input input.checkbox:checked + label
+{
+  background-color: #756B6F;
+  color: #FFFFFF;
+}
+
+form div.input input.checkbox {
+    display:none;
+}
+
+form div.input label.checkbox {
+    margin: 4px 5px;
+    padding: 4px !important;
+    font-size: 12px;
 }
 
 .left {     float:left; }
