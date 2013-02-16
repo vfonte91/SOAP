@@ -17,6 +17,17 @@ body
     padding: 0;
     background-color: #f2f2f2;
 }
+.center 
+{
+    margin-left: auto;
+    margin-right:auto;
+}
+
+.left {     float:left; }
+.right {    float: right; }
+.half {     width: 50%; }
+.hide {     display:none; }
+
 
 #top 
 {
@@ -223,7 +234,3 @@ form div.input label.checkbox {
     padding: 4px !important;
     font-size: 12px;
 }
-
-.left {     float:left; }
-.right {    float: right; }
-.half {     width: 50%; }
