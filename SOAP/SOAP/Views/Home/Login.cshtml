@@ -3,33 +3,64 @@
 }
 
 <div class="center" style="width:50%">
-    <form action="">
-        <div class="input">
-            <label>Username:</label>
-            <input type="text" id="username" />
-        </div>
-        <div class="input">
-            <label>Password:</label>
-            <input type="text" id="password" />
-        </div>
-        <div id="register-div" class="hide">
+    <div id="login-div">
+        <form action="">
             <div class="input">
-                <label>Repeat Password:</label>
-                <input type="text" id="password-repeat" />
+                <label>Username:</label>
+                <input type="text" id="username" />
             </div>
             <div class="input">
-                <label>Email:</label>
-                <input type="text" id="email" />
+                <label>Password:</label>
+                <input type="password" id="password" />
             </div>
-        </div>
-        <div class="input">
-            <input type="button" value="Login" class="submit left"/>
-            <input type="button" id="register" value="Register" class="submit right"/>
-        </div>
-    </form>
+            
+            <!-- inputs for registration. Hidden until user clicks on register button -->
+            <div id="register-div" class="hide">
+                <div class="input">
+                    <label>Repeat Password:</label>
+                    <input type="password" id="password-repeat" />
+                </div>
+                <div class="input">
+                    <label>Email:</label>
+                    <input type="text" id="email" />
+                </div>
+            </div>
+            <div class="input">
+                <input type="button" id="login" value="Login" class="submit left"/>
+                <input type="button" id="register" value="Register" class="submit right"/>
+            </div>
+        </form>
+    </div>
+    <!-- List of saved forms. Hidden until user logs in -->
+    <div class="hide" id="saved-forms-div">
+        <form action="">
+            <div class="input">
+                <label>Saved Forms:</label>
+                <select id="saved-forms">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                </select>
+            </div>
+            <div class="input">
+                <input type="button" class="submit" value="Open Form" />
+            </div>
+        </form>
+    </div>
     <script type="text/javascript">
+
+        //When register is clicked, register inputs are shown
         $("#register").click(function () {
             $("#register-div").slideToggle('slow');
+        });
+
+        //Shows saved forms after login
+        $("#login").click(function () {
+            //Need to validate here
+
+            $("#login-div").slideUp(function () {
+                $("#saved-forms-div").slideDown();
+            });
         });
     </script>
 </div>
