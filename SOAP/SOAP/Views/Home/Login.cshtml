@@ -2,4 +2,34 @@
     ViewBag.Title = "Login";
 }
 
-
+<div class="center" style="width:50%">
+    <form action="">
+        <div class="input">
+            <label>Username:</label>
+            <input type="text" id="username" />
+        </div>
+        <div class="input">
+            <label>Password:</label>
+            <input type="text" id="password" />
+        </div>
+        <div id="register-div" class="hide">
+            <div class="input">
+                <label>Repeat Password:</label>
+                <input type="text" id="password-repeat" />
+            </div>
+            <div class="input">
+                <label>Email:</label>
+                <input type="text" id="email" />
+            </div>
+        </div>
+        <div class="input">
+            <input type="button" value="Login" class="submit left"/>
+            <input type="button" id="register" value="Register" class="submit right"/>
+        </div>
+    </form>
+    <script type="text/javascript">
+        $("#register").click(function () {
+            $("#register-div").slideToggle('slow');
+        });
+    </script>
+</div>
