@@ -172,7 +172,7 @@ form div.input label
     padding: 8px;
 }
 
-form div.input input[type=text], form div.input textarea {
+form div.input input[type=text], form div.input input[type=password], form div.input textarea {
   transition: all 0.30s ease-in-out;
   -webkit-transition: all 0.30s ease-in-out;
   -moz-transition: all 0.30s ease-in-out;
@@ -184,7 +184,7 @@ form div.input input[type=text], form div.input textarea {
   width: 50%;
 }
 
-form div.input input[type=text]:focus, form div.input textarea:focus {
+form div.input input[type=text]:focus, form div.input textarea:focus, form div.input input[type=password]:focus {
   box-shadow: 0 0 5px red;
   border: 1px solid red;
 }
