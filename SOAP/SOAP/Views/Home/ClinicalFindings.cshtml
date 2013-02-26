@@ -7,15 +7,15 @@
                 <div class="left half">
                 <div class="input">
 			       <label>Temperature (Fahrenheit):</label>
-                   <input type="text" name="Temp" class="inline"/>
+                   <input type="text" name="Temp" class="inline" id="Patient.ClinicalFindings.Temperature"/>
                 </div>
                 <div class="input">
 			       <label>Pulse Rate (bpm):</label>
-                   <input type="text" name="Pulse" class="inline"/>
+                   <input type="text" name="Pulse" class="inline" id="Patient.ClinicalFindings.PulseRate"/>
                 </div> 
                 <div class="input">
                     <label>Cardiac Auscultation: </label>
-                    <select name="Cardiac">
+                    <select name="Cardiac"  id="Patient.ClinicalFindings.CardiacAuscultation">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -24,7 +24,7 @@
                 </div>
                 <div class="input">
                     <label>Pulse Quality: </label>
-                    <select name="PulseQuality">
+                    <select name="PulseQuality" id="Patient.ClinicalFindings.PulseQuality">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -33,7 +33,7 @@
                 </div>
                 <div class="input">
                     <label>Capillary Refill Time: </label>
-                    <select name="PulseQuality">
+                    <select name="PulseQuality" id="Patient.ClinicalFindings.CapillaryRefillTime">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -42,7 +42,7 @@
                 </div>
                 <div class="input">
                     <label>Respiratory Auscultation: </label>
-                    <select name="Respitory">
+                    <select name="Respitory" id="Patient.ClinicalFindings.RespiratoryAuscultationId">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="input">
                     <label>Physical Status Classification: </label>
-                    <select name="Status">
+                    <select name="Status" id="Patient.ClinicalFindings.PhysicalStatusClass">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -59,65 +59,65 @@
 					</select>
                 </div>
                 <div class="input">
-                    <input type="text" name="Pulse" class="inline" id="Reason"/>
-                    <label id="Reason">Reason:</label>
+                    <input type="text" name="Pulse" class="inline" id="Patient.ClinicalFindings.ReasonForClassification"/>
+                    <label id="Patient.ClinicalFindings.ReasonForClassification">Reason:</label>
                 </div>
                                                                                                                               
                 </div>
                 <div class="right half">
                  <div class="input">
                     <label>Prior Anesthesia</label>
-                    <input type="radio" id="prior1" name="Prior" value="PriorYes" class="radio"/>
-                    <label for="prior1" class="radio">Yes</label>
-                    <input type="radio" id="prior2" name="Prior" value="PriorNo" class="radio"/>
-                    <label for="prior2" class="radio">No</label>
+                    <input type="radio" name="Prior" value="PriorYes" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.Yes"/>
+                    <label for="Patient.ClinicalFindings.PriorAnesthesia.Yes" class="radio">Yes</label>
+                    <input type="radio"  name="Prior" value="PriorNo" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No"/>
+                    <label for="Patient.ClinicalFindings.PriorAnesthesia.No" class="radio">No</label>
                 </div> 
                 <div class="input">
 			       <label>Date(dd/mm/yyyy):</label>
-                   <input type="text" name="Date" class="inline"/>
+                   <input type="text" name="Date" class="inline"id="Patient.ClinicalFindings.Date"/>
                 </div>
                 <div class="input">
 			       <label>Problems:</label>
-                   <input type="text" name="Problems" class="inline"/>
+                   <input type="text" name="Problems" class="inline"id="Patient.ClinicalFindings.Problems"/>
                 </div>
                 <div class="input">
                 <label>Concerns:</label>
-                    <input type="checkbox" id="concerns-1" name="concerns" value="anemia" class="checkbox"/>
-                    <label for="concerns-1" class="checkbox">Anemia</label>
-                    <input type="checkbox" id="concerns-2" name="concerns" value="hypop" class="checkbox"/>
-                    <label for="concerns-2" class="checkbox">Hypoproteinmia</label>
-                    <input type="checkbox" id="concerns-3" name="concerns" value="azo" class="checkbox"/>
-                    <label for="concerns-3" class="checkbox">Azotemia</label>
-                    <input type="checkbox" id="concerns-4" name="concerns" value="hypov" class="checkbox"/>
-                    <label for="concerns-4" class="checkbox">Hypovolemia</label>
-                    <input type="checkbox" id="concerns-5" name="concerns" value="hypog" class="checkbox"/>
-                    <label for="concerns-5" class="checkbox">Hypoglycemia</label>
-                    <input type="checkbox" id="concerns-6" name="concerns" value="arry" class="checkbox"/>
-                    <label for="concerns-6" class="checkbox">Arrythmia</label>
-                    <input type="checkbox" id="concerns-7" name="concerns" value="hypot" class="checkbox"/>
-                    <label for="concerns-7" class="checkbox">Hypotension</label>
-                    <input type="checkbox" id="concerns-8" name="concerns" value="hypox" class="checkbox"/>
-                    <label for="concerns-8" class="checkbox">Hypoxemia</label>
-                    <input type="checkbox" id="concerns-9" name="concerns" value="diffIn" class="checkbox"/>
-                    <label for="concerns-9" class="checkbox">Difficult Intubation</label>
-                    <input type="checkbox" id="concerns-10" name="concerns" value="pain" class="checkbox"/>
-                    <label for="concerns-10" class="checkbox">Pain</label>
-                    <input type="checkbox" id="concerns-11" name="concerns" value="hypoven" class="checkbox"/>
-                    <label for="concerns-11" class="checkbox">Hypoventilation</label>
-                    <input type="checkbox" id="concerns-12" name="concerns" value="hypother" class="checkbox"/>
-                    <label for="concerns-12" class="checkbox">Hypothermia</label>
-                    <input type="checkbox" id="concerns-13" name="concerns" value="bloat" class="checkbox"/>
-                    <label for="concerns-13" class="checkbox">Bloat</label>
-                    <input type="checkbox" id="concerns-14" name="concerns" value="vomit" class="checkbox"/>
-                    <label for="concerns-14" class="checkbox">Vomiting</label>
-                    <input type="checkbox" id="concerns-15" name="concerns" value="drugMet" class="checkbox"/>
-                    <label for="concerns-15" class="checkbox">Drug Metabolism</label>
-                    <input type="checkbox" id="concerns-16" name="concerns" value="blood" class="checkbox"/>
-                    <label for="concerns-16" class="checkbox">Blood Loss</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Anemia" name="concerns" value="anemia" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Anemia" class="checkbox">Anemia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoproteinmia" name="concerns" value="hypop" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoproteinmia" class="checkbox">Hypoproteinmia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Azotemia" name="concerns" value="azo" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Azotemia" class="checkbox">Azotemia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypovolemia" name="concerns" value="hypov" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypovolemia" class="checkbox">Hypovolemia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoglycemia" name="concerns" value="hypog" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoglycemia" class="checkbox">Hypoglycemia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Arrythmia" name="concerns" value="arry" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Arrythmia" class="checkbox">Arrythmia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypotension" name="concerns" value="hypot" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypotension" class="checkbox">Hypotension</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoxemia" name="concerns" value="hypox" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoxemia" class="checkbox">Hypoxemia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.DifficultIntubation" name="concerns" value="diffIn" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.DifficultIntubation" class="checkbox">Difficult Intubation</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Pain" name="concerns" value="pain" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Pain" class="checkbox">Pain</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoventilation" name="concerns" value="hypoven" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypoventilation" class="checkbox">Hypoventilation</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Hypothermia" name="concerns" value="hypother" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Hypothermia" class="checkbox">Hypothermia</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Bloat" name="concerns" value="bloat" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Bloat" class="checkbox">Bloat</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.Vomiting" name="concerns" value="vomit" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.Vomiting" class="checkbox">Vomiting</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.DrugMetabolism" name="concerns" value="drugMet" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.DrugMetabolism" class="checkbox">Drug Metabolism</label>
+                    <input type="checkbox" id="Patient.ClinicalFindings.AnesthesiaConcerns.BloodLoss" name="concerns" value="blood" class="checkbox"/>
+                    <label for="Patient.ClinicalFindings.AnesthesiaConcerns.BloodLoss" class="checkbox">Blood Loss</label>
                 </div>
                 <div class="input">
                     <label>Current Medications: </label>
-                    <select multiple name="CurrentMeds">
+                    <select multiple name="CurrentMeds" "Patient.ClinicalFindings.CurrentMedications">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
