@@ -8,15 +8,13 @@ namespace SOAP.Models
         private int _patientId;
         private ASFUser _student;
         private ASFUser _clinician;
-        private DropdownValue _temperament;
         private char _formCompleted;
-        private DateTime _dateSeenOn;
-        private int _cageOrStallNumber;
-        private decimal _bodyWeight;
-        private int _ageInYears;
-        private int _ageInMonths;
+        private PatientInformation _patientInfo;
         private ClinicalFindings _clinicalFindings;
+        private List<Bloodwork> _bloodworkGroup;
         private AnestheticPlan _anestheticPlan;
+        private Maintenance _maintenance;
+        private List<Monitoring> _monitoring;
 
         public int PatientId
         {
@@ -36,46 +34,16 @@ namespace SOAP.Models
             set { _clinician = value; }
         }
 
-        public DropdownValue Temperament
-        {
-            get { return _temperament; }
-            set { _temperament = value; }
-        }
-
         public char FormCompleted
         {
             get { return _formCompleted; }
             set { _formCompleted = value; }
         }
 
-        public DateTime DateSeenOn
+        public PatientInformation PatientInfo
         {
-            get { return _dateSeenOn; }
-            set { _dateSeenOn = value; }
-        }
-
-        public int CageOrStallNumber
-        {
-            get { return _cageOrStallNumber; }
-            set { _cageOrStallNumber = value; }
-        }
-
-        public decimal BodyWeight
-        {
-            get { return _bodyWeight; }
-            set { _bodyWeight = value; }
-        }
-
-        public int AgeInYears
-        {
-            get { return _ageInYears; }
-            set { _ageInYears = value; }
-        }
-
-        public int AgeInMonths
-        {
-            get { return _ageInMonths; }
-            set { _ageInMonths = value; }
+            get { return _patientInfo; }
+            set { _patientInfo = value; }
         }
 
         public ClinicalFindings ClinicalFindings
@@ -84,10 +52,28 @@ namespace SOAP.Models
             set { _clinicalFindings = value; }
         }
 
+        public List<Bloodwork> BloodworkGroup
+        {
+            get { return _bloodworkGroup; }
+            set { _bloodworkGroup = value; }
+        }
+
         public AnestheticPlan AnestheticPlan
         {
             get { return _anestheticPlan; }
             set { _anestheticPlan = value; }
+        }
+
+        public Maintenance Maintenance
+        {
+            get { return _maintenance; }
+            set { _maintenance = value; }
+        }
+
+        public List<Monitoring> Monitoring
+        {
+            get { return _monitoring; }
+            set { _monitoring = value; }
         }
 
         public Patient()

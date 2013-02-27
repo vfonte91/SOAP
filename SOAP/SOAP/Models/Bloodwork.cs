@@ -10,6 +10,11 @@ namespace SOAP.Models
         private DropdownValue _bloodworkInfo;
         private decimal _value;
 
+        public enum LazyComponents
+        {
+            LOAD_BLOODWORK_INFO
+        };
+
         public int Id
         {
             get { return _id; }

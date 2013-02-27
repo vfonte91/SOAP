@@ -180,7 +180,11 @@
     <Compile Include="Models\Bloodwork.cs" />
     <Compile Include="Models\Callbacks\AdministrationSetCallback.cs" />
     <Compile Include="Models\Callbacks\AnestheticConcernCallback.cs" />
+    <Compile Include="Models\Callbacks\AnestheticPlanInhalantCallback.cs" />
     <Compile Include="Models\Callbacks\AnestheticPlanInjectionCallback.cs" />
+    <Compile Include="Models\Callbacks\AnestheticPlanPremedicationCallback.cs" />
+    <Compile Include="Models\Callbacks\BloodworkCallback.cs" />
+    <Compile Include="Models\Callbacks\ClinicalFindingsCallback.cs" />
     <Compile Include="Models\ClinicalFindings.cs" />
     <Compile Include="Models\CurrentMedication.cs" />
     <Compile Include="Models\DropdownCategory.cs" />
@@ -188,11 +192,13 @@
     <Compile Include="Models\DrugInformation.cs" />
     <Compile Include="Models\IntraoperativeAnalgesia.cs" />
     <Compile Include="Models\IVFluidType.cs" />
+    <Compile Include="Models\Maintenance.cs" />
     <Compile Include="Models\MaintenanceInhalantDrug.cs" />
     <Compile Include="Models\MaintenanceInjectionDrug.cs" />
     <Compile Include="Models\Monitoring.cs" />
     <Compile Include="Models\OtherAnestheticDrug.cs" />
     <Compile Include="Models\Patient.cs" />
+    <Compile Include="Models\PatientInformation.cs" />
     <Compile Include="Models\PriorAnesthesia.cs" />
     <Compile Include="Models\Procedure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

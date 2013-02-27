@@ -11,6 +11,11 @@ namespace SOAP.Models
         private decimal _flowRate;
         private DrugInformation _drug;
 
+        public enum LazyComponents
+        {
+            LOAD_DRUG_INFORMATION
+        };
+
         public int Id
         {
             get { return _id; }

@@ -7,8 +7,6 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private DropdownValue _preOperationPainAssessment;
-        private DropdownValue _postOperationPainAssessment;
         private decimal _temperature;
         private decimal _pulseRate;
         private decimal _respiratoryRate;
@@ -17,12 +15,19 @@ namespace SOAP.Models
         private string _mucousMembraneColor;
         private decimal _capillaryRefillTime;
         private DropdownValue _respiratoryAuscultation;
-        private DropdownValue _physicalStatusClass;
+        private DropdownValue _physicalStatusClassification;
         private string _reasonForClassification;
         private List<CurrentMedication> _currentMedications;
-        private List<Bloodwork> _bloodwork;
         private List<PriorAnesthesia> _priorAnesthesia;
         private List<AnesthesiaConcern> _anesthesiaConcerns;
+
+        public enum LazyComponents
+        {
+            LOAD_CARDIAC_WITH_DETAILS,
+            LOAD_PULSE_QUALITY_WITH_DETAILS,
+            LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS,
+            LOAD_PHYSICAL_STATUS_WITH_DETAILS
+        }
 
         public int Id
         {
@@ -34,18 +39,6 @@ namespace SOAP.Models
         {
             get { return _patientId; }
             set { _patientId = value; }
-        }
-
-        public DropdownValue PreOperationPainAssessment
-        {
-            get { return _preOperationPainAssessment; }
-            set { _preOperationPainAssessment = value; }
-        }
-
-        public DropdownValue PostOperationPainAssessment
-        {
-            get { return _postOperationPainAssessment; }
-            set { _postOperationPainAssessment = value; }
         }
 
         public decimal Temperature
@@ -90,16 +83,16 @@ namespace SOAP.Models
             set { _capillaryRefillTime = value; }
         }
 
-        public DropdownValue RespiratoryAuscultationId
+        public DropdownValue RespiratoryAuscultation
         {
             get { return _respiratoryAuscultation; }
             set { _respiratoryAuscultation = value; }
         }
 
-        public DropdownValue PhysicalStatusClass
+        public DropdownValue PhysicalStatusClassification
         {
-            get { return _physicalStatusClass; }
-            set { _physicalStatusClass = value; }
+            get { return _physicalStatusClassification; }
+            set { _physicalStatusClassification = value; }
         }
 
         public string ReasonForClassification
@@ -112,12 +105,6 @@ namespace SOAP.Models
         {
             get { return _currentMedications; }
             set { _currentMedications = value; }
-        }
-
-        public List<Bloodwork> Bloodwork
-        {
-            get { return _bloodwork; }
-            set { _bloodwork = value; }
         }
 
         public List<PriorAnesthesia> PriorAnesthesia
@@ -136,8 +123,8 @@ namespace SOAP.Models
         {
             _id = -1;
             _currentMedications = new List<CurrentMedication>();
-            _bloodwork = new List<Bloodwork>();
             _priorAnesthesia = new List<PriorAnesthesia>();
+            _anesthesiaConcerns = new List<AnesthesiaConcern>();
         }
 
         public bool ValidateClinicalFindings()
