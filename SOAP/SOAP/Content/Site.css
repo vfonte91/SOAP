@@ -28,6 +28,9 @@ body
 .half {     width: 50%; }
 .hide {     display:none; }
 
+a:link, a:visited {
+    text-decoration:none;
+}
 
 #top 
 {
@@ -58,6 +61,21 @@ body
 {
     color:White;
 	margin:15px;
+}
+
+#user-info a.edit-profile{}
+
+#user-info a.edit-profile span {
+    background-image:url('../Images/toggle_down_light.png');
+    background-repeat:no-repeat;
+    background-position:100% 50%;
+    padding:4px 16px 6px 0;
+}
+
+#user-info a.menu-open {}
+
+#user-info a.edit-profile.menu-open span {
+    background-image:url("../Images/toggle_up_dark.png");
 }
 
 #profile-menu {

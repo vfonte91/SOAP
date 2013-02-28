@@ -81,7 +81,8 @@
             addValue($this.attr('name'), $this.attr('id'), $this.val());
         });
 
-        $("#edit-profile-div").click(function () {
-            $("#profile-menu").slideToggle("slow");
+        $("#edit-profile-button").click(function () {
+            $("#profile-menu").slideToggle("slow")
+            $("#edit-profile-button").toggleClass("menu-open");
         });
     </script>
