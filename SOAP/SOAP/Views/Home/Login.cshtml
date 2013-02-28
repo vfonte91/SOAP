@@ -47,26 +47,4 @@
             </div>
         </form>
     </div>
-    <script type="text/javascript">
-
-        //When register is clicked, register inputs are shown
-        $("#register").click(function () {
-            if(!$("#register-div").is(":visible")) {
-                $("#register-div").slideDown('slow');
-             }
-             else {
-                //Register user here
-             }
-        });
-
-        //Shows saved forms after login
-        $("#login").click(function () {
-            //Need to validate here
-
-            $("#thumbs a.disabled").removeClass("disabled");
-            $("#login-div").slideUp(function () {
-                $("#saved-forms-div").slideDown();
-            });
-        });
-    </script>
 </div>
