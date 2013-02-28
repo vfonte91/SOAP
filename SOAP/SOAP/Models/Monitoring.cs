@@ -34,7 +34,7 @@ namespace SOAP.Models
 
         public bool ValidateMonitoring()
         {
-            if (_id == 0 || _patientId == 0 || _equipment.Id == 0)
+            if (_id == 0 || _patientId == 0 ||_equipment.Id == 0)
                 return false;
             else
                 return true;

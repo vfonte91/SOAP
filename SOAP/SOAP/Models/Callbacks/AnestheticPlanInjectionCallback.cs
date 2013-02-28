@@ -25,7 +25,7 @@ namespace SOAP.Models.Callbacks
                     anesPlanInject.Route.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     anesPlanInject.Route.Label = read["c.Description"].ToString();
                 }
-                if (a == AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION)
+                else if (a == AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION)
                 {
                     anesPlanInject.Drug.Drug.Category.Id = Convert.ToInt16(read["d.CategoryId"].ToString());
                     anesPlanInject.Drug.Drug.Label = read["d.Label"].ToString();

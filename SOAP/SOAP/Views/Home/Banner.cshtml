@@ -5,7 +5,29 @@
 <div id="top-wrap">
     <div id="title"><p>Ohio State Anesthesia SOAP Plan</p></div>
     <div id="user-info">
-        <div id="user-name">Brutus.1</div>
-        <div id="sign-out"><a href="#" >Sign Out</a></div>
+        <span id="user-name">Brutus.1</span>
+        <span id="sign-out">Sign Out</span>
+        <span>
+            <a href="#" id="edit-profile-button" class="edit-profile"><span>Edit Profile</span></a>
+        </span>
     </div>
+    <fieldset id="profile-menu" style="display: none;">
+        <form method="post" id="edit-profile" action="">
+            <p>
+			    <label>First Name</label>
+                <input type="text" name="FName">
+            </p>
+            <p>
+                <label>Last Name</label>
+                <input type="text" name="LName">
+            </p>
+            <p>
+                <label>Email </label>
+                <input type="text" name="email">
+            </p>
+            <p>
+                <input id="edit-profile-submit" value="Edit" type="button">
+            </p>
+        </form>
+    </fieldset>
 </div>

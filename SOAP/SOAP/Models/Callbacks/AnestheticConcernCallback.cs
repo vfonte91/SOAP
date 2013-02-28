@@ -12,7 +12,7 @@ namespace SOAP.Models.Callbacks
             AnesthesiaConcern anestheticConcern = new AnesthesiaConcern();
             anestheticConcern.Id = Convert.ToInt32(read["a.Id"]);
             anestheticConcern.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            anestheticConcern.Concern.Id = Convert.ToInt16(read["a.Id"].ToString());
+            anestheticConcern.Concern.Id = Convert.ToInt16(read["a.ConcernId"].ToString());
 
             foreach (AnesthesiaConcern.LazyComponents a in lazyComponents)
             {

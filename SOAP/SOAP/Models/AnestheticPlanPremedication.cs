@@ -13,6 +13,12 @@ namespace SOAP.Models
         private DropdownValue _route;
         private decimal _dosage;
 
+        public enum LazyComponents
+        {
+            LOAD_ROUTE_WITH_DETAILS,
+            LOAD_DRUG_WITH_DETAILS
+        };
+
         public int Id
         {
             get { return _id; }
