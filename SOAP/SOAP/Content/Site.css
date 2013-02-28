@@ -32,6 +32,21 @@ a:link, a:visited {
     text-decoration:none;
 }
 
+
+input[type=button] {
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    background: #d61515 repeat-x scroll 0 0;
+    border: 1px solid #d61515;
+    color: #fff;
+    text-shadow: 0 -1px 0 #d61515;
+    padding: 4px 10px 5px;
+    font-size: 11px;
+    margin: 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 #top 
 {
     height:34px;
@@ -51,11 +66,13 @@ a:link, a:visited {
 {
     float: left;
 	color: White;
+    font-weight: bold;
 }
 #user-info     
 {
     float:right;
     margin-top: 15px;
+    font-weight: bold;
 }
 #user-info span
 {
@@ -66,16 +83,16 @@ a:link, a:visited {
 #user-info a.edit-profile{}
 
 #user-info a.edit-profile span {
-    background-image:url('../Images/toggle_down_light.png');
+    background-image:url('../Images/arrow_down.png');
     background-repeat:no-repeat;
     background-position:100% 50%;
-    padding:4px 16px 6px 0;
+    padding:4px 18px 6px 0;
 }
 
 #user-info a.menu-open {}
 
 #user-info a.edit-profile.menu-open span {
-    background-image:url("../Images/toggle_up_dark.png");
+    background-image:url("../Images/arrow_up.png");
 }
 
 #profile-menu {
@@ -123,21 +140,6 @@ a:link, a:visited {
 #profile-menu p a {
     color:#27B!important;
 }
-#edit-profile-submit {
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    background: #d61515 repeat-x scroll 0 0;
-    border: 1px solid #d61515;
-    color: #fff;
-    text-shadow: 0 -1px 0 #d61515;
-    padding: 4px 10px 5px;
-    font-size: 11px;
-    margin: 0 5px 0 0;
-    font-weight: bold;
-}
-#edit-profile-submit:hover, #edit-profile-submit:focus {
-    cursor:pointer;
-}
 
 /* container for tab navigation and content*/
 div#tabs {
@@ -181,7 +183,7 @@ div.navi{
  #thumbs  {
 	margin-left: auto;
 	margin-right: auto;
-	width: 1000px;
+	width: 816px;
 }
 
 /* tabs link */
