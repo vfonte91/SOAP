@@ -12,7 +12,7 @@ html
 
 body
 {
-    font-family: "Lucida Grande",Avant Garde, Helvetica, Sans-Serif;
+    font-family: "Segoe UI", "Lucida Grande",Avant Garde, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
     background-color: #383636;
@@ -32,10 +32,10 @@ a:link, a:visited {
     text-decoration:none;
 }
 
-
 input[type=button] {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+    border-radius: 4px;
     background: #d61515 repeat-x scroll 0 0;
     border: 1px solid #d61515;
     color: #fff;
@@ -102,6 +102,9 @@ input[type=button] {
     -webkit-border-top-left-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -webkit-border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     display: none;
     background-color: #f4f4f4;
     position: absolute;
@@ -122,6 +125,7 @@ input[type=button] {
     display:block;
     -moz-border-radius:4px;
     -webkit-border-radius:4px;
+    border-radius:4px;
     border:1px solid rgb(180, 180, 180);
     font-size:13px;
     margin:0 0 5px;
@@ -153,6 +157,7 @@ div#tabs {
 	margin-top: 20px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	background-color:#f9f9f9;
 }
 
