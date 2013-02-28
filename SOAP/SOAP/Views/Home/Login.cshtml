@@ -51,7 +51,12 @@
 
         //When register is clicked, register inputs are shown
         $("#register").click(function () {
-            $("#register-div").slideToggle('slow');
+            if(!$("#register-div").is(":visible")) {
+                $("#register-div").slideDown('slow');
+             }
+             else {
+                //Register user here
+             }
         });
 
         //Shows saved forms after login
