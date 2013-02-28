@@ -1,12 +1,15 @@
 ﻿@{
     ViewBag.Title = "Anesthesia SOAP";
 }
-    <div id="top">
-        @RenderPage("~/Views/Home/Banner.cshtml") 
-    </div>
+
+<!-- Banner bar -->
+<div id="top">
+    @RenderPage("~/Views/Home/Banner.cshtml") 
+</div>
+
+<!-- content -->
 <div id="tabs">
-    <!-- scrollable navigator root element -->
-    <!-- Page 0: welcome and emergency dosages -->
+    <!-- Welcome -->
 	<div id="tab-1" class="item">
         @RenderPage("~/Views/Home/Welcome.cshtml") 
     </div>	
@@ -44,7 +47,7 @@
 </div>
 <div class="navi">
     <div id="thumbs">
-		<a id="t1" nav="tab-1" class="active"><div>Home</div></a>
+        <a id="t1" nav="tab-1" class="active"><div>Home</div></a>
 		<a id="t2" nav="tab-2" class="not-active"><div>Emergency Dosage</div></a>
 		<a id="t3" nav="tab-3" class="not-active disabled"><div>Patient Information</div></a>
 		<a id="t4" nav="tab-4" class="not-active disabled"><div>Clinical Findings</div></a>
