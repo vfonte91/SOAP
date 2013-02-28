@@ -61,7 +61,8 @@
 	</div>
 </div>
     <script type="text/javascript">
-
+       // tooltip does not work for <option>
+       // $(document).tooltip();
         $('#thumbs a.not-active').each(function () {
             var tabContent = $(this).attr('nav');
             $('#' + tabContent).css('display', 'none');
@@ -75,9 +76,14 @@
                 // switch this tab on
                 $(this).addClass("active");
                 var currentContent = $('a.active').attr('nav');
-                $('#' + prevContent).hide('slide',function() {
-                    $('#' + currentContent).show('slide');            
+                $('#' + prevContent).hide('slide', function () {
+                    $('#' + currentContent).show('slide');
                 });
             }
+        });
+
+        $("input").blur(function () {
+            $this = $(this);
+            addValue($this.attr('name'), $this.attr('id'), $this.val());
         });
     </script>
