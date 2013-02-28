@@ -16,34 +16,29 @@
         @RenderPage("~/Views/Home/EmergencyDosage.cshtml")
 	</div>
 
-	<!-- Profile -->
-	<div id="tab-3" class="item">
-        @RenderPage("~/Views/Home/Profile.cshtml")
-	</div>
-
 	<!-- Patient Information -->
-	<div id="tab-4" class="item">
+	<div id="tab-3" class="item">
         @RenderPage("~/Views/Home/PatientInfo.cshtml")
 	</div>
 
 	<!--  Clinical findings -->
-	<div id="tab-5" class="item">
+	<div id="tab-4" class="item">
         @RenderPage("~/Views/Home/ClinicalFindings.cshtml")
 	</div>
 
 	<!-- Bloodwork -->
-	<div id="tab-6" class="item">
+	<div id="tab-5" class="item">
         @RenderPage("~/Views/Home/BloodWork.cshtml")
 	</div>
     <!---- Anesthetic PLan---->
-    <div id="tab-7" class="item">
+    <div id="tab-6" class="item">
         @RenderPage("~/Views/Home/AnestheticPlan.cshtml")
     </div>
 
-    <div id="tab-8" class="item">
+    <div id="tab-7" class="item">
         @RenderPage("~/Views/Home/Maintenance.cshtml")
     </div>
-    <div id="tab-9" class="item">
+    <div id="tab-8" class="item">
         @RenderPage("~/Views/Home/Monitoring.cshtml")
     </div>
 </div>
@@ -51,13 +46,12 @@
     <div id="thumbs">
 		<a id="t1" nav="tab-1" class="active"><div>Home</div></a>
 		<a id="t2" nav="tab-2" class="not-active"><div>Emergency Dosage</div></a>
-		<a id="t2" nav="tab-3" class="not-active disabled"><div>Anesthetist Profile</div></a>
-		<a id="t3" nav="tab-4" class="not-active disabled"><div>Patient Information</div></a>
-		<a id="t4" nav="tab-5" class="not-active disabled"><div>Clinical Findings</div></a>
-		<a id="t5" nav="tab-6" class="not-active disabled"><div>Blood Work</div></a>
-        <a id="t6" nav="tab-7" class="not-active disabled"><div>Anesthesia Plan</div></a>
-        <a id="t7" nav="tab-8" class="not-active disabled"><div>Maintenance</div></a>
-        <a id="t8" nav="tab-9" class="not-active disabled"><div>Monitoring</div></a>
+		<a id="t3" nav="tab-3" class="not-active disabled"><div>Patient Information</div></a>
+		<a id="t4" nav="tab-4" class="not-active disabled"><div>Clinical Findings</div></a>
+		<a id="t5" nav="tab-5" class="not-active disabled"><div>Blood Work</div></a>
+        <a id="t6" nav="tab-6" class="not-active disabled"><div>Anesthesia Plan</div></a>
+        <a id="t7" nav="tab-7" class="not-active disabled"><div>Maintenance</div></a>
+        <a id="t8" nav="tab-8" class="not-active disabled"><div>Monitoring</div></a>
 	</div>
 </div>
     <script type="text/javascript">
@@ -85,5 +79,9 @@
         $("input").blur(function () {
             $this = $(this);
             addValue($this.attr('name'), $this.attr('id'), $this.val());
+        });
+
+        $("#edit-profile-div").click(function () {
+            $("#profile-menu").slideToggle("slow");
         });
     </script>
