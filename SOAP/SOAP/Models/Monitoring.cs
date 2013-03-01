@@ -9,6 +9,11 @@ namespace SOAP.Models
         private int _patientId;
         private DropdownValue _equipment;
 
+        public enum LazyComponents
+        {
+            LOAD_EQUIPMENT_WITH_DETAIL
+        };
+
         public int Id
         {
             get { return _id; }

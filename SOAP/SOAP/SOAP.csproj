@@ -166,6 +166,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\Service.cs" />
     <Compile Include="Controllers\ServiceAdo.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -177,6 +178,7 @@
     <Compile Include="Models\AnestheticPlanInjection.cs" />
     <Compile Include="Models\AnestheticPlanPremedication.cs" />
     <Compile Include="Models\ASFUser.cs" />
+    <Compile Include="Models\ASPNETMembership.cs" />
     <Compile Include="Models\Bloodwork.cs" />
     <Compile Include="Models\Callbacks\AdministrationSetCallback.cs" />
     <Compile Include="Models\Callbacks\AnestheticConcernCallback.cs" />
@@ -185,6 +187,18 @@
     <Compile Include="Models\Callbacks\AnestheticPlanPremedicationCallback.cs" />
     <Compile Include="Models\Callbacks\BloodworkCallback.cs" />
     <Compile Include="Models\Callbacks\ClinicalFindingsCallback.cs" />
+    <Compile Include="Models\Callbacks\CurrentMedicationCallback.cs" />
+    <Compile Include="Models\Callbacks\DropdownCategoryCallback.cs" />
+    <Compile Include="Models\Callbacks\DropdownValueCallback.cs" />
+    <Compile Include="Models\Callbacks\IntraoperativeAnalgesiaCallback.cs" />
+    <Compile Include="Models\Callbacks\IVFluidTypeCallback.cs" />
+    <Compile Include="Models\Callbacks\MaintenanceInhalantDrugCallback.cs" />
+    <Compile Include="Models\Callbacks\MaintenanceInjectionDrugCallback.cs" />
+    <Compile Include="Models\Callbacks\MonitoringCallback.cs" />
+    <Compile Include="Models\Callbacks\OtherAnestheticDrugCallback.cs" />
+    <Compile Include="Models\Callbacks\PatientInformationCallback.cs" />
+    <Compile Include="Models\Callbacks\PriorAnesthesiaCallback.cs" />
+    <Compile Include="Models\Callbacks\ProcedureCallback.cs" />
     <Compile Include="Models\ClinicalFindings.cs" />
     <Compile Include="Models\CurrentMedication.cs" />
     <Compile Include="Models\DropdownCategory.cs" />

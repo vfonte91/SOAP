@@ -5,15 +5,27 @@ namespace SOAP.Models
 {
     public class ASFUser
     {
-        private int _userId;
+        private Guid _userId;
+        private ASPNETMembership _membershipInfo;
         private string _username;
         private string _fullName;
         private string _emailAddress;
 
-        public int UserId
+        public enum LazyComponents
+        {
+            LOAD_MEMBERSHIP_INFO
+        };
+
+        public Guid UserId
         {
             get { return _userId; }
             set { _userId = value; }
+        }
+
+        public ASPNETMembership MembershipInfo
+        {
+            get { return _membershipInfo; }
+            set { _membershipInfo = value; }
         }
 
         public string Username
@@ -36,12 +48,11 @@ namespace SOAP.Models
 
         public ASFUser()
         {
-            _userId = -1;
         }
 
         public bool ValidateASFUser()
         {
-            if (_userId == 0 || _username == null || _fullName == null)
+            if (_username == null || _fullName == null)
                 return false;
             else
                 return true;

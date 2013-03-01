@@ -6,6 +6,9 @@ namespace SOAP.Models
     public class PatientInformation
     {
         private int _patientId;
+        private ASFUser _student;
+        private ASFUser _clinician;
+        private char _formCompleted;
         private Procedure _procedure;
         private decimal _bodyWeight;
         private DropdownValue _temperament;
@@ -16,10 +19,37 @@ namespace SOAP.Models
         private DropdownValue _preOperationPainAssessment;
         private DropdownValue _postOperationPainAssessment;
 
+        public enum LazyComponents
+        {
+            LOAD_STUDENT_DETAIL,
+            LOAD_CLINICIAN_DETAIL,
+            LOAD_TEMPERAMENT_DETAIL,
+            LOAD_PREOP_PAIN_DETAIL,
+            LOAD_POSTOP_PAIN_DETAIL
+        };
+
         public int PatientId
         {
             get { return _patientId; }
             set { _patientId = value; }
+        }
+
+        public ASFUser Student
+        {
+            get { return _student; }
+            set { _student = value; }
+        }
+
+        public ASFUser Clinician
+        {
+            get { return _clinician; }
+            set { _clinician = value; }
+        }
+
+        public char FormCompleted
+        {
+            get { return _formCompleted; }
+            set { _formCompleted = value; }
         }
 
         public Procedure Procedure
