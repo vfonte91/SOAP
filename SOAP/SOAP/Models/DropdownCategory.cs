@@ -10,6 +10,11 @@ namespace SOAP.Models
         private string _longName;
         private List<DropdownValue> _dropDownValues;
 
+        public enum LazyComponents
+        {
+            LOAD_DROPDOWN_VALUES
+        };
+
         public int Id
         {
             get { return _id; }

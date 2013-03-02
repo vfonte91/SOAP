@@ -6,9 +6,6 @@ namespace SOAP.Models
     public class Patient
     {
         private int _patientId;
-        private ASFUser _student;
-        private ASFUser _clinician;
-        private char _formCompleted;
         private PatientInformation _patientInfo;
         private ClinicalFindings _clinicalFindings;
         private List<Bloodwork> _bloodworkGroup;
@@ -20,24 +17,6 @@ namespace SOAP.Models
         {
             get { return _patientId; }
             set { _patientId = value; }
-        }
-
-        public ASFUser Student
-        {
-            get { return _student; }
-            set { _student = value; }
-        }
-
-        public ASFUser Clinician
-        {
-            get { return _clinician; }
-            set { _clinician = value; }
-        }
-
-        public char FormCompleted
-        {
-            get { return _formCompleted; }
-            set { _formCompleted = value; }
         }
 
         public PatientInformation PatientInfo
@@ -79,12 +58,11 @@ namespace SOAP.Models
         public Patient()
         {
             _patientId = -1;
-            _formCompleted = 'N';
         }
 
         public bool ValidatePatient()
         {
-            if (_patientId == 0 || _student.UserId == 0 || _clinician.UserId == 0)
+            if (_patientId == 0)
                 return false;
             else
                 return true;

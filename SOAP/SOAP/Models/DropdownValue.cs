@@ -11,6 +11,11 @@ namespace SOAP.Models
         private char _otherFlag;
         private string _description;
 
+        public enum LazyComponents
+        {
+            LOAD_DROPDOWN_CATEGORY
+        };
+
         public int Id
         {
             get { return _id; }
