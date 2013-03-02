@@ -67,12 +67,12 @@ input[type=button] {
     float: left;
 	color: #fff;
     font-weight: bold;
-    margin-top: 12px;
+    margin-top: 10px;
 }
 #user-info     
 {
     float:right;
-    margin-top: 12px;
+    margin-top: 10px;
     font-weight: bold;
 }
 #user-info span
