@@ -47,6 +47,15 @@ input[type=button] {
     cursor: pointer;
 }
 
+#logo
+{
+    background: #fff center no-repeat url("../Images/edutechnoPLbluecalibri.png");
+    float:right;
+    width:210px;
+    height: 110px;
+    margin:15px;
+}
+
 #top 
 {
     height:28px;
