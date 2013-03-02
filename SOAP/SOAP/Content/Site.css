@@ -188,7 +188,7 @@ div.navi{
  #thumbs  {
 	margin-left: auto;
 	margin-right: auto;
-	width: 816px;
+	width: 918px;
 }
 
 /* tabs link */
@@ -226,12 +226,12 @@ div.navi{
 form div.input 
 {
     min-height: 35px;
-    padding: 10px;
+    padding: 7px;
     background-color: #f4f4f4;
     border: 1px solid #fff;
     border-radius: 5px;
     box-shadow: 0px 0px 3px #aaa;
-    margin: 5px 0;
+    margin: 3px 0;
     clear: both;
     color: #444444;
 }
