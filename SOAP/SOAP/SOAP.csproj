@@ -209,6 +209,7 @@
     <Content Include="Images\Active.jpg" />
     <Content Include="Images\arrow_down.png" />
     <Content Include="Images\arrow_up.png" />
+    <Content Include="Images\edutechnoPLbluecalibri.png" />
     <Content Include="Images\InActive.jpg" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\jquery-1.9.0-vsdoc.js" />
