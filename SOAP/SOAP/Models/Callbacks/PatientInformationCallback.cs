@@ -10,9 +10,9 @@ namespace SOAP.Models.Callbacks
         {
             PatientInformation patientInfo = new PatientInformation();
             patientInfo.PatientId = Convert.ToInt32(read["a.PatientId"]);
-            patientInfo.Student.UserId = (Guid)read["a.StudentId"];
-            patientInfo.Clinician.UserId = (Guid)read["a.ClinicianId"];
-            patientInfo.FormCompleted = Convert.ToChar(read["a.ClinicianId"].ToString());
+            patientInfo.Student.Username = read["a.StudentId"].ToString();
+            patientInfo.Clinician.Username = read["a.ClinicianId"].ToString();
+            patientInfo.FormCompleted = Convert.ToChar(read["a.FormCompleted"].ToString());
             patientInfo.Temperament.Id = Convert.ToInt16(read["a.TemperamentId"].ToString());
             patientInfo.DateSeenOn = Convert.ToDateTime(read["a.DateSeenOn"].ToString());
             patientInfo.CageOrStallNumber = Convert.ToInt32(read["a.CageOrStallNumber"].ToString());
