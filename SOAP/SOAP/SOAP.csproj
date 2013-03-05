@@ -183,6 +183,7 @@
     <Compile Include="Models\Callbacks\AnestheticPlanInhalantCallback.cs" />
     <Compile Include="Models\Callbacks\AnestheticPlanInjectionCallback.cs" />
     <Compile Include="Models\Callbacks\AnestheticPlanPremedicationCallback.cs" />
+    <Compile Include="Models\Callbacks\ASFUserCallback.cs" />
     <Compile Include="Models\Callbacks\BloodworkCallback.cs" />
     <Compile Include="Models\Callbacks\ClinicalFindingsCallback.cs" />
     <Compile Include="Models\ClinicalFindings.cs" />
