@@ -60,10 +60,12 @@ $(document).ready(function () {
             $("#saved-forms-div").slideDown();
         });
     });
+
+    $("#dropdownCat").change(function () {
+        var values = getValue($(this).val());
+    });
 });
 
-function addValue(section, id, value) { }
-
+function getValue() { }
+function addValue() { }
 function validateUser() { }
-
-function registerUser() { }
