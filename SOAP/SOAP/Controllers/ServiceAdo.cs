@@ -18,7 +18,51 @@ namespace SOAP.Controllers
             connString = ConfigurationManager.ConnectionStrings["SOAP_DB_CONNECTION"].ConnectionString;
         }
 
+        #region Login
+
+        public ASFUser DoLogin(ASFUser user)
+        {
+            ASFUser singleUser = new ASFUser();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                // If user has correct password, then select user database
+                string sql = BuildASFUserSQL();
+                string sqlMember = @"SELECT a.UserId FROM dbo.aspnet_Membership as b WHERE b.Username = @Username AND b.Password = @Password";
+
+                string fromUser = @"FROM dbo.ASF_User AS a";
+                string whereUser = @" WHERE a.UserId = (" + sqlMember + ")";
+
+                sql = sql + fromUser + whereUser;
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.MembershipInfo.Username;
+                cmd.Parameters.Add("@Password", SqlDbType.Int).Value = user.MembershipInfo.Password;
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        singleUser = new ASFUserCallback().ProcessRow(read);
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return singleUser;
+        }
+
+        #endregion
+
         #region READ
+
         public List<AdministrationSet> GetAdministrationSets(int patientId)
         {
             List<AdministrationSet> aSets = new List<AdministrationSet>();
@@ -896,9 +940,9 @@ namespace SOAP.Controllers
             return priorAnes;
         }
 
-        public List<Procedure> GetAnesthesiaConcerns(int patientId, params Procedure.LazyComponents[] lazyComponents)
+        public Procedure GetProcedure(int patientId, params Procedure.LazyComponents[] lazyComponents)
         {
-            List<Procedure> procedures = new List<Procedure>();
+            Procedure procedures = new Procedure();
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = BuildProcedureSQL();
@@ -926,7 +970,7 @@ namespace SOAP.Controllers
                     SqlDataReader read = cmd.ExecuteReader();
                     while (read.Read())
                     {
-                        procedures.Add(new ProcedureCallback().ProcessRow(read, lazyComponents));
+                        procedures = new ProcedureCallback().ProcessRow(read, lazyComponents);
                     }
                 }
                 catch
@@ -943,7 +987,1980 @@ namespace SOAP.Controllers
 
         #endregion
 
+        #region CREATE
+
+        public void CreateAdministrationSet(AdministrationSet adminSet)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Administration_Set_To_Patient (
+                            PatientId, MiniDripFlag, MaxiDripFlag
+                            ) VALUES (
+                            @PatientId, @MiniDripFlag, @MaxiDripFlag
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = adminSet.PatientId;
+                cmd.Parameters.Add("@MiniDripFlag", SqlDbType.Int).Value = adminSet.MiniDripFlag;
+                cmd.Parameters.Add("@MaxiDripFlag", SqlDbType.Int).Value = adminSet.MaxiDripFlag;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateAnesthesiaConcerns(AnesthesiaConcern aConcern)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Anesthesia_Concerns_To_Patient (
+                            PatientId, ConcernId
+                            ) VALUES (
+                            @PatientId, @ConcernId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = aConcern.PatientId;
+                cmd.Parameters.Add("@ConcernId", SqlDbType.Int).Value = aConcern.Concern.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateAnestheticPlanInhalant(AnestheticPlanInhalant inhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Anesthetic_Plan_Inhalant (
+                            PatientId, DrugId, Dose, FlowRate
+                            ) VALUES (
+                            @PatientId, @DrugId, @Dose, @FlowRate
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = inhalant.PatientId;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = inhalant.Drug.Id;
+                cmd.Parameters.Add("@Dose", SqlDbType.Decimal).Value = inhalant.Dose;
+                cmd.Parameters.Add("@FlowRate", SqlDbType.Decimal).Value = inhalant.FlowRate;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateAnestheticPlanInjection(AnestheticPlanInjection injection)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Anesthetic_Plan_Injection (
+                            PatientId, DrugId, RouteId, Dosage
+                            ) VALUES (
+                            @PatientId, @DrugId, @RouteId, @Dosage
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = injection.PatientId;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
+                cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = injection.Route.Id;
+                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = injection.Dosage;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateAnestheticPlanPremedication(AnestheticPlanPremedication premed)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Anesthetic_Plan_Premed (
+                            PatientId, DrugId, RouteId, Dosage
+                            ) VALUES (
+                            @PatientId, @DrugId, @RouteId, @Dosage
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = premed.PatientId;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
+                cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = premed.Route.Id;
+                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = premed.Dosage;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateASFUser(ASFUser user)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.ASF_User (
+                            UserId, Username, FullName, Email
+                            ) VALUES (
+                            @UserId, @Username, @FullName, @Email
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier).Value = user.UserId;
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public Guid CreateMembership(ASPNETMembership member)
+        {
+            Guid ident = new Guid();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.aspnet_Membership (
+                            Username, Password, PasswordFormat, PasswordSalt, IsApproved, IsLockedOut, CreateDate, LastLoginDate, LastPasswordChangedDate,
+                            LastLockoutDate, FailedPasswordAttemptCount, FailedPasswordAttemptWindowStart, FailedPasswordAnswerAttemptCount, FailedPasswordAnswerAttemptWindowStart
+                            ) VALUES (
+                            @Username, @Password, @PasswordFormat, @PasswordSalt, @IsApproved, @IsLockedOut, @CreateDate, @LastLoginDate, @LastPasswordChangedDate,
+                            @LastLockoutDate, @FailedPasswordAttemptCount, @FailedPasswordAttemptWindowStart, @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
+                cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = member.Password;
+                cmd.Parameters.Add("@PasswordFormat", SqlDbType.Int).Value = member.PasswordFormat;
+                cmd.Parameters.Add("@PasswordSalt", SqlDbType.NVarChar).Value = member.PasswordSalt;
+                cmd.Parameters.Add("@IsApproved", SqlDbType.Bit).Value = member.IsApproved;
+                cmd.Parameters.Add("@IsLockedOut", SqlDbType.Bit).Value = member.IsLockedOut;
+                cmd.Parameters.Add("@CreateDate", SqlDbType.DateTime).Value = member.CreateDate;
+                cmd.Parameters.Add("@LastLoginDate", SqlDbType.DateTime).Value = member.LastLoginDate;
+                cmd.Parameters.Add("@LastPasswordChangedDate", SqlDbType.DateTime).Value = member.LastPasswordChangedDate;
+                cmd.Parameters.Add("@LastLockoutDate", SqlDbType.DateTime).Value = member.LastLockoutDate;
+                cmd.Parameters.Add("@FailedPasswordAttemptCount", SqlDbType.Int).Value = member.FailedPasswordAttemptCount;
+                cmd.Parameters.Add("@FailedPasswordAttemptWindowStart", SqlDbType.DateTime).Value = member.FailedPasswordAttemptWindowStart;
+                cmd.Parameters.Add("@FailedPasswordAnswerAttemptCount", SqlDbType.Int).Value = member.FailedPasswordAnswerAttemptCount;
+                cmd.Parameters.Add("@FailedPasswordAnswerAttemptWindowStart", SqlDbType.DateTime).Value = member.FailedPasswordAnswerAttemptWindowStart;
+                try
+                {
+                    conn.Open();
+                    ident = (Guid)cmd.ExecuteScalar();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return ident;
+        }
+
+        public void CreateBloodwork(Bloodwork blood)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Bloodwork_To_Patient (
+                            PatientId, BloodworkId, Value
+                            ) VALUES (
+                            @PatientId, @BloodworkId, @Value
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = blood.PatientId;
+                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = blood.BloodworkInfo.Id;
+                cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = blood.Value;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateClinicalFindings(ClinicalFindings cFind)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Clinical_Findings (
+                            PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColor, 
+                            CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification
+                            ) VALUES (
+                            @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColor,
+                            @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = cFind.PatientId;
+                cmd.Parameters.Add("@Temperature", SqlDbType.Decimal).Value = cFind.Temperature;
+                cmd.Parameters.Add("@PulseRate", SqlDbType.Decimal).Value = cFind.PulseRate;
+                cmd.Parameters.Add("@RespiratoryRate", SqlDbType.Decimal).Value = cFind.RespiratoryRate;
+                cmd.Parameters.Add("@CardiacAuscultationId", SqlDbType.Int).Value = cFind.CardiacAuscultation.Id;
+                cmd.Parameters.Add("@PulseQualityId", SqlDbType.Int).Value = cFind.PulseQuality.Id;
+                cmd.Parameters.Add("@MucousMembraneColor", SqlDbType.NVarChar).Value = cFind.MucousMembraneColor;
+                cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = cFind.CapillaryRefillTime;
+                cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
+                cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
+                cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateCurrentMedications(CurrentMedication meds)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Current_Medications_To_Patient (
+                            PatientId, MedicationId
+                            ) VALUES (
+                            @PatientId, @MedicationId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = meds.PatientId;
+                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = meds.Medication.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateDropdownCategory(DropdownCategory cat)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Dropdown_Categories (
+                            ShortName, LongName
+                            ) VALUES (
+                            @ShortName, @LongName
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@ShortName", SqlDbType.NVarChar).Value = cat.ShortName;
+                cmd.Parameters.Add("@LongName", SqlDbType.NVarChar).Value = cat.LongName;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateDropdownType(DropdownValue val)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Dropdown_Types (
+                            CategoryId, Label, OtherFlag, Description
+                            ) VALUES (
+                            @CategoryId, @Label, @OtherFlag, @Description
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = val.Category.Id;
+                cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
+                cmd.Parameters.Add("@OtherFlag", SqlDbType.Char).Value = val.OtherFlag;
+                cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateDrugInformation(DrugInformation drug)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Drug_Information (
+                            DrugId, DoseMinRange, DoseMaxRange, DoseMax, DoseUnits, Route, Concentration, ConcentrationUnits
+                            ) VALUES (
+                            @DrugId, @DoseMinRange, @DoseMaxRange, @DoseMax, @DoseUnits, @Route, @Concentration, @ConcentrationUnits
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
+                cmd.Parameters.Add("@DoseMinRange", SqlDbType.Float).Value = drug.DoseMinRange;
+                cmd.Parameters.Add("@DoseMaxRange", SqlDbType.Float).Value = drug.DoseMaxRange;
+                cmd.Parameters.Add("@DoseMax", SqlDbType.Float).Value = drug.DoseMax;
+                cmd.Parameters.Add("@DoseUnits", SqlDbType.NVarChar).Value = drug.DoseUnits;
+                cmd.Parameters.Add("@Route", SqlDbType.NVarChar).Value = drug.Route;
+                cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = drug.Concentration;
+                cmd.Parameters.Add("@ConcentrationUnits", SqlDbType.NVarChar).Value = drug.ConcentrationUnits;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateIntraoperativeAnalgesia(IntraoperativeAnalgesia opera)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Intraoperative_Analgesia_To_Patient (
+                            PatientId, AnalgesiaId
+                            ) VALUES (
+                            @PatientId, @AnalgesiaId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = opera.PatientId;
+                cmd.Parameters.Add("@AnalgesiaId", SqlDbType.Int).Value = opera.Analgesia.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateIVFluidType(IVFluidType iv)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.IV_Fluid_Type_To_Patient (
+                            PatientId, FluidTypeId, Dose
+                            ) VALUES (
+                            @PatientId, @FluidTypeId, @Dose
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = iv.PatientId;
+                cmd.Parameters.Add("@FluidTypeId", SqlDbType.Int).Value = iv.FluidType.Id;
+                cmd.Parameters.Add("@Dose", SqlDbType.Decimal).Value = iv.Dose;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateMaintenanceInhalantDrugs(MaintenanceInhalantDrug maintInhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.IV_Fluid_Type_To_Patient (
+                            PatientId, DrugId, InductionReqFlag, InductionDose, InductionOxygenFlowRate, MaintenanceReqFlag, 
+                            MaintenanceDose, MaintenanceOxygenFlowRate, EquipmentReqFlag, BreathingSystemId, BreathingBagSizeId
+                            ) VALUES (
+                            @PatientId, @DrugId, @InductionReqFlag, @InductionDose, @InductionOxygenFlowRate, @MaintenanceReqFlag,
+                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @EquipmentReqFlag, @BreathingSystemId, @BreathingBagSizeId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInhalant.PatientId;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInhalant.Drug.Id;
+                cmd.Parameters.Add("@InductionReqFlag", SqlDbType.Char).Value = maintInhalant.InductionReqFlag;
+                cmd.Parameters.Add("@InductionDose", SqlDbType.Decimal).Value = maintInhalant.InductionDose;
+                cmd.Parameters.Add("@InductionOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.InductionOxygenFlowRate;
+                cmd.Parameters.Add("@MaintenanceReqFlag", SqlDbType.Char).Value = maintInhalant.MaintenanceReqFlag;
+                cmd.Parameters.Add("@MaintenanceDose", SqlDbType.Decimal).Value = maintInhalant.MaintenanceDose;
+                cmd.Parameters.Add("@MaintenanceOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.MaintenanceOxygenFlowRate;
+                cmd.Parameters.Add("@EquipmentReqFlag", SqlDbType.Char).Value = maintInhalant.EquipmentReqFlag;
+                cmd.Parameters.Add("@BreathingSystemId", SqlDbType.Int).Value = maintInhalant.BreathingSystem.Id;
+                cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateMaintenanceInjectionDrugs(MaintenanceInjectionDrug maintInject)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Maintenance_Injection_Drugs_To_Patient (
+                            PatientId, DrugId, RouteOfAdministrationId, Dosage
+                            ) VALUES (
+                            @PatientId, @DrugId, @RouteOfAdministrationId, @Dosage
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInject.PatientId;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInject.Drug.Id;
+                cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = maintInject.RouteOfAdministration.Id;
+                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateMonitoring(Monitoring monitor)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Monitoring_To_Patient (
+                            PatientId, EquipmentId
+                            ) VALUES (
+                            @PatientId, @EquipmentId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = monitor.PatientId;
+                cmd.Parameters.Add("@EquipmentId", SqlDbType.Int).Value = monitor.Equipment.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateOtherAnestheticDrugs(OtherAnestheticDrug otherDrugs)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Other_Anesthetic_Drugs_To_Patient (
+                            PatientId, DrugId
+                            ) VALUES (
+                            @PatientId, @DrugId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = otherDrugs.PatientId;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = otherDrugs.Drug.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreatePatient(Patient pat)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Patient (
+                            StudentId, ClinicianId, FormCompleted, TemperamentId, DateSeenOn, CageOrStallNumber, BodyWeight,
+                            AgeInYears, AgeInMonths, PreOpPainAssessmentId, PostOpPainAssessmentId
+                            ) VALUES (
+                            @StudentId, @ClinicianId, @FormCompleted, @TemperamentId, @DateSeenOn, @CageOrStallNumber, @BodyWeight,
+                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@StudentId", SqlDbType.NVarChar).Value = pat.PatientInfo.Student.Username;
+                cmd.Parameters.Add("@ClinicianId", SqlDbType.NVarChar).Value = pat.PatientInfo.Clinician.Username;
+                cmd.Parameters.Add("@FormCompleted", SqlDbType.Char).Value = pat.PatientInfo.FormCompleted;
+                cmd.Parameters.Add("@TemperamentId", SqlDbType.Int).Value = pat.PatientInfo.Temperament.Id;
+                cmd.Parameters.Add("@DateSeenOn", SqlDbType.DateTime).Value = pat.PatientInfo.DateSeenOn;
+                cmd.Parameters.Add("@CageOrStallNumber", SqlDbType.Int).Value = pat.PatientInfo.CageOrStallNumber;
+                cmd.Parameters.Add("@BodyWeight", SqlDbType.Decimal).Value = pat.PatientInfo.BodyWeight;
+                cmd.Parameters.Add("@AgeInYears", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInYears;
+                cmd.Parameters.Add("@AgeInMonths", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInMonths;
+                cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PreOperationPainAssessment.Id;
+                cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreatePriorAnesthesia(PriorAnesthesia priorAnes)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Prior_Anesthesia_To_Patient (
+                            PatientId, DateOfProblem, Problem
+                            ) VALUES (
+                            @PatientId, @DateOfProblem, @Problem
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = priorAnes.PatientId;
+                cmd.Parameters.Add("@DateOfProblem", SqlDbType.DateTime).Value = priorAnes.DateOfProblem;
+                cmd.Parameters.Add("@Problem", SqlDbType.NVarChar).Value = priorAnes.Problem;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void CreateProcedure(Procedure proc)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Procedure_To_Patient (
+                            PatientId, ProcedureId
+                            ) VALUES (
+                            @PatientId, @ProcedureId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = proc.PatientId;
+                cmd.Parameters.Add("@ProcedureId", SqlDbType.DateTime).Value = proc.ProcedureInformation.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        #endregion
+
+        #region UPDATE
+        public void UpdateAdministrationSet(AdministrationSet adminSet)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Administration_Set_To_Patient SET
+                            MiniDripFlag = @MiniDripFlag, MaxiDripFlag = @MaxiDripFlag
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = adminSet.Id;
+                cmd.Parameters.Add("@MiniDripFlag", SqlDbType.Int).Value = adminSet.MiniDripFlag;
+                cmd.Parameters.Add("@MaxiDripFlag", SqlDbType.Int).Value = adminSet.MaxiDripFlag;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateAnesthesiaConcerns(AnesthesiaConcern aConcern)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Anesthesia_Concerns_To_Patient SET
+                            ConcernId = @ConcernId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = aConcern.Id;
+                cmd.Parameters.Add("@ConcernId", SqlDbType.Int).Value = aConcern.Concern.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateAnestheticPlanInhalant(AnestheticPlanInhalant inhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Anesthetic_Plan_Inhalant SET
+                            DrugId = @DrugId, Dose =  @Dose, FlowRate = @FlowRate
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = inhalant.Id;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = inhalant.Drug.Id;
+                cmd.Parameters.Add("@Dose", SqlDbType.Decimal).Value = inhalant.Dose;
+                cmd.Parameters.Add("@FlowRate", SqlDbType.Decimal).Value = inhalant.FlowRate;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateAnestheticPlanInjection(AnestheticPlanInjection injection)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Anesthetic_Plan_Injection SET
+                            DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = injection.Id;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
+                cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = injection.Route.Id;
+                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = injection.Dosage;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateAnestheticPlanPremedication(AnestheticPlanPremedication premed)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UDPATE dbo.Anesthetic_Plan_Premed SET
+                            DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = premed.Id;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
+                cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = premed.Route.Id;
+                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = premed.Dosage;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateASFUser(ASFUser user)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.ASF_User SET
+                            FullName = @FullName, Email = @Email
+                            WHERE
+                            Username = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public bool UpdateMembershipPassword(ASPNETMembership member, string oldpassword)
+        {
+            bool b = false;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Anesthetic_Plan_Premed SET
+                            Password = @Password
+                            WHERE
+                            Username = @Username AND Password = @OldPassword";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = member.Password;
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
+                cmd.Parameters.Add("@OldPassword", SqlDbType.NVarChar).Value = oldpassword;
+
+                try
+                {
+                    conn.Open();
+                    if (cmd.ExecuteNonQuery() > 0)
+                        b = true;
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return b;
+        }
+
+        public void UpdateBloodwork(Bloodwork blood)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Bloodwork_To_Patient SET
+                            BloodworkId = @BloodworkId, Value = @Value
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.Id;
+                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = blood.BloodworkInfo.Id;
+                cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = blood.Value;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateClinicalFindings(ClinicalFindings cFind)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Clinical_Findings SET
+                            Temperature = @Temperature, PulseRate = @PulseRate, RespiratoryRate = @RespiratoryRate, CardiacAuscultationId = @CardiacAuscultationId, 
+                            PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTime = @CapillaryRefillTime, 
+                            RespiratoryAuscultationId = @RespiratoryAuscultationId, PhysicalStatusClassId = @PhysicalStatusClassId, 
+                            ReasonForClassification = @ReasonForClassification
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cFind.Id;
+                cmd.Parameters.Add("@Temperature", SqlDbType.Decimal).Value = cFind.Temperature;
+                cmd.Parameters.Add("@PulseRate", SqlDbType.Decimal).Value = cFind.PulseRate;
+                cmd.Parameters.Add("@RespiratoryRate", SqlDbType.Decimal).Value = cFind.RespiratoryRate;
+                cmd.Parameters.Add("@CardiacAuscultationId", SqlDbType.Int).Value = cFind.CardiacAuscultation.Id;
+                cmd.Parameters.Add("@PulseQualityId", SqlDbType.Int).Value = cFind.PulseQuality.Id;
+                cmd.Parameters.Add("@MucousMembraneColor", SqlDbType.NVarChar).Value = cFind.MucousMembraneColor;
+                cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = cFind.CapillaryRefillTime;
+                cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
+                cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
+                cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateCurrentMedications(CurrentMedication meds)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Current_Medications_To_Patient SET
+                            MedicationId = @MedicationId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = meds.Id;
+                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = meds.Medication.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateDropdownCategory(DropdownCategory cat)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Dropdown_Categories SET
+                            ShortName = @ShortName, LongName = @LongName
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cat.Id;
+                cmd.Parameters.Add("@ShortName", SqlDbType.NVarChar).Value = cat.ShortName;
+                cmd.Parameters.Add("@LongName", SqlDbType.NVarChar).Value = cat.LongName;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateDropdownType(DropdownValue val)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Dropdown_Types SET
+                            Label = @Label, OtherFlag = @OtherFlag, Description = @Description
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = val.Id;
+                cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
+                cmd.Parameters.Add("@OtherFlag", SqlDbType.Char).Value = val.OtherFlag;
+                cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateDrugInformation(DrugInformation drug)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Drug_Information SET
+                            DoseMinRange = @DoseMinRange, DoseMaxRange = @DoseMaxRange, DoseMax = @DoseMax, DoseUnits = @DoseUnits, 
+                            Route = @Route, Concentration = @Concentration, ConcentrationUnits = @ConcentrationUnits
+                            WHERE
+                            DrugId = @DrugId";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
+                cmd.Parameters.Add("@DoseMinRange", SqlDbType.Float).Value = drug.DoseMinRange;
+                cmd.Parameters.Add("@DoseMaxRange", SqlDbType.Float).Value = drug.DoseMaxRange;
+                cmd.Parameters.Add("@DoseMax", SqlDbType.Float).Value = drug.DoseMax;
+                cmd.Parameters.Add("@DoseUnits", SqlDbType.NVarChar).Value = drug.DoseUnits;
+                cmd.Parameters.Add("@Route", SqlDbType.NVarChar).Value = drug.Route;
+                cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = drug.Concentration;
+                cmd.Parameters.Add("@ConcentrationUnits", SqlDbType.NVarChar).Value = drug.ConcentrationUnits;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateIntraoperativeAnalgesia(IntraoperativeAnalgesia opera)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Intraoperative_Analgesia_To_Patient SET 
+                            AnalgesiaId = @AnalgesiaId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = opera.Id;
+                cmd.Parameters.Add("@AnalgesiaId", SqlDbType.Int).Value = opera.Analgesia.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateIVFluidType(IVFluidType iv)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
+                            FluidTypeId = @FluidTypeId, Dose = @Dose
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.Id;
+                cmd.Parameters.Add("@FluidTypeId", SqlDbType.Int).Value = iv.FluidType.Id;
+                cmd.Parameters.Add("@Dose", SqlDbType.Decimal).Value = iv.Dose;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateMaintenanceInhalantDrugs(MaintenanceInhalantDrug maintInhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
+                            DrugId = @DrugId, InductionReqFlag = @InductionReqFlag, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
+                            MaintenanceReqFlag = @MaintenanceReqFlag, MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
+                            EquipmentReqFlag = @EquipmentReqFlag, BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInhalant.Id;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInhalant.Drug.Id;
+                cmd.Parameters.Add("@InductionReqFlag", SqlDbType.Char).Value = maintInhalant.InductionReqFlag;
+                cmd.Parameters.Add("@InductionDose", SqlDbType.Decimal).Value = maintInhalant.InductionDose;
+                cmd.Parameters.Add("@InductionOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.InductionOxygenFlowRate;
+                cmd.Parameters.Add("@MaintenanceReqFlag", SqlDbType.Char).Value = maintInhalant.MaintenanceReqFlag;
+                cmd.Parameters.Add("@MaintenanceDose", SqlDbType.Decimal).Value = maintInhalant.MaintenanceDose;
+                cmd.Parameters.Add("@MaintenanceOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.MaintenanceOxygenFlowRate;
+                cmd.Parameters.Add("@EquipmentReqFlag", SqlDbType.Char).Value = maintInhalant.EquipmentReqFlag;
+                cmd.Parameters.Add("@BreathingSystemId", SqlDbType.Int).Value = maintInhalant.BreathingSystem.Id;
+                cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateMaintenanceInjectionDrugs(MaintenanceInjectionDrug maintInject)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Maintenance_Injection_Drugs_To_Patient SET
+                            DrugId = @DrugId, RouteOfAdministrationId = @RouteOfAdministrationId, Dosage = @Dosage
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInject.Id;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInject.Drug.Id;
+                cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = maintInject.RouteOfAdministration.Id;
+                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateMonitoring(Monitoring monitor)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Monitoring_To_Patient SET
+                            EquipmentId = @EquipmentId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = monitor.Id;
+                cmd.Parameters.Add("@EquipmentId", SqlDbType.Int).Value = monitor.Equipment.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateOtherAnestheticDrugs(OtherAnestheticDrug otherDrugs)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Other_Anesthetic_Drugs_To_Patient SET
+                            DrugId = @DrugId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = otherDrugs.Id;
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = otherDrugs.Drug.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdatePatient(Patient pat)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Patient SET
+                            StudentId = @StudentId, ClinicianId = @ClinicianId, FormCompleted = @FormCompleted, TemperamentId = @TemperamentId, 
+                            DateSeenOn = @DateSeenOn, CageOrStallNumber = @CageOrStallNumber, BodyWeight = @BodyWeight,
+                            AgeInYears = @AgeInYears, AgeInMonths = @AgeInMonths, PreOpPainAssessmentId = @PreOpPainAssessmentId, 
+                            PostOpPainAssessmentId = @PostOpPainAssessmentId
+                            WHERE
+                            PatientId = @PatientId";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = pat.PatientId;
+                cmd.Parameters.Add("@StudentId", SqlDbType.NVarChar).Value = pat.PatientInfo.Student.Username;
+                cmd.Parameters.Add("@ClinicianId", SqlDbType.NVarChar).Value = pat.PatientInfo.Clinician.Username;
+                cmd.Parameters.Add("@FormCompleted", SqlDbType.Char).Value = pat.PatientInfo.FormCompleted;
+                cmd.Parameters.Add("@TemperamentId", SqlDbType.Int).Value = pat.PatientInfo.Temperament.Id;
+                cmd.Parameters.Add("@DateSeenOn", SqlDbType.DateTime).Value = pat.PatientInfo.DateSeenOn;
+                cmd.Parameters.Add("@CageOrStallNumber", SqlDbType.Int).Value = pat.PatientInfo.CageOrStallNumber;
+                cmd.Parameters.Add("@BodyWeight", SqlDbType.Decimal).Value = pat.PatientInfo.BodyWeight;
+                cmd.Parameters.Add("@AgeInYears", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInYears;
+                cmd.Parameters.Add("@AgeInMonths", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInMonths;
+                cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PreOperationPainAssessment.Id;
+                cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdatePriorAnesthesia(PriorAnesthesia priorAnes)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Prior_Anesthesia_To_Patient SET
+                            DateOfProblem = @DateOfProblem, Problem = @Problem
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = priorAnes.Id;
+                cmd.Parameters.Add("@DateOfProblem", SqlDbType.DateTime).Value = priorAnes.DateOfProblem;
+                cmd.Parameters.Add("@Problem", SqlDbType.NVarChar).Value = priorAnes.Problem;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateProcedure(Procedure proc)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Procedure_To_Patient SET
+                            ProcedureId = @ProcedureId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.Id;
+                cmd.Parameters.Add("@ProcedureId", SqlDbType.DateTime).Value = proc.ProcedureInformation.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        #endregion
+
+        #region DELETE
+        public void DeleteAdministrationSet(AdministrationSet adminSet)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Administration_Set_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = adminSet.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteAnesthesiaConcern(AnesthesiaConcern aConcern)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Anesthesia_Concerns_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = aConcern.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteAnestheticPlanInhalant(AnestheticPlanInhalant inhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Anesthetic_Plan_Inhalant
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = inhalant.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteAnestheticPlanInjection(AnestheticPlanInjection injection)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Anesthetic_Plan_Injection
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = injection.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteAnestheticPlanPremedication(AnestheticPlanPremedication premed)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Anesthetic_Plan_Premed
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = premed.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteASFUser(ASFUser user)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.ASF_User
+                            WHERE
+                            Username = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteASPNetMembership(ASPNETMembership member)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Anesthetic_Plan_Premed
+                            WHERE
+                            Username = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
+
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteBloodwork(Bloodwork blood)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Bloodwork_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteClinicalFinding(ClinicalFindings cFind)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Clinical_Findings
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cFind.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteCurrentMedication(CurrentMedication meds)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Current_Medications_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = meds.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteDropdownCategory(DropdownCategory cat)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Dropdown_Categories
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cat.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteDropdownType(DropdownValue val)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Dropdown_Types
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = val.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteDrugInformation(DrugInformation drug)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Drug_Information
+                            WHERE
+                            DrugId = @DrugId";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteIntraoperativeAnalgesia(IntraoperativeAnalgesia opera)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Intraoperative_Analgesia_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = opera.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteIVFluidType(IVFluidType iv)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.IV_Fluid_Type_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteMaintenanceInhalantDrug(MaintenanceInhalantDrug maintInhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.IV_Fluid_Type_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInhalant.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteMaintenanceInjectionDrug(MaintenanceInjectionDrug maintInject)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Maintenance_Injection_Drugs_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInject.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteMonitoring(Monitoring monitor)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Monitoring_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = monitor.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteOtherAnestheticDrug(OtherAnestheticDrug otherDrugs)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Other_Anesthetic_Drugs_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = otherDrugs.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeletePatient(Patient pat)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Patient
+                            WHERE
+                            PatientId = @PatientId";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = pat.PatientId;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeletePriorAnesthesia(PriorAnesthesia priorAnes)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Prior_Anesthesia_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = priorAnes.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void DeleteProcedure(Procedure proc)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Procedure_To_Patient
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        #endregion
+
         #region SQL_STATEMENTs
+
         private string BuildAdministrationSQL()
         {
             return @"SELECT a.Id, a.PatientId, a.MiniDripFlag, a.MaxiDripFlag ";
@@ -1040,6 +3057,12 @@ namespace SOAP.Controllers
         {
             return @"SELECT a.Id, a.PatientId, a.ProcedureId ";
         }
+
+        private string BuildASFUserSQL()
+        {
+            return @"SELECT a.UserId, a.Username, a.Fullname, a.Email ";
+        }
+
         #endregion
     }
 }
