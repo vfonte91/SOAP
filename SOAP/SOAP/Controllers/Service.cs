@@ -177,7 +177,160 @@ namespace SOAP.Controllers
 
         public void CreatePatient(Patient pat)
         {
-            
+            service.CreatePatient(pat);
+
+            if (pat.ClinicalFindings != null)
+                CreateClinicalFindings(pat.ClinicalFindings);
+
+            if (pat.BloodworkGroup != null)
+                CreateBloodwork(pat.BloodworkGroup);
+
+            if (pat.AnestheticPlan != null)
+                CreateAnestheticPlan(pat.AnestheticPlan);
+
+            if (pat.Maintenance != null)
+                CreateMaintenance(pat.Maintenance);
+
+            if (pat.Monitoring != null)
+                CreateMonitoring(pat.Monitoring);
+        }
+
+        public void CreateClinicalFindings(ClinicalFindings clinicalFindings)
+        {
+            service.CreateClinicalFinding(clinicalFindings);
+
+            if (clinicalFindings.CurrentMedications != null)
+                CreateCurrentMedications(clinicalFindings.CurrentMedications);
+
+            if (clinicalFindings.PriorAnesthesia != null)
+                CreatePriorAnesthesia(clinicalFindings.PriorAnesthesia);
+
+            if (clinicalFindings.AnesthesiaConcerns != null)
+                CreateAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
+        }
+
+        public void CreateCurrentMedications(List<CurrentMedication> meds)
+        {
+            foreach (CurrentMedication c in meds)
+            {
+                service.CreateCurrentMedication(c);
+            }
+        }
+
+        public void CreatePriorAnesthesia(List<PriorAnesthesia> priors)
+        {
+            foreach (PriorAnesthesia p in priors)
+            {
+                service.CreatePriorAnesthesia(p);
+            }
+        }
+
+        public void CreateAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
+        {
+            foreach (AnesthesiaConcern a in concerns)
+            {
+                service.CreateAnesthesiaConcern(a);
+            }
+        }
+
+        public void CreateBloodwork(List<Bloodwork> blood)
+        {
+            foreach (Bloodwork b in blood)
+            {
+                service.CreateBloodwork(b);
+            }
+        }
+
+        public void CreateAnestheticPlan(AnestheticPlan a)
+        {
+            if (a.InhalantPlans != null)
+                CreateAnestheticInhalantPlans(a.InhalantPlans);
+
+            if (a.InjectionPlans != null)
+                CreateAnestheticInjectionPlans(a.InjectionPlans);
+
+            if (a.PreMedications != null)
+                CreateAnestheticPremedications(a.PreMedications);
+        }
+
+        public void CreateAnestheticInhalantPlans(List<AnestheticPlanInhalant> inhalants)
+        {
+            foreach (AnestheticPlanInhalant a in inhalants)
+            {
+                service.CreateAnestheticPlanInhalant(a);
+            }
+        }
+
+        public void CreateAnestheticInjectionPlans(List<AnestheticPlanInjection> injects)
+        {
+            foreach (AnestheticPlanInjection a in injects)
+            {
+                service.CreateAnestheticPlanInjection(a);
+            }
+        }
+
+        public void CreateAnestheticPremedications(List<AnestheticPlanPremedication> premeds)
+        {
+            foreach (AnestheticPlanPremedication a in premeds)
+            {
+                service.CreateAnestheticPlanPremedication(a);
+            }
+        }
+
+        public void CreateMaintenance(Maintenance m)
+        {
+            if (m.IntraOperativeAnalgesias != null)
+                CreateIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
+
+            if (m.MaintenanceInhalantDrugs != null)
+                CreateMaintenanceInhalantDrugs(m.MaintenanceInhalantDrugs);
+
+            if (m.MaintenanceInjectionDrugs != null)
+                CreateMaintenanceInjectionDrugs(m.MaintenanceInjectionDrugs);
+
+            if (m.OtherAnestheticDrugs != null)
+                CreateOtherAnestheticDrugs(m.OtherAnestheticDrugs);
+
+        }
+
+        public void CreateIntraOperativeAnalgesias(List<IntraoperativeAnalgesia> intras)
+        {
+            foreach (IntraoperativeAnalgesia b in intras)
+            {
+                service.CreateIntraoperativeAnalgesia(b);
+            }
+        }
+
+        public void CreateMaintenanceInhalantDrugs(List<MaintenanceInhalantDrug> drugs)
+        {
+            foreach (MaintenanceInhalantDrug a in drugs)
+            {
+                service.CreateMaintenanceInhalantDrug(a);
+            }
+        }
+
+        public void CreateMaintenanceInjectionDrugs(List<MaintenanceInjectionDrug> drugs)
+        {
+            foreach (MaintenanceInjectionDrug a in drugs)
+            {
+                service.CreateMaintenanceInjectionDrug(a);
+            }
+        }
+
+        public void CreateOtherAnestheticDrugs(List<OtherAnestheticDrug> drugs)
+        {
+            foreach (OtherAnestheticDrug o in drugs)
+            {
+                service.CreateOtherAnestheticDrug(o);
+            }
+        }
+
+        public void CreateMonitoring(List<Monitoring> monitors)
+        {
+            foreach (Monitoring m in monitors)
+            {
+                service.CreateMonitoring(m);
+            }
         }
 
         public void CreateASFUser(ASFUser user)
@@ -193,12 +346,175 @@ namespace SOAP.Controllers
 
         public void SavePatient(Patient pat)
         {
+            service.UpdatePatient(pat);
 
+            if (pat.ClinicalFindings != null)
+                SaveClinicalFindings(pat.ClinicalFindings);
+
+            if (pat.BloodworkGroup != null)
+                SaveBloodwork(pat.BloodworkGroup);
+
+            if (pat.AnestheticPlan != null)
+                SaveAnestheticPlan(pat.AnestheticPlan);
+
+            if (pat.Maintenance != null)
+                SaveMaintenance(pat.Maintenance);
+
+            if (pat.Monitoring != null)
+                SaveMonitoring(pat.Monitoring);
+        }
+
+        public void SaveClinicalFindings(ClinicalFindings clinicalFindings)
+        {
+            service.UpdateClinicalFinding(clinicalFindings);
+
+            if (clinicalFindings.CurrentMedications != null)
+                SaveCurrentMedications(clinicalFindings.CurrentMedications);
+
+            if (clinicalFindings.PriorAnesthesia != null)
+                SavePriorAnesthesia(clinicalFindings.PriorAnesthesia);
+
+            if (clinicalFindings.AnesthesiaConcerns != null)
+                SaveAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
+        }
+
+        public void SaveCurrentMedications(List<CurrentMedication> meds)
+        {
+            foreach (CurrentMedication c in meds)
+            {
+                service.UpdateCurrentMedication(c);
+            }
+        }
+
+        public void SavePriorAnesthesia(List<PriorAnesthesia> priors)
+        {
+            foreach (PriorAnesthesia p in priors)
+            {
+                service.UpdatePriorAnesthesia(p);
+            }
+        }
+
+        public void SaveAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
+        {
+            foreach (AnesthesiaConcern a in concerns)
+            {
+                service.UpdateAnesthesiaConcern(a);
+            }
+        }
+
+        public void SaveBloodwork(List<Bloodwork> blood)
+        {
+            foreach (Bloodwork b in blood)
+            {
+                service.UpdateBloodwork(b);
+            }
+        }
+
+        public void SaveAnestheticPlan(AnestheticPlan a)
+        {
+            if (a.InhalantPlans != null)
+                SaveAnestheticInhalantPlans(a.InhalantPlans);
+
+            if (a.InjectionPlans != null)
+                SaveAnestheticInjectionPlans(a.InjectionPlans);
+
+            if (a.PreMedications != null)
+                SaveAnestheticPremedications(a.PreMedications);
+        }
+
+        public void SaveAnestheticInhalantPlans(List<AnestheticPlanInhalant> inhalants)
+        {
+            foreach (AnestheticPlanInhalant a in inhalants)
+            {
+                service.UpdateAnestheticPlanInhalant(a);
+            }
+        }
+
+        public void SaveAnestheticInjectionPlans(List<AnestheticPlanInjection> injects)
+        {
+            foreach (AnestheticPlanInjection a in injects)
+            {
+                service.UpdateAnestheticPlanInjection(a);
+            }
+        }
+
+        public void SaveAnestheticPremedications(List<AnestheticPlanPremedication> premeds)
+        {
+            foreach (AnestheticPlanPremedication a in premeds)
+            {
+                service.UpdateAnestheticPlanPremedication(a);
+            }
+        }
+
+        public void SaveMaintenance(Maintenance m)
+        {
+            if (m.IntraOperativeAnalgesias != null)
+                SaveIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
+
+            if (m.MaintenanceInhalantDrugs != null)
+                SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrugs);
+
+            if (m.MaintenanceInjectionDrugs != null)
+                SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrugs);
+
+            if (m.OtherAnestheticDrugs != null)
+                SaveOtherAnestheticDrugs(m.OtherAnestheticDrugs);
+
+        }
+
+        public void SaveIntraOperativeAnalgesias(List<IntraoperativeAnalgesia> intras)
+        {
+            foreach (IntraoperativeAnalgesia b in intras)
+            {
+                service.UpdateIntraoperativeAnalgesia(b);
+            }
+        }
+
+        public void SaveMaintenanceInhalantDrugs(List<MaintenanceInhalantDrug> drugs)
+        {
+            foreach (MaintenanceInhalantDrug a in drugs)
+            {
+                service.UpdateMaintenanceInhalantDrug(a);
+            }
+        }
+
+        public void SaveMaintenanceInjectionDrugs(List<MaintenanceInjectionDrug> drugs)
+        {
+            foreach (MaintenanceInjectionDrug a in drugs)
+            {
+                service.UpdateMaintenanceInjectionDrug(a);
+            }
+        }
+
+        public void SaveOtherAnestheticDrugs(List<OtherAnestheticDrug> drugs)
+        {
+            foreach (OtherAnestheticDrug o in drugs)
+            {
+                service.UpdateOtherAnestheticDrug(o);
+            }
+        }
+
+        public void SaveMonitoring(List<Monitoring> monitors)
+        {
+            foreach (Monitoring m in monitors)
+            {
+                service.UpdateMonitoring(m);
+            }
         }
 
         public void SaveASFUser(ASFUser user)
         {
             service.UpdateASFUser(user);
+        }
+
+        public void Promote(ASFUser user)
+        {
+            service.Promote(user);
+        }
+
+        public void Demote(ASFUser user)
+        {
+            service.Demote(user);
         }
 
         #endregion

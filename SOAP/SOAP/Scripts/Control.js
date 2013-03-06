@@ -1,5 +1,7 @@
 ﻿var PatientInfo = new Object();
 
+var UserInformation = new Object();
+
 $(document).ready(function () {
 
     // tooltip does not work for <option>
@@ -68,4 +70,20 @@ $(document).ready(function () {
 
 function getValue() { }
 function addValue() { }
-function validateUser() { }
+function validateUser() {
+    var ASFUser = {
+        MembershipInfo: {
+            Username: $("#username").val(),
+            Password: $("#password").val()
+        }
+    };
+    $.post(rootDir + '/Home/DoLogin', ASFUser, function (data) {
+        UserInformation = JSON.parse(data);
+        if (UserInformation.success)
+            return true;
+    })
+    .error(function() {
+        return false;
+    });
+    return false;
+}

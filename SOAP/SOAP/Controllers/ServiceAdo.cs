@@ -1019,7 +1019,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateAnesthesiaConcerns(AnesthesiaConcern aConcern)
+        public void CreateAnesthesiaConcern(AnesthesiaConcern aConcern)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1146,9 +1146,9 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.ASF_User (
-                            UserId, Username, FullName, Email
+                            UserId, Username, FullName, Email, IsAdmin
                             ) VALUES (
-                            @UserId, @Username, @FullName, @Email
+                            @UserId, @Username, @FullName, @Email, @IsAdmin
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1156,6 +1156,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
                 cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
                 cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+                cmd.Parameters.Add("@IsAdmin", SqlDbType.Bit).Value = 0;
                 try
                 {
                     conn.Open();
@@ -1247,7 +1248,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateClinicalFindings(ClinicalFindings cFind)
+        public void CreateClinicalFinding(ClinicalFindings cFind)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1287,7 +1288,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateCurrentMedications(CurrentMedication meds)
+        public void CreateCurrentMedication(CurrentMedication meds)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1470,7 +1471,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateMaintenanceInhalantDrugs(MaintenanceInhalantDrug maintInhalant)
+        public void CreateMaintenanceInhalantDrug(MaintenanceInhalantDrug maintInhalant)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1510,7 +1511,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateMaintenanceInjectionDrugs(MaintenanceInjectionDrug maintInject)
+        public void CreateMaintenanceInjectionDrug(MaintenanceInjectionDrug maintInject)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1570,7 +1571,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateOtherAnestheticDrugs(OtherAnestheticDrug otherDrugs)
+        public void CreateOtherAnestheticDrug(OtherAnestheticDrug otherDrugs)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1730,7 +1731,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateAnesthesiaConcerns(AnesthesiaConcern aConcern)
+        public void UpdateAnesthesiaConcern(AnesthesiaConcern aConcern)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1939,7 +1940,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateClinicalFindings(ClinicalFindings cFind)
+        public void UpdateClinicalFinding(ClinicalFindings cFind)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1979,7 +1980,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateCurrentMedications(CurrentMedication meds)
+        public void UpdateCurrentMedication(CurrentMedication meds)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2158,7 +2159,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateMaintenanceInhalantDrugs(MaintenanceInhalantDrug maintInhalant)
+        public void UpdateMaintenanceInhalantDrug(MaintenanceInhalantDrug maintInhalant)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2197,7 +2198,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateMaintenanceInjectionDrugs(MaintenanceInjectionDrug maintInject)
+        public void UpdateMaintenanceInjectionDrug(MaintenanceInjectionDrug maintInject)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2255,7 +2256,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateOtherAnestheticDrugs(OtherAnestheticDrug otherDrugs)
+        public void UpdateOtherAnestheticDrug(OtherAnestheticDrug otherDrugs)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2365,6 +2366,62 @@ namespace SOAP.Controllers
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.Id;
                 cmd.Parameters.Add("@ProcedureId", SqlDbType.DateTime).Value = proc.ProcedureInformation.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void Promote(ASFUser user)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.ASF_User SET
+                            IsAdmin = @IsAdmin
+                            WHERE
+                            Username = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                cmd.Parameters.Add("@IsAdmin", SqlDbType.Bit).Value = 1;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void Demote(ASFUser user)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.ASF_User SET
+                            IsAdmin = @IsAdmin
+                            WHERE
+                            Username = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                cmd.Parameters.Add("@IsAdmin", SqlDbType.Bit).Value = 0;
                 try
                 {
                     conn.Open();
@@ -3060,7 +3117,7 @@ namespace SOAP.Controllers
 
         private string BuildASFUserSQL()
         {
-            return @"SELECT a.UserId, a.Username, a.Fullname, a.Email ";
+            return @"SELECT a.UserId, a.Username, a.Fullname, a.Email, a.IsAdmin ";
         }
 
         #endregion

@@ -10,6 +10,7 @@ namespace SOAP.Models
         private string _username;
         private string _fullName;
         private string _emailAddress;
+        private int _isAdmin;
 
         public enum LazyComponents
         {
@@ -44,6 +45,12 @@ namespace SOAP.Models
         {
             get { return _emailAddress; }
             set { _emailAddress = value; }
+        }
+
+        public int IsAdmin
+        {
+            get { return _isAdmin; }
+            set { _isAdmin = value; }
         }
 
         public ASFUser()

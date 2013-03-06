@@ -13,6 +13,7 @@ namespace SOAP.Models.Callbacks
             user.Username = read["a.Username"].ToString();
             user.FullName = read["a.FullName"].ToString();
             user.EmailAddress = read["a.Email"].ToString();
+            user.IsAdmin = Convert.ToInt16(read["a.IsAdmin"].ToString());
             return user;
         }
     }
