@@ -6,7 +6,7 @@ namespace SOAP.Models
     public class ASFUser
     {
         private Guid _userId;
-        private ASPNETMembership _membershipInfo;
+        private MembershipInfo _membershipInfo;
         private string _username;
         private string _fullName;
         private string _emailAddress;
@@ -23,7 +23,7 @@ namespace SOAP.Models
             set { _userId = value; }
         }
 
-        public ASPNETMembership MembershipInfo
+        public MembershipInfo MembershipInfo
         {
             get { return _membershipInfo; }
             set { _membershipInfo = value; }

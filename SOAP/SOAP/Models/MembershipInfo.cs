@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SOAP.Models
 {
-    public class ASPNETMembership
+    public class MembershipInfo
     {
         private Guid _id;
         private string _username;
@@ -111,7 +111,7 @@ namespace SOAP.Models
             set { _failedPasswordAnswerAttemptWindowStart = value; }
         }
 
-        public ASPNETMembership()
+        public MembershipInfo()
         {
             _lastLoginDate = DateTime.Now;
             _isApproved = 1;
@@ -124,6 +124,5 @@ namespace SOAP.Models
             _failedPasswordAttemptCount = 0;
             _failedPasswordAttemptWindowStart = DateTime.Now;
         }
-
     }
 }

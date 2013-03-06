@@ -178,7 +178,6 @@
     <Compile Include="Models\AnestheticPlanInjection.cs" />
     <Compile Include="Models\AnestheticPlanPremedication.cs" />
     <Compile Include="Models\ASFUser.cs" />
-    <Compile Include="Models\ASPNETMembership.cs" />
     <Compile Include="Models\Bloodwork.cs" />
     <Compile Include="Models\Callbacks\AdministrationSetCallback.cs" />
     <Compile Include="Models\Callbacks\AnestheticConcernCallback.cs" />
@@ -261,6 +260,9 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\MembershipInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <None Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\Home\PatientInfo.cshtml" />
     <Content Include="Views\Home\ClinicalFindings.cshtml" />

@@ -1141,8 +1141,9 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateASFUser(ASFUser user)
+        public bool CreateASFUser(ASFUser user)
         {
+            bool val = false;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.ASF_User (
@@ -1160,7 +1161,8 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    if (cmd.ExecuteNonQuery() > 0)
+                        val = true;
                 }
                 catch
                 {
@@ -1171,9 +1173,10 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return val;
         }
 
-        public Guid CreateMembership(ASPNETMembership member)
+        public Guid CreateMembership(MembershipInfo member)
         {
             Guid ident = new Guid();
             using (SqlConnection conn = new SqlConnection(connString))
@@ -1878,7 +1881,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public bool UpdateMembershipPassword(ASPNETMembership member, string oldpassword)
+        public bool UpdateMembershipPassword(MembershipInfo member, string oldpassword)
         {
             bool b = false;
             using (SqlConnection conn = new SqlConnection(connString))
@@ -2597,7 +2600,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteASPNetMembership(ASPNETMembership member)
+        public void DeleteASPNetMembership(MembershipInfo member)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {

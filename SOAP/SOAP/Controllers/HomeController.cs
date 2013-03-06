@@ -18,7 +18,8 @@ namespace SOAP.Controllers
             return View();
         }
 
-        public string DoLogin(ASFUser user)
+        [HttpPost]
+        public ActionResult DoLogin(ASFUser user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             try
@@ -36,7 +37,32 @@ namespace SOAP.Controllers
             {
                 dict["success"] = false;
             }
-            return new JavaScriptSerializer().Serialize(dict);
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult RegisterUser(ASFUser user)
+        {
+            //ASFUser user1 = new ASFUser();
+            //user1.FullName = "Test";
+            //user1.EmailAddress = "Email";
+            //user1.IsAdmin = 0;
+            //user1.Username = "TestUser";
+            //MembershipInfo member = new MembershipInfo();
+            //member.Username = "TestUser";
+            //member.Password = "pass";
+            //user1.MembershipInfo = member;
+            //return Json(user1);
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["success"] = service.CreateASFUser(user);
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
         }
 
     }

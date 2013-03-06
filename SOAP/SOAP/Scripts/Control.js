@@ -47,7 +47,12 @@ $(document).ready(function () {
         }
         else {
             //Register user
-            registerUser()
+            if (registerUser()) {
+                alert('success');
+            }
+            else {
+                alert('failure');
+            }
         }
     });
 
@@ -85,5 +90,32 @@ function validateUser() {
     .error(function() {
         return false;
     });
+    return false;
+}
+
+function registerUser() {
+    var pw1 = $("#password").val();
+    var pw2 = $("#password-repeat").val();
+    if (pw1 == pw2) {
+        var userName = $("#username").val()
+        var ASFUser = {
+            Username: userName,
+            FullName: 'Needs Implemented',
+            EmailAddress: $("#email").val(),
+            MembershipInfo: {
+                Username: userName,
+                Password: pw1
+            }
+        };
+        console.log(ASFUser);
+        $.post(rootDir + '/Home/RegisterUser', ASFUser, function (data) {
+            console.log(returnVal) = JSON.parse(data);
+            if (returnVal.success)
+                return true;
+        }, 'json')
+        .error(function () {
+            return false;
+        });
+    }
     return false;
 }

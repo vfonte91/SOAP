@@ -333,11 +333,11 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateASFUser(ASFUser user)
+        public bool CreateASFUser(ASFUser user)
         {
             Guid id = service.CreateMembership(user.MembershipInfo);
             user.UserId = id;
-            service.CreateASFUser(user);
+            return service.CreateASFUser(user);
         }
 
         #endregion
