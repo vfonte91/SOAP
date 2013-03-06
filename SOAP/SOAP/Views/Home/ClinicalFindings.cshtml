@@ -14,6 +14,10 @@
                    <input type="text" name="Pulse" class="inline" id="Patient.ClinicalFindings.PulseRate"/>
                 </div> 
                 <div class="input">
+			       <label>Respiratory Rate (bpm):</label>
+                   <input type="text" name="Respiratory" class="inline" id="Patient.ClinicalFindings.RespiratoryRate"/>
+                </div> 
+                <div class="input">
                     <label>Cardiac Auscultation: </label>
                     <select name="Cardiac"  id="Patient.ClinicalFindings.CardiacAuscultation">
 						<option value="None" selected>None</option>
@@ -61,6 +65,16 @@
                 <div class="input">
                     <input type="text" name="Pulse" class="inline" id="Patient.ClinicalFindings.ReasonForClassification"/>
                     <label id="Patient.ClinicalFindings.ReasonForClassification">Reason:</label>
+                </div>
+                </div>
+                <div class="input">
+                    <label>Mucous Membrane Color: </label>
+                    <select name="CurrentMeds" "Patient.ClinicalFindings.MucousMembraneColor">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
                 </div>
                                                                                                                               
                 </div>
@@ -116,13 +130,11 @@
                     <label for="Patient.ClinicalFindings.AnesthesiaConcerns.BloodLoss" class="checkbox">Blood Loss</label>
                 </div>
                 <div class="input">
-                    <label>Current Medications: </label>
-                    <select multiple name="CurrentMeds" "Patient.ClinicalFindings.CurrentMedications">
-						<option value="None" selected>None</option>
-						<option value="Option1">1</option>
-						<option value="Option2">2</option>
-						<option value="Option3">3</option>
-					</select>
+			       <label>Current Medications:</label>
+                   <input type="text" name="Date" class="inline"id="Patient.ClinicalFindings.CurrentMedications"/>
                 </div>
-                </div>			
+                <div class="input">
+			       <label>Other Current Medications:</label>
+                   <input type="text" name="Date" class="inline"id="Patient.ClinicalFindings.OtherCurrentMedications"/>
+                </div>		
 				</form>

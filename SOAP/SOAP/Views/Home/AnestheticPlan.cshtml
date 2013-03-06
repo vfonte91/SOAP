@@ -6,8 +6,8 @@
             <h2>Anesthetic Plan</h2>
             <h4>Premedication</h4>
                 <div class="input">
-                    <label>Select Drugs: </label>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.Drug">
+                    <label>Route of Administration: </label>
+                    <select name="PreMedRoute" id="Patient.AnestheticPlanPremedication.Route">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -15,8 +15,8 @@
 					</select>
                 </div>
                 <div class="input">
-                    <label>Route of Administration: </label>
-                    <select name="PreMedRoute" id="Patient.AnestheticPlanPremedication.Route">
+                    <label>Select Drugs: </label>
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.Drug">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -27,56 +27,36 @@
 			       <label>Dosage: </label>
                    <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.Dosage" />
                 </div>
+                <div class="input">
+                    <label>Select Other Drugs: </label>
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.DrugTwo">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.DosageTwo" />
+                </div>
+                <div class="input">
+                    <label>Select Other Drugs: </label>
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.DrugThree">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.DosageThree" />
+                </div>
                <div class="input">
                    <input type="submit" value="Submit" />
                 </div> '
             </div>
-                  <!----need output here--->      
+           
 
-            
-            <div class="right half">
-            <h4>Induction</h4>
-                <div class="input">
-                    <label>Select Injectable Drugs: </label>
-                    <select name="InductionDrugs" id="Patient.AnestheticPlanInjection.Drug">
-						<option value="None" selected>None</option>
-						<option value="Option1">1</option>
-						<option value="Option2">2</option>
-						<option value="Option3">3</option>
-					</select>
-                </div>
-                <div class="input">
-                    <label>Select Route of Administration: </label>
-                    <select name="InductionRoute" id="Patient.AnestheticPlanInjection.Route">
-						<option value="None" selected>None</option>
-						<option value="Option1">1</option>
-						<option value="Option2">2</option>
-						<option value="Option3">3</option>
-					</select>
-                </div>
-               <div class="input">
-			       <label>Dosage: </label>
-                   <input type="text" name="InductionDosage" class="inline" id="Patient.AnestheticPlanInjection.Dosage" />
-                </div>
-                <div class="input">
-                    <label>Select Inhalant Drugs: </label>
-                    <select name="InhalantDrugs" id="Patient.AnestheticPlanInhalant.Drug">
-						<option value="None" selected>None</option>
-						<option value="Option1">1</option>
-						<option value="Option2">2</option>
-						<option value="Option3">3</option>
-					</select>
-                </div>
-               <div class="input">
-			       <label>Dosage: </label>
-                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.Dosage" />
-                </div>
-                 <div class="input">
-			       <label>Oxygen Flow Rate: </label>
-                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRate" />
-                </div>
-               <div class="input">
-                   <input type="submit" value="Submit" />
-                </div> 
-            </div>
              </form>
