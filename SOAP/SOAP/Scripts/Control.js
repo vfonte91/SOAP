@@ -97,24 +97,31 @@ function registerUser() {
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
     if (pw1 == pw2) {
-        var userName = $("#username").val()
-        var ASFUser = {
-            Username: userName,
-            FullName: 'Needs Implemented',
-            EmailAddress: $("#email").val(),
-            MembershipInfo: {
-                Username: userName,
-                Password: pw1
+        var userName = $("#username").val();
+        var ASFUser1 = {
+            "Username": userName,
+            "FullName": 'Needs Implemented',
+            "EmailAddress": $("#email").val(),
+            "Member": {
+                "Username": userName,
+                "Password": pw1
             }
         };
-        console.log(ASFUser);
-        $.post(rootDir + '/Home/RegisterUser', ASFUser, function (data) {
-            console.log(returnVal) = JSON.parse(data);
-            if (returnVal.success)
+        console.log(ASFUser1);
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: rootDir + '/Home/RegisterUser',
+            data: JSON.stringify(ASFUser1),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+                console.log(data);
                 return true;
-        }, 'json')
-        .error(function () {
-            return false;
+            },
+            error: function (data) {
+                console.log(data);
+            }
         });
     }
     return false;

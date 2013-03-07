@@ -5,10 +5,10 @@ namespace SOAP.Models
 {
     public class MembershipInfo
     {
-        private Guid _id;
+        private int _id;
         private string _username;
         private string password;
-        private string _passwordFormat;
+        private System.Web.Security.MembershipPasswordFormat _passwordFormat;
         private string _passwordSalt;
         private DateTime _lastLoginDate;
         private int _isApproved;
@@ -21,7 +21,7 @@ namespace SOAP.Models
         private int _failedPasswordAnswerAttemptCount;
         private DateTime _failedPasswordAnswerAttemptWindowStart;
 
-        public Guid Id
+        public int Id
         {
             get { return _id; }
             set { _id = value; }
@@ -39,7 +39,7 @@ namespace SOAP.Models
             set { password = value; }
         }
 
-        public string PasswordFormat
+        public System.Web.Security.MembershipPasswordFormat PasswordFormat
         {
             get { return _passwordFormat; }
             set { _passwordFormat = value; }
@@ -116,6 +116,8 @@ namespace SOAP.Models
             _lastLoginDate = DateTime.Now;
             _isApproved = 1;
             _isLockedOut = 0;
+            _passwordFormat = System.Web.Security.MembershipPasswordFormat.Hashed;
+            _passwordSalt = "General";
             _createDate = DateTime.Now;
             _lastPasswordChangedDate = DateTime.Now;
             _lastLockoutDate = DateTime.Now;

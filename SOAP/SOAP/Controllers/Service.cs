@@ -20,7 +20,7 @@ namespace SOAP.Controllers
 
         public bool ChangePassword(ASFUser user, string oldpassword)
         {
-            if (service.UpdateMembershipPassword(user.MembershipInfo, oldpassword))
+            if (service.UpdateMembershipPassword(user.Member, oldpassword))
                 return true;
             else
                 return false;
@@ -335,7 +335,7 @@ namespace SOAP.Controllers
 
         public bool CreateASFUser(ASFUser user)
         {
-            Guid id = service.CreateMembership(user.MembershipInfo);
+            int id = service.CreateMembership(user.Member);
             user.UserId = id;
             return service.CreateASFUser(user);
         }
@@ -523,7 +523,7 @@ namespace SOAP.Controllers
 
         public void DeleteASFUser(ASFUser user)
         {
-            service.DeleteASPNetMembership(user.MembershipInfo);
+            service.DeleteASPNetMembership(user.Member);
             service.DeleteASFUser(user);
         }
 

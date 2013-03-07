@@ -35,8 +35,8 @@ namespace SOAP.Controllers
                 sql = sql + fromUser + whereUser;
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.MembershipInfo.Username;
-                cmd.Parameters.Add("@Password", SqlDbType.Int).Value = user.MembershipInfo.Password;
+                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.Member.Username;
+                cmd.Parameters.Add("@Password", SqlDbType.Int).Value = user.Member.Password;
 
                 try
                 {
@@ -1153,7 +1153,7 @@ namespace SOAP.Controllers
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@UserId", SqlDbType.UniqueIdentifier).Value = user.UserId;
+                cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = user.UserId;
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
                 cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
                 cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
@@ -1176,9 +1176,9 @@ namespace SOAP.Controllers
             return val;
         }
 
-        public Guid CreateMembership(MembershipInfo member)
+        public int CreateMembership(MembershipInfo member)
         {
-            Guid ident = new Guid();
+            int ident = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.aspnet_Membership (
@@ -1187,7 +1187,8 @@ namespace SOAP.Controllers
                             ) VALUES (
                             @Username, @Password, @PasswordFormat, @PasswordSalt, @IsApproved, @IsLockedOut, @CreateDate, @LastLoginDate, @LastPasswordChangedDate,
                             @LastLockoutDate, @FailedPasswordAttemptCount, @FailedPasswordAttemptWindowStart, @FailedPasswordAnswerAttemptCount, @FailedPasswordAnswerAttemptWindowStart
-                            )";
+                            )
+                           SELECT SCOPE_IDENTITY() as Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
@@ -1207,7 +1208,9 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    ident = (Guid)cmd.ExecuteScalar();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    read.Read();
+                    ident = Convert.ToInt32(read["Id"].ToString());
                 }
                 catch
                 {

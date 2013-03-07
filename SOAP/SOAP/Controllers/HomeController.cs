@@ -43,16 +43,6 @@ namespace SOAP.Controllers
         [HttpPost]
         public ActionResult RegisterUser(ASFUser user)
         {
-            //ASFUser user1 = new ASFUser();
-            //user1.FullName = "Test";
-            //user1.EmailAddress = "Email";
-            //user1.IsAdmin = 0;
-            //user1.Username = "TestUser";
-            //MembershipInfo member = new MembershipInfo();
-            //member.Username = "TestUser";
-            //member.Password = "pass";
-            //user1.MembershipInfo = member;
-            //return Json(user1);
             Dictionary<string, object> dict = new Dictionary<string, object>();
             try
             {
