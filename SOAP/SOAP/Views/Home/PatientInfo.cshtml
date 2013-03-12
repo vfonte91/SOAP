@@ -16,6 +16,10 @@
 	</select>
 </div>
 <div class="input">
+	<label>Other:</label>
+    <input type="text" name="weight" class="inline" id="Patient.PatientInfo.ProcedureOther" >
+</div>
+<div class="input">
 	<label>Body Weight (kg):</label>
     <input type="text" name="weight" class="inline" id="Patient.PatientInfo.BodyWeight" >
 </div>
@@ -35,8 +39,11 @@
 </div>
 <div class ="input">
     <label>Date: </label>
-    <input type="text" name="weight" class="inline" id="Patient.PatientInfo.Date" >
+    <input type="text" name="weight" class="inline" id="Patient.PatientInfo.Date" ><a href="javascript:NewCal('Patient.PatientInfo.Date','ddmmyyyy',true, 12)"><img src="~/Scripts/cal.gif" width="16" height="16" border="0" alt="Pick a date"></a>
 </div>
+
+</div>
+<div class = "right half">
 <h2>Pain Assessment</h2>
 <div class="input">
     <label>Preoperative: </label>
