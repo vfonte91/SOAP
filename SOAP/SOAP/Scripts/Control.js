@@ -63,6 +63,7 @@ $(document).ready(function () {
         //Validate user
         if (validateUser()) {
 
+        $("#thumbs a.disabled").show("drop");
             $("#thumbs a.disabled").removeClass("disabled");
             $("#login-div").slideUp(function () {
                 $("#saved-forms-div").slideDown();
