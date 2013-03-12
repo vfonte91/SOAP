@@ -85,11 +85,16 @@ $(document).ready(function () {
     });
 });
 
+function setProfileInfo(fullName, email) {
+    $("#Patient\\.Profile\\.FullName").val(fullName);
+    $("#Patient\\.Profile\\.Email").val(email);
+}
+
 function getValue() { }
 function addValue() { }
 function validateUser() {
     var returned = false;
-    var member = $("#username").val();
+    var member = $.trim($("#username").val());
     var pw = $("#password").val();
     if (member && pw) {
         var memberInfo = {
@@ -105,9 +110,11 @@ function validateUser() {
             async: false,
             success: function (data) {
                 if (data.success) {
+                    var user = JSON.parse(data.returnUser);
+                    setProfileInfo(user.FullName, user.EmailAddress);
                     returned = true;
-                    if (data.returnUser.IsAdmin) {
-                        IsAdmin= true;
+                    if (user.IsAdmin) {
+                        IsAdmin = true;
                     }
                 }
                 else {
@@ -129,7 +136,7 @@ function registerUser() {
     var returned = false;
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
-    var userName = $("#username").val();
+    var userName = $.trim($("#username").val());
     if (pw1 == pw2 && pw1 && userName) {
         var fullName = $("#full-name").val();
         var ASFUser1 = {
@@ -151,6 +158,10 @@ function registerUser() {
             success: function (data) {
                 if (data.success) {
                     returned = true;
+                    $("#password").val("");
+                    $("#password-repeat").val("");
+                    $("#email").val("");
+                    $("#full-name").val("");
                 }
                 else {
                     returned = false;

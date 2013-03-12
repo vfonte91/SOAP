@@ -66,10 +66,9 @@ namespace SOAP.Controllers
             {
                 // If user has correct password, then select user database
                 string sql = BuildASFUserSQL() + ", b.Password ";
-                string sqlMember = @"SELECT b.UserId FROM dbo.aspnet_Membership as b WHERE b.Username = @Username";
 
-                string fromUser = @"FROM dbo.ASF_User AS a, dbo.aspnet_Membership as b";
-                string whereUser = @" WHERE a.UserId = (" + sqlMember + ")";
+                string fromUser = @"FROM dbo.ASF_User AS a INNER JOIN dbo.aspnet_Membership as b ON a.Username = b.Username ";
+                string whereUser = @"WHERE a.Username = @Username";
 
                 sql = sql + fromUser + whereUser;
 
@@ -579,6 +578,40 @@ namespace SOAP.Controllers
                 }
             }
             return values;
+        }
+
+        public List<Patient> GetForms(ASFUser user)
+        {
+            List<Patient> pats = new List<Patient>();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+
+                string sql = @"SELECT PatientId, DateSeenOn FROM dbo.Patient WHERE StudentId = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        Patient pat = new Patient();
+                        pat.PatientId = Convert.ToInt32(read["PatientId"]);
+                        pat.PatientInfo.DateSeenOn = Convert.ToDateTime(read["DateSeenOn"]);
+                        pats.Add(pat);
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return pats;
         }
 
         public List<IntraoperativeAnalgesia> GetIntraoperativeAnalgesia(int patientId, params IntraoperativeAnalgesia.LazyComponents[] lazyComponents)
