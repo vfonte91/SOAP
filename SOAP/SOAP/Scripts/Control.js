@@ -62,8 +62,10 @@ $(document).ready(function () {
         //Validate user
         validateUser();
 
+        $("#user-info a.edit-profile").show("slide");
         $("#thumbs a.disabled").show("drop");
         $("#thumbs a.disabled").removeClass("disabled");
+        $("#user-info a.edit-profile").removeClass("disabled");
         $("#login-div").slideUp(function () {
             $("#saved-forms-div").slideDown();
         });
@@ -99,9 +101,10 @@ function registerUser() {
     var pw2 = $("#password-repeat").val();
     if (pw1 == pw2) {
         var userName = $("#username").val();
+        var fullName = $("#full-name").val();
         var ASFUser1 = {
             "Username": userName,
-            "FullName": 'Needs Implemented',
+            "FullName": fullName,
             "EmailAddress": $("#email").val(),
             "Member": {
                 "Username": userName,

@@ -31,6 +31,10 @@ body
 a:link, a:visited {
     text-decoration:none;
 }
+.disabled 
+{
+    display: none !important;
+}
 
 input[type=button] {
     -moz-border-radius: 4px;
@@ -81,7 +85,10 @@ input[type=button] {
 	margin:15px;
 }
 
-#user-info a.edit-profile{}
+#user-info a.edit-profile
+{
+    display:none;    
+}
 
 #user-info a.edit-profile span {
     background-image:url('../Images/arrow_down.png');
@@ -207,11 +214,6 @@ div.navi{
 #thumbs a.active, #thumbs a:hover
 {
     background: no-repeat url("../Images/Active.jpg");
-}
-
-#thumbs a.disabled
-{
-    display:none;
 }
 
 /*Text inside links */
