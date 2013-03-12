@@ -534,7 +534,7 @@ namespace SOAP.Controllers
             return dropdowns;
         }
 
-        public List<DropdownValue> GetDropdownCategories(int categoryId, params DropdownValue.LazyComponents[] lazyComponents)
+        public List<DropdownValue> GetDropdownCategoryValues(int categoryId, params DropdownValue.LazyComponents[] lazyComponents)
         {
             List<DropdownValue> values = new List<DropdownValue>();
             using (SqlConnection conn = new SqlConnection(connString))

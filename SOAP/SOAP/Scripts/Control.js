@@ -2,8 +2,6 @@
 
 var UserInformation = new Object();
 
-var IsAdmin = false;
-
 $(document).ready(function () {
 
     // tooltip does not work for <option>
@@ -42,6 +40,35 @@ $(document).ready(function () {
         $("#edit-profile-button").toggleClass("menu-open");
     });
 
+    $("#edit-profile-submit").click(function () {
+        var foobarredUser = UserInformation;
+        foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
+        foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: rootDir + '/Home/EditProfile',
+            data: JSON.stringify(foobarredUser),
+            contentType: 'application/json; charset=utf-8',
+            async: true,
+            success: function (data) {
+                if (data.success) {
+                    UserInformation.FullName = foobarredUser.FullName;
+                    UserInformation.EmailAddress = foobarredUser.EmailAddress;
+                    $("#profile-menu").slideToggle("slow")
+                    $("#edit-profile-button").toggleClass("menu-close");
+                    alert('User Info Updated');
+                }
+                else {
+                    alert('Error updating User Info');
+                }
+            },
+            error: function (data) {
+                alert('Error updating User Info');
+            }
+        });
+    });
+
     //When register is clicked, register inputs are shown
     $("#register").click(function () {
         if (!$("#register-div").is(":visible")) {
@@ -71,7 +98,7 @@ $(document).ready(function () {
             $("#login-div").slideUp(function () {
                 $("#saved-forms-div").slideDown();
             });
-            if (!IsAdmin) {
+            if (!UserInformation.IsAdmin) {
                 $("#thumbs a.admin").addClass("disabled");
             }
         }
@@ -85,9 +112,9 @@ $(document).ready(function () {
     });
 });
 
-function setProfileInfo(fullName, email) {
-    $("#Patient\\.Profile\\.FullName").val(fullName);
-    $("#Patient\\.Profile\\.Email").val(email);
+function setProfileInfo() {
+    $("#Patient\\.Profile\\.FullName").val(UserInformation.FullName);
+    $("#Patient\\.Profile\\.Email").val(UserInformation.EmailAddress);
 }
 
 function getValue() { }
@@ -110,12 +137,9 @@ function validateUser() {
             async: false,
             success: function (data) {
                 if (data.success) {
-                    var user = JSON.parse(data.returnUser);
-                    setProfileInfo(user.FullName, user.EmailAddress);
+                    UserInformation = JSON.parse(data.returnUser);
+                    setProfileInfo();
                     returned = true;
-                    if (user.IsAdmin) {
-                        IsAdmin = true;
-                    }
                 }
                 else {
                     returned = false;

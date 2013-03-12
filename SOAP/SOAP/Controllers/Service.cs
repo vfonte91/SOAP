@@ -34,6 +34,17 @@ namespace SOAP.Controllers
         #endregion
 
         #region GET
+
+        public List<DropdownCategory> GetDropdownCategoriesWithValues()
+        {
+            List<DropdownCategory> cats = service.GetDropdownCategories();
+            foreach (DropdownCategory dCat in cats)
+            {
+                dCat.DropDownValues = service.GetDropdownCategoryValues(dCat.Id);
+            }
+            return cats;
+        }
+
         public Patient GetPatient(int patientId)
         {
             Patient pat = new Patient();
