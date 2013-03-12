@@ -86,8 +86,8 @@ input[type=button] {
 #user-info a.edit-profile span {
     background-image:url('../Images/arrow_down.png');
     background-repeat:no-repeat;
-    background-position:100% 38%;
-    padding:4px 18px 6px 0;
+    background-position:100% 40%;
+    padding:4px 30px 6px 0;
 }
 
 #user-info a.menu-open {}
