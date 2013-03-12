@@ -209,9 +209,9 @@ div.navi{
     background: no-repeat url("../Images/Active.jpg");
 }
 
-#thumbs a.disabled:hover 
+#thumbs a.disabled
 {
-    background: no-repeat url("../Images/InActive.jpg");
+    display:none;
 }
 
 /*Text inside links */
