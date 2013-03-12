@@ -19,18 +19,25 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
-        public ActionResult DoLogin(ASFUser user)
+        public ActionResult DoLogin(MembershipInfo user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             try
             {
-                ASFUser returnUser = service.DoLogin(user);
+                ASFUser returnUser = service.GetUser(user);
                 if (returnUser.Username == null)
                     dict["success"] = false;
                 else
                 {
-                    dict["success"] = true;
-                    dict["returnUser"] = new JavaScriptSerializer().Serialize(returnUser);
+                    if (PasswordHash.ValidatePassword(user.Password, returnUser.Member.Password))
+                    {
+                        dict["success"] = true;
+                        dict["returnUser"] = new JavaScriptSerializer().Serialize(returnUser);
+                    }
+                    else
+                    {
+                        dict["success"] = false;
+                    }
                 }
             }
             catch
@@ -46,6 +53,7 @@ namespace SOAP.Controllers
             Dictionary<string, object> dict = new Dictionary<string, object>();
             try
             {
+                user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
                 dict["success"] = service.CreateASFUser(user);
             }
             catch

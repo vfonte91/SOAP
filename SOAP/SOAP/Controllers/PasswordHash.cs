@@ -2,7 +2,7 @@
 using System.Text;
 using System.Security.Cryptography;
 
-namespace HashingSalt.Models
+namespace SOAP.Controllers
 {
     public class PasswordHash
     {

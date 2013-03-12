@@ -13,9 +13,14 @@ namespace SOAP.Controllers
 
         #region LOGIN
 
-        public ASFUser DoLogin(ASFUser user)
+        public ASFUser DoLogin(MembershipInfo user)
         {
             return service.DoLogin(user);
+        }
+
+        public ASFUser GetUser(MembershipInfo user)
+        {
+            return service.GetUser(user);
         }
 
         public bool ChangePassword(ASFUser user, string oldpassword)

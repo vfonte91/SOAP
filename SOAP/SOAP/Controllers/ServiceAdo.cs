@@ -20,7 +20,7 @@ namespace SOAP.Controllers
 
         #region Login
 
-        public ASFUser DoLogin(ASFUser user)
+        public ASFUser DoLogin(MembershipInfo user)
         {
             ASFUser singleUser = new ASFUser();
             using (SqlConnection conn = new SqlConnection(connString))
@@ -35,8 +35,8 @@ namespace SOAP.Controllers
                 sql = sql + fromUser + whereUser;
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.Member.Username;
-                cmd.Parameters.Add("@Password", SqlDbType.Int).Value = user.Member.Password;
+                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.Username;
+                cmd.Parameters.Add("@Password", SqlDbType.Int).Value = user.Password;
 
                 try
                 {
@@ -45,6 +45,45 @@ namespace SOAP.Controllers
                     while (read.Read())
                     {
                         singleUser = new ASFUserCallback().ProcessRow(read);
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return singleUser;
+        }
+
+        public ASFUser GetUser(MembershipInfo user)
+        {
+            ASFUser singleUser = new ASFUser();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                // If user has correct password, then select user database
+                string sql = BuildASFUserSQL() + ", b.Password ";
+                string sqlMember = @"SELECT b.UserId FROM dbo.aspnet_Membership as b WHERE b.Username = @Username";
+
+                string fromUser = @"FROM dbo.ASF_User AS a, dbo.aspnet_Membership as b";
+                string whereUser = @" WHERE a.UserId = (" + sqlMember + ")";
+
+                sql = sql + fromUser + whereUser;
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        singleUser = new ASFUserCallback().ProcessRow(read);
+                        singleUser.Member.Password = read["Password"].ToString() ;
                     }
                 }
                 catch

@@ -49,9 +49,10 @@ $(document).ready(function () {
             //Register user
             if (registerUser()) {
                 alert('success');
+                $("#register-div").slideUp('slow');
             }
             else {
-                alert('failure');
+                alert('Register User Failed');
             }
         }
     });
@@ -60,44 +61,62 @@ $(document).ready(function () {
     $("#login").click(function () {
 
         //Validate user
-        validateUser();
+        if (validateUser()) {
 
-        $("#thumbs a.disabled").removeClass("disabled");
-        $("#login-div").slideUp(function () {
-            $("#saved-forms-div").slideDown();
-        });
-    });
-
-    $("#dropdownCat").change(function () {
-        var values = getValue($(this).val());
+            $("#thumbs a.disabled").removeClass("disabled");
+            $("#login-div").slideUp(function () {
+                $("#saved-forms-div").slideDown();
+            });
+        }
+        else {
+            alert('Validate User Failed');
+        }
     });
 });
 
 function getValue() { }
 function addValue() { }
 function validateUser() {
-    var ASFUser = {
-        MembershipInfo: {
-            Username: $("#username").val(),
-            Password: $("#password").val()
-        }
-    };
-    $.post(rootDir + '/Home/DoLogin', ASFUser, function (data) {
-        UserInformation = JSON.parse(data);
-        if (UserInformation.success)
-            return true;
-    })
-    .error(function() {
-        return false;
-    });
-    return false;
+    var returned = false;
+    var member = $("#username").val();
+    var pw = $("#password").val();
+    if (member && pw) {
+        var memberInfo = {
+            Username: member,
+            Password: pw
+        };
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: rootDir + '/Home/DoLogin',
+            data: JSON.stringify(memberInfo),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+                if (data.success) {
+                    returned = true;
+                }
+                else {
+                    returned = false;
+                }
+            },
+            error: function (data) {
+                returned = false;
+            }
+        });
+    }
+    else {
+        returned = false;
+    }
+    return returned;
 }
 
 function registerUser() {
+    var returned = false;
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
-    if (pw1 == pw2) {
-        var userName = $("#username").val();
+    var userName = $("#username").val();
+    if (pw1 == pw2 && pw1 && userName) {
         var ASFUser1 = {
             "Username": userName,
             "FullName": 'Needs Implemented',
@@ -107,7 +126,6 @@ function registerUser() {
                 "Password": pw1
             }
         };
-        console.log(ASFUser1);
         $.ajax({
             type: 'Post',
             dataType: 'json',
@@ -116,13 +134,20 @@ function registerUser() {
             contentType: 'application/json; charset=utf-8',
             async: false,
             success: function (data) {
-                console.log(data);
-                return true;
+                if (data.success) {
+                    returned = true;
+                }
+                else {
+                    returned = false;
+                }
             },
             error: function (data) {
-                console.log(data);
+                returned = false;
             }
         });
     }
-    return false;
+    else {
+        returned = false;
+    }
+    return returned;
 }
