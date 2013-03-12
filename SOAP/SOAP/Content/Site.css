@@ -12,10 +12,10 @@ html
 
 body
 {
-    font-family: "Lucida Grande",Avant Garde, Helvetica, Sans-Serif;
+    font-family: "Segoe UI", "Lucida Grande",Avant Garde, Helvetica, Sans-Serif;
     margin: 0;
     padding: 0;
-    background-color: #383636;
+    background-color: rgb(129, 129, 129);
 }
 .center 
 {
@@ -32,10 +32,10 @@ a:link, a:visited {
     text-decoration:none;
 }
 
-
 input[type=button] {
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
+    border-radius: 4px;
     background: #d61515 repeat-x scroll 0 0;
     border: 1px solid #d61515;
     color: #fff;
@@ -47,36 +47,38 @@ input[type=button] {
     cursor: pointer;
 }
 
+#logo
+{
+    background: #fff center no-repeat url("../Images/edutechnoPLbluecalibri.png");
+    float:right;
+    width:210px;
+    height: 110px;
+    margin:15px;
+}
+
+
 #top 
 {
-    height:34px;
-    background: #d61515; /* Old browsers */
-    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Q2MTUxNSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNiYzAzMDMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top,  #d61515 0%, #bc0303 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d61515), color-stop(100%,#bc0303)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #d61515 0%,#bc0303 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #d61515 0%,#bc0303 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #d61515 0%,#bc0303 100%); /* IE10+ */
-    background: linear-gradient(to bottom,  #d61515 0%,#bc0303 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d61515', endColorstr='#bc0303',GradientType=0 ); /* IE6-8 */
+    height:40px;
+    background: #252525;
 }
 
 #title    
 {
     float: left;
-	color: White;
+	color: #fff;
     font-weight: bold;
+    margin-top: 10px;
 }
 #user-info     
 {
     float:right;
-    margin-top: 15px;
+    margin-top:20px;
     font-weight: bold;
 }
 #user-info span
 {
-    color:White;
+    color:#fff;
 	margin:15px;
 }
 
@@ -85,7 +87,7 @@ input[type=button] {
 #user-info a.edit-profile span {
     background-image:url('../Images/arrow_down.png');
     background-repeat:no-repeat;
-    background-position:100% 50%;
+    background-position:100% 38%;
     padding:4px 18px 6px 0;
 }
 
@@ -102,6 +104,9 @@ input[type=button] {
     -webkit-border-top-left-radius: 5px;
     -webkit-border-bottom-left-radius: 5px;
     -webkit-border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
     display: none;
     background-color: #f4f4f4;
     position: absolute;
@@ -122,6 +127,7 @@ input[type=button] {
     display:block;
     -moz-border-radius:4px;
     -webkit-border-radius:4px;
+    border-radius:4px;
     border:1px solid rgb(180, 180, 180);
     font-size:13px;
     margin:0 0 5px;
@@ -146,13 +152,14 @@ div#tabs {
 	position: relative;
 	overflow: hidden;
 	border: 1px solid #ddd;
-	width: 90%;
+	width: 98%;
 	height: 650px;
 	margin-left: auto;
 	margin-right: auto;
-	margin-top: 20px;
+	margin-top: 10px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
+	border-radius: 5px;
 	background-color:#f9f9f9;
 }
 
@@ -172,18 +179,13 @@ div#tabs div#tab-items {
 
 /* Class for navigation container */
 div.navi{
-    background: #383636;
-	height: 90px;
-	position: relative;
-	top: 90%;
-	width: 100%;
 }
 
 /* container for tabs links */
- #thumbs  {
+#thumbs  {
 	margin-left: auto;
 	margin-right: auto;
-	width: 816px;
+	display: inline;
 }
 
 /* tabs link */
@@ -194,39 +196,42 @@ div.navi{
 
 
 #thumbs a {
-	display: block;
-	width: 100px;
-	float: left;
-	height: 90px;
-	cursor: pointer;
-	background: url('../Images/InActive.jpg');
-	border: 1px solid #acb0a8;
-	text-decoration:none;
+    background: no-repeat url("../Images/InActive.jpg");
+    display: block;
+    float: left;
+    text-decoration: none;
+    margin: 0 0 0 5px;
+    color: #fff;
+    height: 40px;
+    width: 120px;  
+    cursor: pointer;
+    text-align: center;
 }
-#thumbs a.active
+#thumbs a.active, #thumbs a:hover
 {
-    cursor: default !important;
-    background: url('../Images/Active.jpg');
+    background: no-repeat url("../Images/Active.jpg");
+}
+
+#thumbs a.disabled:hover 
+{
+    background: no-repeat url("../Images/InActive.jpg");
 }
 
 /*Text inside links */
 #thumbs a div
-{
-    text-align:center;
-    margin-top:25px;
-    color:  white;
-    font-weight: bold;
+{   
+    margin-top:5px; 
 }
 
 form div.input 
 {
     min-height: 35px;
-    padding: 10px;
+    padding: 7px;
     background-color: #f4f4f4;
     border: 1px solid #fff;
     border-radius: 5px;
     box-shadow: 0px 0px 3px #aaa;
-    margin: 5px 0;
+    margin: 3px 0;
     clear: both;
     color: #444444;
 }

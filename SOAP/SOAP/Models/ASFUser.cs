@@ -6,9 +6,16 @@ namespace SOAP.Models
     public class ASFUser
     {
         private int _userId;
+        public MembershipInfo Member { get; set; }
         private string _username;
         private string _fullName;
         private string _emailAddress;
+        private int _isAdmin;
+
+        public enum LazyComponents
+        {
+            LOAD_MEMBERSHIP_INFO
+        };
 
         public int UserId
         {
@@ -34,14 +41,19 @@ namespace SOAP.Models
             set { _emailAddress = value; }
         }
 
+        public int IsAdmin
+        {
+            get { return _isAdmin; }
+            set { _isAdmin = value; }
+        }
+
         public ASFUser()
         {
-            _userId = -1;
         }
 
         public bool ValidateASFUser()
         {
-            if (_userId == 0 || _username == null || _fullName == null)
+            if (_username == null || _fullName == null)
                 return false;
             else
                 return true;

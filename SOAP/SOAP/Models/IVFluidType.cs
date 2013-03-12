@@ -10,6 +10,11 @@ namespace SOAP.Models
         private DropdownValue _fluidType;
         private decimal _dose;
 
+        public enum LazyComponents
+        {
+            LOAD_FLUID_TYPE_WITH_DETAILS
+        };
+
         public int Id
         {
             get { return _id; }
