@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Induction";
+}
+
+<h2>Induction</h2>
+<form action="">
+    <div class="left half">
+                <h4>Injectable</h4>
+                <div class="input">
+                    <label>Select Injectable Drugs: </label>
+                    <select name="InductionDrugs" id="Patient.AnestheticPlanInjection.Drug">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+                <div class="input">
+                    <label>Select Route of Administration: </label>
+                    <select name="InductionRoute" id="Patient.AnestheticPlanInjection.Route">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="InductionDosage" class="inline" id="Patient.AnestheticPlanInjection.Dosage" />
+                </div>
+    </div>
+    <div class = "right half">
+    <h4>Inhalants</h4>
+                    <div class="input">
+                    <label>Select Inhalant Drugs: </label>
+                    <select name="InhalantDrugs" id="Patient.AnestheticPlanInhalant.Drug">
+						<option value="None" selected>None</option>
+						<option value="Option1">1</option>
+						<option value="Option2">2</option>
+						<option value="Option3">3</option>
+					</select>
+                </div>
+               <div class="input">
+			       <label>Starting Percentage: </label>
+                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageStarting" />
+                </div>
+                 <div class="input">
+			       <label>Starting Oxygen Flow Rate: </label>
+                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateStarting" />
+                </div>
+               <div class="input">
+			       <label>Secondary Percentage: </label>
+                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageSecondary" />
+                </div>
+                 <div class="input">
+			       <label>Secondary Oxygen Flow Rate: </label>
+                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateSecondary" />
+                </div>
+               <div class="input">
+                   <input type="submit" value="Submit" />
+                </div>         
+    </div>
+</form>
