@@ -10,10 +10,10 @@ namespace SOAP.Models.Callbacks
         public AdministrationSet ProcessRow(SqlDataReader read)
         {
             AdministrationSet aSet = new AdministrationSet();
-            aSet.Id = Convert.ToInt32(read["Id"]);
-            aSet.PatientId = Convert.ToInt32(read["PatientId"].ToString());
-            aSet.MiniDripFlag = Convert.ToInt16(read["MiniDripFlag"].ToString());
-            aSet.MaxiDripFlag = Convert.ToInt16(read["MaxiDripFlag"].ToString());
+            aSet.Id = Convert.ToInt32(read["a.Id"]);
+            aSet.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
+            aSet.MiniDripFlag = Convert.ToInt16(read["a.MiniDripFlag"].ToString());
+            aSet.MaxiDripFlag = Convert.ToInt16(read["a.MaxiDripFlag"].ToString());
             return aSet;
         }
     }

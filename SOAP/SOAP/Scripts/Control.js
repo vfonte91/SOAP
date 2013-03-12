@@ -1,5 +1,7 @@
 ﻿var PatientInfo = new Object();
 
+var UserInformation = new Object();
+
 $(document).ready(function () {
 
     // tooltip does not work for <option>
@@ -45,7 +47,12 @@ $(document).ready(function () {
         }
         else {
             //Register user
-            registerUser()
+            if (registerUser()) {
+                alert('success');
+            }
+            else {
+                alert('failure');
+            }
         }
     });
 
@@ -60,10 +67,62 @@ $(document).ready(function () {
             $("#saved-forms-div").slideDown();
         });
     });
+
+    $("#dropdownCat").change(function () {
+        var values = getValue($(this).val());
+    });
 });
 
-function addValue(section, id, value) { }
+function getValue() { }
+function addValue() { }
+function validateUser() {
+    var ASFUser = {
+        MembershipInfo: {
+            Username: $("#username").val(),
+            Password: $("#password").val()
+        }
+    };
+    $.post(rootDir + '/Home/DoLogin', ASFUser, function (data) {
+        UserInformation = JSON.parse(data);
+        if (UserInformation.success)
+            return true;
+    })
+    .error(function() {
+        return false;
+    });
+    return false;
+}
 
-function validateUser() { }
-
-function registerUser() { }
+function registerUser() {
+    var pw1 = $("#password").val();
+    var pw2 = $("#password-repeat").val();
+    if (pw1 == pw2) {
+        var userName = $("#username").val();
+        var ASFUser1 = {
+            "Username": userName,
+            "FullName": 'Needs Implemented',
+            "EmailAddress": $("#email").val(),
+            "Member": {
+                "Username": userName,
+                "Password": pw1
+            }
+        };
+        console.log(ASFUser1);
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: rootDir + '/Home/RegisterUser',
+            data: JSON.stringify(ASFUser1),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+                console.log(data);
+                return true;
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        });
+    }
+    return false;
+}

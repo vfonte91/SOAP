@@ -18,6 +18,13 @@ namespace SOAP.Models
         private DropdownValue _breathingSystem;
         private DropdownValue _breathingBagSize;
 
+        public enum LazyComponents
+        {
+            LOAD_DRUG_WITH_DETAILS,
+            LOAD_BREATHING_SYSTEM_WITH_DETAILS,
+            LOAD_BREATHING_BAG_SIZE_WITH_SETAILS
+        };
+
         public int Id
         {
             get { return _id; }
