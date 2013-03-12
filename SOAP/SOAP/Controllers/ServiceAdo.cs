@@ -66,10 +66,9 @@ namespace SOAP.Controllers
             {
                 // If user has correct password, then select user database
                 string sql = BuildASFUserSQL() + ", b.Password ";
-                string sqlMember = @"SELECT b.UserId FROM dbo.aspnet_Membership as b WHERE b.Username = @Username";
 
-                string fromUser = @"FROM dbo.ASF_User AS a, dbo.aspnet_Membership as b";
-                string whereUser = @" WHERE a.UserId = (" + sqlMember + ")";
+                string fromUser = @"FROM dbo.ASF_User AS a INNER JOIN dbo.aspnet_Membership as b ON a.Username = b.Username ";
+                string whereUser = @"WHERE a.Username = @Username";
 
                 sql = sql + fromUser + whereUser;
 

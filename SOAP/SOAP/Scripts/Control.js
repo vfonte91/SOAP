@@ -89,7 +89,7 @@ function getValue() { }
 function addValue() { }
 function validateUser() {
     var returned = false;
-    var member = $("#username").val();
+    var member = $.trim($("#username").val());
     var pw = $("#password").val();
     if (member && pw) {
         var memberInfo = {
@@ -129,7 +129,7 @@ function registerUser() {
     var returned = false;
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
-    var userName = $("#username").val();
+    var userName = $.trim($("#username").val());
     if (pw1 == pw2 && pw1 && userName) {
         var fullName = $("#full-name").val();
         var ASFUser1 = {
