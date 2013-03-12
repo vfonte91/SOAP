@@ -56,8 +56,7 @@ input[type=button] {
     margin:15px;
 }
 
-
-#top 
+#top
 {
     height:40px;
     background: #252525;
@@ -115,10 +114,8 @@ input[type=button] {
     border: 1px solid rgb(182, 182, 182);
     text-align: left;
     padding: 12px;
-    top: 30px;
+    top: 40px;
     right: 0px;
-    margin-top: 5px;
-    margin-right: 0px;
     color: rgb(109, 109, 109);
     font-size: 11px;
 }
@@ -248,7 +245,6 @@ div.right.half div.input
 
 form div.input label 
 {
-    float: left;
     padding: 8px;
 }
 
@@ -258,10 +254,19 @@ form div.input input[type=text], form div.input input[type=password], form div.i
   -moz-transition: all 0.30s ease-in-out;
   outline: none;
   border: 1px solid #DDDDDD;
-  float: right;
   padding: 8px;
   background: #ffffff;
   width: 50%;
+}
+
+form div.input input[type=text], form div.input input[type=password]
+{
+  float: right;
+}
+
+form div.input textarea 
+{
+    margin-left: 200px;   
 }
 
 form div.input input[type=text]:focus, form div.input textarea:focus, form div.input input[type=password]:focus {
@@ -271,15 +276,14 @@ form div.input input[type=text]:focus, form div.input textarea:focus, form div.i
 
 form div.input select {
   border: 1px solid #DDDDDD;
-  float: right;
   padding: 8px;
   background: #ffffff;
   width: 50%;
+  float: right;
 }
 
 form div.input label.radio, form div.input label.checkbox 
 {
-    float: right !important;
     display: inline-block;
   transition: all 0.20s ease-in-out;
   -webkit-transition: all 0.20s ease-in-out;
@@ -296,8 +300,8 @@ form div.input input.radio {
 form div.input label.radio {
     padding: 8px 40px;
     margin: 0px 10px;
+    float:right;
 }
-
 
 form div.input input[type=radio]:checked + label, form div.input input.checkbox:checked + label
 {
