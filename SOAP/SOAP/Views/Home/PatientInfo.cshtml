@@ -3,12 +3,12 @@
 }
 
 
-<h2>Patient Information</h2>
-<form action="">
+<h2>Basic Information</h2>
+<form action="" name ="Patient Information">
 <div class="left half">
 <div class="input">
     <label>Procedure: </label>
-    <select name="Procedure">
+    <select name="Procedure" id="Patient.PatientInfo.Procedure">
 		<option value="None" selected>None</option>
 		<option value="volvo">Volvo</option>
 		<option value="saab">Saab</option>
@@ -17,16 +17,16 @@
 </div>
 <div class="input">
 	<label>Body Weight (kg):</label>
-    <input type="text" name="weight" class="inline">kg
+    <input type="text" name="weight" class="inline" id="Patient.PatientInfo.BodyWeight" >
 </div>
 <div class="input">
 	<label>Age:</label>
-    <input type="text" name="Years" placeholder="Years" class="inline">
-    <input type="text" name="months"placeholder="Months" class="inline"/>
+    <input type="text" name="Years" placeholder="Years" class="inline" id="Patient.PatientInfo.AgeInYears">
+    <input type="text" name="months"placeholder="Months" class="inline" id="Patient.PatientInfo.AgeInMonths"/>
 </div>
 <div class="input">
     <label>Temperament: </label>
-    <select name="Temperament">
+    <select name="Temperament" id="Patient.PatientInfo.Temperament">
 		<option value="None" selected>N/A</option>
 		<option value="Option1">Nice</option>
 		<option value="Option2">Ok</option>
@@ -36,7 +36,7 @@
 <h2>Pain Assesment</h2>
 <div class="input">
     <label>Preoperative: </label>
-    <select name="PreOp">
+    <select name="PreOp" id="Patient.PatientInfo.PreoperativePainAssesment">
 		<option value="None" selected>None</option>
 		<option value="Option1">Mild</option>
 		<option value="Option2">Moderate</option>
@@ -45,7 +45,7 @@
 </div>
 <div class="input">
     <label>Anticipated Postoperative: </label>
-    <select name="PostOp">
+    <select name="PostOp" id="Patient.PatientInfo.PostperativePainAssesment">
 		<option value="None" selected>None</option>
 		<option value="Option1">Mild</option>
 		<option value="Option2">Moderate</option>

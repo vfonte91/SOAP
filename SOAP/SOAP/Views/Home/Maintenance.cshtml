@@ -7,7 +7,7 @@
             <h2>Maintenance</h2>
                 <div class ="input">
                     <label>Select Injectable Drugs: </label>
-                    <select name="MaintenDrugs">
+                    <select name="MaintenDrugs" id="Patient.MaintenanceInjectionDrug.Drug">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="input">
                     <label>Select Route of Administration: </label>
-                    <select name="MainenRoute">
+                    <select name="MainenRoute" id="Patient.MaintenanceInjectionDrug.RouteOfAdministration">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -25,12 +25,12 @@
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="MaintenDosage" class="inline" />
+                   <input type="text" name="MaintenDosage" class="inline"  id="Patient.MaintenanceInjectionDrug.Dosage" />
                 </div>
 
                 <div class="input">
                     <label>Select Inhalant Drugs: </label>
-                    <select name="MaintenInhalantDrugs">
+                    <select name="MaintenInhalantDrugs" id="Patient.MaintenanceInhalentDrug.Drug">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -40,11 +40,11 @@
                 <h4>Induction Required: </h4>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="MaintenInducDosage" class="inline" />
+                   <input type="text" name="MaintenInducDosage" class="inline" id="Patient.MaintenanceInhalentDrug.InductionDose" />
                 </div>
                  <div class="input">
 			       <label>Oxygen Flow Rate: </label>
-                   <input type="text" name="MaintenInducOxygen" class="inline" />
+                   <input type="text" name="MaintenInducOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.InductionOxygenFlowRate" />
                 </div>
             </div>
 
@@ -52,16 +52,16 @@
             <h4>Maintenenance Required:</h4>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="MaintenMaintenDosage" class="inline" />
+                   <input type="text" name="MaintenMaintenDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDose" />
                 </div>
                  <div class="input">
 			       <label>Oxygen Flow Rate: </label>
-                   <input type="text" name="MaintenMaintenOxygen" class="inline" />
+                   <input type="text" name="MaintenMaintenOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRate" />
                 </div>
             <h4>Equiptment required: </h4>
                 <div class="input">
                     <label>Breathing System: </label>
-                    <select name="BreathingSystem">
+                    <select name="BreathingSystem"  id="Patient.MaintenanceInhalentDrug.BreathingSystem">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="input">
                     <label>Breathing Bag Size: </label>
-                    <select name="BagSize">
+                    <select name="BagSize" id="Patient.MaintenanceInhalentDrug.BreathingBagSize">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -80,7 +80,7 @@
             <h4>Other</h4>
                 <div class="input">
                     <label>Intraoperative Analgesia: </label>
-                    <select name="IntraAnalgesia">
+                    <select name="IntraAnalgesia" id="Patient.OtherAnestheticDrug.IntraoperativeAnalgesia">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
