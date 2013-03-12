@@ -15,8 +15,8 @@
 					</select>
                 </div>
                 <div class="input">
-                    <label>Select Drugs: </label>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.Drug">
+                    <label>Sedative Drugs: </label>
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.SedativeDrug">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -25,11 +25,11 @@
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.Dosage" />
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.SedativeDosage" />
                 </div>
                 <div class="input">
-                    <label>Select Other Drugs: </label>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.DrugTwo">
+                    <label>Opioid Drugs: </label>
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.OpioidDrug">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -38,11 +38,11 @@
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.DosageTwo" />
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.OpioidDosage" />
                 </div>
                 <div class="input">
-                    <label>Select Other Drugs: </label>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.DrugThree">
+                    <label>Anticholinergic Drugs: </label>
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.AnticholinergicDrug">
 						<option value="None" selected>None</option>
 						<option value="Option1">1</option>
 						<option value="Option2">2</option>
@@ -51,8 +51,22 @@
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.DosageThree" />
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.AnticholinergicDosage" />
                 </div>
+            </div>
+            <div class="right half">
+                 <div class="input">
+                    <label>Ketamine</label>
+                    <input type="radio" id="Patient.AnestheticPlanPremedication.Ketamine.Yes" name="Paralyze"  class="radio" value="ParalyzeYes"/>
+                    <label for="Patient.AnestheticPlanPremedication.Ketamine.Yes" class="radio">Yes</label>
+                    <input type="radio" id="Patient.AnestheticPlanPremedication.Ketamine.No" name="Paralyze" class="radio" value="ParalyzeNo"/>
+                    <label for="Patient.AnestheticPlanPremedication.Ketamine.No" class="radio">No</label>
+                </div>
+               <div class="input">
+			       <label>Dosage: </label>
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.KetamineDosage" />
+                </div>                
+            
             </div>
            
 
