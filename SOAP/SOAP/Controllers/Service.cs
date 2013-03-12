@@ -40,7 +40,7 @@ namespace SOAP.Controllers
             List<DropdownCategory> cats = service.GetDropdownCategories();
             foreach (DropdownCategory dCat in cats)
             {
-                dCat.DropDownValues = service.GetDropdownCategoryValues(dCat.Id);
+                dCat.DropdownValues = service.GetDropdownCategoryValues(dCat.Id);
             }
             return cats;
         }

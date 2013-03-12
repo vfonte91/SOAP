@@ -8,7 +8,7 @@ namespace SOAP.Models
         private int _id;
         private string _shortName;
         private string _longName;
-        private List<DropdownValue> _dropDownValues;
+        private List<DropdownValue> _dropdownValues;
 
         public enum LazyComponents
         {
@@ -36,6 +36,7 @@ namespace SOAP.Models
         public DropdownCategory()
         {
             _id = -1;
+            _dropdownValues = new List<DropdownValue>();
         }
 
         public bool ValidateDropdownCategory()
@@ -46,10 +47,10 @@ namespace SOAP.Models
                 return true;
         }
 
-        public List<DropdownValue> DropDownValues
+        public List<DropdownValue> DropdownValues
         {
-            get { return _dropDownValues; }
-            set { _dropDownValues = value; }
+            get { return _dropdownValues; }
+            set { _dropdownValues = value; }
         }
     }
 }

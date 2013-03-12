@@ -510,7 +510,7 @@ namespace SOAP.Controllers
 
                 string where = @"";
 
-                sql = sql + from + where;
+                sql = sql + from + where + " ORDER BY a.Id ";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 try

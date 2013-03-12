@@ -117,6 +117,27 @@ function setProfileInfo() {
     $("#Patient\\.Profile\\.Email").val(UserInformation.EmailAddress);
 }
 
+function GetAllDropdownCategories() {
+    var DropdownCategories;
+    $.ajax({
+        type: 'Post',
+        dataType: 'json',
+        url: rootDir + '/Home/GetAllDropdownCategories',
+        contentType: 'application/json; charset=utf-8',
+        async: false,
+        success: function (data) {
+            if (data.success) {
+                DropdownCategories = data.DropdownCategories;
+            }
+            else {
+            }
+        },
+        error: function (data) {
+        }
+    });
+    return DropdownCategories;
+}
+
 function getValue() { }
 function addValue() { }
 function validateUser() {

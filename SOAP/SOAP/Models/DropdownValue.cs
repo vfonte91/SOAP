@@ -49,6 +49,7 @@ namespace SOAP.Models
         public DropdownValue()
         {
             _id = -1;
+            _category = new DropdownCategory();
         }
 
         public bool ValidateDropdownValue()
