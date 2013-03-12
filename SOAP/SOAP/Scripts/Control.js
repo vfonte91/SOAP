@@ -62,16 +62,24 @@ $(document).ready(function () {
 
         //Validate user
         if (validateUser()) {
-
-        $("#thumbs a.disabled").show("drop");
+            $("#user-info a.edit-profile").show("slide");
+            $("#thumbs a.disabled").show("drop");
             $("#thumbs a.disabled").removeClass("disabled");
-            $("#login-div").slideUp(function () {
-                $("#saved-forms-div").slideDown();
-            });
+            $("#user-info a.edit-profile").removeClass("disabled");
+                $("#login-div").slideUp(function () {
+                    $("#saved-forms-div").slideDown();
+                });
         }
         else {
             alert('Validate User Failed');
         }
+        $("#login-div").slideUp(function () {
+            $("#saved-forms-div").slideDown();
+        });
+    });
+
+    $("#dropdownCat").change(function () {
+        var values = getValue($(this).val());
     });
 });
 
@@ -118,9 +126,10 @@ function registerUser() {
     var pw2 = $("#password-repeat").val();
     var userName = $("#username").val();
     if (pw1 == pw2 && pw1 && userName) {
+        var fullName = $("#full-name").val();
         var ASFUser1 = {
             "Username": userName,
-            "FullName": 'Needs Implemented',
+            "FullName": fullName,
             "EmailAddress": $("#email").val(),
             "Member": {
                 "Username": userName,
