@@ -2,6 +2,8 @@
 
 var UserInformation = new Object();
 
+var IsAdmin = false;
+
 $(document).ready(function () {
 
     // tooltip does not work for <option>
@@ -66,9 +68,12 @@ $(document).ready(function () {
             $("#thumbs a.disabled").show("drop");
             $("#thumbs a.disabled").removeClass("disabled");
             $("#user-info a.edit-profile").removeClass("disabled");
-                $("#login-div").slideUp(function () {
-                    $("#saved-forms-div").slideDown();
-                });
+            $("#login-div").slideUp(function () {
+                $("#saved-forms-div").slideDown();
+            });
+            if (!IsAdmin) {
+                $("#thumbs a.admin").addClass("disabled");
+            }
         }
         else {
             alert('Validate User Failed');
@@ -101,6 +106,9 @@ function validateUser() {
             success: function (data) {
                 if (data.success) {
                     returned = true;
+                    if (data.returnUser.IsAdmin) {
+                        IsAdmin= true;
+                    }
                 }
                 else {
                     returned = false;
@@ -143,6 +151,10 @@ function registerUser() {
             success: function (data) {
                 if (data.success) {
                     returned = true;
+                    $("#password").val("");
+                    $("#password-repeat").val("");
+                    $("#email").val("");
+                    $("#full-name").val("");
                 }
                 else {
                     returned = false;

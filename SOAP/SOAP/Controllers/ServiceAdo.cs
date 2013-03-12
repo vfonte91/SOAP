@@ -581,6 +581,40 @@ namespace SOAP.Controllers
             return values;
         }
 
+        public List<Patient> GetForms(ASFUser user)
+        {
+            List<Patient> pats = new List<Patient>();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+
+                string sql = @"SELECT PatientId, DateSeenOn FROM dbo.Patient WHERE StudentId = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        Patient pat = new Patient();
+                        pat.PatientId = Convert.ToInt32(read["PatientId"]);
+                        pat.PatientInfo.DateSeenOn = Convert.ToDateTime(read["DateSeenOn"]);
+                        pats.Add(pat);
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return pats;
+        }
+
         public List<IntraoperativeAnalgesia> GetIntraoperativeAnalgesia(int patientId, params IntraoperativeAnalgesia.LazyComponents[] lazyComponents)
         {
             List<IntraoperativeAnalgesia> intraOp = new List<IntraoperativeAnalgesia>();
