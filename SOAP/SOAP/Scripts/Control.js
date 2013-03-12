@@ -2,6 +2,8 @@
 
 var UserInformation = new Object();
 
+var DropdownCategories = new Object();
+
 $(document).ready(function () {
 
     // tooltip does not work for <option>
@@ -101,6 +103,7 @@ $(document).ready(function () {
             if (!UserInformation.IsAdmin) {
                 $("#thumbs a.admin").addClass("disabled");
             }
+            DropdownCategories = GetAllDropdownCategories();
         }
         else {
             alert('Validate User Failed');
@@ -118,7 +121,7 @@ function setProfileInfo() {
 }
 
 function GetAllDropdownCategories() {
-    var DropdownCategories;
+    var dCats;
     $.ajax({
         type: 'Post',
         dataType: 'json',
@@ -127,7 +130,7 @@ function GetAllDropdownCategories() {
         async: false,
         success: function (data) {
             if (data.success) {
-                DropdownCategories = data.DropdownCategories;
+                dCats = data.DropdownCategories;
             }
             else {
             }
@@ -135,7 +138,7 @@ function GetAllDropdownCategories() {
         error: function (data) {
         }
     });
-    return DropdownCategories;
+    return dCats;
 }
 
 function getValue() { }
