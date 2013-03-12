@@ -73,9 +73,6 @@ $(document).ready(function () {
         else {
             alert('Validate User Failed');
         }
-        $("#login-div").slideUp(function () {
-            $("#saved-forms-div").slideDown();
-        });
     });
 
     $("#dropdownCat").change(function () {
