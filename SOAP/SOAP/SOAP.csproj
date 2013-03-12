@@ -221,11 +221,11 @@
   <ItemGroup>
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Models\Images\Active.jpg" />
-    <Content Include="Models\Images\arrow_down.png" />
-    <Content Include="Models\Images\arrow_up.png" />
-    <Content Include="Models\Images\edutechnoPLbluecalibri.png" />
-    <Content Include="Models\Images\InActive.jpg" />
+    <Content Include="Images\Active.jpg" />
+    <Content Include="Images\arrow_down.png" />
+    <Content Include="Images\arrow_up.png" />
+    <Content Include="Images\edutechnoPLbluecalibri.png" />
+    <Content Include="Images\InActive.jpg" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\jquery-1.9.0-vsdoc.js" />
     <Content Include="Scripts\jquery-1.9.0.js" />

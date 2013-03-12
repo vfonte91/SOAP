@@ -146,6 +146,10 @@ function registerUser() {
             success: function (data) {
                 if (data.success) {
                     returned = true;
+                    $("#password").val("");
+                    $("#password-repeat").val("");
+                    $("#email").val("");
+                    $("#full-name").val("");
                 }
                 else {
                     returned = false;
