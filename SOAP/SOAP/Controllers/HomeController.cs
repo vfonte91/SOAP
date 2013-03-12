@@ -63,5 +63,21 @@ namespace SOAP.Controllers
             return Json(dict);
         }
 
+        [HttpPost]
+        public ActionResult EditProfile(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.SaveASFUser(user);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
     }
 }

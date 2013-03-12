@@ -85,6 +85,11 @@ $(document).ready(function () {
     });
 });
 
+function setProfileInfo(fullName, email) {
+    $("#Patient\\.Profile\\.FullName").val(fullName);
+    $("#Patient\\.Profile\\.Email").val(email);
+}
+
 function getValue() { }
 function addValue() { }
 function validateUser() {
@@ -105,9 +110,11 @@ function validateUser() {
             async: false,
             success: function (data) {
                 if (data.success) {
+                    var user = JSON.parse(data.returnUser);
+                    setProfileInfo(user.FullName, user.EmailAddress);
                     returned = true;
-                    if (data.returnUser.IsAdmin) {
-                        IsAdmin= true;
+                    if (user.IsAdmin) {
+                        IsAdmin = true;
                     }
                 }
                 else {
