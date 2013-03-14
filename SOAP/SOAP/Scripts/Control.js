@@ -104,6 +104,8 @@ $(document).ready(function () {
                 $("#thumbs a.admin").addClass("disabled");
             }
             DropdownCategories = GetAllDropdownCategories();
+
+            PopulateAdminCategories();
         }
         else {
             alert('Validate User Failed');
@@ -111,7 +113,8 @@ $(document).ready(function () {
     });
 
     $("#dropdownCat").change(function () {
-        var values = getValue($(this).val());
+        var idOfCat = $(this).val();
+        PopulateAdminPropertyValues(idOfCat);
     });
 });
 
@@ -139,6 +142,34 @@ function GetAllDropdownCategories() {
         }
     });
     return dCats;
+}
+
+function PopulateAdminCategories() {
+    var cat = $('#dropdownCat');
+    cat.append('<option value="0"> - Select One - </option>');
+    for (var i = 0; i < DropdownCategories.length; i++) {
+        var e = '<option value="' + DropdownCategories[i].Id + '">' + DropdownCategories[i].ShortName + '</option>';
+        cat.append(e);
+    }
+}
+
+function PopulateAdminPropertyValues(idOfCat) {
+    if (idOfCat != 0) {
+        var obj = { Id: idOfCat };
+        $.ajax({
+            type: 'Post',
+            dataType: 'json',
+            url: rootDir + '/Home/GetDropdownValues',
+            data: JSON.stringify(obj),
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            success: function (data) {
+                
+            },
+            error: function (data) {
+            }
+        });
+    }
 }
 
 function getValue() { }

@@ -45,6 +45,12 @@ namespace SOAP.Controllers
             return cats;
         }
 
+        public List<DropdownValue> GetDropdownValues(int catId)
+        {
+            List<DropdownValue> values = service.GetDropdownCategoryValues(catId);
+            return values;
+        }
+
         public Patient GetPatient(int patientId)
         {
             Patient pat = new Patient();

@@ -95,5 +95,21 @@ namespace SOAP.Controllers
             return Json(dict);
         }
 
+        [HttpPost]
+        public ActionResult GetDropdownValues(DropdownCategory catId)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["DropdownValues"] = service.GetDropdownValues(catId.Id);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
     }
 }
