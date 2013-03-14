@@ -35,6 +35,11 @@ namespace SOAP.Controllers
 
         #region GET
 
+        public List<ASFUser> GetASFUsers()
+        {
+            return service.GetASFUsers();
+        }
+
         public List<DropdownCategory> GetDropdownCategoriesWithValues()
         {
             List<DropdownCategory> cats = service.GetDropdownCategories();
@@ -545,6 +550,11 @@ namespace SOAP.Controllers
 
         public void DeleteASFUser(ASFUser user)
         {
+            List<Patient> pats = service.GetPatientWithUserId(user);
+            foreach (Patient pat in pats)
+            {
+                DeletePatient(pat);
+            }
             service.DeleteASPNetMembership(user.Member);
             service.DeleteASFUser(user);
         }

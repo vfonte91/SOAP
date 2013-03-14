@@ -101,6 +101,34 @@ namespace SOAP.Controllers
 
         #region READ
 
+        public List<ASFUser> GetASFUsers()
+        {
+            List<ASFUser> users = new List<ASFUser>();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"SELECT UserId, Username, FullName, IsAdmin, Email FROM dbo.ASF_User";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        users.Add(new ASFUserCallback().ProcessRow(read));
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return users;
+        }
+
         public List<AdministrationSet> GetAdministrationSets(int patientId)
         {
             List<AdministrationSet> aSets = new List<AdministrationSet>();
@@ -973,6 +1001,37 @@ namespace SOAP.Controllers
                 }
             }
             return patientInfo;
+        }
+
+        public List<Patient> GetPatientWithUserId(ASFUser user)
+        {
+            List<Patient> pats = new List<Patient>();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"SELECT PatientId FROM dbo.Patient WHERE StudentId = @StudentId";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.NVarChar).Value = user.Username;
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        Patient pat = new Patient();
+                        pat.PatientId = Convert.ToInt32(read["PatientId"].ToString());
+                        pats.Add(pat);
+                    }
+                }
+                catch
+                {
+
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return pats;
         }
 
         public List<PriorAnesthesia> GetPriorAnesthesia(int patientId)

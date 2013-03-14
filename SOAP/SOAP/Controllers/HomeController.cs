@@ -64,6 +64,38 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
+        public ActionResult PromoteUser(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.Promote(user);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUser(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.DeleteASFUser(user);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
         public ActionResult EditProfile(ASFUser user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
