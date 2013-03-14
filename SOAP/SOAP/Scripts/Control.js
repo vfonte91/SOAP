@@ -249,7 +249,7 @@ function forgotPass() {
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', '/Home/GetAllDropdownCategories', '', true)
+    ajax('Post', '/Home/GetAllDropdownCategories', '', false)
     .done(function (data) {
         if (data.success) {
             dCats = data.DropdownCategories;
@@ -285,19 +285,27 @@ function PopulateAdminPropertyValues(idOfCat) {
                     var id = values[i].Id;
                     var label = values[i].Label;
                     var desc = values[i].Description;
-                    var button = "<input type='button' class='submit' onclick='removeValue('" + id + "')' />";
-                    var row = "<tr><td>" + label + "</td><td>" + desc + "</td><td>" + button + "</td></tr>";
+                    var labelInput = "<input type='text' id='" + id + "-label' value='" + label + "'/>";
+                    var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
+                    var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
+                    var editButton = "<input type='button' class='submit' onclick='editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())' value='Edit'/>";
+                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
                     $("#dropdown-body").append(row);
                 }
             }
-            else 
+            else
                 alert("Clould not get drop down values");
-            }
         })
         .fail(function (data) {
             alert("Clould not get drop down values");
         });
     }
+}
+
+function editDropdownValue(id, label, desc) {
+}
+
+function deleteDropdownValue(id) {
 }
 
 function validateUser(member, password) {
