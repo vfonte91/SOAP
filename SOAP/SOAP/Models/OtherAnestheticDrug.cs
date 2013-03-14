@@ -14,6 +14,12 @@ namespace SOAP.Models
             LOAD_DRUG_WITH_DETAIL
         };
 
+        public OtherAnestheticDrug()
+        {
+            _id = -1;
+            _drug = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -30,11 +36,6 @@ namespace SOAP.Models
         {
             get { return _drug; }
             set { _drug = value; }
-        }
-
-        public OtherAnestheticDrug()
-        {
-            _id = -1;
         }
 
         public bool ValidateOtherAnestheticDrug()

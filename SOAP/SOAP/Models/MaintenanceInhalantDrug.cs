@@ -25,6 +25,14 @@ namespace SOAP.Models
             LOAD_BREATHING_BAG_SIZE_WITH_SETAILS
         };
 
+        public MaintenanceInhalantDrug()
+        {
+            _id = -1;
+            _drug = new DropdownValue();
+            _breathingBagSize = new DropdownValue();
+            _breathingSystem = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -95,11 +103,6 @@ namespace SOAP.Models
         {
             get { return _breathingBagSize; }
             set { _breathingBagSize = value; }
-        }
-
-        public MaintenanceInhalantDrug()
-        {
-            _id = -1;
         }
 
         public bool ValidateMaintenanceInhalantDrug()

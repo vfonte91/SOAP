@@ -11,14 +11,14 @@ namespace SOAP.Models.Callbacks
             Bloodwork bloodwork = new Bloodwork();
             bloodwork.Id = Convert.ToInt32(read["a.Id"]);
             bloodwork.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            bloodwork.BloodworkInfo.Id = Convert.ToInt16(read["a.BloodworkId"].ToString());
+            bloodwork.BloodworkInfo.Id = Convert.ToInt32(read["a.BloodworkId"].ToString());
             bloodwork.Value = Convert.ToDecimal(read["a.Value"].ToString());
 
             foreach (Bloodwork.LazyComponents a in lazyComponents)
             {
                 if (a == Bloodwork.LazyComponents.LOAD_BLOODWORK_INFO)
                 {
-                    bloodwork.BloodworkInfo.Category.Id = Convert.ToInt16(read["b.CategoryId"].ToString());
+                    bloodwork.BloodworkInfo.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     bloodwork.BloodworkInfo.Label = read["b.Label"].ToString();
                     bloodwork.BloodworkInfo.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     bloodwork.BloodworkInfo.Description = read["b.Description"].ToString();

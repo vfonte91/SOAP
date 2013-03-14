@@ -957,12 +957,12 @@ namespace SOAP.Controllers
                     if (a == PatientInformation.LazyComponents.LOAD_CLINICIAN_DETAIL)
                     {
                         sql += @", b.Username as 'b.Username', b.FullName as 'b.FullName', b.Email as 'b.Email' ";
-                        from += @" LEFT OUTER JOIN dbo.ASF_User as b ON a.ClinicianId = b.UserId ";
+                        from += @" LEFT OUTER JOIN dbo.ASF_User as b ON a.ClinicianId = b.Username ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_STUDENT_DETAIL)
                     {
                         sql += @", c.Username as 'c.Username', c.FullName as 'c.FullName', c.Email as 'c.Email' ";
-                        from += @" LEFT OUTER JOIN dbo.ASF_User as c ON a.StudentId = c.UserId ";
+                        from += @" LEFT OUTER JOIN dbo.ASF_User as c ON a.StudentId = c.Username ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_POSTOP_PAIN_DETAIL)
                     {

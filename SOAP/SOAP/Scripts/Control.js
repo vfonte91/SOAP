@@ -100,6 +100,21 @@ $(document).ready(function () {
     });
 });
 
+function OpenForm(formId) {
+    var pat = { PatientId: formId };
+    ajax('Post', '/Home/GetPatient', JSON.stringify(pat), false)
+    .done(function (data) {
+        if (data.success) {
+            console.log(data);
+        }
+        else {
+        }
+    })
+    .fail(function (data) {
+
+    });
+}
+
 function GetUserForms() {
     ajax('Post', '/Home/GetUserForms', JSON.stringify(UserInformation), false)
     .done(function (data) {
@@ -109,7 +124,7 @@ function GetUserForms() {
             for (var i = 0; i < data.Forms.length; i++) {
                 var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
                 //date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ', ' + date.getHours() + ':' + date.getMinutes();
-                var e = '<option value="' + data.Forms[i].Id + '">' + date.toLocaleString() + '</option>';
+                var e = '<option value="' + data.Forms[i].PatientId + '">' + date.toLocaleString() + '</option>';
                 forms.append(e);
             }
         }
@@ -132,6 +147,7 @@ function login(username, password) {
         $("#login-div").slideUp(function () {
             $("#saved-forms-div").slideDown();
         });
+        DropdownCategories = GetAllDropdownCategories();
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
@@ -141,7 +157,6 @@ function login(username, password) {
         }
         sessionStorage.username = username;
         sessionStorage.password = password;
-        DropdownCategories = GetAllDropdownCategories();
         populateAll();
         GetUserForms();
     }
