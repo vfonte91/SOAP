@@ -183,7 +183,7 @@ namespace SOAP.Controllers
                 {
                     if (a == AnesthesiaConcern.LazyComponents.LOAD_CONCERN_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.ConcernId = b.Id ";
                     }
                 }
@@ -229,15 +229,16 @@ namespace SOAP.Controllers
                 {
                     if (a == AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION)
                     {
-                        sql += @", b.Id b.DoseMinRange, b.DoseMaxRange, b.DoseMax, b.DoseUnits, b.Route, b.Concentration, b.ConcentrationUnits, 
-                                   d.CategoryId, d.Label, d.OtherFlag, d.Description";
+                        sql += @", b.Id as 'b.Id', b.DoseMinRange as 'b.DoseMinRange', b.DoseMaxRange as 'b.DoseMaxRange', b.DoseMax as 'b.DoseMax', 
+                              b.DoseUnits as 'b.DoseUnits', b.Route as 'b.Route', b.Concentration as 'b.Concentration', b.ConcentrationUnits as 'b.ConcentrationUnits', 
+                                   d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Drug_Information as b ON a.DrugId = b.DrugId 
                                    LEFT OUTER JOIN dbo.Dropdown_Types d on d.DrugId = b.DrugId";
                     }
 
                     else if (a == AnestheticPlanInjection.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
                     {
-                        sql += @", c.CategoryId, c.Label, c.OtherFlag, c.Description";
+                        sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.RouteId = c.Id ";
                     }
                 }
@@ -284,8 +285,9 @@ namespace SOAP.Controllers
                 {
                     if (a == AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION)
                     {
-                        sql += @", b.Id b.DoseMinRange, b.DoseMaxRange, b.DoseMax, b.DoseUnits, b.Route, b.Concentration, b.ConcentrationUnits, 
-                                   d.CategoryId, d.Label, d.OtherFlag, d.Description";
+                        sql += @", b.Id as 'b.Id', b.DoseMinRange as 'b.DoseMinRange', b.DoseMaxRange as 'b.DoseMaxRange', b.DoseMax as 'b.DoseMax', 
+                              b.DoseUnits as 'b.DoseUnits', b.Route as 'b.Route', b.Concentration as 'b.Concentration', b.ConcentrationUnits as 'b.ConcentrationUnits', 
+                                   d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Drug_Information as b ON a.DrugId = b.DrugId 
                                    LEFT OUTER JOIN dbo.Dropdown_Types d on d.DrugId = b.DrugId";
                     }
@@ -333,13 +335,13 @@ namespace SOAP.Controllers
                 {
                     if (a == AnestheticPlanPremedication.LazyComponents.LOAD_DRUG_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.DrugId = b.Id ";
                     }
 
                     else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
                     {
-                        sql += @", c.CategoryId, c.Label, c.OtherFlag, c.Description";
+                        sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.RouteId = c.Id ";
                     }
                 }
@@ -386,7 +388,7 @@ namespace SOAP.Controllers
                 {
                     if (a == Bloodwork.LazyComponents.LOAD_BLOODWORK_INFO)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.BloodworkId = b.Id ";
                     }
                 }
@@ -433,22 +435,22 @@ namespace SOAP.Controllers
                 {
                     if (a == ClinicalFindings.LazyComponents.LOAD_CARDIAC_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as b ON a.CardiacAuscultationId = b.Id ";
                     }
                     else if (a == ClinicalFindings.LazyComponents.LOAD_PHYSICAL_STATUS_WITH_DETAILS)
                     {
-                        sql += @", c.CategoryId, c.Label, c.OtherFlag, c.Description";
+                        sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.PhysicalStatusClassId = c.Id ";
                     }
                     else if (a == ClinicalFindings.LazyComponents.LOAD_PULSE_QUALITY_WITH_DETAILS)
                     {
-                        sql += @", d.CategoryId, d.Label, d.OtherFlag, d.Description";
+                        sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.PulseQualityId = d.Id ";
                     }
                     else if (a == ClinicalFindings.LazyComponents.LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS)
                     {
-                        sql += @", e.CategoryId, e.Label, e.OtherFlag, e.Description";
+                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.RespiratoryAuscultationId = e.Id ";
                     }
                 }
@@ -495,7 +497,7 @@ namespace SOAP.Controllers
                 {
                     if (a == CurrentMedication.LazyComponents.LOAD_CURRENT_MEDICATIONS_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.MedicationId = b.Id ";
                     }
                 }
@@ -572,7 +574,7 @@ namespace SOAP.Controllers
 
                 string from = @"FROM dbo.Dropdown_Types AS a";
 
-                string where = @" WHERE a.CategoryId = @CategoryId ";
+                string where = @" WHERE a.CategoryId = @CategoryId AND a.OtherFlag = 'N'";
 
                 sql = sql + from + where;
 
@@ -580,7 +582,7 @@ namespace SOAP.Controllers
                 {
                     if (a == DropdownValue.LazyComponents.LOAD_DROPDOWN_CATEGORY)
                     {
-                        sql += @", b.ShortName, b.LongName";
+                        sql += @", b.ShortName as 'b.ShortName', b.LongName as 'b.LongName'";
                         from += @" INNER JOIN dbo.Dropdown_Categories as b ON a.CategoryId = b.Id ";
                     }
                 }
@@ -658,7 +660,7 @@ namespace SOAP.Controllers
                 {
                     if (a == IntraoperativeAnalgesia.LazyComponents.LOAD_ANALGESIA_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.Analgesia = b.Id ";
                     }
                 }
@@ -705,7 +707,7 @@ namespace SOAP.Controllers
                 {
                     if (a == IVFluidType.LazyComponents.LOAD_FLUID_TYPE_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.FluidTypeId = b.Id ";
                     }
                 }
@@ -752,17 +754,17 @@ namespace SOAP.Controllers
                 {
                     if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_DRUG_WITH_DETAILS)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as b ON a.DrugId = b.Id ";
                     }
                     else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_SETAILS)
                     {
-                        sql += @", c.CategoryId, c.Label, c.OtherFlag, c.Description";
+                        sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.BreathingSystemId = c.Id ";
                     }
                     else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_SYSTEM_WITH_DETAILS)
                     {
-                        sql += @", d.CategoryId, d.Label, d.OtherFlag, d.Description";
+                        sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.BreathingBagSizeId = d.Id ";
                     }
                 }
@@ -809,14 +811,15 @@ namespace SOAP.Controllers
                 {
                     if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_DRUG_INFORMATION)
                     {
-                        sql += @", b.Id b.DoseMinRange, b.DoseMaxRange, b.DoseMax, b.DoseUnits, b.Route, b.Concentration, b.ConcentrationUnits, 
-                                   d.CategoryId, d.Label, d.OtherFlag, d.Description";
+                        sql += @", b.Id as 'b.Id', b.DoseMinRange as 'b.DoseMinRange', b.DoseMaxRange as 'b.DoseMaxRange', b.DoseMax as 'b.DoseMax', 
+                              b.DoseUnits as 'b.DoseUnits', b.Route as 'b.Route', b.Concentration as 'b.Concentration', b.ConcentrationUnits as 'b.ConcentrationUnits', 
+                                   d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Drug_Information as b ON a.DrugId = b.DrugId 
                                    LEFT OUTER JOIN dbo.Dropdown_Types d on d.DrugId = b.DrugId";
                     }
                     else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
                     {
-                        sql += @", c.CategoryId, c.Label, c.OtherFlag, c.Description";
+                        sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.RouteOfAdministrationId = c.Id ";
                     }
                 }
@@ -862,7 +865,7 @@ namespace SOAP.Controllers
                 {
                     if (a == Monitoring.LazyComponents.LOAD_EQUIPMENT_WITH_DETAIL)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.EquipmentId = b.Id ";
                     }
                 }
@@ -907,7 +910,7 @@ namespace SOAP.Controllers
                 {
                     if (a == OtherAnestheticDrug.LazyComponents.LOAD_DRUG_WITH_DETAIL)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.DrugId = b.Id ";
                     }
                 }
@@ -952,28 +955,28 @@ namespace SOAP.Controllers
                 {
                     if (a == PatientInformation.LazyComponents.LOAD_CLINICIAN_DETAIL)
                     {
-                        sql += @", b.Username, b.FullName, b.Email ";
+                        sql += @", b.Username as 'b.Username', b.FullName as 'b.FullName', b.Email as 'b.Email' ";
                         from += @" LEFT OUTER JOIN dbo.ASF_User as b ON a.ClinicianId = b.UserId ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_STUDENT_DETAIL)
                     {
-                        sql += @", c.Username, c.FullName, c.Email ";
+                        sql += @", c.Username as 'c.Username', c.FullName as 'c.FullName', c.Email as 'c.Email' ";
                         from += @" LEFT OUTER JOIN dbo.ASF_User as c ON a.StudentId = c.UserId ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_POSTOP_PAIN_DETAIL)
                     {
-                        sql += @", d.CategoryId, d.Label, d.OtherFlag, d.Description";
+                        sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.PostOpPainAssessmentId = d.Id ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_PREOP_PAIN_DETAIL)
                     {
-                        sql += @", e.CategoryId, e.Label, e.OtherFlag, e.Description";
+                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.PreOpPainAssessmentId = e.Id ";
                     }
 
                     else if (a == PatientInformation.LazyComponents.LOAD_TEMPERAMENT_DETAIL)
                     {
-                        sql += @", f.CategoryId, f.Label, f.OtherFlag, f.Description";
+                        sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.TemperamentId = f.Id ";
                     }
                 }
@@ -1086,7 +1089,7 @@ namespace SOAP.Controllers
                 {
                     if (a == Procedure.LazyComponents.LOAD_PROCEDURE_WITH_DETAIL)
                     {
-                        sql += @", b.CategoryId, b.Label, b.OtherFlag, b.Description";
+                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
                         from += @" INNER JOIN dbo.Dropdown_Types as b ON a.ProcedureId = b.Id ";
                     }
                 }
@@ -3157,78 +3160,84 @@ namespace SOAP.Controllers
 
         private string BuildAdministrationSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.MiniDripFlag, a.MaxiDripFlag ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.MiniDripFlag as 'a.MiniDripFlag', a.MaxiDripFlag as 'a.MaxiDripFlag' ";
         }
 
         private string BuildAnesthesiaConcernSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.ConcernId ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.ConcernId as 'a.ConcernId' ";
         }
 
         private string BuildAnestheticPlanInjectionSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.DrugId, a.RouteId, a.Dosage ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.RouteId as 'a.RouteId', a.Dosage as 'a.Dosage' ";
         }
 
         private string BuildAnestheticPlanInhalantSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.DrugId, a.Dose, a.FlowRate ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.Dose as 'a.Dose', a.FlowRate as 'a.FlowRate' ";
         }
 
         private string BuildAnestheticPlanPremedicationSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.DrugId, a.RouteId, a.Dosage ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.RouteId as 'a.RouteId', a.Dosage as 'a.Dosage' ";
         }
 
         private string BuildBloodworkSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.BloodworkId, a.Value ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.BloodworkId as 'a.BloodworkId', a.Value as 'a.Value' ";
         }
 
         private string BuildClinicalFindingsSQL()
         {
-            return @"SELECT a.Id, a.PatientId, PreOpPainAssessmentId, PostOpPainAssessmentId, Temperature ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.PreOpPainAssessmentId as 'a.PreOpPainAssessmentId', 
+                    a.PostOpPainAssessmentId as 'a.PostOpPainAssessmentId', a.Temperature as 'a.Temperature' ";
         }
 
         private string BuildCurrentMedicationsSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.MedicationId ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.MedicationId as 'a.MedicationId' ";
         }
 
         private string BuildDropdownCategorySQL()
         {
-            return @"SELECT a.Id, a.ShortName, a.LongName ";
+            return @"SELECT a.Id as 'a.Id', a.ShortName as 'a.ShortName', a.LongName as 'a.LongName' ";
         }
 
         private string BuildDropdownValueSQL()
         {
-            return @"SELECT a.Id, a.CategoryId, a.Label, a.OtherFlag, a.Description ";
+            return @"SELECT a.Id as 'a.Id', a.CategoryId as 'a.CategoryId', a.Label as 'a.Label', a.OtherFlag as 'a.OtherFlag', 
+                    a.Description as 'a.Description' ";
         }
 
         private string BuildIntraoperativeAnalgesiaSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.AnalgesiaId ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.AnalgesiaId as 'a.AnalgesiaId' ";
         }
 
         private string BuildIVFluidTypeSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.FluidTypeId, a.Dose ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.FluidTypeId as 'a.FluidTypeId', a.Dose as 'a.Dose' ";
         }
 
         private string BuildMaintenanceInhalantDrugSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.DrugId, a.InductionReqFlag, a.InductionDose, a.InductionOxygenFlowRate, 
-                a.MaintenanceReqFlag, a.MaintenanceDose, a.MaintenanceOxygenFlowRate, a.EquipmentReqFlag, a.BreathingSystemId, a.BreathingBagSizeId ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.InductionReqFlag as 'a.InductionReqFlag', 
+                    a.InductionDose as 'a.InductionDose', a.InductionOxygenFlowRate as 'a.InductionOxygenFlowRate', 
+                    a.MaintenanceReqFlag as 'a.MaintenanceReqFlag', a.MaintenanceDose as 'a.MaintenanceDose', 
+                    a.MaintenanceOxygenFlowRate as 'a.MaintenanceOxygenFlowRate', a.EquipmentReqFlag as 'a.EquipmentReqFlag', 
+                    a.BreathingSystemId as 'a.BreathingSystemId', a.BreathingBagSizeId as 'a.BreathingBagSizeId' ";
         }
 
         private string BuildMaintenanceInjectionDrugSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.DrugId, a.RouteOfAdministrationId, a.Dosage ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', 
+                    a.RouteOfAdministrationId as 'a.RouteOfAdministrationId', a.Dosage as 'a.Dosage' ";
         }
 
         private string BuildMonitoringSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.EquipmentId ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId 'a.PatientId', a.EquipmentId as 'a.EquipmentId' ";
         }
 
         private string BuildOtherAnestheticDrugSQL()
@@ -3238,23 +3247,25 @@ namespace SOAP.Controllers
 
         private string BuildPatientInformationSQL()
         {
-            return @"SELECT a.PatientId, a.StudentId, a.ClinicianId, a.FormCompleted, a.TemperamentId, a.DateSeenOn, a. CageOrStallNumber, 
-                    a.BodyWeight, a.AgeInYears, a.AgeInMonths, a.PreOpPainAssessmentId, a.PostOpPainAssessmentId ";
+            return @"SELECT a.PatientId as 'a.PatientId', a.StudentId as 'a.StudentId', a.ClinicianId as 'a.ClinicianId', a.FormCompleted as 'a.FormCompleted', 
+                    a.TemperamentId as 'a.TemperamentId', a.DateSeenOn as 'a.DateSeenOn', a.CageOrStallNumber as 'a.CageOrStallNumber', 
+                    a.BodyWeight as 'a.BodyWeight', a.AgeInYears as 'a.AgeInYears', a.AgeInMonths as 'a.AgeInMonths', 
+                    a.PreOpPainAssessmentId as 'a.PreOpPainAssessmentId', a.PostOpPainAssessmentId as 'a.PostOpPainAssessmentId' ";
         }
 
         private string BuildPriorAnesthesiaSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.DateOfProblem, a.Problem ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DateOfProblem as 'a.DateOfProblem', a.Problem as 'a.Problem' ";
         }
 
         private string BuildProcedureSQL()
         {
-            return @"SELECT a.Id, a.PatientId, a.ProcedureId ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.ProcedureId as 'a.ProcedureId' ";
         }
 
         private string BuildASFUserSQL()
         {
-            return @"SELECT a.UserId, a.Username, a.Fullname, a.Email, a.IsAdmin ";
+            return @"SELECT a.UserId as 'a.UserId', a.Username as 'a.Username', a.Fullname as 'a.Fullname', a.Email as 'a.Email', a.IsAdmin as 'a.IsAdmin' ";
         }
 
         #endregion

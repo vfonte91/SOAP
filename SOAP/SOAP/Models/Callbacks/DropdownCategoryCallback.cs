@@ -9,9 +9,9 @@ namespace SOAP.Models.Callbacks
         public DropdownCategory ProcessRow(SqlDataReader read, params DropdownCategory.LazyComponents[] lazyComponents)
         {
             DropdownCategory category = new DropdownCategory();
-            category.Id = Convert.ToInt32(read["Id"]);
-            category.ShortName = read["ShortName"].ToString();
-            category.LongName = read["LongName"].ToString();
+            category.Id = Convert.ToInt32(read["a.Id"]);
+            category.ShortName = read["a.ShortName"].ToString();
+            category.LongName = read["a.LongName"].ToString();
 
             return category;
         }
