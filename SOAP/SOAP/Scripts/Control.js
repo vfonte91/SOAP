@@ -46,28 +46,21 @@ $(document).ready(function () {
         var foobarredUser = UserInformation;
         foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
         foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
-        $.ajax({
-            type: 'Post',
-            dataType: 'json',
-            url: rootDir + '/Home/EditProfile',
-            data: JSON.stringify(foobarredUser),
-            contentType: 'application/json; charset=utf-8',
-            async: true,
-            success: function (data) {
-                if (data.success) {
-                    UserInformation.FullName = foobarredUser.FullName;
-                    UserInformation.EmailAddress = foobarredUser.EmailAddress;
-                    $("#profile-menu").slideToggle("slow")
-                    $("#edit-profile-button").toggleClass("menu-close");
-                    alert('User Info Updated');
-                }
-                else {
-                    alert('Error updating User Info');
-                }
-            },
-            error: function (data) {
+        ajax('Post', '', JSON.stringify(foobarredUser), true)
+        .done(function (data) {
+            if (data.success) {
+                UserInformation.FullName = foobarredUser.FullName;
+                UserInformation.EmailAddress = foobarredUser.EmailAddress;
+                $("#profile-menu").slideToggle("slow")
+                $("#edit-profile-button").toggleClass("menu-close");
+                alert('User Info Updated');
+            }
+            else {
                 alert('Error updating User Info');
             }
+        })
+        .fail(function (data) {
+            alert('Error updating User Info');
         });
     });
 
@@ -125,21 +118,16 @@ function setProfileInfo() {
 
 function GetAllDropdownCategories() {
     var dCats;
-    $.ajax({
-        type: 'Post',
-        dataType: 'json',
-        url: rootDir + '/Home/GetAllDropdownCategories',
-        contentType: 'application/json; charset=utf-8',
-        async: false,
-        success: function (data) {
-            if (data.success) {
-                dCats = data.DropdownCategories;
-            }
-            else {
-            }
-        },
-        error: function (data) {
+    ajax('Post', '/Home/GetAllDropdownCategories', '', false)
+    .done(function (data) {
+        if (data.success) {
+            dCats = data.DropdownCategories;
         }
+        else {
+        }
+    })
+    .fail(function (data) {
+
     });
     return dCats;
 }
@@ -156,18 +144,11 @@ function PopulateAdminCategories() {
 function PopulateAdminPropertyValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        $.ajax({
-            type: 'Post',
-            dataType: 'json',
-            url: rootDir + '/Home/GetDropdownValues',
-            data: JSON.stringify(obj),
-            contentType: 'application/json; charset=utf-8',
-            async: false,
-            success: function (data) {
-                
-            },
-            error: function (data) {
-            }
+        ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), false)
+        .done(function (data) {
+        })
+        .fail(function (data) {
+
         });
     }
 }
@@ -189,14 +170,11 @@ function validateUser() {
             returned = false;
         })
         .done(function (data) {
-            if (data.returnUser) {
+            if (data.success) {
                 var ReturnUser = data.returnUser;
                 var user = JSON.parse(ReturnUser);
                 setProfileInfo(user.FullName, user.EmailAddress);
                 returned = true;
-                if (user.IsAdmin) {
-                    IsAdmin = true;
-                }
             }
         });
     }
@@ -224,11 +202,15 @@ function registerUser() {
         };
         ajax('Post', '/Home/RegisterUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
-            returned = true;
-            $("#password").val("");
-            $("#password-repeat").val("");
-            $("#email").val("");
-            $("#full-name").val("");
+            if (data.success) {
+                returned = true;
+                $("#password").val("");
+                $("#password-repeat").val("");
+                $("#email").val("");
+                $("#full-name").val("");
+            }
+            else
+                returned = false;
         })
         .fail(function (data) {
             returned = false;
