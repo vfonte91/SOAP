@@ -16,6 +16,12 @@ namespace SOAP.Models
             LOAD_DROPDOWN_CATEGORY
         };
 
+        public DropdownValue()
+        {
+            _id = -1;
+            _category = new DropdownCategory();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -44,12 +50,6 @@ namespace SOAP.Models
         {
             get { return _description; }
             set { _description = value; }
-        }
-
-        public DropdownValue()
-        {
-            _id = -1;
-            _category = new DropdownCategory();
         }
 
         public bool ValidateDropdownValue()

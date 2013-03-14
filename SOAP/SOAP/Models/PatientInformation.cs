@@ -28,6 +28,16 @@ namespace SOAP.Models
             LOAD_POSTOP_PAIN_DETAIL
         };
 
+        public PatientInformation()
+        {
+            _student = new ASFUser();
+            _clinician = new ASFUser();
+            _procedure = new Procedure();
+            _temperament = new DropdownValue();
+            _preOperationPainAssessment = new DropdownValue();
+            _postOperationPainAssessment = new DropdownValue();
+        }
+
         public int PatientId
         {
             get { return _patientId; }

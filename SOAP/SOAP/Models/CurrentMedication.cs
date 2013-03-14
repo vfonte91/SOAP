@@ -14,6 +14,12 @@ namespace SOAP.Models
             LOAD_CURRENT_MEDICATIONS_WITH_DETAILS
         }
 
+        public CurrentMedication()
+        {
+            _id = -1;
+            _medication = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -30,11 +36,6 @@ namespace SOAP.Models
         {
             get { return _medication; }
             set { _medication = value; }
-        }
-
-        public CurrentMedication()
-        {
-            _id = -1;
         }
 
         public bool ValidateCurrentMedication()

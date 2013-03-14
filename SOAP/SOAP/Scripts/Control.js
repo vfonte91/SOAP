@@ -101,6 +101,21 @@ $(document).ready(function () {
     });
 });
 
+function OpenForm(formId) {
+    var pat = { PatientId: formId };
+    ajax('Post', '/Home/GetPatient', JSON.stringify(pat), false)
+    .done(function (data) {
+        if (data.success) {
+            console.log(data);
+        }
+        else {
+        }
+    })
+    .fail(function (data) {
+
+    });
+}
+
 function GetUserForms() {
     ajax('Post', '/Home/GetUserForms', JSON.stringify(UserInformation), false)
     .done(function (data) {
@@ -110,7 +125,7 @@ function GetUserForms() {
             for (var i = 0; i < data.Forms.length; i++) {
                 var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
                 //date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ', ' + date.getHours() + ':' + date.getMinutes();
-                var e = '<option value="' + data.Forms[i].Id + '">' + date.toLocaleString() + '</option>';
+                var e = '<option value="' + data.Forms[i].PatientId + '">' + date.toLocaleString() + '</option>';
                 forms.append(e);
             }
         }
@@ -134,6 +149,7 @@ function login(username, password) {
             $("#saved-forms-div").slideDown();
         });
         //Hides Admin tab is not admin
+        DropdownCategories = GetAllDropdownCategories();
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
@@ -145,8 +161,6 @@ function login(username, password) {
         //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
-
-        DropdownCategories = GetAllDropdownCategories();
         populateAll();
         GetUserForms();
     }
@@ -154,6 +168,8 @@ function login(username, password) {
         alert('Validate User Failed');
     }
 }
+
+
 
 function setProfileInfo() {
     $("#Patient\\.Profile\\.FullName").val(UserInformation.FullName);
@@ -199,12 +215,38 @@ function populate(id, name) {
         var option = document.createElement("option");
         option.text = values[i].Label;
         x.add(option, null);
-    } 
+    }
 }
+
+function forgotPass() {
+    $("#forgotPass").dialog({
+
+        width: 600,
+        height: 400,
+        modal: true,
+        draggable: false,
+        buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } } ],
+        open: function (event, ui) {
+            var textarea = $('<textarea style="height: 276px;">');
+            // getter
+
+
+            // getter
+
+
+            //$(this).html(textarea);
+
+            //$(textarea).redactor({ autoresize: false });
+            //$(textarea).setCode('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>');
+        }
+    });
+}
+
+
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', '/Home/GetAllDropdownCategories', '', true)
+    ajax('Post', '/Home/GetAllDropdownCategories', '', false)
     .done(function (data) {
         if (data.success) {
             dCats = data.DropdownCategories;

@@ -15,6 +15,12 @@ namespace SOAP.Models
             LOAD_FLUID_TYPE_WITH_DETAILS
         };
 
+        public IVFluidType()
+        {
+            _id = -1;
+            _fluidType = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -37,11 +43,6 @@ namespace SOAP.Models
         {
             get { return _dose; }
             set { _dose = value; }
-        }
-
-        public IVFluidType()
-        {
-            _id = -1;
         }
 
         public bool ValidateIVFluidType()

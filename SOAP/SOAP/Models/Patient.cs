@@ -57,8 +57,8 @@ namespace SOAP.Models
 
         public Patient()
         {
-            _patientInfo = new PatientInformation();
             _patientId = -1;
+            _patientInfo = new PatientInformation();
         }
 
         public bool ValidatePatient()

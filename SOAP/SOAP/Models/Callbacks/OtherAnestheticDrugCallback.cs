@@ -11,13 +11,13 @@ namespace SOAP.Models.Callbacks
             OtherAnestheticDrug otherAnesDrug = new OtherAnestheticDrug();
             otherAnesDrug.Id = Convert.ToInt32(read["a.Id"]);
             otherAnesDrug.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            otherAnesDrug.Drug.Id = Convert.ToInt16(read["a.DrugId"].ToString());
+            otherAnesDrug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
 
             foreach (OtherAnestheticDrug.LazyComponents a in lazyComponents)
             {
                 if (a == OtherAnestheticDrug.LazyComponents.LOAD_DRUG_WITH_DETAIL)
                 {
-                    otherAnesDrug.Drug.Category.Id = Convert.ToInt16(read["b.CategoryId"].ToString());
+                    otherAnesDrug.Drug.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     otherAnesDrug.Drug.Label = read["b.Label"].ToString();
                     otherAnesDrug.Drug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     otherAnesDrug.Drug.Description = read["b.Description"].ToString();

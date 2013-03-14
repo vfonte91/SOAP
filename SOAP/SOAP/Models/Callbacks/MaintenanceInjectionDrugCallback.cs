@@ -11,15 +11,15 @@ namespace SOAP.Models.Callbacks
             MaintenanceInjectionDrug maintInjectDrug = new MaintenanceInjectionDrug();
             maintInjectDrug.Id = Convert.ToInt32(read["a.Id"]);
             maintInjectDrug.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            maintInjectDrug.Drug.Drug.Id = Convert.ToInt16(read["a.DrugId"].ToString());
-            maintInjectDrug.RouteOfAdministration.Id = Convert.ToInt16(read["a.RouteOfAdministrationId"].ToString());
+            maintInjectDrug.Drug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+            maintInjectDrug.RouteOfAdministration.Id = Convert.ToInt32(read["a.RouteOfAdministrationId"].ToString());
             maintInjectDrug.Dose = Convert.ToDecimal(read["a.Dosage"].ToString());
 
             foreach (MaintenanceInjectionDrug.LazyComponents a in lazyComponents)
             {
                 if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_DRUG_INFORMATION)
                 {
-                    maintInjectDrug.Drug.Drug.Category.Id = Convert.ToInt16(read["d.CategoryId"].ToString());
+                    maintInjectDrug.Drug.Drug.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
                     maintInjectDrug.Drug.Drug.Label = read["d.Label"].ToString();
                     maintInjectDrug.Drug.Drug.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     maintInjectDrug.Drug.Drug.Description = read["b.Description"].ToString();
@@ -34,7 +34,7 @@ namespace SOAP.Models.Callbacks
                 }
                 if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
                 {
-                    maintInjectDrug.RouteOfAdministration.Category.Id = Convert.ToInt16(read["c.CategoryId"].ToString());
+                    maintInjectDrug.RouteOfAdministration.Category.Id = Convert.ToInt32(read["c.CategoryId"].ToString());
                     maintInjectDrug.RouteOfAdministration.Label = read["c.Label"].ToString();
                     maintInjectDrug.RouteOfAdministration.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     maintInjectDrug.RouteOfAdministration.Description = read["c.Description"].ToString();
