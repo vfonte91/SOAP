@@ -56,6 +56,8 @@ namespace SOAP.Models
         public AnestheticPlanInjection()
         {
             _id = -1;
+            _route = new DropdownValue();
+            _drug = new DrugInformation();
         }
 
         public bool ValidateAnestheticPlanInjection()

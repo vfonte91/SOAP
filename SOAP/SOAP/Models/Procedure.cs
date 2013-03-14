@@ -14,6 +14,12 @@ namespace SOAP.Models
             LOAD_PROCEDURE_WITH_DETAIL
         };
 
+        public Procedure()
+        {
+            _id = -1;
+            _procedureInformation = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -30,11 +36,6 @@ namespace SOAP.Models
         {
             get { return _procedureInformation; }
             set { _procedureInformation = value; }
-        }
-
-        public Procedure()
-        {
-            _id = -1;
         }
 
         public bool ValidateProcedure()

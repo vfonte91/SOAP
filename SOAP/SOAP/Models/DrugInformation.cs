@@ -15,6 +15,12 @@ namespace SOAP.Models
         private decimal _concentration;
         private string _concentrationUnits;
 
+        public DrugInformation()
+        {
+            _id = -1;
+            _drug = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -69,10 +75,6 @@ namespace SOAP.Models
             set { _concentrationUnits = value; }
         }
 
-        public DrugInformation()
-        {
-            _id = -1;
-        }
         public bool ValidateDrugInformation()
         {
             if (_id == 0 || _drug.Id == 0)

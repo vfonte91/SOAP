@@ -18,6 +18,13 @@ namespace SOAP.Models
             LOAD_DRUG_INFORMATION
         };
 
+        public MaintenanceInjectionDrug()
+        {
+            _id = -1;
+            _routeOfAdministration = new DropdownValue();
+            _drug = new DrugInformation();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -52,11 +59,6 @@ namespace SOAP.Models
         {
             get { return _drug; }
             set { _drug = value; }
-        }
-
-        public MaintenanceInjectionDrug()
-        {
-            _id = -1;
         }
 
         public bool ValidateMaintenanceInjectionDrug()

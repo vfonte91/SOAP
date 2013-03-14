@@ -14,6 +14,12 @@ namespace SOAP.Models
             LOAD_ANALGESIA_WITH_DETAILS
         };
 
+        public IntraoperativeAnalgesia()
+        {
+            _id = -1;
+            _analgesia = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -30,11 +36,6 @@ namespace SOAP.Models
         {
             get { return _analgesia; }
             set { _analgesia = value; }
-        }
-
-        public IntraoperativeAnalgesia()
-        {
-            _id = -1;
         }
 
         public bool ValidateIntraoperativeAnalgesia()

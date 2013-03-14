@@ -15,6 +15,12 @@ namespace SOAP.Models
             LOAD_DROPDOWN_VALUES
         };
 
+        public DropdownCategory()
+        {
+            _id = -1;
+            _dropdownValues = new List<DropdownValue>();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -31,12 +37,6 @@ namespace SOAP.Models
         {
             get { return _longName; }
             set { _longName = value; }
-        }
-
-        public DropdownCategory()
-        {
-            _id = -1;
-            _dropdownValues = new List<DropdownValue>();
         }
 
         public bool ValidateDropdownCategory()

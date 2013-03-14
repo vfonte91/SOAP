@@ -29,6 +29,18 @@ namespace SOAP.Models
             LOAD_PHYSICAL_STATUS_WITH_DETAILS
         }
 
+        public ClinicalFindings()
+        {
+            _id = -1;
+            _currentMedications = new List<CurrentMedication>();
+            _priorAnesthesia = new List<PriorAnesthesia>();
+            _anesthesiaConcerns = new List<AnesthesiaConcern>();
+            _cardiacAuscultation = new DropdownValue();
+            _pulseQuality = new DropdownValue();
+            _respiratoryAuscultation = new DropdownValue();
+            _physicalStatusClassification = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -117,14 +129,6 @@ namespace SOAP.Models
         {
             get { return _anesthesiaConcerns; }
             set { _anesthesiaConcerns = value; }
-        }
-
-        public ClinicalFindings()
-        {
-            _id = -1;
-            _currentMedications = new List<CurrentMedication>();
-            _priorAnesthesia = new List<PriorAnesthesia>();
-            _anesthesiaConcerns = new List<AnesthesiaConcern>();
         }
 
         public bool ValidateClinicalFindings()

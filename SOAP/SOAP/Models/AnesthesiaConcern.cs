@@ -34,6 +34,7 @@ namespace SOAP.Models
         public AnesthesiaConcern()
         {
             _id = -1;
+            _concern = new DropdownValue();
         }
 
         public bool ValidateAnesthesiaConcerns()
