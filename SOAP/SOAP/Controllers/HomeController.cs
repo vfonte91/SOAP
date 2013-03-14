@@ -176,5 +176,21 @@ namespace SOAP.Controllers
             return Json(dict);
         }
 
+        [HttpPost]
+        public ActionResult GetPatient(Patient form)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["Patient"] = service.GetPatient(form.PatientId);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
     }
 }

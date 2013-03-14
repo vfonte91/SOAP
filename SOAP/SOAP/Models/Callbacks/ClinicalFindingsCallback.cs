@@ -26,28 +26,28 @@ namespace SOAP.Models.Callbacks
             {
                 if (a == ClinicalFindings.LazyComponents.LOAD_CARDIAC_WITH_DETAILS)
                 {
-                    clinicalFindings.CardiacAuscultation.Category.Id = Convert.ToInt16(read["b.CategoryId"].ToString());
+                    clinicalFindings.CardiacAuscultation.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     clinicalFindings.CardiacAuscultation.Label = read["b.Label"].ToString();
                     clinicalFindings.CardiacAuscultation.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     clinicalFindings.CardiacAuscultation.Description = read["b.Description"].ToString();
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_PHYSICAL_STATUS_WITH_DETAILS)
                 {
-                    clinicalFindings.PhysicalStatusClassification.Category.Id = Convert.ToInt16(read["c.CategoryId"].ToString());
+                    clinicalFindings.PhysicalStatusClassification.Category.Id = Convert.ToInt32(read["c.CategoryId"].ToString());
                     clinicalFindings.PhysicalStatusClassification.Label = read["c.Label"].ToString();
                     clinicalFindings.PhysicalStatusClassification.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     clinicalFindings.PhysicalStatusClassification.Description = read["c.Description"].ToString();
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_PULSE_QUALITY_WITH_DETAILS)
                 {
-                    clinicalFindings.PulseQuality.Category.Id = Convert.ToInt16(read["d.CategoryId"].ToString());
+                    clinicalFindings.PulseQuality.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
                     clinicalFindings.PulseQuality.Label = read["d.Label"].ToString();
                     clinicalFindings.PulseQuality.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     clinicalFindings.PulseQuality.Description = read["d.Description"].ToString();
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS)
                 {
-                    clinicalFindings.RespiratoryAuscultation.Category.Id = Convert.ToInt16(read["e.CategoryId"].ToString());
+                    clinicalFindings.RespiratoryAuscultation.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
                     clinicalFindings.RespiratoryAuscultation.Label = read["e.Label"].ToString();
                     clinicalFindings.RespiratoryAuscultation.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
                     clinicalFindings.RespiratoryAuscultation.Description = read["e.Description"].ToString();

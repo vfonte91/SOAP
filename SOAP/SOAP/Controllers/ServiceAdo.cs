@@ -47,7 +47,7 @@ namespace SOAP.Controllers
                         singleUser = new ASFUserCallback().ProcessRow(read);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -85,7 +85,7 @@ namespace SOAP.Controllers
                         singleUser.Member.Password = read["Password"].ToString() ;
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -118,7 +118,7 @@ namespace SOAP.Controllers
                         users.Add(new ASFUserCallback().ProcessRow(read));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -155,7 +155,7 @@ namespace SOAP.Controllers
                         aSets.Add(new AdministrationSetCallback().ProcessRow(read));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -202,7 +202,7 @@ namespace SOAP.Controllers
                         anesthesiaConcerns.Add(new AnestheticConcernCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -258,7 +258,7 @@ namespace SOAP.Controllers
                         anesPlanInject.Add(new AnestheticPlanInjectionCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -308,7 +308,7 @@ namespace SOAP.Controllers
                         anesPlanInhalant.Add(new AnestheticPlanInhalantCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -361,7 +361,7 @@ namespace SOAP.Controllers
                         anesPlanPremed.Add(new AnestheticPlanPremedicationCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -408,7 +408,7 @@ namespace SOAP.Controllers
                         bloodworkGroup.Add(new BloodworkCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -470,7 +470,7 @@ namespace SOAP.Controllers
                         clinincalFindings = new ClinicalFindingsCallback().ProcessRow(read, lazyComponents);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -517,7 +517,7 @@ namespace SOAP.Controllers
                         meds.Add(new CurrentMedicationCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -553,7 +553,7 @@ namespace SOAP.Controllers
                         dropdowns.Add(new DropdownCategoryCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -599,7 +599,7 @@ namespace SOAP.Controllers
                         values.Add(new DropdownValueCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -633,7 +633,7 @@ namespace SOAP.Controllers
                         pats.Add(pat);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -680,7 +680,7 @@ namespace SOAP.Controllers
                         intraOp.Add(new IntraoperativeAnalgesiaCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -727,7 +727,7 @@ namespace SOAP.Controllers
                         ivs.Add(new IVFluidTypeCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -784,7 +784,7 @@ namespace SOAP.Controllers
                         maintInhalantDrugs.Add(new MaintenanceInhalantDrugCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -839,7 +839,7 @@ namespace SOAP.Controllers
                         maintInjectDrugs.Add(new MaintenanceInjectionDrugCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -884,7 +884,7 @@ namespace SOAP.Controllers
                         monitoring.Add(new MonitoringCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -929,7 +929,7 @@ namespace SOAP.Controllers
                         otherAnesDrugs.Add(new OtherAnestheticDrugCallback().ProcessRow(read, lazyComponents));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -957,12 +957,12 @@ namespace SOAP.Controllers
                     if (a == PatientInformation.LazyComponents.LOAD_CLINICIAN_DETAIL)
                     {
                         sql += @", b.Username as 'b.Username', b.FullName as 'b.FullName', b.Email as 'b.Email' ";
-                        from += @" LEFT OUTER JOIN dbo.ASF_User as b ON a.ClinicianId = b.UserId ";
+                        from += @" LEFT OUTER JOIN dbo.ASF_User as b ON a.ClinicianId = b.Username ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_STUDENT_DETAIL)
                     {
                         sql += @", c.Username as 'c.Username', c.FullName as 'c.FullName', c.Email as 'c.Email' ";
-                        from += @" LEFT OUTER JOIN dbo.ASF_User as c ON a.StudentId = c.UserId ";
+                        from += @" LEFT OUTER JOIN dbo.ASF_User as c ON a.StudentId = c.Username ";
                     }
                     else if (a == PatientInformation.LazyComponents.LOAD_POSTOP_PAIN_DETAIL)
                     {
@@ -995,7 +995,7 @@ namespace SOAP.Controllers
                         patientInfo = new PatientInformationCallback().ProcessRow(read, lazyComponents);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1026,7 +1026,7 @@ namespace SOAP.Controllers
                         pats.Add(pat);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1063,7 +1063,7 @@ namespace SOAP.Controllers
                         priorAnes.Add(new PriorAnesthesiaCallback().ProcessRow(read));
                     }
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1108,9 +1108,9 @@ namespace SOAP.Controllers
                         procedures = new ProcedureCallback().ProcessRow(read, lazyComponents);
                     }
                 }
-                catch
+                catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1143,7 +1143,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1172,7 +1172,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1203,7 +1203,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1234,7 +1234,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1265,7 +1265,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1299,7 +1299,7 @@ namespace SOAP.Controllers
                     if (cmd.ExecuteNonQuery() > 0)
                         val = true;
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1347,7 +1347,7 @@ namespace SOAP.Controllers
                     read.Read();
                     ident = Convert.ToInt32(read["Id"].ToString());
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1378,7 +1378,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1418,7 +1418,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1447,7 +1447,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1476,7 +1476,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1507,7 +1507,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1542,7 +1542,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1571,7 +1571,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1601,7 +1601,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1641,7 +1641,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1672,7 +1672,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1701,7 +1701,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1730,7 +1730,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1770,7 +1770,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1800,7 +1800,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1829,7 +1829,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1861,7 +1861,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1889,7 +1889,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1919,7 +1919,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1949,7 +1949,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -1979,7 +1979,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2008,7 +2008,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2040,7 +2040,7 @@ namespace SOAP.Controllers
                     if (cmd.ExecuteNonQuery() > 0)
                         b = true;
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2070,7 +2070,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2110,7 +2110,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2138,7 +2138,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2167,7 +2167,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2197,7 +2197,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2232,7 +2232,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2260,7 +2260,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2289,7 +2289,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2328,7 +2328,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2358,7 +2358,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2386,7 +2386,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2414,7 +2414,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2455,7 +2455,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2484,7 +2484,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2512,7 +2512,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2540,7 +2540,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2568,7 +2568,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2597,7 +2597,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2623,7 +2623,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2649,7 +2649,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2675,7 +2675,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2701,7 +2701,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2727,7 +2727,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2754,7 +2754,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2780,7 +2780,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2806,7 +2806,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2832,7 +2832,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2858,7 +2858,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2884,7 +2884,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2910,7 +2910,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2936,7 +2936,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2962,7 +2962,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -2988,7 +2988,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -3014,7 +3014,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -3040,7 +3040,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -3066,7 +3066,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -3092,7 +3092,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -3118,7 +3118,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }
@@ -3144,7 +3144,7 @@ namespace SOAP.Controllers
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
-                catch
+                catch (Exception e)
                 {
 
                 }

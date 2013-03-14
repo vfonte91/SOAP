@@ -14,6 +14,12 @@ namespace SOAP.Models
             LOAD_EQUIPMENT_WITH_DETAIL
         };
 
+        public Monitoring()
+        {
+            _id = -1;
+            _equipment = new DropdownValue();
+        }
+
         public int Id
         {
             get { return _id; }
@@ -30,11 +36,6 @@ namespace SOAP.Models
         {
             get { return _equipment; }
             set { _equipment = value; }
-        }
-
-        public Monitoring()
-        {
-            _id = -1;
         }
 
         public bool ValidateMonitoring()

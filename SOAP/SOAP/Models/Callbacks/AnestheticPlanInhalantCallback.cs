@@ -12,15 +12,15 @@ namespace SOAP.Models.Callbacks
             AnestheticPlanInhalant anesPlanInhalant = new AnestheticPlanInhalant();
             anesPlanInhalant.Id = Convert.ToInt32(read["a.Id"]);
             anesPlanInhalant.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            anesPlanInhalant.Drug.Drug.Id = Convert.ToInt16(read["a.DrugId"].ToString());
-            anesPlanInhalant.FlowRate = Convert.ToInt16(read["a.FlowRate"].ToString());
+            anesPlanInhalant.Drug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+            anesPlanInhalant.FlowRate = Convert.ToInt32(read["a.FlowRate"].ToString());
             anesPlanInhalant.Dose = Convert.ToDecimal(read["a.Dose"].ToString());
 
             foreach (AnestheticPlanInhalant.LazyComponents a in lazyComponents)
             {
                 if (a == AnestheticPlanInhalant.LazyComponents.LOAD_DRUG_INFORMATION)
                 {
-                    anesPlanInhalant.Drug.Drug.Category.Id = Convert.ToInt16(read["d.CategoryId"].ToString());
+                    anesPlanInhalant.Drug.Drug.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
                     anesPlanInhalant.Drug.Drug.Label = read["d.Label"].ToString();
                     anesPlanInhalant.Drug.Drug.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     anesPlanInhalant.Drug.Drug.Description = read["b.Description"].ToString();

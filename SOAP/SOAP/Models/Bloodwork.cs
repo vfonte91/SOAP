@@ -42,6 +42,7 @@ namespace SOAP.Models
         public Bloodwork()
         {
             _id = -1;
+            _bloodworkInfo = new DropdownValue();
         }
 
         public bool ValidateBloodwork()
