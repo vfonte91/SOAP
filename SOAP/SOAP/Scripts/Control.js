@@ -260,7 +260,26 @@ function deleteUser(users) {
     return returned;
 }
 
-function promoteUser(users) {}
+function promoteUser(users) {
+
+    for (var i = 0; i < users.length; i++) {
+        var ASFUser1 = {
+            "Username": users[i]
+        }
+        ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
+        .done(function (data) {
+            if (data.success) {
+                returned = true;
+            }
+            else
+                returned = false;
+        })
+        .fail(function (data) {
+            returned = false;
+        });
+    }
+    return returned;
+}
 
 function ajax(typeIn, urlIn, dataIn, asyncIn) {
 
