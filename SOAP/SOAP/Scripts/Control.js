@@ -92,6 +92,28 @@ $(document).ready(function () {
             login(username, passwordHash);
         });
     }
+    //Shows saved forms after login
+    $("#login").click(function () {
+
+        //Validate user
+        if (validateUser()) {
+            $("#user-info a.edit-profile").show("slide");
+            $("#thumbs a.disabled").show("drop");
+            $("#thumbs a.disabled").removeClass("disabled");
+            $("#user-info a.edit-profile").removeClass("disabled");
+            $("#login-div").slideUp(function () {
+                $("#saved-forms-div").slideDown();
+            });
+            if (!UserInformation.IsAdmin) {
+                $("#thumbs a.admin").addClass("disabled");
+            }
+            DropdownCategories = GetAllDropdownCategories();
+            populateAll();
+        }
+        else {
+            alert('Validate User Failed');
+        }
+    });
 
     $("#dropdownCat").change(function () {
         var idOfCat = $(this).val();
@@ -117,6 +139,7 @@ function login(username, password) {
         sessionStorage.password = password;
         DropdownCategories = GetAllDropdownCategories();
         PopulateAdminCategories();
+        populateAll();
     }
     else {
         alert('Validate User Failed');
@@ -126,6 +149,48 @@ function login(username, password) {
 function setProfileInfo() {
     $("#Patient\\.Profile\\.FullName").val(UserInformation.FullName);
     $("#Patient\\.Profile\\.Email").val(UserInformation.EmailAddress);
+}
+
+function populateAll() {
+    populate(1, "Patient.PatientInfo.Procedure");
+    populate(2, "Patient.PatientInfo.Temperament");
+    populate(3, "Patient.PatientInfo.PreoperativePainAssesment");
+    populate(4, "Patient.PatientInfo.PostperativePainAssesment");
+    populate(5, "Patient.ClinicalFindings.CardiacAuscultation");
+    populate(6, "Patient.ClinicalFindings.PulseQuality");
+    populate(20, "Patient.ClinicalFindings.CapillaryRefillTime");
+    populate(7, "Patient.ClinicalFindings.RespiratoryAuscultationId");
+    populate(9, "Patient.ClinicalFindings.PhysicalStatusClass");
+    populate(25, "Patient.ClinicalFindings.MucousMembraneColor");
+    populate(13, "Patient.AnestheticPlanPremedication.Route");
+    populate(21, "Patient.AnestheticPlanPremedication.SedativeDrug");
+    populate(22, "Patient.AnestheticPlanPremedication.OpioidDrug");
+    populate(23, "Patient.AnestheticPlanPremedication.AnticholinergicDrug");
+    populate(14, "Patient.AnestheticPlanInjection.Drug");
+    populate(13, "Patient.AnestheticPlanInjection.Route");
+    populate(24, "Patient.AnestheticPlanInjection.IVFluidTypes");
+    populate(15, "Patient.AnestheticPlanInhalant.Drug");
+    populate(14, "Patient.MaintenanceInjectionDrug.Drug");
+    populate(13, "Patient.MaintenanceInjectionDrug.RouteOfAdministration");
+    populate(15, "Patient.MaintenanceInhalentDrug.Drug");
+    populate(16, "Patient.MaintenanceInhalentDrug.BreathingSystem");
+    populate(17, "Patient.MaintenanceInhalentDrug.BreathingBagSize");
+    populate(18, "Patient.OtherAnestheticDrug.IntraoperativeAnalgesia");
+
+}
+
+function populate(id, name) {
+   
+    var num = parseInt(id);
+    num = num - 1;
+    var cats = DropdownCategories;
+    var values = cats[num].DropdownValues;
+    for (var i = 0; i < values.length; i++) {
+        var x = document.getElementById(name);
+        var option = document.createElement("option");
+        option.text = values[i].Label;
+        x.add(option, null);
+    } 
 }
 
 function GetAllDropdownCategories() {
