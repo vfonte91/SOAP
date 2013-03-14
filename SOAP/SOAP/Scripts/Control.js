@@ -238,16 +238,31 @@ function registerUser() {
     return returned;
 }
 
+function getUsers() {}
 
 function deleteUser(users) {
 
-
+    for (var i = 0; i < users.length; i++) {
+        var ASFUser1 = {
+            "Username": users[i]
+        }
+        ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
+        .done(function (data) {
+            if (data.success) {
+                returned = true;
+                getUsers();
+            }
+            else
+                returned = false;
+        })
+        .fail(function (data) {
+            returned = false;
+        });
+    }
+    return returned;
 }
 
-function promoteUser(users) {
-
-
-}
+function promoteUser(users) {}
 
 function ajax(typeIn, urlIn, dataIn, asyncIn) {
 
