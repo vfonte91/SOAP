@@ -46,7 +46,7 @@ $(document).ready(function () {
         var foobarredUser = UserInformation;
         foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
         foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
-        ajax('Post', '', JSON.stringify(foobarredUser), true)
+        ajax('Post', '/Home/EditProfile', JSON.stringify(foobarredUser), true)
         .done(function (data) {
             if (data.success) {
                 UserInformation.FullName = foobarredUser.FullName;
@@ -116,6 +116,7 @@ function login(username, password) {
         sessionStorage.username = username;
         sessionStorage.password = password;
         DropdownCategories = GetAllDropdownCategories();
+        PopulateAdminCategories();
     }
     else {
         alert('Validate User Failed');
@@ -184,9 +185,6 @@ function validateUser(member, password) {
                 UserInformation = JSON.parse(ReturnUser);
                 setProfileInfo();
                 returned = true;
-                if (user.IsAdmin) {
-                    UserInformation.IsAdmin = true;
-                }
             }
         });
     }
