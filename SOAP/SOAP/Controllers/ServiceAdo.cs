@@ -2217,14 +2217,13 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Dropdown_Types SET
-                            Label = @Label, OtherFlag = @OtherFlag, Description = @Description
+                            Label = @Label, Description = @Description
                             WHERE
                             Id = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = val.Id;
                 cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
-                cmd.Parameters.Add("@OtherFlag", SqlDbType.Char).Value = val.OtherFlag;
                 cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
                 try
                 {

@@ -212,6 +212,11 @@ namespace SOAP.Controllers
 
         #region CREATE
 
+        public void CreateDropdownType(DropdownValue val)
+        {
+            service.CreateDropdownType(val);
+        }
+
         public void CreatePatient(Patient pat)
         {
             service.CreatePatient(pat);
@@ -380,6 +385,11 @@ namespace SOAP.Controllers
         #endregion
 
         #region SAVE
+
+        public void SaveDropdownValue(DropdownValue val)
+        {
+            service.UpdateDropdownType(val);
+        }
 
         public void SavePatient(Patient pat)
         {
@@ -567,6 +577,11 @@ namespace SOAP.Controllers
             }
             service.DeleteASPNetMembership(user.Member);
             service.DeleteASFUser(user);
+        }
+
+        public void DeleteDropdownValue(DropdownValue val)
+        {
+            service.DeleteDropdownType(val);
         }
 
         public void DeletePatient(Patient pat)
