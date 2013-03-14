@@ -81,35 +81,46 @@ $(document).ready(function () {
         }
     });
 
-    //Shows saved forms after login
-    $("#login").click(function () {
-
-        //Validate user
-        if (validateUser()) {
-            $("#user-info a.edit-profile").show("slide");
-            $("#thumbs a.disabled").show("drop");
-            $("#thumbs a.disabled").removeClass("disabled");
-            $("#user-info a.edit-profile").removeClass("disabled");
-            $("#login-div").slideUp(function () {
-                $("#saved-forms-div").slideDown();
-            });
-            if (!UserInformation.IsAdmin) {
-                $("#thumbs a.admin").addClass("disabled");
-            }
-            DropdownCategories = GetAllDropdownCategories();
-
-            PopulateAdminCategories();
-        }
-        else {
-            alert('Validate User Failed');
-        }
-    });
+    if (sessionStorage.username && sessionStorage.password) {
+        login(sessionStorage.username, sessionStorage.password);
+    }
+    else {
+        $("#login").click(function () {
+            var username = $.trim($("#username").val());
+            var password = $("#password").val();
+            var passwordHash = password.hashCode();
+            login(username, passwordHash);
+        });
+    }
 
     $("#dropdownCat").change(function () {
         var idOfCat = $(this).val();
         PopulateAdminPropertyValues(idOfCat);
     });
 });
+
+function login(username, password) {
+    //Validate user
+    if (validateUser(username, password)) {
+        //Shows saved forms after login
+        $("#user-info a.edit-profile").show("slide");
+        $("#thumbs a.disabled").show("drop");
+        $("#thumbs a.disabled").removeClass("disabled");
+        $("#user-info a.edit-profile").removeClass("disabled");
+        $("#login-div").slideUp(function () {
+            $("#saved-forms-div").slideDown();
+        });
+        if (!UserInformation.IsAdmin) {
+            $("#thumbs a.admin").addClass("disabled");
+        }
+        sessionStorage.username = username;
+        sessionStorage.password = password;
+        DropdownCategories = GetAllDropdownCategories();
+    }
+    else {
+        alert('Validate User Failed');
+    }
+}
 
 function setProfileInfo() {
     $("#Patient\\.Profile\\.FullName").val(UserInformation.FullName);
@@ -155,15 +166,13 @@ function PopulateAdminPropertyValues(idOfCat) {
 
 function getValue() { }
 function addValue() { }
-function validateUser() {
+
+function validateUser(member, password) {
     var returned = false;
-    var member = $.trim($("#username").val());
-    var pw = $("#password").val();
-    if (member && pw) {
+    if (member && password) {
         var memberInfo = {
             Username: member,
-            Password: pw
-
+            Password: password
         }
         ajax('Post', '/Home/DoLogin', JSON.stringify(memberInfo), false)
         .fail(function (data) {
@@ -175,6 +184,9 @@ function validateUser() {
                 UserInformation = JSON.parse(ReturnUser);
                 setProfileInfo();
                 returned = true;
+                if (user.IsAdmin) {
+                    UserInformation.IsAdmin = true;
+                }
             }
         });
     }
@@ -191,13 +203,14 @@ function registerUser() {
     var userName = $.trim($("#username").val());
     if (pw1 == pw2 && pw1 && userName) {
         var fullName = $("#full-name").val();
+        var pwHash = pw1.hashCode();
         var ASFUser1 = {
             "Username": userName,
             "FullName": fullName,
             "EmailAddress": $("#email").val(),
             "Member": {
                 "Username": userName,
-                "Password": pw1
+                "Password": pwHash
             }
         };
         ajax('Post', '/Home/RegisterUser', JSON.stringify(ASFUser1), false)
@@ -208,9 +221,12 @@ function registerUser() {
                 $("#password-repeat").val("");
                 $("#email").val("");
                 $("#full-name").val("");
+                sessionStorage.username = userName;
+                sessionStorage.password = pwHash;
             }
-            else
+            else {
                 returned = false;
+            }
         })
         .fail(function (data) {
             returned = false;
@@ -243,4 +259,15 @@ function ajax(typeIn, urlIn, dataIn, asyncIn) {
         contentType: 'application/json; charset=utf-8',
         async: asyncIn
     });
+}
+
+String.prototype.hashCode = function(){
+	var hash = 0;
+	if (this.length == 0) return hash;
+	for (i = 0; i < this.length; i++) {
+		char = this.charCodeAt(i);
+		hash = ((hash<<5)-hash)+char;
+		hash = hash & hash; // Convert to 32bit integer
+	}
+	return hash.toString();
 }
