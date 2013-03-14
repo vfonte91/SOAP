@@ -82,6 +82,7 @@ $(document).ready(function () {
         }
     });
 
+    //Check if username and password are already stored
     if (sessionStorage.username && sessionStorage.password) {
         login(sessionStorage.username, sessionStorage.password);
     }
@@ -132,16 +133,21 @@ function login(username, password) {
         $("#login-div").slideUp(function () {
             $("#saved-forms-div").slideDown();
         });
+
+        DropdownCategories = GetAllDropdownCategories();
+
+        //Hides Admin tab is not admin
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
+        //Populates Admin page if admin
         else {
             getUsers();
             PopulateAdminCategories();
         }
+        //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
-        DropdownCategories = GetAllDropdownCategories();
         populateAll();
         GetUserForms();
     }
@@ -199,7 +205,7 @@ function populate(id, name) {
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', '/Home/GetAllDropdownCategories', '', false)
+    ajax('Post', '/Home/GetAllDropdownCategories', '', true)
     .done(function (data) {
         if (data.success) {
             dCats = data.DropdownCategories;
@@ -225,17 +231,29 @@ function PopulateAdminCategories() {
 function PopulateAdminPropertyValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), false)
+        ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), true)
         .done(function (data) {
+            if (data.success) {
+                var values = data.DropdownValues;
+                $("#dropdown-body").empty();
+
+                for (var i = 0; i < values.length; i++) {
+                    var id = values[i].Id;
+                    var label = values[i].Label;
+                    var desc = values[i].Description;
+                    var button = "<input type='button' class='submit' onclick='removeValue('" + id + "')' />";
+                    var row = "<tr><td>" + label + "</td><td>" + desc + "</td><td>" + button + "</td></tr>";
+                    $("#dropdown-body").append(row);
+                }
+            }
+            else
+                alert("Clould not get drop down values");
         })
         .fail(function (data) {
-
+            alert("Clould not get drop down values");
         });
     }
 }
-
-function getValue() { }
-function addValue() { }
 
 function validateUser(member, password) {
     var returned = false;
@@ -321,7 +339,7 @@ function getUsers() {
 
     $("#users").empty();
 
-    ajax('Post', '/Home/GetUsers', '', false)
+    ajax('Post', '/Home/GetUsers', '', true)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
@@ -346,7 +364,7 @@ function deleteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success)
                 returned += users[i] + " deleted. ";
@@ -367,7 +385,7 @@ function promoteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) 
                 returned += users[i] + " promoted. ";
@@ -393,6 +411,7 @@ function ajax(typeIn, urlIn, dataIn, asyncIn) {
     });
 }
 
+//Hash function used for hashing password
 String.prototype.hashCode = function(){
 	var hash = 0;
 	if (this.length == 0) return hash;
