@@ -172,8 +172,8 @@ function validateUser() {
         .done(function (data) {
             if (data.success) {
                 var ReturnUser = data.returnUser;
-                var user = JSON.parse(ReturnUser);
-                setProfileInfo(user.FullName, user.EmailAddress);
+                UserInformation = JSON.parse(ReturnUser);
+                setProfileInfo();
                 returned = true;
             }
         });
