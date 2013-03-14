@@ -20,9 +20,13 @@
         <div class="input">
             <label>Users</label> <br />
             <select id="users" multiple style="float:none;margin-left:200px">
-                <option>KingOfTheNorth</option>
-                <option>test</option>
+                <option value="test123">dirt</option>
+                <option value="test55">test</option>
             </select>
+        </div>
+        <div class="input">
+            <input type="button" id="delete-user" value="Delete" class="submit left" onclick="deleteUser($('#users').val())"/>
+            <input type="button" id="promote-user" value="Promote" class="submit right"/>
         </div>
     </div>
 </form>
