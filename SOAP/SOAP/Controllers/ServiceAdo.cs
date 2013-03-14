@@ -107,17 +107,19 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = BuildASFUserSQL();
-                string from = @"FROM dbo.ASF_USER ";
+                string from = @"FROM dbo.ASF_User as a ";
                 string where = @"WHERE a.Username = @Username AND a.Email = @Email ";
 
                 sql = sql + from + where;
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.Username;
-                cmd.Parameters.Add("@Email", SqlDbType.Int).Value = user.EmailAddress;
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
+                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
                 try
                 {
                     conn.Open();
-                    if (cmd.ExecuteNonQuery() > 0)
+                    
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
                     {
                         valToReturn = true;
                     }
@@ -2067,6 +2069,38 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = member.Password;
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
                 cmd.Parameters.Add("@OldPassword", SqlDbType.NVarChar).Value = oldpassword;
+
+                try
+                {
+                    conn.Open();
+                    if (cmd.ExecuteNonQuery() > 0)
+                        b = true;
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return b;
+        }
+
+        public bool UpdateForgottenPassword(MembershipInfo member)
+        {
+            bool b = false;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.aspnet_Membership SET
+                            Password = @Password
+                            WHERE
+                            Username = @Username";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = member.Password;
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
 
                 try
                 {

@@ -36,6 +36,11 @@ namespace SOAP.Controllers
             return service.CheckUserForForgotPassword(user);
         }
 
+        public bool SaveForgottenPassword(ASFUser user)
+        {
+            return service.UpdateForgottenPassword(user.Member);
+        }
+
         #endregion
 
         #region GET

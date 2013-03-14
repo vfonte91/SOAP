@@ -207,5 +207,21 @@ namespace SOAP.Controllers
             return Json(dict);
         }
 
+        [HttpPost]
+        public ActionResult ChangeForgottenPassword(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
+                dict["success"] = service.SaveForgottenPassword(user);
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
     }
 }

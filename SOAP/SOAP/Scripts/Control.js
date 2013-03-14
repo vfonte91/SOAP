@@ -33,7 +33,7 @@ $(document).ready(function () {
     //When an input loses focus, grab information
     $("input").blur(function () {
         $this = $(this);
-        addValue($this.attr('name'), $this.attr('id'), $this.val());
+        //addValue($this.attr('name'), $this.attr('id'), $this.val());
     });
 
     //Button to open Edit Profile drop down
@@ -243,11 +243,15 @@ function forgotPass() {
 }
 
 function forgetClicked() {
-   
     var forgotUser = $("#usernameForgot").val();
     var emailForgot = $("#emailForgot").val();
-    ajax('Post', '/Home/CheckForgotPassword', '', false)
+    var ASFUser1 = {
+        Username: forgotUser,
+        EmailAddress: emailForgot
+    };
+    ajax('Post', '/Home/CheckForgotPassword', JSON.stringify(ASFUser1), false)
     .done(function (data) {
+
         if (data.success) {
          $("#forgot-password").dialog("close");
                $("#change-password").dialog({
@@ -255,7 +259,10 @@ function forgetClicked() {
                     height: 400,
                     modal: true,
                     draggable: false,
-                    buttons:[{text: "Submit", click: function(){$(this).dialog("close");}}],
+                    buttons:[{text: "Submit", click: function(){
+                            ChangePassword(ASFUser1);
+                        }
+                        }],
                 });
         }
         else {
@@ -264,6 +271,34 @@ function forgetClicked() {
     .fail(function (data) {
 
     });
+}
+
+function ChangePassword(user) {
+    var pw1 = $("#newPassword").val();
+    var pw2 = $("#newPasswordAgain").val();
+    if (pw1 == pw2) {
+        ASFUser1 = {
+            Username: user.Username,
+            Member: {
+                Username: user.Username,
+                Password: pw1.hashCode()
+            }
+        };
+        ajax('Post', '/Home/ChangeForgottenPassword', JSON.stringify(ASFUser1), false)
+        .done(function (data) {
+            if (data.success) {
+                $("#change-password").dialog("close");
+            }
+            else {
+            }
+        })
+        .fail(function (data) {
+
+        });
+    }
+    else {
+        alert('Passwords do not match');
+    }
 }
 
 function GetAllDropdownCategories() {
