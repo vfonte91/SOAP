@@ -48,6 +48,23 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetUsers()
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                List<ASFUser> users = service.GetASFUsers();
+                dict["succes"] = true;
+                dict["users"] = users;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
         public ActionResult RegisterUser(ASFUser user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -55,6 +72,22 @@ namespace SOAP.Controllers
             {
                 user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
                 dict["success"] = service.CreateASFUser(user);
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult PromoteUser(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.Promote(user);
+                dict["success"] = true;
             }
             catch
             {
