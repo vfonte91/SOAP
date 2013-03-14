@@ -182,26 +182,21 @@ function validateUser() {
         var memberInfo = {
             Username: member,
             Password: pw
-        };
-        $.ajax({
-            type: 'Post',
-            dataType: 'json',
-            url: rootDir + '/Home/DoLogin',
-            data: JSON.stringify(memberInfo),
-            contentType: 'application/json; charset=utf-8',
-            async: false,
-            success: function (data) {
-                if (data.success) {
-                    UserInformation = JSON.parse(data.returnUser);
-                    setProfileInfo();
-                    returned = true;
+
+        }
+        ajax('Post', '/Home/DoLogin', JSON.stringify(memberInfo), false)
+        .fail(function (data) {
+            returned = false;
+        })
+        .done(function (data) {
+            if (data.returnUser) {
+                var ReturnUser = data.returnUser;
+                var user = JSON.parse(ReturnUser);
+                setProfileInfo(user.FullName, user.EmailAddress);
+                returned = true;
+                if (user.IsAdmin) {
+                    IsAdmin = true;
                 }
-                else {
-                    returned = false;
-                }
-            },
-            error: function (data) {
-                returned = false;
             }
         });
     }
@@ -227,32 +222,43 @@ function registerUser() {
                 "Password": pw1
             }
         };
-        $.ajax({
-            type: 'Post',
-            dataType: 'json',
-            url: rootDir + '/Home/RegisterUser',
-            data: JSON.stringify(ASFUser1),
-            contentType: 'application/json; charset=utf-8',
-            async: false,
-            success: function (data) {
-                if (data.success) {
-                    returned = true;
-                    $("#password").val("");
-                    $("#password-repeat").val("");
-                    $("#email").val("");
-                    $("#full-name").val("");
-                }
-                else {
-                    returned = false;
-                }
-            },
-            error: function (data) {
-                returned = false;
-            }
+        ajax('Post', '/Home/RegisterUser', JSON.stringify(ASFUser1), false)
+        .done(function (data) {
+            returned = true;
+            $("#password").val("");
+            $("#password-repeat").val("");
+            $("#email").val("");
+            $("#full-name").val("");
+        })
+        .fail(function (data) {
+            returned = false;
         });
     }
     else {
         returned = false;
     }
     return returned;
+}
+
+
+function deleteUser(users) {
+
+
+}
+
+function promoteUser(users) {
+
+
+}
+
+function ajax(typeIn, urlIn, dataIn, asyncIn) {
+
+    return $.ajax({
+        type: typeIn,
+        dataType: 'json',
+        url: rootDir + urlIn,
+        data: dataIn,
+        contentType: 'application/json; charset=utf-8',
+        async: asyncIn
+    });
 }
