@@ -219,13 +219,26 @@ function populate(id, name) {
 }
 
 function forgotPass() {
-    $("#forgotPass").dialog({
+    $("#forgot-password").dialog({
 
         width: 600,
         height: 400,
         modal: true,
         draggable: false,
-        buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } } ],
+        buttons: [{ text: "Ok", click: function () {
+            $(this).dialog("close");
+            if (true) {
+                $("#change-password").dialog({
+                    width:600,
+                    height: 400,
+                    modal: true,
+                    draggable: false,
+                    buttons:[{text: "Submit", click: function(){$(this).dialog("close");}}],
+                });
+            } else {
+            }
+        }
+        }],
         open: function (event, ui) {
             var textarea = $('<textarea style="height: 276px;">');
             // getter
@@ -237,7 +250,7 @@ function forgotPass() {
             //$(this).html(textarea);
 
             //$(textarea).redactor({ autoresize: false });
-            //$(textarea).setCode('<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>');
+
         }
     });
 }
