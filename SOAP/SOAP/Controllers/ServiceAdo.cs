@@ -106,7 +106,8 @@ namespace SOAP.Controllers
             List<ASFUser> users = new List<ASFUser>();
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"SELECT UserId, Username, FullName, IsAdmin, Email FROM dbo.ASF_User";
+                string sql = @"SELECT a.UserId as 'a.UserId', a.Username as 'a.Username', a.FullName as 'a.FullName', 
+                               a.IsAdmin as 'a.IsAdmin', a.Email as 'a.Email' FROM dbo.ASF_User as a";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 try
                 {
