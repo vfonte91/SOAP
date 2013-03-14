@@ -320,3 +320,21 @@ form div.input label.checkbox {
     padding: 4px !important;
     font-size: 12px;
 }
+
+table 
+{
+    
+}
+
+table thead 
+{
+    border-bottom: 2px;
+}
+table td, table th 
+{
+    padding: 5px;
+}
+table td 
+{
+    border-bottom: 1px;
+}
