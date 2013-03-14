@@ -113,6 +113,9 @@ function login(username, password) {
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
+        else {
+            getUsers();
+        }
         sessionStorage.username = username;
         sessionStorage.password = password;
         DropdownCategories = GetAllDropdownCategories();
@@ -236,49 +239,69 @@ function registerUser() {
     return returned;
 }
 
-function getUsers() {}
+function getUsers() {
+    var users;
+
+    $("#users").empty();
+
+    ajax('Post', '/Home/GetUsers', '', false)
+    .done(function (data) {
+        if (data.succes) {
+            users = data.users;
+
+            for (var i = 0; i < users.length; i++) {
+                var name = users[i].FullName;
+                var username = users[i].Username;
+                $("#users").append("<option value='" + username + "'>" + name + "</option>");
+            }
+        }
+        else
+            returned = false;
+    })
+    .fail(function (data) {
+        returned = false;
+    });
+}
 
 function deleteUser(users) {
-
+    var returned = '';
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
         }
         ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
-            if (data.success) {
-                returned = true;
-                getUsers();
-            }
+            if (data.success)
+                returned += users[i] + " promoted. ";
             else
-                returned = false;
+                returned += "Error: " + users[i] + " could not be promoted. ";
         })
         .fail(function (data) {
-            returned = false;
+            returned += "Error: " + users[i] + " could not be promoted. ";
         });
     }
-    return returned;
+    getUsers();
+    alert(returned);
 }
 
 function promoteUser(users) {
-
+    var returned = '';
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
         }
         ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
-            if (data.success) {
-                returned = true;
-            }
+            if (data.success) 
+                returned += users[i] + " promoted. ";
             else
-                returned = false;
+                returned += "Error: " + users[i] + " could not be promoted. ";
         })
         .fail(function (data) {
-            returned = false;
+            returned += "Error: " + users[i] + " could not be promoted. ";
         });
     }
-    return returned;
+    alert(returned);
 }
 
 function ajax(typeIn, urlIn, dataIn, asyncIn) {
