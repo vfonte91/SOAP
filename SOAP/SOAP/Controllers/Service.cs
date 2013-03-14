@@ -40,6 +40,11 @@ namespace SOAP.Controllers
             return service.GetASFUsers();
         }
 
+        public List<Patient> GetForms(ASFUser user)
+        {
+            return service.GetForms(user);
+        }
+
         public List<DropdownCategory> GetDropdownCategoriesWithValues()
         {
             List<DropdownCategory> cats = service.GetDropdownCategories();

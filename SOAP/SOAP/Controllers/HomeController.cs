@@ -48,6 +48,23 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
+        public ActionResult GetUsers()
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                List<ASFUser> users = service.GetASFUsers();
+                dict["succes"] = true;
+                dict["users"] = users;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
         public ActionResult RegisterUser(ASFUser user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
@@ -134,6 +151,22 @@ namespace SOAP.Controllers
             try
             {
                 dict["DropdownValues"] = service.GetDropdownValues(catId.Id);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult GetUserForms(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["Forms"] = service.GetForms(user);
                 dict["success"] = true;
             }
             catch

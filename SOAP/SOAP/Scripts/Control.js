@@ -71,12 +71,13 @@ $(document).ready(function () {
         }
         else {
             //Register user
-            if (registerUser()) {
-                alert('success');
+            var result = registerUser()
+            if (result == "success") {
+                alert('Registration was succesful');
                 $("#register-div").slideUp('slow');
             }
             else {
-                alert('Register User Failed');
+                alert(result);
             }
         }
     });
@@ -92,34 +93,33 @@ $(document).ready(function () {
             login(username, passwordHash);
         });
     }
-    //Shows saved forms after login
-    $("#login").click(function () {
-
-        //Validate user
-        if (validateUser()) {
-            $("#user-info a.edit-profile").show("slide");
-            $("#thumbs a.disabled").show("drop");
-            $("#thumbs a.disabled").removeClass("disabled");
-            $("#user-info a.edit-profile").removeClass("disabled");
-            $("#login-div").slideUp(function () {
-                $("#saved-forms-div").slideDown();
-            });
-            if (!UserInformation.IsAdmin) {
-                $("#thumbs a.admin").addClass("disabled");
-            }
-            DropdownCategories = GetAllDropdownCategories();
-            populateAll();
-        }
-        else {
-            alert('Validate User Failed');
-        }
-    });
 
     $("#dropdownCat").change(function () {
         var idOfCat = $(this).val();
         PopulateAdminPropertyValues(idOfCat);
     });
 });
+
+function GetUserForms() {
+    ajax('Post', '/Home/GetUserForms', JSON.stringify(UserInformation), false)
+    .done(function (data) {
+        if (data.success) {
+            var forms = $('#saved-forms');
+            forms.append('<option value="0"> - Select One - </option>');
+            for (var i = 0; i < data.Forms.length; i++) {
+                var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
+                //date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ', ' + date.getHours() + ':' + date.getMinutes();
+                var e = '<option value="' + data.Forms[i].Id + '">' + date.toLocaleString() + '</option>';
+                forms.append(e);
+            }
+        }
+        else {
+        }
+    })
+    .fail(function (data) {
+
+    });
+}
 
 function login(username, password) {
     //Validate user
@@ -135,11 +135,15 @@ function login(username, password) {
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
+        else {
+            getUsers();
+            PopulateAdminCategories();
+        }
         sessionStorage.username = username;
         sessionStorage.password = password;
         DropdownCategories = GetAllDropdownCategories();
-        PopulateAdminCategories();
         populateAll();
+        GetUserForms();
     }
     else {
         alert('Validate User Failed');
@@ -293,13 +297,27 @@ function registerUser() {
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
     var userName = $.trim($("#username").val());
-    if (pw1 == pw2 && pw1 && userName) {
-        var fullName = $("#full-name").val();
+    var fullName = $("#full-name").val();
+    var email = $("#email").val()
+
+    if (!userName) {
+        returned = "Must enter username";
+    }
+    else if (pw1 != pw2 || !pw1) {
+        returned = "Passwords do not match";
+    }
+    else if (!fullName) {
+        returned = "Must enter full name";
+    }
+    else if (!email) {
+        returned = "Must enter email address";
+    }
+    else {
         var pwHash = pw1.hashCode();
         var ASFUser1 = {
             "Username": userName,
             "FullName": fullName,
-            "EmailAddress": $("#email").val(),
+            "EmailAddress": email,
             "Member": {
                 "Username": userName,
                 "Password": pwHash
@@ -308,7 +326,7 @@ function registerUser() {
         ajax('Post', '/Home/RegisterUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) {
-                returned = true;
+                returned = "success";
                 $("#password").val("");
                 $("#password-repeat").val("");
                 $("#email").val("");
@@ -317,62 +335,79 @@ function registerUser() {
                 sessionStorage.password = pwHash;
             }
             else {
-                returned = false;
+                returned = "User could not be registered";
             }
         })
         .fail(function (data) {
-            returned = false;
+            returned = "User could not be registered";
         });
-    }
-    else {
-        returned = false;
     }
     return returned;
 }
 
-function getUsers() {}
+function getUsers() {
+    var users;
+
+    $("#users").empty();
+
+    ajax('Post', '/Home/GetUsers', '', false)
+    .done(function (data) {
+        if (data.succes) {
+            users = data.users;
+
+            for (var i = 0; i < users.length; i++) {
+                var name = users[i].FullName;
+                var username = users[i].Username;
+                $("#users").append("<option value='" + username + "'>" + name + "</option>");
+            }
+        }
+        else
+            returned = false;
+    })
+    .fail(function (data) {
+        returned = false;
+    });
+}
 
 function deleteUser(users) {
-
+    var returned = '';
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
         }
         ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
-            if (data.success) {
-                returned = true;
-                getUsers();
-            }
+            if (data.success)
+                returned += users[i] + " deleted. ";
             else
-                returned = false;
+                returned += "Error: " + users[i] + " could not be deleted. ";
         })
         .fail(function (data) {
-            returned = false;
+            returned += "Error: " + users[i] + " could not be deleted. ";
         });
     }
-    return returned;
+    getUsers();
+    alert(returned);
 }
 
 function promoteUser(users) {
-
+    var returned = '';
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
         }
         ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
-            if (data.success) {
-                returned = true;
-            }
+            if (data.success) 
+                returned += users[i] + " promoted. ";
             else
-                returned = false;
+                returned += "Error: " + users[i] + " could not be promoted. ";
         })
         .fail(function (data) {
-            returned = false;
+            returned += "Error: " + users[i] + " could not be promoted. ";
         });
     }
-    return returned;
+    alert(returned);
 }
 
 function ajax(typeIn, urlIn, dataIn, asyncIn) {
