@@ -1,7 +1,12 @@
 ﻿@{
     ViewBag.Title = "Login";
 }
-
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+</head>
 <div class="center" style="width:50%">
     <div id="login-div">
         <form action="">
@@ -32,6 +37,14 @@
             <div class="input">
                 <input type="button" id="login" value="Login" class="submit left"/>
                 <input type="button" id="register" value="Register" class="submit right"/>
+                <input type="button" id="forgotPassword" value="Forgot Password" class = "submit" onclick="forgotPass()" />
+            </div>
+            <div id="forgotPass" title="Forgot Password" style="display: none;">
+                    <label>UserName:</label>
+                    <input type="text" id="usernameForgot" />
+                    <p></p>  
+                    <label>Email:</label>
+                    <input type="text" id="emailForgot" />                                
             </div>
         </form>
     </div>
