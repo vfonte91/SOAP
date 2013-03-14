@@ -49,7 +49,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -87,7 +87,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -100,6 +100,40 @@ namespace SOAP.Controllers
         #endregion
 
         #region READ
+
+        public bool CheckUserForForgotPassword(ASFUser user)
+        {
+            bool valToReturn = false;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = BuildASFUserSQL();
+                string from = @"FROM dbo.ASF_USER ";
+                string where = @"WHERE a.Username = @Username AND a.Email = @Email ";
+
+                sql = sql + from + where;
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.Int).Value = user.Username;
+                cmd.Parameters.Add("@Email", SqlDbType.Int).Value = user.EmailAddress;
+                try
+                {
+                    conn.Open();
+                    if (cmd.ExecuteNonQuery() > 0)
+                    {
+                        valToReturn = true;
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+
+            }
+            return valToReturn;
+        }
 
         public List<ASFUser> GetASFUsers()
         {
@@ -120,7 +154,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -157,7 +191,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -204,7 +238,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -260,7 +294,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -310,7 +344,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -363,7 +397,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -410,7 +444,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -472,7 +506,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -519,7 +553,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -555,7 +589,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -601,7 +635,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -635,7 +669,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -682,7 +716,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -729,7 +763,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -786,7 +820,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -841,7 +875,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -886,7 +920,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -931,7 +965,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -997,7 +1031,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1028,7 +1062,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1065,7 +1099,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1145,7 +1179,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1174,7 +1208,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1205,7 +1239,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1236,7 +1270,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1267,7 +1301,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1301,7 +1335,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1349,7 +1383,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1380,7 +1414,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1420,7 +1454,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1449,7 +1483,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1478,7 +1512,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1509,7 +1543,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1544,7 +1578,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1573,7 +1607,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1603,7 +1637,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1643,7 +1677,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1674,7 +1708,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1703,7 +1737,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1732,7 +1766,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1772,7 +1806,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1802,7 +1836,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1831,7 +1865,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1863,7 +1897,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1891,7 +1925,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1921,7 +1955,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1951,7 +1985,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -1981,7 +2015,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2010,7 +2044,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2042,7 +2076,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2072,7 +2106,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2112,7 +2146,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2140,7 +2174,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2169,7 +2203,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2183,14 +2217,13 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Dropdown_Types SET
-                            Label = @Label, OtherFlag = @OtherFlag, Description = @Description
+                            Label = @Label, Description = @Description
                             WHERE
                             Id = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = val.Id;
                 cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
-                cmd.Parameters.Add("@OtherFlag", SqlDbType.Char).Value = val.OtherFlag;
                 cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
                 try
                 {
@@ -2199,7 +2232,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2234,7 +2267,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2262,7 +2295,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2291,7 +2324,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2330,7 +2363,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2360,7 +2393,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2388,7 +2421,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2416,7 +2449,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2457,7 +2490,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2486,7 +2519,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2514,7 +2547,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2542,7 +2575,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2570,7 +2603,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2599,7 +2632,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2625,7 +2658,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2651,7 +2684,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2677,7 +2710,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2703,7 +2736,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2729,7 +2762,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2756,7 +2789,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2782,7 +2815,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2808,7 +2841,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2834,7 +2867,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2860,7 +2893,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2886,7 +2919,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2912,7 +2945,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2938,7 +2971,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2964,7 +2997,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -2990,7 +3023,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -3016,7 +3049,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -3042,7 +3075,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -3068,7 +3101,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -3094,7 +3127,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -3120,7 +3153,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {
@@ -3146,7 +3179,7 @@ namespace SOAP.Controllers
                 }
                 catch (Exception e)
                 {
-
+                    throw e;
                 }
                 finally
                 {

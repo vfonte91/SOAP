@@ -323,7 +323,7 @@ form div.input label.checkbox {
 
 table 
 {
-    
+    width: 100%;
 }
 
 table thead 
@@ -337,4 +337,9 @@ table td, table th
 table td 
 {
     border-bottom: 1px;
+}
+table td input[type=text] 
+{
+    width: 75% !important;
+    float: none !important;
 }

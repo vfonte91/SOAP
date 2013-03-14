@@ -49,6 +49,7 @@ namespace SOAP.Models
 
         public ASFUser()
         {
+            _userId = -1;
             Member = new MembershipInfo();
         }
 
