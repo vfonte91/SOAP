@@ -154,7 +154,7 @@ function setProfileInfo() {
 function populateAll() {
     populate(1, "Patient.PatientInfo.Procedure");
     populate(2, "Patient.PatientInfo.Temperament");
-    populate(3, "Patient.PatientInfo.PreoperativePainAssesment");
+    populate(4, "Patient.PatientInfo.PreoperativePainAssesment");
     populate(4, "Patient.PatientInfo.PostperativePainAssesment");
     populate(5, "Patient.ClinicalFindings.CardiacAuscultation");
     populate(6, "Patient.ClinicalFindings.PulseQuality");
