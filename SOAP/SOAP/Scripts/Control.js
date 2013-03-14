@@ -147,7 +147,11 @@ function login(username, password) {
         $("#login-div").slideUp(function () {
             $("#saved-forms-div").slideDown();
         });
+
         DropdownCategories = GetAllDropdownCategories();
+
+        //Hides Admin tab if not admin
+
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
@@ -155,8 +159,10 @@ function login(username, password) {
             getUsers();
             PopulateAdminCategories();
         }
+        //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
+
         populateAll();
         GetUserForms();
     }
@@ -164,8 +170,6 @@ function login(username, password) {
         alert('Validate User Failed');
     }
 }
-
-
 
 function setProfileInfo() {
     $("#Patient\\.Profile\\.FullName").val(UserInformation.FullName);
@@ -284,16 +288,36 @@ function PopulateAdminPropertyValues(idOfCat) {
         var obj = { Id: idOfCat };
         ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), false)
         .done(function (data) {
+            if (data.success) {
+                var values = data.DropdownValues;
+                $("#dropdown-body").empty();
+
+                for (var i = 0; i < values.length; i++) {
+                    var id = values[i].Id;
+                    var label = values[i].Label;
+                    var desc = values[i].Description;
+                    var labelInput = "<input type='text' id='" + id + "-label' value='" + label + "'/>";
+                    var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
+                    var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
+                    var editButton = "<input type='button' class='submit' onclick='editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())' value='Edit'/>";
+                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
+                    $("#dropdown-body").append(row);
+                }
+            }
+            else
+                alert("Clould not get drop down values");
         })
         .fail(function (data) {
-
+            alert("Clould not get drop down values");
         });
     }
 }
 
-function getValue() { }
-function addValue() { }
+function editDropdownValue(id, label, desc) {
+}
 
+function deleteDropdownValue(id) {
+}
 
 function validateUser(member, password) {
     var returned = false;
