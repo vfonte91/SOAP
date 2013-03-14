@@ -71,12 +71,13 @@ $(document).ready(function () {
         }
         else {
             //Register user
-            if (registerUser()) {
-                alert('success');
+            var result = registerUser()
+            if (result == "success") {
+                alert('Registration was succesful');
                 $("#register-div").slideUp('slow');
             }
             else {
-                alert('Register User Failed');
+                alert(result);
             }
         }
     });
@@ -92,28 +93,6 @@ $(document).ready(function () {
             login(username, passwordHash);
         });
     }
-    //Shows saved forms after login
-    $("#login").click(function () {
-
-        //Validate user
-        if (validateUser()) {
-            $("#user-info a.edit-profile").show("slide");
-            $("#thumbs a.disabled").show("drop");
-            $("#thumbs a.disabled").removeClass("disabled");
-            $("#user-info a.edit-profile").removeClass("disabled");
-            $("#login-div").slideUp(function () {
-                $("#saved-forms-div").slideDown();
-            });
-            if (!UserInformation.IsAdmin) {
-                $("#thumbs a.admin").addClass("disabled");
-            }
-            DropdownCategories = GetAllDropdownCategories();
-            populateAll();
-        }
-        else {
-            alert('Validate User Failed');
-        }
-    });
 
     $("#dropdownCat").change(function () {
         var idOfCat = $(this).val();
@@ -137,11 +116,11 @@ function login(username, password) {
         }
         else {
             getUsers();
+            PopulateAdminCategories();
         }
         sessionStorage.username = username;
         sessionStorage.password = password;
         DropdownCategories = GetAllDropdownCategories();
-        PopulateAdminCategories();
         populateAll();
     }
     else {
@@ -267,13 +246,27 @@ function registerUser() {
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
     var userName = $.trim($("#username").val());
-    if (pw1 == pw2 && pw1 && userName) {
-        var fullName = $("#full-name").val();
+    var fullName = $("#full-name").val();
+    var email = $("#email").val()
+
+    if (!userName) {
+        returned = "Must enter username";
+    }
+    else if (pw1 != pw2 || !pw1) {
+        returned = "Passwords do not match";
+    }
+    else if (!fullName) {
+        returned = "Must enter full name";
+    }
+    else if (!email) {
+        returned = "Must enter email address";
+    }
+    else {
         var pwHash = pw1.hashCode();
         var ASFUser1 = {
             "Username": userName,
             "FullName": fullName,
-            "EmailAddress": $("#email").val(),
+            "EmailAddress": email,
             "Member": {
                 "Username": userName,
                 "Password": pwHash
@@ -282,7 +275,7 @@ function registerUser() {
         ajax('Post', '/Home/RegisterUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) {
-                returned = true;
+                returned = "success";
                 $("#password").val("");
                 $("#password-repeat").val("");
                 $("#email").val("");
@@ -291,15 +284,12 @@ function registerUser() {
                 sessionStorage.password = pwHash;
             }
             else {
-                returned = false;
+                returned = "User could not be registered";
             }
         })
         .fail(function (data) {
-            returned = false;
+            returned = "User could not be registered";
         });
-    }
-    else {
-        returned = false;
     }
     return returned;
 }
@@ -337,12 +327,12 @@ function deleteUser(users) {
         ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success)
-                returned += users[i] + " promoted. ";
+                returned += users[i] + " deleted. ";
             else
-                returned += "Error: " + users[i] + " could not be promoted. ";
+                returned += "Error: " + users[i] + " could not be deleted. ";
         })
         .fail(function (data) {
-            returned += "Error: " + users[i] + " could not be promoted. ";
+            returned += "Error: " + users[i] + " could not be deleted. ";
         });
     }
     getUsers();
