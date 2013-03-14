@@ -121,6 +121,27 @@ $(document).ready(function () {
     });
 });
 
+function GetUserForms() {
+    ajax('Post', '/Home/GetUserForms', JSON.stringify(UserInformation), false)
+    .done(function (data) {
+        if (data.success) {
+            var forms = $('#saved-forms');
+            forms.append('<option value="0"> - Select One - </option>');
+            for (var i = 0; i < data.Forms.length; i++) {
+                var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
+                //date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ', ' + date.getHours() + ':' + date.getMinutes();
+                var e = '<option value="' + data.Forms[i].Id + '">' + date.toLocaleString() + '</option>';
+                forms.append(e);
+            }
+        }
+        else {
+        }
+    })
+    .fail(function (data) {
+
+    });
+}
+
 function login(username, password) {
     //Validate user
     if (validateUser(username, password)) {
@@ -143,6 +164,7 @@ function login(username, password) {
         DropdownCategories = GetAllDropdownCategories();
         PopulateAdminCategories();
         populateAll();
+        GetUserForms();
     }
     else {
         alert('Validate User Failed');

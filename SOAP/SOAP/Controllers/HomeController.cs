@@ -160,5 +160,21 @@ namespace SOAP.Controllers
             return Json(dict);
         }
 
+        [HttpPost]
+        public ActionResult GetUserForms(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["Forms"] = service.GetForms(user);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
     }
 }
