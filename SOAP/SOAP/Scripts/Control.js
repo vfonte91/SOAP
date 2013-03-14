@@ -82,7 +82,6 @@ $(document).ready(function () {
         }
     });
 
-    //Check if username and password are already stored
     if (sessionStorage.username && sessionStorage.password) {
         login(sessionStorage.username, sessionStorage.password);
     }
@@ -148,17 +147,14 @@ function login(username, password) {
         $("#login-div").slideUp(function () {
             $("#saved-forms-div").slideDown();
         });
-        //Hides Admin tab is not admin
         DropdownCategories = GetAllDropdownCategories();
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
-        //Populates Admin page if admin
         else {
             getUsers();
             PopulateAdminCategories();
         }
-        //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
         populateAll();
@@ -225,7 +221,7 @@ function forgotPass() {
         height: 400,
         modal: true,
         draggable: false,
-        buttons: [ { text: "Ok", click: function() { $( this ).dialog( "close" ); } } ],
+        buttons: [ { text: "Ok", click: forgetClicked } ],
         open: function (event, ui) {
             var textarea = $('<textarea style="height: 276px;">');
             // getter
@@ -242,7 +238,21 @@ function forgotPass() {
     });
 }
 
+function forgetClicked() {
+    var forgotUser = $("#usernameForgot").val();
+    var emailForgot = $("#emailForgot").val();
+    ajax('Post', '/Home/CheckForgotPassword', '', false)
+    .done(function (data) {
+        if (data.success) {
+            // Jacob put your code here!
+        }
+        else {
+        }
+    })
+    .fail(function (data) {
 
+    });
+}
 
 function GetAllDropdownCategories() {
     var dCats;
@@ -272,23 +282,18 @@ function PopulateAdminCategories() {
 function PopulateAdminPropertyValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), true)
+        ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), false)
         .done(function (data) {
-            if (data.success) {
-                var values = data.DropdownValues;
-                $("#dropdown-body").empty();
-
-                for (var i = 0; i < values.length; i++) {
-                }
-            }
-            else
-                alert("Clould not get drown values");
         })
         .fail(function (data) {
 
         });
     }
 }
+
+function getValue() { }
+function addValue() { }
+
 
 function validateUser(member, password) {
     var returned = false;
@@ -374,7 +379,7 @@ function getUsers() {
 
     $("#users").empty();
 
-    ajax('Post', '/Home/GetUsers', '', true)
+    ajax('Post', '/Home/GetUsers', '', false)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
@@ -399,7 +404,7 @@ function deleteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), true)
+        ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success)
                 returned += users[i] + " deleted. ";
@@ -420,7 +425,7 @@ function promoteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), true)
+        ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) 
                 returned += users[i] + " promoted. ";
@@ -446,7 +451,6 @@ function ajax(typeIn, urlIn, dataIn, asyncIn) {
     });
 }
 
-//Hash function used for hashing password
 String.prototype.hashCode = function(){
 	var hash = 0;
 	if (this.length == 0) return hash;

@@ -31,6 +31,11 @@ namespace SOAP.Controllers
                 return false;
         }
 
+        public bool CheckUserForForgotPassword(ASFUser user)
+        {
+            return service.CheckUserForForgotPassword(user);
+        }
+
         #endregion
 
         #region GET

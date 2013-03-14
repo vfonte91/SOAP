@@ -192,5 +192,20 @@ namespace SOAP.Controllers
             return Json(dict);
         }
 
+        [HttpPost]
+        public ActionResult CheckForgotPassword(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["success"] = service.CheckUserForForgotPassword(user);
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
     }
 }
