@@ -154,7 +154,6 @@ input[type=button] {
 /* container for tab navigation and content*/
 div#tabs {
 	position: relative;
-	overflow: hidden;
 	border: 1px solid #ddd;
 	width: 98%;
 	height: 650px;
@@ -175,7 +174,6 @@ div#tabs div#tab-items {
 
 /*single tab content page */
 .item {
-    float: left;
     height: 98%;
     padding: 15px;
     width: 98%;
@@ -340,6 +338,6 @@ table td
 }
 table td input[type=text] 
 {
-    width: 75% !important;
+    width: 90% !important;
     float: none !important;
 }

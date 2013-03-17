@@ -94,11 +94,6 @@ $(document).ready(function () {
         });
     }
 
-    $("#dropdownCat").change(function () {
-        var idOfCat = $(this).val();
-        PopulateAdminPropertyValues(idOfCat);
-    });
-
     $("#Patient\\.PatientInfo\\.Date").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
 });
@@ -320,6 +315,7 @@ function GetAllDropdownCategories() {
     return dCats;
 }
 
+//Populates dropdown category select box on the Admin page
 function PopulateAdminCategories() {
     var cat = $('#dropdownCat');
     cat.append('<option value="0"> - Select One - </option>');
@@ -329,7 +325,8 @@ function PopulateAdminCategories() {
     }
 }
 
-function PopulateAdminPropertyValues(idOfCat) {
+//Creates table for editing dropdown values on the Admin page
+function PopulateAdminDropdownValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
         ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), false)
@@ -338,6 +335,7 @@ function PopulateAdminPropertyValues(idOfCat) {
                 var values = data.DropdownValues;
                 $("#dropdown-body").empty();
 
+                //Create a table row for each value
                 for (var i = 0; i < values.length; i++) {
                     var id = values[i].Id;
                     var label = values[i].Label;
@@ -345,10 +343,16 @@ function PopulateAdminPropertyValues(idOfCat) {
                     var labelInput = "<input type='text' id='" + id + "-label' value='" + label + "'/>";
                     var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
                     var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
-                    var editButton = "<input type='button' class='submit' onclick='editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())' value='Edit'/>";
+                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())\" value='Edit'/>";
                     var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
                     $("#dropdown-body").append(row);
                 }
+                //Row for adding new values
+                var newLabelInput = "<input type='text' id='new-label'/>";
+                var newDescInput = "<input type='text' id='new-desc'/>";
+                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val())' value='Add'/>";
+                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + addButton + "</td><td></td></tr>";
+                $("#dropdown-body").append(newRow);
             }
             else
                 alert("Clould not get drop down values");
@@ -359,11 +363,33 @@ function PopulateAdminPropertyValues(idOfCat) {
     }
 }
 
+// edits a dropdown value's label and/or description
 function editDropdownValue(id, label, desc) {
+    var returned;
+    var dropdown = {
+        Id: id,
+        Label: label,
+        Description: desc + " "
+        }
+
+        ajax('Post', '/Home/EditDropdownValue', JSON.stringify(dropdown), true)
+        .done(function(data) {
+            if(data.success) {
+                alert("Value edited successfully");
+            }
+            else {
+                alert("Error: value could not be edited");
+            }
+        })
+        .fail(function(data) {
+            alert("Error: value could not be edited");
+        });
 }
 
-function deleteDropdownValue(id) {
+function deleteDropdownValue(id) { 
 }
+
+function addDropDownValue(idOfCat, value, desc) {}
 
 function validateUser(member, password) {
     var returned = false;
