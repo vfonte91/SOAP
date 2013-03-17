@@ -98,6 +98,9 @@ $(document).ready(function () {
         var idOfCat = $(this).val();
         PopulateAdminPropertyValues(idOfCat);
     });
+
+    $("#Patient\\.PatientInfo\\.Date").datepicker();
+    $("#Patient\\.ClinicalFindings\\.Date").datepicker();
 });
 
 function OpenForm(formId) {
