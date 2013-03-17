@@ -506,6 +506,15 @@ function promoteUser(users) {
     alert(returned);
 }
 
+//Logs user out of session
+function logOut() {
+    //Clears session storage
+    sessionStorage.clear();
+
+    //Reloads page
+    location.reload();
+}
+
 function ajax(typeIn, urlIn, dataIn, asyncIn) {
 
     return $.ajax({
