@@ -491,7 +491,8 @@ function promoteUser(users) {
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
-        }
+        }/// <reference path="http://localhost/VSOAP/Scripts/" />
+
         ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) 
