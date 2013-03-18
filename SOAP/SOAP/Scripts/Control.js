@@ -46,7 +46,7 @@ $(document).ready(function () {
         var foobarredUser = UserInformation;
         foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
         foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
-        ajax('Post', '/Home/EditProfile', JSON.stringify(foobarredUser), true)
+        ajax('Post', 'Home/EditProfile', JSON.stringify(foobarredUser), true)
         .done(function (data) {
             if (data.success) {
                 UserInformation.FullName = foobarredUser.FullName;
@@ -102,7 +102,7 @@ $(document).ready(function () {
 
 function OpenForm(formId) {
     var pat = { PatientId: formId };
-    ajax('Post', '/Home/GetPatient', JSON.stringify(pat), false)
+    ajax('Post', 'Home/GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
             console.log(data);
@@ -116,7 +116,7 @@ function OpenForm(formId) {
 }
 
 function GetUserForms() {
-    ajax('Post', '/Home/GetUserForms', JSON.stringify(UserInformation), false)
+    ajax('Post', 'Home/GetUserForms', JSON.stringify(UserInformation), false)
     .done(function (data) {
         if (data.success) {
             var forms = $('#saved-forms');
@@ -249,7 +249,7 @@ function forgetClicked() {
         Username: forgotUser,
         EmailAddress: emailForgot
     };
-    ajax('Post', '/Home/CheckForgotPassword', JSON.stringify(ASFUser1), false)
+    ajax('Post', 'Home/CheckForgotPassword', JSON.stringify(ASFUser1), false)
     .done(function (data) {
 
         if (data.success) {
@@ -284,7 +284,7 @@ function ChangePassword(user) {
                 Password: pw1.hashCode()
             }
         };
-        ajax('Post', '/Home/ChangeForgottenPassword', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'Home/ChangeForgottenPassword', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) {
                 $("#change-password").dialog("close");
@@ -303,7 +303,7 @@ function ChangePassword(user) {
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', '/Home/GetAllDropdownCategories', '', false)
+    ajax('Post', 'Home/GetAllDropdownCategories', '', false)
     .done(function (data) {
         if (data.success) {
             dCats = data.DropdownCategories;
@@ -329,7 +329,7 @@ function PopulateAdminCategories() {
 function PopulateAdminPropertyValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        ajax('Post', '/Home/GetDropdownValues', JSON.stringify(obj), false)
+        ajax('Post', 'Home/GetDropdownValues', JSON.stringify(obj), false)
         .done(function (data) {
             if (data.success) {
                 var values = data.DropdownValues;
@@ -369,7 +369,7 @@ function validateUser(member, password) {
             Username: member,
             Password: password
         }
-        ajax('Post', '/Home/DoLogin', JSON.stringify(memberInfo), false)
+        ajax('Post', 'Home/DoLogin', JSON.stringify(memberInfo), false)
         .fail(function (data) {
             returned = false;
         })
@@ -419,7 +419,7 @@ function registerUser() {
                 "Password": pwHash
             }
         };
-        ajax('Post', '/Home/RegisterUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'Home/RegisterUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) {
                 returned = "success";
@@ -446,7 +446,7 @@ function getUsers() {
 
     $("#users").empty();
 
-    ajax('Post', '/Home/GetUsers', '', false)
+    ajax('Post', 'Home/GetUsers', '', false)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
@@ -471,7 +471,7 @@ function deleteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', '/Home/DeleteUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success)
                 returned += users[i] + " deleted. ";
@@ -492,7 +492,7 @@ function promoteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', '/Home/PromoteUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'Home/PromoteUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) 
                 returned += users[i] + " promoted. ";
