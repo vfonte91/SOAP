@@ -18,7 +18,7 @@
 
     <div id="user-info">
         <span>
-            <a href="#" id="edit-profile-button" class="edit-profile disabled"><span>Edit Profile</span></a>
+            <a href="#" id="edit-profile-button" class="edit-profile disabled"><span>Settings</span></a>
         </span>
     </div>
     <fieldset id="profile-menu" style="display: none;">
@@ -32,7 +32,8 @@
                 <input type="text" name="email" id = "Patient.Profile.Email">
             </p>
             <p>
-                <input id="edit-profile-submit" value="Edit" type="button">
+                <input id="edit-profile-submit" value="Edit Profile" type="button">
+                <input id="logout" value="Log Out" type="button" style="float:right" onClick="logOut()">
             </p>
         </form>
     </fieldset>

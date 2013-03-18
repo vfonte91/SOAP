@@ -6,15 +6,12 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         <link rel="stylesheet" type="text/css" href="~/Content/Site.css" media="screen" />
-        <!--[if gte IE 9]>
-          <style type="text/css">
-            .gradient {
-               filter: none;
-            }
-          </style>
-        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="screen" />
     </head>
     <body>
+        <script type="text/javascript">
+            var rootDir = '@Url.Content("~/")';
+        </script>
         <div id="body">
             @RenderBody()
         </div>
@@ -24,5 +21,4 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Control.js"></script>
-    <script language="javascript" type="text/javascript" src="~/Scripts/datetimepicker.js"></script>
 </html>
