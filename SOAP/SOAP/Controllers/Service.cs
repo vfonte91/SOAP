@@ -382,7 +382,7 @@ namespace SOAP.Controllers
 
         public bool CreateASFUser(ASFUser user)
         {
-            int id = service.CreateMembership(user.Member);
+            service.CreateMembership(user.Member);
             return service.CreateASFUser(user);
         }
 
@@ -579,8 +579,9 @@ namespace SOAP.Controllers
             {
                 DeletePatient(pat);
             }
-            service.DeleteASPNetMembership(user.Member);
+            user.Member.Username = user.Username;
             service.DeleteASFUser(user);
+            service.DeleteASPNetMembership(user.Member);
         }
 
         public void DeleteDropdownValue(DropdownValue val)

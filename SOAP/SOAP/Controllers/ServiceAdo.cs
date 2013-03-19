@@ -142,7 +142,7 @@ namespace SOAP.Controllers
             List<ASFUser> users = new List<ASFUser>();
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"SELECT a.UserId as 'a.UserId', a.Username as 'a.Username', a.FullName as 'a.FullName', 
+                string sql = @"SELECT a.Username as 'a.Username', a.FullName as 'a.FullName', 
                                a.IsAdmin as 'a.IsAdmin', a.Email as 'a.Email' FROM dbo.ASF_User as a";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 try
@@ -1050,7 +1050,7 @@ namespace SOAP.Controllers
             {
                 string sql = @"SELECT PatientId FROM dbo.Patient WHERE StudentId = @StudentId";
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@PatientId", SqlDbType.NVarChar).Value = user.Username;
+                cmd.Parameters.Add("@StudentId", SqlDbType.NVarChar).Value = user.Username;
                 try
                 {
                     conn.Open();
@@ -1318,9 +1318,9 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.ASF_User (
-                            UserId, Username, FullName, Email, IsAdmin
+                            Username, FullName, Email, IsAdmin
                             ) VALUES (
-                            @UserId, @Username, @FullName, @Email, @IsAdmin
+                            @Username, @FullName, @Email, @IsAdmin
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1346,9 +1346,8 @@ namespace SOAP.Controllers
             return val;
         }
 
-        public int CreateMembership(MembershipInfo member)
+        public void CreateMembership(MembershipInfo member)
         {
-            int ident = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.aspnet_Membership (
@@ -1378,9 +1377,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    SqlDataReader read = cmd.ExecuteReader();
-                    read.Read();
-                    ident = Convert.ToInt32(read["Id"].ToString());
+                    cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -1391,7 +1388,6 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
-            return ident;
         }
 
         public void CreateBloodwork(Bloodwork blood)
@@ -2808,7 +2804,7 @@ namespace SOAP.Controllers
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"DELETE FROM dbo.Anesthetic_Plan_Premed
+                string sql = @"DELETE FROM dbo.aspnet_Membership
                             WHERE
                             Username = @Username";
 
@@ -3332,7 +3328,7 @@ namespace SOAP.Controllers
 
         private string BuildASFUserSQL()
         {
-            return @"SELECT a.UserId as 'a.UserId', a.Username as 'a.Username', a.Fullname as 'a.Fullname', a.Email as 'a.Email', a.IsAdmin as 'a.IsAdmin' ";
+            return @"SELECT a.Username as 'a.Username', a.Fullname as 'a.Fullname', a.Email as 'a.Email', a.IsAdmin as 'a.IsAdmin' ";
         }
 
         #endregion
