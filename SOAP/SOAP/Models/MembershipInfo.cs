@@ -5,7 +5,6 @@ namespace SOAP.Models
 {
     public class MembershipInfo
     {
-        private int _id;
         private string _username;
         private string password;
         private System.Web.Security.MembershipPasswordFormat _passwordFormat;
@@ -20,12 +19,6 @@ namespace SOAP.Models
         private DateTime _failedPasswordAttemptWindowStart;
         private int _failedPasswordAnswerAttemptCount;
         private DateTime _failedPasswordAnswerAttemptWindowStart;
-
-        public int Id
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
 
         public string Username
         {

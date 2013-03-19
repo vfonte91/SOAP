@@ -9,7 +9,6 @@ namespace SOAP.Models.Callbacks
         public ASFUser ProcessRow(SqlDataReader read)
         {
             ASFUser user = new ASFUser();
-            user.UserId = Convert.ToInt32(read["a.UserId"]);
             user.Username = read["a.Username"].ToString();
             user.FullName = read["a.FullName"].ToString();
             user.EmailAddress = read["a.Email"].ToString();

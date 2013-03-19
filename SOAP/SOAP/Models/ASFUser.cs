@@ -5,7 +5,6 @@ namespace SOAP.Models
 {
     public class ASFUser
     {
-        private int _userId;
         public MembershipInfo Member { get; set; }
         private string _username;
         private string _fullName;
@@ -16,12 +15,6 @@ namespace SOAP.Models
         {
             LOAD_MEMBERSHIP_INFO
         };
-
-        public int UserId
-        {
-            get { return _userId; }
-            set { _userId = value; }
-        }
 
         public string Username
         {
@@ -49,7 +42,6 @@ namespace SOAP.Models
 
         public ASFUser()
         {
-            _userId = -1;
             Member = new MembershipInfo();
         }
 

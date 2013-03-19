@@ -372,7 +372,7 @@ function editDropdownValue(id, label, desc) {
         Description: desc + " "
         }
 
-        ajax('Post', '/Home/EditDropdownValue', JSON.stringify(dropdown), true)
+        ajax('Post', 'Home/EditDropdownValue', JSON.stringify(dropdown), true)
         .done(function(data) {
             if(data.success) {
                 alert("Value edited successfully");

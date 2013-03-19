@@ -383,7 +383,6 @@ namespace SOAP.Controllers
         public bool CreateASFUser(ASFUser user)
         {
             int id = service.CreateMembership(user.Member);
-            user.UserId = id;
             return service.CreateASFUser(user);
         }
 

@@ -1324,7 +1324,6 @@ namespace SOAP.Controllers
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = user.UserId;
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
                 cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
                 cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
