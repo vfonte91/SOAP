@@ -490,6 +490,11 @@ namespace SOAP.Controllers
                         sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.RespiratoryAuscultationId = e.Id ";
                     }
+                    else if (a == ClinicalFindings.LazyComponents.LOAD_MUCOUS_MEMBRANE_WITH_DETAILS)
+                    {
+                        sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description'";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.MucousMembraneColorId = f.Id ";
+                    }
                 }
 
 
@@ -3350,8 +3355,11 @@ namespace SOAP.Controllers
 
         private string BuildClinicalFindingsSQL()
         {
-            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.PreOpPainAssessmentId as 'a.PreOpPainAssessmentId', 
-                    a.PostOpPainAssessmentId as 'a.PostOpPainAssessmentId', a.Temperature as 'a.Temperature' ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.Temperature as 'a.Temperature', a.PulseRate as 'a.PulseRate',
+                    a.RespiratoryRate as 'a.RespiratoryRate', a.CardiacAuscultationId as 'a.CardiacAuscultationId', 
+                    a.PulseQualityId as 'PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
+                    a.CapillaryRefillTime as 'a.CapillaryRefillTime', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
+                    a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification' ";
         }
 
         private string BuildCurrentMedicationsSQL()

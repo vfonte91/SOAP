@@ -51,28 +51,6 @@ $(document).ready(function () {
         $("#edit-profile-button").toggleClass("menu-open");
     });
 
-    $("#edit-profile-submit").click(function () {
-        var foobarredUser = UserInformation;
-        foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
-        foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
-        ajax('Post', 'Home/EditProfile', JSON.stringify(foobarredUser), true)
-        .done(function (data) {
-            if (data.success) {
-                UserInformation.FullName = foobarredUser.FullName;
-                UserInformation.EmailAddress = foobarredUser.EmailAddress;
-                $("#profile-menu").slideToggle("slow")
-                $("#edit-profile-button").toggleClass("menu-close");
-                alert('User Info Updated');
-            }
-            else {
-                alert('Error updating User Info');
-            }
-        })
-        .fail(function (data) {
-            alert('Error updating User Info');
-        });
-    });
-
     //When register is clicked, register inputs are shown
     $("#register").click(function () {
         if (!$("#register-div").is(":visible")) {
@@ -215,6 +193,28 @@ function login(username, password) {
     else {
         alert('Validate User Failed');
     }
+}
+
+function editUserInformation() {
+    var foobarredUser = UserInformation;
+    foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
+    foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
+    ajax('Post', 'Home/EditProfile', JSON.stringify(foobarredUser), true)
+        .done(function (data) {
+            if (data.success) {
+                UserInformation.FullName = foobarredUser.FullName;
+                UserInformation.EmailAddress = foobarredUser.EmailAddress;
+                $("#profile-menu").slideToggle("slow")
+                $("#edit-profile-button").toggleClass("menu-close");
+                alert('User Info Updated');
+            }
+            else {
+                alert('Error updating User Info');
+            }
+        })
+        .fail(function (data) {
+            alert('Error updating User Info');
+        });
 }
 
 function setProfileInfo() {
@@ -548,7 +548,7 @@ function deleteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }
-        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success)
                 returned += users[i] + " deleted. ";
@@ -569,7 +569,7 @@ function promoteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }/// <reference path="http://localhost/VSOAP/Scripts/" />
-        ajax('Post', 'Home/PromoteUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'Home/PromoteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) 
                 returned += users[i] + " promoted. ";

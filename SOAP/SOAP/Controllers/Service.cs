@@ -105,7 +105,8 @@ namespace SOAP.Controllers
                 ClinicalFindings.LazyComponents.LOAD_CARDIAC_WITH_DETAILS,
                 ClinicalFindings.LazyComponents.LOAD_PHYSICAL_STATUS_WITH_DETAILS,
                 ClinicalFindings.LazyComponents.LOAD_PULSE_QUALITY_WITH_DETAILS,
-                ClinicalFindings.LazyComponents.LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS
+                ClinicalFindings.LazyComponents.LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS,
+                ClinicalFindings.LazyComponents.LOAD_MUCOUS_MEMBRANE_WITH_DETAILS
             };
             ClinicalFindings clinicalFinding = service.GetClinicalFindings(patientId, list);
             clinicalFinding.CurrentMedications = GetCurrentMedications(patientId);
