@@ -12,7 +12,7 @@ namespace SOAP.Models
         private decimal _respiratoryRate;
         private DropdownValue _cardiacAuscultation;
         private DropdownValue _pulseQuality;
-        private string _mucousMembraneColor;
+        private DropdownValue _mucousMembraneColor;
         private decimal _capillaryRefillTime;
         private DropdownValue _respiratoryAuscultation;
         private DropdownValue _physicalStatusClassification;
@@ -83,7 +83,7 @@ namespace SOAP.Models
             set { _pulseQuality = value; }
         }
 
-        public string MucousMembraneColor
+        public DropdownValue MucousMembraneColor
         {
             get { return _mucousMembraneColor; }
             set { _mucousMembraneColor = value; }

@@ -224,158 +224,170 @@ namespace SOAP.Controllers
 
         public void CreatePatient(Patient pat)
         {
-            service.CreatePatient(pat);
-
+            pat.PatientId = service.CreatePatient(pat);
             if (pat.ClinicalFindings != null)
-                CreateClinicalFindings(pat.ClinicalFindings);
+                CreateClinicalFindings(pat);
 
             if (pat.BloodworkGroup != null)
-                CreateBloodwork(pat.BloodworkGroup);
+                CreateBloodwork(pat);
 
             if (pat.AnestheticPlan != null)
-                CreateAnestheticPlan(pat.AnestheticPlan);
+                CreateAnestheticPlan(pat);
 
             if (pat.Maintenance != null)
-                CreateMaintenance(pat.Maintenance);
+                CreateMaintenance(pat);
 
             if (pat.Monitoring != null)
-                CreateMonitoring(pat.Monitoring);
+                CreateMonitoring(pat);
         }
 
-        public void CreateClinicalFindings(ClinicalFindings clinicalFindings)
+        public void CreateClinicalFindings(Patient pat)
         {
-            service.CreateClinicalFinding(clinicalFindings);
+            pat.ClinicalFindings.PatientId = pat.PatientId;
+            service.CreateClinicalFinding(pat.ClinicalFindings);
 
-            if (clinicalFindings.CurrentMedications != null)
-                CreateCurrentMedications(clinicalFindings.CurrentMedications);
+            if (pat.ClinicalFindings.CurrentMedications.Count > 0)
+                CreateCurrentMedications(pat);
 
-            if (clinicalFindings.PriorAnesthesia != null)
-                CreatePriorAnesthesia(clinicalFindings.PriorAnesthesia);
+            if (pat.ClinicalFindings.PriorAnesthesia.Count > 0)
+                CreatePriorAnesthesia(pat);
 
-            if (clinicalFindings.AnesthesiaConcerns != null)
-                CreateAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
+            if (pat.ClinicalFindings.AnesthesiaConcerns.Count > 0)
+                CreateAnesthesiaConcerns(pat);
         }
 
-        public void CreateCurrentMedications(List<CurrentMedication> meds)
+        public void CreateCurrentMedications(Patient pat)
         {
-            foreach (CurrentMedication c in meds)
+            foreach (CurrentMedication c in pat.ClinicalFindings.CurrentMedications)
             {
+                c.PatientId = pat.PatientId;
                 service.CreateCurrentMedication(c);
             }
         }
 
-        public void CreatePriorAnesthesia(List<PriorAnesthesia> priors)
+        public void CreatePriorAnesthesia(Patient pat)
         {
-            foreach (PriorAnesthesia p in priors)
+            foreach (PriorAnesthesia p in pat.ClinicalFindings.PriorAnesthesia)
             {
+                p.PatientId = pat.PatientId;
                 service.CreatePriorAnesthesia(p);
             }
         }
 
-        public void CreateAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
+        public void CreateAnesthesiaConcerns(Patient pat)
         {
-            foreach (AnesthesiaConcern a in concerns)
+            foreach (AnesthesiaConcern a in pat.ClinicalFindings.AnesthesiaConcerns)
             {
+                a.PatientId = pat.PatientId;
                 service.CreateAnesthesiaConcern(a);
             }
         }
 
-        public void CreateBloodwork(List<Bloodwork> blood)
+        public void CreateBloodwork(Patient pat)
         {
-            foreach (Bloodwork b in blood)
+            foreach (Bloodwork b in pat.BloodworkGroup)
             {
+                b.PatientId = pat.PatientId;
                 service.CreateBloodwork(b);
             }
         }
 
-        public void CreateAnestheticPlan(AnestheticPlan a)
+        public void CreateAnestheticPlan(Patient pat)
         {
-            if (a.InhalantPlans != null)
-                CreateAnestheticInhalantPlans(a.InhalantPlans);
+            if (pat.AnestheticPlan.InhalantPlans.Count > 0)
+                CreateAnestheticInhalantPlans(pat);
 
-            if (a.InjectionPlans != null)
-                CreateAnestheticInjectionPlans(a.InjectionPlans);
+            if (pat.AnestheticPlan.InjectionPlans.Count > 0)
+                CreateAnestheticInjectionPlans(pat);
 
-            if (a.PreMedications != null)
-                CreateAnestheticPremedications(a.PreMedications);
+            if (pat.AnestheticPlan.PreMedications.Count > 0)
+                CreateAnestheticPremedications(pat);
         }
 
-        public void CreateAnestheticInhalantPlans(List<AnestheticPlanInhalant> inhalants)
+        public void CreateAnestheticInhalantPlans(Patient pat)
         {
-            foreach (AnestheticPlanInhalant a in inhalants)
+            foreach (AnestheticPlanInhalant a in pat.AnestheticPlan.InhalantPlans)
             {
+                a.PatientId = pat.PatientId;
                 service.CreateAnestheticPlanInhalant(a);
             }
         }
 
-        public void CreateAnestheticInjectionPlans(List<AnestheticPlanInjection> injects)
+        public void CreateAnestheticInjectionPlans(Patient pat)
         {
-            foreach (AnestheticPlanInjection a in injects)
+            foreach (AnestheticPlanInjection a in pat.AnestheticPlan.InjectionPlans)
             {
+                a.PatientId = pat.PatientId;
                 service.CreateAnestheticPlanInjection(a);
             }
         }
 
-        public void CreateAnestheticPremedications(List<AnestheticPlanPremedication> premeds)
+        public void CreateAnestheticPremedications(Patient pat)
         {
-            foreach (AnestheticPlanPremedication a in premeds)
+            foreach (AnestheticPlanPremedication a in pat.AnestheticPlan.PreMedications)
             {
+                a.PatientId = pat.PatientId;
                 service.CreateAnestheticPlanPremedication(a);
             }
         }
 
-        public void CreateMaintenance(Maintenance m)
+        public void CreateMaintenance(Patient pat)
         {
-            if (m.IntraOperativeAnalgesias != null)
-                CreateIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
+            if (pat.Maintenance.IntraOperativeAnalgesias.Count > 0)
+                CreateIntraOperativeAnalgesias(pat);
 
-            if (m.MaintenanceInhalantDrugs != null)
-                CreateMaintenanceInhalantDrugs(m.MaintenanceInhalantDrugs);
+            if (pat.Maintenance.MaintenanceInhalantDrugs.Count > 0)
+                CreateMaintenanceInhalantDrugs(pat);
 
-            if (m.MaintenanceInjectionDrugs != null)
-                CreateMaintenanceInjectionDrugs(m.MaintenanceInjectionDrugs);
+            if (pat.Maintenance.MaintenanceInjectionDrugs.Count > 0)
+                CreateMaintenanceInjectionDrugs(pat);
 
-            if (m.OtherAnestheticDrugs != null)
-                CreateOtherAnestheticDrugs(m.OtherAnestheticDrugs);
+            if (pat.Maintenance.OtherAnestheticDrugs.Count > 0)
+                CreateOtherAnestheticDrugs(pat);
 
         }
 
-        public void CreateIntraOperativeAnalgesias(List<IntraoperativeAnalgesia> intras)
+        public void CreateIntraOperativeAnalgesias(Patient pat)
         {
-            foreach (IntraoperativeAnalgesia b in intras)
+            foreach (IntraoperativeAnalgesia b in pat.Maintenance.IntraOperativeAnalgesias)
             {
+                b.PatientId = pat.PatientId;
                 service.CreateIntraoperativeAnalgesia(b);
             }
         }
 
-        public void CreateMaintenanceInhalantDrugs(List<MaintenanceInhalantDrug> drugs)
+        public void CreateMaintenanceInhalantDrugs(Patient pat)
         {
-            foreach (MaintenanceInhalantDrug a in drugs)
+            foreach (MaintenanceInhalantDrug a in pat.Maintenance.MaintenanceInhalantDrugs)
             {
+                a.PatientId = pat.PatientId;
                 service.CreateMaintenanceInhalantDrug(a);
             }
         }
 
-        public void CreateMaintenanceInjectionDrugs(List<MaintenanceInjectionDrug> drugs)
+        public void CreateMaintenanceInjectionDrugs(Patient pat)
         {
-            foreach (MaintenanceInjectionDrug a in drugs)
+            foreach (MaintenanceInjectionDrug a in pat.Maintenance.MaintenanceInjectionDrugs)
             {
+                a.PatientId = pat.PatientId;
                 service.CreateMaintenanceInjectionDrug(a);
             }
         }
 
-        public void CreateOtherAnestheticDrugs(List<OtherAnestheticDrug> drugs)
+        public void CreateOtherAnestheticDrugs(Patient pat)
         {
-            foreach (OtherAnestheticDrug o in drugs)
+            foreach (OtherAnestheticDrug o in pat.Maintenance.OtherAnestheticDrugs)
             {
+                o.PatientId = pat.PatientId;
                 service.CreateOtherAnestheticDrug(o);
             }
         }
 
-        public void CreateMonitoring(List<Monitoring> monitors)
+        public void CreateMonitoring(Patient pat)
         {
-            foreach (Monitoring m in monitors)
+            foreach (Monitoring m in pat.Monitoring)
             {
+                m.PatientId = pat.PatientId;
                 service.CreateMonitoring(m);
             }
         }

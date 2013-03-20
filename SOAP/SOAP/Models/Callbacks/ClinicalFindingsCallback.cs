@@ -16,7 +16,7 @@ namespace SOAP.Models.Callbacks
             clinicalFindings.RespiratoryRate = Convert.ToDecimal(read["a.RespiratoryRate"].ToString());
             clinicalFindings.CardiacAuscultation.Id = Convert.ToInt32(read["a.CardiacAuscultationId"].ToString());
             clinicalFindings.PulseQuality.Id = Convert.ToInt32(read["a.PulseQualityId"].ToString());
-            clinicalFindings.MucousMembraneColor = read["a.MucousMembraneColor"].ToString();
+            clinicalFindings.MucousMembraneColor.Id = Convert.ToInt32(read["a.MucousMembraneColor"].ToString());
             clinicalFindings.CapillaryRefillTime = Convert.ToDecimal(read["a.CapillaryRefillTime"].ToString());
             clinicalFindings.RespiratoryAuscultation.Id = Convert.ToInt32(read["a.RespiratoryAuscultationId"].ToString());
             clinicalFindings.PhysicalStatusClassification.Id = Convert.ToInt32(read["a.PhysicalStatusClassId"].ToString());

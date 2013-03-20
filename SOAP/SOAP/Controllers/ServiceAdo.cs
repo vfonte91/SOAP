@@ -1172,8 +1172,16 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = adminSet.PatientId;
-                cmd.Parameters.Add("@MiniDripFlag", SqlDbType.Int).Value = adminSet.MiniDripFlag;
-                cmd.Parameters.Add("@MaxiDripFlag", SqlDbType.Int).Value = adminSet.MaxiDripFlag;
+                if (adminSet.MiniDripFlag == -1)
+                    cmd.Parameters.Add("@MiniDripFlag", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MiniDripFlag", SqlDbType.Int).Value = adminSet.MiniDripFlag;
+
+                if (adminSet.MaxiDripFlag == -1)
+                    cmd.Parameters.Add("@MaxiDripFlag", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MaxiDripFlag", SqlDbType.Int).Value = adminSet.MaxiDripFlag;
+
                 try
                 {
                     conn.Open();
@@ -1325,8 +1333,16 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
-                cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
-                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+                if (user.FullName == null)
+                    cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@FullName", SqlDbType.NVarChar).Value = user.FullName;
+
+                if (user.EmailAddress == null)
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+
                 cmd.Parameters.Add("@IsAdmin", SqlDbType.Bit).Value = 0;
                 try
                 {
@@ -1425,25 +1441,66 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Clinical_Findings (
-                            PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColor, 
+                            PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColorId, 
                             CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification
                             ) VALUES (
-                            @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColor,
+                            @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColorId,
                             @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = cFind.PatientId;
-                cmd.Parameters.Add("@Temperature", SqlDbType.Decimal).Value = cFind.Temperature;
-                cmd.Parameters.Add("@PulseRate", SqlDbType.Decimal).Value = cFind.PulseRate;
-                cmd.Parameters.Add("@RespiratoryRate", SqlDbType.Decimal).Value = cFind.RespiratoryRate;
-                cmd.Parameters.Add("@CardiacAuscultationId", SqlDbType.Int).Value = cFind.CardiacAuscultation.Id;
-                cmd.Parameters.Add("@PulseQualityId", SqlDbType.Int).Value = cFind.PulseQuality.Id;
-                cmd.Parameters.Add("@MucousMembraneColor", SqlDbType.NVarChar).Value = cFind.MucousMembraneColor;
-                cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = cFind.CapillaryRefillTime;
-                cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
-                cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
-                cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+
+                if (cFind.Temperature == 0.0M)
+                    cmd.Parameters.Add("@Temperature", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Temperature", SqlDbType.Decimal).Value = cFind.Temperature;
+
+                if (cFind.PulseRate == 0.0M)
+                    cmd.Parameters.Add("@PulseRate", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@PulseRate", SqlDbType.Decimal).Value = cFind.PulseRate;
+
+                if (cFind.RespiratoryRate == 0.0M)
+                    cmd.Parameters.Add("@RespiratoryRate", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@RespiratoryRate", SqlDbType.Decimal).Value = cFind.RespiratoryRate;
+
+                if (cFind.CardiacAuscultation.Id == -1)
+                    cmd.Parameters.Add("@CardiacAuscultationId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@CardiacAuscultationId", SqlDbType.Int).Value = cFind.CardiacAuscultation.Id;
+
+                if (cFind.PulseQuality.Id == -1)
+                    cmd.Parameters.Add("@PulseQualityId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@PulseQualityId", SqlDbType.Int).Value = cFind.PulseQuality.Id;
+
+                if (cFind.MucousMembraneColor.Id == -1)
+                    cmd.Parameters.Add("@MucousMembraneColorId", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MucousMembraneColorId", SqlDbType.NVarChar).Value = cFind.MucousMembraneColor.Id;
+                
+                if (cFind.CapillaryRefillTime == 0.0M)
+                    cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = cFind.CapillaryRefillTime;
+
+                if (cFind.RespiratoryAuscultation.Id == -1)
+                    cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
+
+                if (cFind.PhysicalStatusClassification.Id == -1)
+                    cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
+
+                if (cFind.ReasonForClassification == null)
+                    cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+
                 try
                 {
                     conn.Open();
@@ -1472,7 +1529,7 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = meds.PatientId;
-                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = meds.Medication.Id;
+                cmd.Parameters.Add("@MedicationId", SqlDbType.Int).Value = meds.Medication.Id;
                 try
                 {
                     conn.Open();
@@ -1532,7 +1589,11 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@CategoryId", SqlDbType.Int).Value = val.Category.Id;
                 cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
                 cmd.Parameters.Add("@OtherFlag", SqlDbType.Char).Value = val.OtherFlag;
-                cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+                if (val.Description == null)
+                    cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+
                 try
                 {
                     conn.Open();
@@ -1772,8 +1833,9 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreatePatient(Patient pat)
+        public int CreatePatient(Patient pat)
         {
+            int ident = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Patient (
@@ -1781,25 +1843,59 @@ namespace SOAP.Controllers
                             AgeInYears, AgeInMonths, PreOpPainAssessmentId, PostOpPainAssessmentId
                             ) VALUES (
                             @StudentId, @ClinicianId, @FormCompleted, @TemperamentId, @DateSeenOn, @CageOrStallNumber, @BodyWeight,
-                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId
-                            )";
+                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId)
+                            SELECT SCOPE_IDENTITY() as Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@StudentId", SqlDbType.NVarChar).Value = pat.PatientInfo.Student.Username;
                 cmd.Parameters.Add("@ClinicianId", SqlDbType.NVarChar).Value = pat.PatientInfo.Clinician.Username;
                 cmd.Parameters.Add("@FormCompleted", SqlDbType.Char).Value = pat.PatientInfo.FormCompleted;
-                cmd.Parameters.Add("@TemperamentId", SqlDbType.Int).Value = pat.PatientInfo.Temperament.Id;
+
+                if (pat.PatientInfo.Temperament.Id == -1)
+                    cmd.Parameters.Add("@TemperamentId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@TemperamentId", SqlDbType.Int).Value = pat.PatientInfo.Temperament.Id;
+
                 cmd.Parameters.Add("@DateSeenOn", SqlDbType.DateTime).Value = pat.PatientInfo.DateSeenOn;
-                cmd.Parameters.Add("@CageOrStallNumber", SqlDbType.Int).Value = pat.PatientInfo.CageOrStallNumber;
-                cmd.Parameters.Add("@BodyWeight", SqlDbType.Decimal).Value = pat.PatientInfo.BodyWeight;
-                cmd.Parameters.Add("@AgeInYears", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInYears;
-                cmd.Parameters.Add("@AgeInMonths", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInMonths;
-                cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PreOperationPainAssessment.Id;
-                cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
+
+                if (pat.PatientInfo.CageOrStallNumber == -1)
+                    cmd.Parameters.Add("@CageOrStallNumber", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@CageOrStallNumber", SqlDbType.Int).Value = pat.PatientInfo.CageOrStallNumber;
+
+                if (pat.PatientInfo.BodyWeight == -1)
+                    cmd.Parameters.Add("@BodyWeight", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@BodyWeight", SqlDbType.Decimal).Value = pat.PatientInfo.BodyWeight;
+
+                if (pat.PatientInfo.AgeInYears == -1)
+                    cmd.Parameters.Add("@AgeInYears", SqlDbType.TinyInt).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@AgeInYears", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInYears;
+
+                if (pat.PatientInfo.AgeInMonths == -1)
+                    cmd.Parameters.Add("@AgeInMonths", SqlDbType.TinyInt).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@AgeInMonths", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInMonths;
+
+                if (pat.PatientInfo.PreOperationPainAssessment.Id == -1)
+                    cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PreOperationPainAssessment.Id;
+
+                if (pat.PatientInfo.PostOperationPainAssessment.Id == -1)
+                    cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
+
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        ident = Convert.ToInt32(read["Id"]);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -1810,6 +1906,7 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return ident;
         }
 
         public void CreatePriorAnesthesia(PriorAnesthesia priorAnes)

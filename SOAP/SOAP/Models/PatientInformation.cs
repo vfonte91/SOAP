@@ -36,6 +36,10 @@ namespace SOAP.Models
             _temperament = new DropdownValue();
             _preOperationPainAssessment = new DropdownValue();
             _postOperationPainAssessment = new DropdownValue();
+            _ageInMonths = -1;
+            _ageInYears = -1;
+            _cageOrStallNumber = -1;
+            _dateSeenOn = DateTime.Now;
         }
 
         public int PatientId

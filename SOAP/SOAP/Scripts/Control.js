@@ -1,4 +1,13 @@
-﻿var PatientInfo = new Object();
+﻿var Patient = {
+    PatientInfo: {Student: {}, Clinician: {}},
+    ClinicalFindings: {},
+    BloodworkGroup: {},
+    AnestheticPlan: {},
+    Maintenance: {},
+    Monitoring: {}
+}
+
+var newPatient = true;
 
 var UserInformation = new Object();
 
@@ -33,7 +42,7 @@ $(document).ready(function () {
     //When an input loses focus, grab information
     $("input").blur(function () {
         $this = $(this);
-        //addValue($this.attr('name'), $this.attr('id'), $this.val());
+        addValue($this.attr('section'), $this.attr('name'), $this.val());
     });
 
     //Button to open Edit Profile drop down
@@ -98,12 +107,51 @@ $(document).ready(function () {
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
 });
 
+function addValue(section, name, value) {
+    if (section && name)
+        Patient[section][name] = value;
+}
+
+function dropdownSelected(section, name, value) {
+    if (section && name) {
+        Patient[section][name] = {};
+        Patient[section][name].Id = value;
+    }
+}
+
+function dateSelected(section, name, value) {
+    if (section && name)
+        Patient[section][name] = value;
+}
+
+function SaveForm() {
+    Patient.PatientInfo.FormCompleted = 'N';
+    Patient.PatientInfo.Student.Username = UserInformation.Username;
+    Patient.PatientInfo.Clinician.Username = UserInformation.Username;
+    var url = "";
+    if (newPatient) {
+        url = 'Home/CreateForm'
+    }
+    else {
+        url = 'Home/SaveForm'
+    }
+    ajax('Post', url, JSON.stringify(Patient), true)
+    .done(function (data) {
+        if (data.success) {
+        }
+        else {
+        }
+    })
+    .fail(function (jqXHR, textStatus) {
+
+    });
+}
+
 function OpenForm(formId) {
     var pat = { PatientId: formId };
     ajax('Post', 'Home/GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
-            console.log(data);
         }
         else {
         }
@@ -175,30 +223,30 @@ function setProfileInfo() {
 }
 
 function populateAll() {
-    populate(1, "Patient.PatientInfo.Procedure");
-    populate(2, "Patient.PatientInfo.Temperament");
-    populate(4, "Patient.PatientInfo.PreoperativePainAssesment");
-    populate(4, "Patient.PatientInfo.PostperativePainAssesment");
-    populate(5, "Patient.ClinicalFindings.CardiacAuscultation");
-    populate(6, "Patient.ClinicalFindings.PulseQuality");
-    populate(20, "Patient.ClinicalFindings.CapillaryRefillTime");
-    populate(7, "Patient.ClinicalFindings.RespiratoryAuscultationId");
-    populate(9, "Patient.ClinicalFindings.PhysicalStatusClass");
-    populate(25, "Patient.ClinicalFindings.MucousMembraneColor");
-    populate(13, "Patient.AnestheticPlanPremedication.Route");
-    populate(21, "Patient.AnestheticPlanPremedication.SedativeDrug");
-    populate(22, "Patient.AnestheticPlanPremedication.OpioidDrug");
-    populate(23, "Patient.AnestheticPlanPremedication.AnticholinergicDrug");
-    populate(14, "Patient.AnestheticPlanInjection.Drug");
-    populate(13, "Patient.AnestheticPlanInjection.Route");
-    populate(24, "Patient.AnestheticPlanInjection.IVFluidTypes");
-    populate(15, "Patient.AnestheticPlanInhalant.Drug");
-    populate(14, "Patient.MaintenanceInjectionDrug.Drug");
-    populate(13, "Patient.MaintenanceInjectionDrug.RouteOfAdministration");
-    populate(15, "Patient.MaintenanceInhalentDrug.Drug");
-    populate(16, "Patient.MaintenanceInhalentDrug.BreathingSystem");
-    populate(17, "Patient.MaintenanceInhalentDrug.BreathingBagSize");
-    populate(18, "Patient.OtherAnestheticDrug.IntraoperativeAnalgesia");
+    populate(1, "Patient\\.PatientInfo\\.Procedure");
+    populate(2, "Patient\\.PatientInfo\\.Temperament");
+    populate(4, "Patient\\.PatientInfo\\.PreoperativePainAssesment");
+    populate(4, "Patient\\.PatientInfo\\.PostperativePainAssesment");
+    populate(5, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
+    populate(6, "Patient\\.ClinicalFindings\\.PulseQuality");
+    populate(20, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
+    populate(7, "Patient\\.ClinicalFindings\\.RespiratoryAuscultationId");
+    populate(9, "Patient\\.ClinicalFindings\\.PhysicalStatusClass");
+    populate(25, "Patient\\.ClinicalFindings\\.MucousMembraneColor");
+    populate(13, "Patient\\.AnestheticPlanPremedication\\.Route");
+    populate(21, "Patient\\.AnestheticPlanPremedication\\.SedativeDrug");
+    populate(22, "Patient\\.AnestheticPlanPremedication\\.OpioidDrug");
+    populate(23, "Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug");
+    populate(14, "Patient\\.AnestheticPlanInjection\\.Drug");
+    populate(13, "Patient\\.AnestheticPlanInjection\\.Route");
+    populate(24, "Patient\\.AnestheticPlanInjection\\.IVFluidTypes");
+    populate(15, "Patient\\.AnestheticPlanInhalant\\.Drug");
+    populate(14, "Patient\\.MaintenanceInjectionDrug\\.Drug");
+    populate(13, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
+    populate(15, "Patient\\.MaintenanceInhalentDrug\\.Drug");
+    populate(16, "Patient\\.MaintenanceInhalentDrug\\.BreathingSystem");
+    populate(17, "Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize");
+    populate(18, "Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia");
 
 }
 
@@ -208,11 +256,11 @@ function populate(id, name) {
     num = num - 1;
     var cats = DropdownCategories;
     var values = cats[num].DropdownValues;
+    var x = $('#' + name);
+    x.append('<option value="0"> - Select One - </option>');
     for (var i = 0; i < values.length; i++) {
-        var x = document.getElementById(name);
-        var option = document.createElement("option");
-        option.text = values[i].Label;
-        x.add(option, null);
+        var option = '<option value="' + values[i].Id + '">' + values[i].Label + '</option>';
+        x.append(option);
     }
 }
 
@@ -260,7 +308,7 @@ function forgetClicked() {
                     buttons:[{text: "Submit", click: function(){
                             ChangePassword(ASFUser1);
                         }
-                        }],
+                        }]
                 });
         }
         else {
@@ -399,7 +447,7 @@ function validateUser(member, password) {
             Password: password
         }
         ajax('Post', 'Home/DoLogin', JSON.stringify(memberInfo), false)
-        .fail(function (data) {
+        .fail(function (jqXHR, textStatus) {
             returned = false;
         })
         .done(function (data) {
@@ -560,8 +608,8 @@ String.prototype.hashCode = function(){
 	var hash = 0;
 	if (this.length == 0) return hash;
 	for (i = 0; i < this.length; i++) {
-		char = this.charCodeAt(i);
-		hash = ((hash<<5)-hash)+char;
+		var charac = this.charCodeAt(i);
+		hash = ((hash<<5)-hash)+charac;
 		hash = hash & hash; // Convert to 32bit integer
 	}
 	return hash.toString();
