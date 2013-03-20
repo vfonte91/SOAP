@@ -162,7 +162,7 @@ function OpenForm(formId) {
 }
 
 function GetUserForms() {
-    ajax('Post', 'Home/GetUserForms', JSON.stringify(UserInformation), false)
+    ajax('Post', 'Home/GetUserForms', JSON.stringify(UserInformation), true)
     .done(function (data) {
         if (data.success) {
             var forms = $('#saved-forms');

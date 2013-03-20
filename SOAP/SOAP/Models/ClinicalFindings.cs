@@ -18,7 +18,7 @@ namespace SOAP.Models
         private DropdownValue _physicalStatusClassification;
         private string _reasonForClassification;
         private List<CurrentMedication> _currentMedications;
-        private List<PriorAnesthesia> _priorAnesthesia;
+        private PriorAnesthesia _priorAnesthesia;
         private List<AnesthesiaConcern> _anesthesiaConcerns;
 
         public enum LazyComponents
@@ -33,12 +33,12 @@ namespace SOAP.Models
         {
             _id = -1;
             _currentMedications = new List<CurrentMedication>();
-            _priorAnesthesia = new List<PriorAnesthesia>();
             _anesthesiaConcerns = new List<AnesthesiaConcern>();
             _cardiacAuscultation = new DropdownValue();
             _pulseQuality = new DropdownValue();
             _respiratoryAuscultation = new DropdownValue();
             _physicalStatusClassification = new DropdownValue();
+            _mucousMembraneColor = new DropdownValue();
         }
 
         public int Id
@@ -119,7 +119,7 @@ namespace SOAP.Models
             set { _currentMedications = value; }
         }
 
-        public List<PriorAnesthesia> PriorAnesthesia
+        public PriorAnesthesia PriorAnesthesia
         {
             get { return _priorAnesthesia; }
             set { _priorAnesthesia = value; }

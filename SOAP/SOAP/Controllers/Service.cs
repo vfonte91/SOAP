@@ -143,7 +143,7 @@ namespace SOAP.Controllers
             return service.GetCurrentMedications(patientId, CurrentMedication.LazyComponents.LOAD_CURRENT_MEDICATIONS_WITH_DETAILS);
         }
 
-        public List<PriorAnesthesia> GetPriorAnesthesia(int patientId)
+        public PriorAnesthesia GetPriorAnesthesia(int patientId)
         {
             return service.GetPriorAnesthesia(patientId);
         }
@@ -249,7 +249,7 @@ namespace SOAP.Controllers
             if (pat.ClinicalFindings.CurrentMedications.Count > 0)
                 CreateCurrentMedications(pat);
 
-            if (pat.ClinicalFindings.PriorAnesthesia.Count > 0)
+            if (pat.ClinicalFindings.PriorAnesthesia != null)
                 CreatePriorAnesthesia(pat);
 
             if (pat.ClinicalFindings.AnesthesiaConcerns.Count > 0)
@@ -267,11 +267,8 @@ namespace SOAP.Controllers
 
         public void CreatePriorAnesthesia(Patient pat)
         {
-            foreach (PriorAnesthesia p in pat.ClinicalFindings.PriorAnesthesia)
-            {
-                p.PatientId = pat.PatientId;
-                service.CreatePriorAnesthesia(p);
-            }
+            pat.ClinicalFindings.PriorAnesthesia.PatientId = pat.PatientId;
+            service.CreatePriorAnesthesia(pat.ClinicalFindings.PriorAnesthesia);
         }
 
         public void CreateAnesthesiaConcerns(Patient pat)
@@ -449,12 +446,9 @@ namespace SOAP.Controllers
             }
         }
 
-        public void SavePriorAnesthesia(List<PriorAnesthesia> priors)
+        public void SavePriorAnesthesia(PriorAnesthesia priors)
         {
-            foreach (PriorAnesthesia p in priors)
-            {
-                service.UpdatePriorAnesthesia(p);
-            }
+            service.UpdatePriorAnesthesia(priors);
         }
 
         public void SaveAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
@@ -714,12 +708,9 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeletePriorAnesthesia(List<PriorAnesthesia> anes)
+        public void DeletePriorAnesthesia(PriorAnesthesia anes)
         {
-            foreach (PriorAnesthesia p in anes)
-            {
-                service.DeletePriorAnesthesia(p);
-            }
+            service.DeletePriorAnesthesia(anes);
         }
 
         public void DeleteAnesthesiaConcerns(List<AnesthesiaConcern> concerns)

@@ -1074,9 +1074,9 @@ namespace SOAP.Controllers
             return pats;
         }
 
-        public List<PriorAnesthesia> GetPriorAnesthesia(int patientId)
+        public PriorAnesthesia GetPriorAnesthesia(int patientId)
         {
-            List<PriorAnesthesia> priorAnes = new List<PriorAnesthesia>();
+            PriorAnesthesia priorAnes = new PriorAnesthesia();
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 // Abstract database field names as much as possible in case of field name changes
@@ -1096,7 +1096,7 @@ namespace SOAP.Controllers
                     {
                         // Create a callback for everytime you have to read something from database.
                         // We do this, so we only have to change string values in one place if we change things.                      
-                        priorAnes.Add(new PriorAnesthesiaCallback().ProcessRow(read));
+                        priorAnes = new PriorAnesthesiaCallback().ProcessRow(read);
                     }
                 }
                 catch (Exception e)
