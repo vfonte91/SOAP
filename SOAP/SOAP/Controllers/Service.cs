@@ -226,10 +226,10 @@ namespace SOAP.Controllers
         public void CreatePatient(Patient pat)
         {
             pat.PatientId = service.CreatePatient(pat);
-            if (pat.ClinicalFindings != null)
+            if (pat.ClinicalFindings.ContainsValue())
                 CreateClinicalFindings(pat);
 
-            if (pat.BloodworkGroup != null)
+            if (pat.BloodworkGroup.Count > 0)
                 CreateBloodwork(pat);
 
             if (pat.AnestheticPlan != null)
@@ -250,7 +250,7 @@ namespace SOAP.Controllers
             if (pat.ClinicalFindings.CurrentMedications.Count > 0)
                 CreateCurrentMedications(pat);
 
-            if (pat.ClinicalFindings.PriorAnesthesia != null)
+            if (pat.ClinicalFindings.PriorAnesthesia.PriorAnesthesiaBool)
                 CreatePriorAnesthesia(pat);
 
             if (pat.ClinicalFindings.AnesthesiaConcerns.Count > 0)
@@ -409,10 +409,10 @@ namespace SOAP.Controllers
         {
             service.UpdatePatient(pat);
 
-            if (pat.ClinicalFindings != null)
+            if (pat.ClinicalFindings.ContainsValue())
                 SaveClinicalFindings(pat.ClinicalFindings);
 
-            if (pat.BloodworkGroup != null)
+            if (pat.BloodworkGroup.Count > 0)
                 SaveBloodwork(pat.BloodworkGroup);
 
             if (pat.AnestheticPlan != null)
@@ -421,7 +421,7 @@ namespace SOAP.Controllers
             if (pat.Maintenance != null)
                 SaveMaintenance(pat.Maintenance);
 
-            if (pat.Monitoring != null)
+            if (pat.Monitoring.Count > 0)
                 SaveMonitoring(pat.Monitoring);
         }
 
@@ -429,13 +429,13 @@ namespace SOAP.Controllers
         {
             service.UpdateClinicalFinding(clinicalFindings);
 
-            if (clinicalFindings.CurrentMedications != null)
+            if (clinicalFindings.CurrentMedications.Count > 0)
                 SaveCurrentMedications(clinicalFindings.CurrentMedications);
 
-            if (clinicalFindings.PriorAnesthesia != null)
+            if (clinicalFindings.PriorAnesthesia.PriorAnesthesiaBool)
                 SavePriorAnesthesia(clinicalFindings.PriorAnesthesia);
 
-            if (clinicalFindings.AnesthesiaConcerns != null)
+            if (clinicalFindings.AnesthesiaConcerns.Count > 0)
                 SaveAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
         }
 
@@ -470,13 +470,13 @@ namespace SOAP.Controllers
 
         public void SaveAnestheticPlan(AnestheticPlan a)
         {
-            if (a.InhalantPlans != null)
+            if (a.InhalantPlans.Count > 0)
                 SaveAnestheticInhalantPlans(a.InhalantPlans);
 
-            if (a.InjectionPlans != null)
+            if (a.InjectionPlans.Count > 0)
                 SaveAnestheticInjectionPlans(a.InjectionPlans);
 
-            if (a.PreMedications != null)
+            if (a.PreMedications.Count > 0)
                 SaveAnestheticPremedications(a.PreMedications);
         }
 
@@ -506,16 +506,16 @@ namespace SOAP.Controllers
 
         public void SaveMaintenance(Maintenance m)
         {
-            if (m.IntraOperativeAnalgesias != null)
+            if (m.IntraOperativeAnalgesias.Count > 0)
                 SaveIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
 
-            if (m.MaintenanceInhalantDrugs != null)
+            if (m.MaintenanceInhalantDrugs.Count > 0)
                 SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrugs);
 
-            if (m.MaintenanceInjectionDrugs != null)
+            if (m.MaintenanceInjectionDrugs.Count > 0)
                 SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrugs);
 
-            if (m.OtherAnestheticDrugs != null)
+            if (m.OtherAnestheticDrugs.Count > 0)
                 SaveOtherAnestheticDrugs(m.OtherAnestheticDrugs);
 
         }

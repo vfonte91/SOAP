@@ -1917,7 +1917,10 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = priorAnes.PatientId;
-                cmd.Parameters.Add("@DateOfProblem", SqlDbType.DateTime).Value = priorAnes.DateOfProblem;
+                if (priorAnes.DateOfProblem != DateTime.MinValue)
+                    cmd.Parameters.Add("@DateOfProblem", SqlDbType.DateTime).Value = priorAnes.DateOfProblem;
+                else
+                    cmd.Parameters.Add("@DateOfProblem", SqlDbType.DateTime).Value = DBNull.Value;
                 cmd.Parameters.Add("@Problem", SqlDbType.NVarChar).Value = priorAnes.Problem;
                 try
                 {
