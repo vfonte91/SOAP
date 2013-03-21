@@ -3,46 +3,46 @@
 }
 
 <h2>Basic Information</h2>
-<form action="" name ="Patient Information">
+<form action="" name ="PatientInfo">
 <div class="left half">
 <div class="input">
     <label>Procedure: </label>
-    <select name="Procedure" id="Patient.PatientInfo.Procedure" section="PatientInfo" onchange="dropdownSelected(this.getAttribute('section'), this.name, this.value)">
+    <select name="Procedure" id="Patient.PatientInfo.Procedure" onchange="dropdownSelected(this)">
 	</select>
 </div>
 <div class="input">
 	<label>Other:</label>
-    <input type="text" name="Other" class="inline" id="Patient.PatientInfo.ProcedureOther" section="PatientInfo">
+    <input type="text" name="Other" class="inline" id="Patient.PatientInfo.ProcedureOther">
 </div>
 <div class="input">
 	<label>Body Weight (kg):</label>
-    <input type="text" name="BodyWeight" class="inline" id="Patient.PatientInfo.BodyWeight" section="PatientInfo" >
+    <input type="text" name="BodyWeight" class="inline" id="Patient.PatientInfo.BodyWeight">
 </div>
 <div class="input">
 	<label>Age:</label>
-    <input type="text" name="AgeInYears" placeholder="Years" class="inline" id="Patient.PatientInfo.AgeInYears" style="width:25%" section="PatientInfo">
-    <input type="text" name="AgeInMonths"placeholder="Months" class="inline" id="Patient.PatientInfo.AgeInMonths" style="width:25%"/ section="PatientInfo">
+    <input type="text" name="AgeInYears" placeholder="Years" class="inline" id="Patient.PatientInfo.AgeInYears" style="width:25%">
+    <input type="text" name="AgeInMonths"placeholder="Months" class="inline" id="Patient.PatientInfo.AgeInMonths" style="width:25%">
 </div>
 <div class="input">
     <label>Temperament: </label>
-    <select name="Temperament" id="Patient.PatientInfo.Temperament" section="PatientInfo" onchange="dropdownSelected(this.getAttribute('section'), this.name, this.value)">
+    <select name="Temperament" id="Patient.PatientInfo.Temperament" onchange="dropdownSelected(this)">
 	</select>
 </div>
 <div class ="input">
     <label>Date: </label>
-    <input type="text" name="DateSeenOn" class="inline" id="Patient.PatientInfo.Date" section="PatientInfo" onchange="dateSelected(this.getAttribute('section'), this.name, this.value)">
+    <input type="text" name="DateSeenOn" class="inline" id="Patient.PatientInfo.Date" onchange="dateSelected(this)">
 </div>
 </div>
 <div class = "right half">
 <h2>Pain Assessment</h2>
 <div class="input">
     <label>Preoperative: </label>
-    <select name="PreOperationPainAssessment" id="Patient.PatientInfo.PreoperativePainAssesment" section="PatientInfo" onchange="dropdownSelected(this.getAttribute('section'), this.name, this.value)">
+    <select name="PreOperationPainAssessment" id="Patient.PatientInfo.PreoperativePainAssesment" onchange="dropdownSelected(this)">
 	</select>
 </div>
 <div class="input">
     <label>Anticipated Postoperative: </label>
-    <select name="PostOperationPainAssessment" id="Patient.PatientInfo.PostperativePainAssesment" section="PatientInfo" onchange="dropdownSelected(this.getAttribute('section'), this.name, this.value)">
+    <select name="PostOperationPainAssessment" id="Patient.PatientInfo.PostperativePainAssesment" onchange="dropdownSelected(this)">
 	</select>
 </div>
 </div>

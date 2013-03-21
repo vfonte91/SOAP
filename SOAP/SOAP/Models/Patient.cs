@@ -59,6 +59,11 @@ namespace SOAP.Models
         {
             _patientId = -1;
             _patientInfo = new PatientInformation();
+            _monitoring = new List<Monitoring>();
+            _bloodworkGroup = new List<Bloodwork>();
+            _clinicalFindings = new ClinicalFindings();
+            _anestheticPlan = new AnestheticPlan();
+            _maintenance = new Maintenance();
         }
 
         public bool ValidatePatient()

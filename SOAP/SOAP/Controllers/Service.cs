@@ -598,126 +598,139 @@ namespace SOAP.Controllers
 
         public void DeletePatient(Patient pat)
         {
-            DeleteMonitoring(pat.Monitoring);
-            DeleteMaintenance(pat.Maintenance);
-            DeleteAnestheticPlan(pat.AnestheticPlan);
-            DeleteBloodworkGroup(pat.BloodworkGroup);
-            DeleteClinicalFindings(pat.ClinicalFindings);
+            DeleteMonitoring(pat);
+            DeleteMaintenance(pat);
+            DeleteAnestheticPlan(pat);
+            DeleteBloodworkGroup(pat);
+            DeleteClinicalFindings(pat);
             service.DeletePatient(pat);
         }
 
-        public void DeleteMonitoring(List<Monitoring> monitor)
+        public void DeleteMonitoring(Patient pat)
         {
-            foreach (Monitoring m in monitor)
+            foreach (Monitoring m in pat.Monitoring)
             {
+                m.PatientId = pat.PatientId;
                 service.DeleteMonitoring(m);
             }
         }
 
-        public void DeleteMaintenance(Maintenance maint)
+        public void DeleteMaintenance(Patient pat)
         {
-            DeleteMaintenanceInjectionDrugs(maint.MaintenanceInjectionDrugs);
-            DeleteMaintenanceInhalantDrugs(maint.MaintenanceInhalantDrugs);
-            DeleteIntraoperativeAnalgesia(maint.IntraOperativeAnalgesias);
-            DeleteOtherAnestheticDrugs(maint.OtherAnestheticDrugs);
+            DeleteMaintenanceInjectionDrugs(pat);
+            DeleteMaintenanceInhalantDrugs(pat);
+            DeleteIntraoperativeAnalgesia(pat);
+            DeleteOtherAnestheticDrugs(pat);
         }
 
-        public void DeleteMaintenanceInjectionDrugs(List<MaintenanceInjectionDrug> injects)
+        public void DeleteMaintenanceInjectionDrugs(Patient pat)
         {
-            foreach (MaintenanceInjectionDrug inject in injects)
+            foreach (MaintenanceInjectionDrug inject in pat.Maintenance.MaintenanceInjectionDrugs)
             {
+                inject.PatientId = pat.PatientId;
                 service.DeleteMaintenanceInjectionDrug(inject);
             }
         }
 
-        public void DeleteMaintenanceInhalantDrugs(List<MaintenanceInhalantDrug> inhalants)
+        public void DeleteMaintenanceInhalantDrugs(Patient pat)
         {
-            foreach (MaintenanceInhalantDrug inhalant in inhalants)
+            foreach (MaintenanceInhalantDrug inhalant in pat.Maintenance.MaintenanceInhalantDrugs)
             {
+                inhalant.PatientId = pat.PatientId;
                 service.DeleteMaintenanceInhalantDrug(inhalant);
             }
         }
 
-        public void DeleteIntraoperativeAnalgesia(List<IntraoperativeAnalgesia> analgesias)
+        public void DeleteIntraoperativeAnalgesia(Patient pat)
         {
-            foreach (IntraoperativeAnalgesia analgesia in analgesias)
+            foreach (IntraoperativeAnalgesia analgesia in pat.Maintenance.IntraOperativeAnalgesias)
             {
+                analgesia.PatientId = pat.PatientId;
                 service.DeleteIntraoperativeAnalgesia(analgesia);
             }
         }
 
-        public void DeleteOtherAnestheticDrugs(List<OtherAnestheticDrug> otherDrugs)
+        public void DeleteOtherAnestheticDrugs(Patient pat)
         {
-            foreach (OtherAnestheticDrug otherDrug in otherDrugs)
+            foreach (OtherAnestheticDrug otherDrug in pat.Maintenance.OtherAnestheticDrugs)
             {
+                pat.PatientId = pat.PatientId;
                 service.DeleteOtherAnestheticDrug(otherDrug);
             }
         }
 
-        public void DeleteAnestheticPlan(AnestheticPlan anesPlan)
+        public void DeleteAnestheticPlan(Patient pat)
         {
-            DeleteAnestheticPlanPremedications(anesPlan.PreMedications);
-            DeleteAnestheticPlanInjections(anesPlan.InjectionPlans);
-            DeleteAnestheticPlanInhalants(anesPlan.InhalantPlans);
+            DeleteAnestheticPlanPremedications(pat);
+            DeleteAnestheticPlanInjections(pat);
+            DeleteAnestheticPlanInhalants(pat);
         }
 
-        public void DeleteAnestheticPlanPremedications(List<AnestheticPlanPremedication> premeds)
+        public void DeleteAnestheticPlanPremedications(Patient pat)
         {
-            foreach (AnestheticPlanPremedication premed in premeds)
+            foreach (AnestheticPlanPremedication premed in pat.AnestheticPlan.PreMedications)
             {
+                premed.PatientId = pat.PatientId;
                 service.DeleteAnestheticPlanPremedication(premed);
             }
         }
 
-        public void DeleteAnestheticPlanInjections(List<AnestheticPlanInjection> injections)
+        public void DeleteAnestheticPlanInjections(Patient pat)
         {
-            foreach (AnestheticPlanInjection inject in injections)
+            foreach (AnestheticPlanInjection inject in pat.AnestheticPlan.InjectionPlans)
             {
+                inject.PatientId = pat.PatientId;
                 service.DeleteAnestheticPlanInjection(inject);
             }
         }
 
-        public void DeleteAnestheticPlanInhalants(List<AnestheticPlanInhalant> inhalants)
+        public void DeleteAnestheticPlanInhalants(Patient pat)
         {
-            foreach (AnestheticPlanInhalant inhalant in inhalants)
+            foreach (AnestheticPlanInhalant inhalant in pat.AnestheticPlan.InhalantPlans)
             {
+                inhalant.PatientId = pat.PatientId;
                 service.DeleteAnestheticPlanInhalant(inhalant);
             }
         }
 
-        public void DeleteBloodworkGroup(List<Bloodwork> bloodworkGroup)
+        public void DeleteBloodworkGroup(Patient pat)
         {
-            foreach (Bloodwork b in bloodworkGroup)
+            foreach (Bloodwork b in pat.BloodworkGroup)
             {
+                b.PatientId = pat.PatientId;
                 service.DeleteBloodwork(b);
             }
         }
 
-        public void DeleteClinicalFindings(ClinicalFindings c)
+        public void DeleteClinicalFindings(Patient pat)
         {
-            DeleteCurrentMedications(c.CurrentMedications);
-            DeletePriorAnesthesia(c.PriorAnesthesia);
-            DeleteAnesthesiaConcerns(c.AnesthesiaConcerns);
-            service.DeleteClinicalFinding(c);
+            DeleteCurrentMedications(pat);
+            DeletePriorAnesthesia(pat);
+            DeleteAnesthesiaConcerns(pat);
+            pat.ClinicalFindings.PatientId = pat.PatientId;
+            service.DeleteClinicalFinding(pat.ClinicalFindings);
         }
 
-        public void DeleteCurrentMedications(List<CurrentMedication> medications)
+        public void DeleteCurrentMedications(Patient pat)
         {
-            foreach (CurrentMedication c in medications)
+            foreach (CurrentMedication c in pat.ClinicalFindings.CurrentMedications)
             {
+                c.PatientId = pat.PatientId;
                 service.DeleteCurrentMedication(c);
             }
         }
 
-        public void DeletePriorAnesthesia(PriorAnesthesia anes)
+        public void DeletePriorAnesthesia(Patient pat)
         {
-            service.DeletePriorAnesthesia(anes);
+            pat.ClinicalFindings.PriorAnesthesia.PatientId = pat.PatientId;
+            service.DeletePriorAnesthesia(pat.ClinicalFindings.PriorAnesthesia);
         }
 
-        public void DeleteAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
+        public void DeleteAnesthesiaConcerns(Patient pat)
         {
-            foreach (AnesthesiaConcern a in concerns)
+            foreach (AnesthesiaConcern a in pat.ClinicalFindings.AnesthesiaConcerns)
             {
+                a.PatientId = pat.PatientId;
                 service.DeleteAnesthesiaConcern(a);
             }
         }

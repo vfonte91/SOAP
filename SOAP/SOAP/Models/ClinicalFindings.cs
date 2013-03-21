@@ -35,6 +35,7 @@ namespace SOAP.Models
             _id = -1;
             _currentMedications = new List<CurrentMedication>();
             _anesthesiaConcerns = new List<AnesthesiaConcern>();
+            _priorAnesthesia = new PriorAnesthesia();
             _cardiacAuscultation = new DropdownValue();
             _pulseQuality = new DropdownValue();
             _respiratoryAuscultation = new DropdownValue();

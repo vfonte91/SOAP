@@ -2743,10 +2743,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Administration_Set_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = adminSet.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = adminSet.PatientId;
                 try
                 {
                     conn.Open();
@@ -2769,10 +2769,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Anesthesia_Concerns_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = aConcern.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = aConcern.PatientId;
                 try
                 {
                     conn.Open();
@@ -2795,10 +2795,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Anesthetic_Plan_Inhalant
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = inhalant.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = inhalant.PatientId;
                 try
                 {
                     conn.Open();
@@ -2821,10 +2821,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Anesthetic_Plan_Injection
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = injection.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = injection.PatientId;
                 try
                 {
                     conn.Open();
@@ -2847,10 +2847,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Anesthetic_Plan_Premed
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = premed.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = premed.PatientId;
                 try
                 {
                     conn.Open();
@@ -2926,10 +2926,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Bloodwork_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.PatientId;
                 try
                 {
                     conn.Open();
@@ -2952,10 +2952,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Clinical_Findings
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cFind.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cFind.PatientId;
                 try
                 {
                     conn.Open();
@@ -2978,10 +2978,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Current_Medications_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = meds.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = meds.PatientId;
                 try
                 {
                     conn.Open();
@@ -3082,10 +3082,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Intraoperative_Analgesia_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = opera.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = opera.PatientId;
                 try
                 {
                     conn.Open();
@@ -3108,10 +3108,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.IV_Fluid_Type_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.PatientId;
                 try
                 {
                     conn.Open();
@@ -3134,10 +3134,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.IV_Fluid_Type_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInhalant.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInhalant.PatientId;
                 try
                 {
                     conn.Open();
@@ -3160,10 +3160,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Maintenance_Injection_Drugs_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInject.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInject.PatientId;
                 try
                 {
                     conn.Open();
@@ -3186,10 +3186,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Monitoring_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = monitor.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = monitor.PatientId;
                 try
                 {
                     conn.Open();
@@ -3212,10 +3212,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Other_Anesthetic_Drugs_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = otherDrugs.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = otherDrugs.PatientId;
                 try
                 {
                     conn.Open();
@@ -3264,10 +3264,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Prior_Anesthesia_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = priorAnes.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = priorAnes.PatientId;
                 try
                 {
                     conn.Open();
@@ -3290,10 +3290,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"DELETE FROM dbo.Procedure_To_Patient
                             WHERE
-                            Id = @Id";
+                            PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.Id;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.PatientId;
                 try
                 {
                     conn.Open();

@@ -42,7 +42,7 @@ $(document).ready(function () {
     //When an input loses focus, grab information
     $("input").blur(function () {
         $this = $(this);
-        addValue($this.attr('section'), $this.attr('name'), $this.val());
+        addValue($this.closest('form'), $this.attr('name'), $this.val());
     });
 
     //Button to open Edit Profile drop down
@@ -86,20 +86,29 @@ $(document).ready(function () {
 });
 
 function addValue(section, name, value) {
-    if (section && name)
+    if (section && name) {
+        section = section[0].name;
         Patient[section][name] = value;
+    }
 }
 
-function dropdownSelected(section, name, value) {
+function dropdownSelected(domObject) {
+    var section = $(domObject).closest("form")[0].name;
+    var name = domObject.name;
+    var value = domObject.value;
     if (section && name) {
         Patient[section][name] = {};
         Patient[section][name].Id = value;
     }
 }
 
-function dateSelected(section, name, value) {
-    if (section && name)
+function dateSelected(domObject) {
+    var section = $(domObject).closest("form")[0].name;
+    var name = domObject.name;
+    var value = domObject.value;
+    if (section && name) {
         Patient[section][name] = value;
+    }
 }
 
 function SaveForm() {
@@ -445,7 +454,7 @@ function validateUser(member, password) {
         var memberInfo = {
             Username: member,
             Password: password
-        }
+        };
         ajax('Post', 'Home/DoLogin', JSON.stringify(memberInfo), false)
         .fail(function (jqXHR, textStatus) {
             returned = false;
@@ -544,10 +553,26 @@ function getUsers() {
 
 function deleteUser(users) {
     var returned = '';
-    for (var i = 0; i < users.length; i++) {
-        var ASFUser1 = {
-            "Username": users[i]
+    if (users.length)
+        for (var i = 0; i < users.length; i++) {
+            var ASFUser1 = {
+                "Username": users[i]
+            };
+            ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
+        .done(function (data) {
+            if (data.success)
+                returned += users[i] + " deleted. ";
+            else
+                returned += "Error: " + users[i] + " could not be deleted. ";
+        })
+        .fail(function (data) {
+            returned += "Error: " + users[i] + " could not be deleted. ";
+        });
         }
+    else {
+        var ASFUser1 = {
+                "Username": users
+            };
         ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success)
