@@ -7,13 +7,8 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private DropdownValue _bloodworkInfo;
+        private string _bloodworkInfo;
         private decimal _value;
-
-        public enum LazyComponents
-        {
-            LOAD_BLOODWORK_INFO
-        };
 
         public int Id
         {
@@ -27,7 +22,7 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public DropdownValue BloodworkInfo
+        public string BloodworkName
         {
             get { return _bloodworkInfo; }
             set { _bloodworkInfo = value; }
@@ -42,12 +37,11 @@ namespace SOAP.Models
         public Bloodwork()
         {
             _id = -1;
-            _bloodworkInfo = new DropdownValue();
         }
 
         public bool ValidateBloodwork()
         {
-            if (_id == 0 || _patientId == 0 || _bloodworkInfo.Id == 0)
+            if (_id == 0 || _patientId == 0)
                 return false;
             else
                 return true;

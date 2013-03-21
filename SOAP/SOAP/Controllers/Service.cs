@@ -156,7 +156,7 @@ namespace SOAP.Controllers
 
         public List<Bloodwork> GetBloodwork(int patientId)
         {
-            return service.GetBloodwork(patientId, Bloodwork.LazyComponents.LOAD_BLOODWORK_INFO);
+            return service.GetBloodwork(patientId);
         }
 
         public List<AnestheticPlanPremedication> GetAnestheticPreMedications(int patientId)

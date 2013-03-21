@@ -409,7 +409,7 @@ namespace SOAP.Controllers
             return anesPlanPremed;
         }
 
-        public List<Bloodwork> GetBloodwork(int patientId, params Bloodwork.LazyComponents[] lazyComponents)
+        public List<Bloodwork> GetBloodwork(int patientId)
         {
             List<Bloodwork> bloodworkGroup = new List<Bloodwork>();
             using (SqlConnection conn = new SqlConnection(connString))
@@ -420,15 +420,6 @@ namespace SOAP.Controllers
                 string from = @"FROM dbo.Bloodwork_To_Patient AS a";
 
                 string where = @" WHERE a.PatientId = @PatientId ";
-
-                foreach (Bloodwork.LazyComponents a in lazyComponents)
-                {
-                    if (a == Bloodwork.LazyComponents.LOAD_BLOODWORK_INFO)
-                    {
-                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
-                        from += @" INNER JOIN dbo.Dropdown_Types as b ON a.BloodworkId = b.Id ";
-                    }
-                }
 
 
                 sql = sql + from + where;
@@ -441,7 +432,7 @@ namespace SOAP.Controllers
                     SqlDataReader read = cmd.ExecuteReader();
                     while (read.Read())
                     {
-                        bloodworkGroup.Add(new BloodworkCallback().ProcessRow(read, lazyComponents));
+                        bloodworkGroup.Add(new BloodworkCallback().ProcessRow(read));
                     }
                 }
                 catch (Exception e)
@@ -703,7 +694,7 @@ namespace SOAP.Controllers
                     if (a == IntraoperativeAnalgesia.LazyComponents.LOAD_ANALGESIA_WITH_DETAILS)
                     {
                         sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description'";
-                        from += @" INNER JOIN dbo.Dropdown_Types as b ON a.Analgesia = b.Id ";
+                        from += @" INNER JOIN dbo.Dropdown_Types as b ON a.AnalgesiaId = b.Id ";
                     }
                 }
 
@@ -857,7 +848,7 @@ namespace SOAP.Controllers
                               b.DoseUnits as 'b.DoseUnits', b.Route as 'b.Route', b.Concentration as 'b.Concentration', b.ConcentrationUnits as 'b.ConcentrationUnits', 
                                    d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
                         from += @" LEFT OUTER JOIN dbo.Drug_Information as b ON a.DrugId = b.DrugId 
-                                   LEFT OUTER JOIN dbo.Dropdown_Types d on d.DrugId = b.DrugId";
+                                   LEFT OUTER JOIN dbo.Dropdown_Types d on d.Id = b.DrugId";
                     }
                     else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
                     {
@@ -1416,14 +1407,14 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Bloodwork_To_Patient (
-                            PatientId, BloodworkId, Value
+                            PatientId, BloodworkName, Value
                             ) VALUES (
-                            @PatientId, @BloodworkId, @Value
+                            @PatientId, @BloodworkName, @Value
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = blood.PatientId;
-                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = blood.BloodworkInfo.Id;
+                cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = blood.BloodworkName;
                 cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = blood.Value;
                 try
                 {
@@ -2222,13 +2213,13 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Bloodwork_To_Patient SET
-                            BloodworkId = @BloodworkId, Value = @Value
+                            BloodworkName = @BloodworkName, Value = @Value
                             WHERE
                             Id = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.Id;
-                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = blood.BloodworkInfo.Id;
+                cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = blood.BloodworkName;
                 cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = blood.Value;
                 try
                 {
@@ -3350,14 +3341,14 @@ namespace SOAP.Controllers
 
         private string BuildBloodworkSQL()
         {
-            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.BloodworkId as 'a.BloodworkId', a.Value as 'a.Value' ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.BloodworkName as 'a.BloodworkName', a.Value as 'a.Value' ";
         }
 
         private string BuildClinicalFindingsSQL()
         {
             return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.Temperature as 'a.Temperature', a.PulseRate as 'a.PulseRate',
                     a.RespiratoryRate as 'a.RespiratoryRate', a.CardiacAuscultationId as 'a.CardiacAuscultationId', 
-                    a.PulseQualityId as 'PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
+                    a.PulseQualityId as 'a.PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
                     a.CapillaryRefillTime as 'a.CapillaryRefillTime', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
                     a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification' ";
         }
