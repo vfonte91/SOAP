@@ -77,7 +77,7 @@ namespace SOAP.Controllers
             pat.PatientId = patientId;
             pat.PatientInfo = GetPatientInformation(patientId);
             pat.ClinicalFindings = GetClinicalFindings(patientId);
-            pat.BloodworkGroup = GetBloodwork(patientId);
+            pat.Bloodwork = GetBloodwork(patientId);
             pat.Maintenance = GetMaintenance(patientId);
             pat.Monitoring = GetMonitoring(patientId);
             return pat;
@@ -154,9 +154,51 @@ namespace SOAP.Controllers
             return service.GetAnesthesiaConcerns(patientId, AnesthesiaConcern.LazyComponents.LOAD_CONCERN_WITH_DETAILS);
         }
 
-        public List<Bloodwork> GetBloodwork(int patientId)
+        public Bloodwork GetBloodwork(int patientId)
         {
-            return service.GetBloodwork(patientId);
+            Bloodwork blood = new Bloodwork();
+            List<Bloodwork> bloodGroup = service.GetBloodwork(patientId);
+            foreach (Bloodwork b in bloodGroup)
+            {
+                if (b.Albumin != -1)
+                    blood.Albumin = b.Albumin;
+                else if (b.ALP != -1)
+                    blood.ALP = b.ALP;
+                else if (b.ALT != -1)
+                    blood.ALT = b.ALT;
+                else if (b.BUN != -1)
+                    blood.BUN = b.BUN;
+                else if (b.Ca != -1)
+                    blood.Ca = b.Ca;
+                else if (b.Cl != -1)
+                    blood.Cl = b.Cl;
+                else if (b.CREAT != -1)
+                    blood.CREAT = b.CREAT;
+                else if (b.Globulin != -1)
+                    blood.Globulin = b.Globulin;
+                else if (b.Glucose != -1)
+                    blood.Glucose = b.Glucose;
+                else if (b.iCa != -1)
+                    blood.iCa = b.iCa;
+                else if (b.K != -1)
+                    blood.K = b.K;
+                else if (b.NA != -1)
+                    blood.NA = b.NA;
+                else if (b.PCV != -1)
+                    blood.PCV = b.PCV;
+                else if (b.TP != -1)
+                    blood.TP = b.TP;
+                else if (b.USG != -1)
+                    blood.USG = b.USG;
+                else if (b.WBC != -1)
+                    blood.WBC = b.WBC;
+                else if (b.OtherType != "" && b.OtherValue != -1)
+                {
+                    blood.OtherType = b.OtherType;
+                    blood.OtherValue = blood.OtherValue;
+                }
+            }
+            return blood;
         }
 
         public List<AnestheticPlanPremedication> GetAnestheticPreMedications(int patientId)
@@ -229,7 +271,7 @@ namespace SOAP.Controllers
             if (pat.ClinicalFindings.ContainsValue())
                 CreateClinicalFindings(pat);
 
-            if (pat.BloodworkGroup.Count > 0)
+            if (pat.Bloodwork.HasValues())
                 CreateBloodwork(pat);
 
             if (pat.AnestheticPlan != null)
@@ -283,11 +325,41 @@ namespace SOAP.Controllers
 
         public void CreateBloodwork(Patient pat)
         {
-            foreach (Bloodwork b in pat.BloodworkGroup)
-            {
-                b.PatientId = pat.PatientId;
-                service.CreateBloodwork(b);
-            }
+            Bloodwork blood = pat.Bloodwork;
+            if (blood.Albumin != -1)
+                service.CreateBloodwork(blood, "Albumin", blood.Albumin);
+            else if (blood.ALP != -1)
+                service.CreateBloodwork(blood, "ALP", blood.ALP);
+            else if (blood.ALT != -1)
+                service.CreateBloodwork(blood, "ALT", blood.ALT);
+            else if (blood.BUN != -1)
+                service.CreateBloodwork(blood, "BUN", blood.BUN);
+            else if (blood.Ca != -1)
+                service.CreateBloodwork(blood, "Ca", blood.Ca);
+            else if (blood.Cl != -1)
+                service.CreateBloodwork(blood, "Cl", blood.Cl);
+            else if (blood.CREAT != -1)
+                service.CreateBloodwork(blood, "CREAT", blood.CREAT);
+            else if (blood.Globulin != -1)
+                service.CreateBloodwork(blood, "Globulin", blood.Globulin);
+            else if (blood.Glucose != -1)
+                service.CreateBloodwork(blood, "Glucose", blood.Glucose);
+            else if (blood.iCa != -1)
+                service.CreateBloodwork(blood, "iCa", blood.iCa);
+            else if (blood.K != -1)
+                service.CreateBloodwork(blood, "K", blood.K);
+            else if (blood.NA != -1)
+                service.CreateBloodwork(blood, "NA", blood.NA);
+            else if (blood.PCV != -1)
+                service.CreateBloodwork(blood, "PCV", blood.PCV);
+            else if (blood.TP != -1)
+                service.CreateBloodwork(blood, "TP", blood.TP);
+            else if (blood.USG != -1)
+                service.CreateBloodwork(blood, "USG", blood.USG);
+            else if (blood.WBC != -1)
+                service.CreateBloodwork(blood, "WBC", blood.WBC);
+            else if (blood.OtherType != "" && blood.OtherValue != -1)
+                service.CreateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
         public void CreateAnestheticPlan(Patient pat)
@@ -412,8 +484,8 @@ namespace SOAP.Controllers
             if (pat.ClinicalFindings.ContainsValue())
                 SaveClinicalFindings(pat.ClinicalFindings);
 
-            if (pat.BloodworkGroup.Count > 0)
-                SaveBloodwork(pat.BloodworkGroup);
+            if (pat.Bloodwork.HasValues())
+                SaveBloodwork(pat.Bloodwork);
 
             if (pat.AnestheticPlan != null)
                 SaveAnestheticPlan(pat.AnestheticPlan);
@@ -460,12 +532,42 @@ namespace SOAP.Controllers
             }
         }
 
-        public void SaveBloodwork(List<Bloodwork> blood)
+        public void SaveBloodwork(Bloodwork blood)
         {
-            foreach (Bloodwork b in blood)
-            {
-                service.UpdateBloodwork(b);
-            }
+            if (blood.Albumin != -1)
+                service.UpdateBloodwork(blood, "Albumin", blood.Albumin);
+            else if (blood.ALP != -1)
+                service.UpdateBloodwork(blood, "ALP", blood.ALP);
+            else if (blood.ALT != -1)
+                service.UpdateBloodwork(blood, "ALT", blood.ALT);
+            else if (blood.BUN != -1)
+                service.UpdateBloodwork(blood, "BUN", blood.BUN);
+            else if (blood.Ca != -1)
+                service.UpdateBloodwork(blood, "Ca", blood.Ca);
+            else if (blood.Cl != -1)
+                service.UpdateBloodwork(blood, "Cl", blood.Cl);
+            else if (blood.CREAT != -1)
+                service.UpdateBloodwork(blood, "CREAT", blood.CREAT);
+            else if (blood.Globulin != -1)
+                service.UpdateBloodwork(blood, "Globulin", blood.Globulin);
+            else if (blood.Glucose != -1)
+                service.UpdateBloodwork(blood, "Glucose", blood.Glucose);
+            else if (blood.iCa != -1)
+                service.UpdateBloodwork(blood, "iCa", blood.iCa);
+            else if (blood.K != -1)
+                service.UpdateBloodwork(blood, "K", blood.K);
+            else if (blood.NA != -1)
+                service.UpdateBloodwork(blood, "NA", blood.NA);
+            else if (blood.PCV != -1)
+                service.UpdateBloodwork(blood, "PCV", blood.PCV);
+            else if (blood.TP != -1)
+                service.UpdateBloodwork(blood, "TP", blood.TP);
+            else if (blood.USG != -1)
+                service.UpdateBloodwork(blood, "USG", blood.USG);
+            else if (blood.WBC != -1)
+                service.UpdateBloodwork(blood, "WBC", blood.WBC);
+            else if (blood.OtherType != "" && blood.OtherValue != -1)
+                service.UpdateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
         public void SaveAnestheticPlan(AnestheticPlan a)
@@ -603,16 +705,12 @@ namespace SOAP.Controllers
             DeleteAnestheticPlan(pat);
             DeleteBloodworkGroup(pat);
             DeleteClinicalFindings(pat);
-            service.DeletePatient(pat);
+            service.DeletePatient(pat.PatientId);
         }
 
         public void DeleteMonitoring(Patient pat)
         {
-            foreach (Monitoring m in pat.Monitoring)
-            {
-                m.PatientId = pat.PatientId;
-                service.DeleteMonitoring(m);
-            }
+            service.DeleteMonitoring(pat.PatientId);
         }
 
         public void DeleteMaintenance(Patient pat)
@@ -625,38 +723,22 @@ namespace SOAP.Controllers
 
         public void DeleteMaintenanceInjectionDrugs(Patient pat)
         {
-            foreach (MaintenanceInjectionDrug inject in pat.Maintenance.MaintenanceInjectionDrugs)
-            {
-                inject.PatientId = pat.PatientId;
-                service.DeleteMaintenanceInjectionDrug(inject);
-            }
+            service.DeleteMaintenanceInjectionDrug(pat.PatientId);
         }
 
         public void DeleteMaintenanceInhalantDrugs(Patient pat)
         {
-            foreach (MaintenanceInhalantDrug inhalant in pat.Maintenance.MaintenanceInhalantDrugs)
-            {
-                inhalant.PatientId = pat.PatientId;
-                service.DeleteMaintenanceInhalantDrug(inhalant);
-            }
+            service.DeleteMaintenanceInhalantDrug(pat.PatientId);
         }
 
         public void DeleteIntraoperativeAnalgesia(Patient pat)
         {
-            foreach (IntraoperativeAnalgesia analgesia in pat.Maintenance.IntraOperativeAnalgesias)
-            {
-                analgesia.PatientId = pat.PatientId;
-                service.DeleteIntraoperativeAnalgesia(analgesia);
-            }
+            service.DeleteIntraoperativeAnalgesia(pat.PatientId);
         }
 
         public void DeleteOtherAnestheticDrugs(Patient pat)
         {
-            foreach (OtherAnestheticDrug otherDrug in pat.Maintenance.OtherAnestheticDrugs)
-            {
-                pat.PatientId = pat.PatientId;
-                service.DeleteOtherAnestheticDrug(otherDrug);
-            }
+            service.DeleteOtherAnestheticDrug(pat.PatientId);
         }
 
         public void DeleteAnestheticPlan(Patient pat)
@@ -668,38 +750,22 @@ namespace SOAP.Controllers
 
         public void DeleteAnestheticPlanPremedications(Patient pat)
         {
-            foreach (AnestheticPlanPremedication premed in pat.AnestheticPlan.PreMedications)
-            {
-                premed.PatientId = pat.PatientId;
-                service.DeleteAnestheticPlanPremedication(premed);
-            }
+            service.DeleteAnestheticPlanPremedication(pat.PatientId);
         }
 
         public void DeleteAnestheticPlanInjections(Patient pat)
         {
-            foreach (AnestheticPlanInjection inject in pat.AnestheticPlan.InjectionPlans)
-            {
-                inject.PatientId = pat.PatientId;
-                service.DeleteAnestheticPlanInjection(inject);
-            }
+            service.DeleteAnestheticPlanInjection(pat.PatientId);
         }
 
         public void DeleteAnestheticPlanInhalants(Patient pat)
         {
-            foreach (AnestheticPlanInhalant inhalant in pat.AnestheticPlan.InhalantPlans)
-            {
-                inhalant.PatientId = pat.PatientId;
-                service.DeleteAnestheticPlanInhalant(inhalant);
-            }
+            service.DeleteAnestheticPlanInhalant(pat.PatientId);
         }
 
         public void DeleteBloodworkGroup(Patient pat)
         {
-            foreach (Bloodwork b in pat.BloodworkGroup)
-            {
-                b.PatientId = pat.PatientId;
-                service.DeleteBloodwork(b);
-            }
+            service.DeleteBloodwork(pat.PatientId);
         }
 
         public void DeleteClinicalFindings(Patient pat)
@@ -707,32 +773,22 @@ namespace SOAP.Controllers
             DeleteCurrentMedications(pat);
             DeletePriorAnesthesia(pat);
             DeleteAnesthesiaConcerns(pat);
-            pat.ClinicalFindings.PatientId = pat.PatientId;
-            service.DeleteClinicalFinding(pat.ClinicalFindings);
+            service.DeleteClinicalFinding(pat.PatientId);
         }
 
         public void DeleteCurrentMedications(Patient pat)
         {
-            foreach (CurrentMedication c in pat.ClinicalFindings.CurrentMedications)
-            {
-                c.PatientId = pat.PatientId;
-                service.DeleteCurrentMedication(c);
-            }
+            service.DeleteCurrentMedication(pat.PatientId);
         }
 
         public void DeletePriorAnesthesia(Patient pat)
         {
-            pat.ClinicalFindings.PriorAnesthesia.PatientId = pat.PatientId;
-            service.DeletePriorAnesthesia(pat.ClinicalFindings.PriorAnesthesia);
+            service.DeletePriorAnesthesia(pat.PatientId);
         }
 
         public void DeleteAnesthesiaConcerns(Patient pat)
         {
-            foreach (AnesthesiaConcern a in pat.ClinicalFindings.AnesthesiaConcerns)
-            {
-                a.PatientId = pat.PatientId;
-                service.DeleteAnesthesiaConcern(a);
-            }
+            service.DeleteAnesthesiaConcern(pat.PatientId);
         }
 
         #endregion

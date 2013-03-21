@@ -559,21 +559,21 @@ function deleteUser(users) {
                 "Username": users[i]
             };
             ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
-        .done(function (data) {
-            if (data.success)
-                returned += users[i] + " deleted. ";
-            else
+            .done(function (data) {
+                if (data.success)
+                    returned += users[i] + " deleted. ";
+                else
+                    returned += "Error: " + users[i] + " could not be deleted. ";
+            })
+            .fail(function (data) {
                 returned += "Error: " + users[i] + " could not be deleted. ";
-        })
-        .fail(function (data) {
-            returned += "Error: " + users[i] + " could not be deleted. ";
-        });
+            });
         }
     else {
-        var ASFUser1 = {
+        var ASFUser2 = {
                 "Username": users
             };
-        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
+        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser2), true)
         .done(function (data) {
             if (data.success)
                 returned += users[i] + " deleted. ";
