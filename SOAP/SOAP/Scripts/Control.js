@@ -1,7 +1,7 @@
 ﻿var Patient = {
     PatientInfo: {Student: {}, Clinician: {}},
     ClinicalFindings: {},
-    BloodworkGroup: {},
+    Bloodwork: {},
     AnestheticPlan: {},
     Maintenance: {},
     Monitoring: {}

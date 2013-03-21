@@ -326,39 +326,40 @@ namespace SOAP.Controllers
         public void CreateBloodwork(Patient pat)
         {
             Bloodwork blood = pat.Bloodwork;
+            blood.PatientId = pat.PatientId;
             if (blood.Albumin != -1)
                 service.CreateBloodwork(blood, "Albumin", blood.Albumin);
-            else if (blood.ALP != -1)
+            if (blood.ALP != -1)
                 service.CreateBloodwork(blood, "ALP", blood.ALP);
-            else if (blood.ALT != -1)
+            if (blood.ALT != -1)
                 service.CreateBloodwork(blood, "ALT", blood.ALT);
-            else if (blood.BUN != -1)
+            if (blood.BUN != -1)
                 service.CreateBloodwork(blood, "BUN", blood.BUN);
-            else if (blood.Ca != -1)
+            if (blood.Ca != -1)
                 service.CreateBloodwork(blood, "Ca", blood.Ca);
-            else if (blood.Cl != -1)
+            if (blood.Cl != -1)
                 service.CreateBloodwork(blood, "Cl", blood.Cl);
-            else if (blood.CREAT != -1)
+            if (blood.CREAT != -1)
                 service.CreateBloodwork(blood, "CREAT", blood.CREAT);
-            else if (blood.Globulin != -1)
+            if (blood.Globulin != -1)
                 service.CreateBloodwork(blood, "Globulin", blood.Globulin);
-            else if (blood.Glucose != -1)
+            if (blood.Glucose != -1)
                 service.CreateBloodwork(blood, "Glucose", blood.Glucose);
-            else if (blood.iCa != -1)
+            if (blood.iCa != -1)
                 service.CreateBloodwork(blood, "iCa", blood.iCa);
-            else if (blood.K != -1)
+            if (blood.K != -1)
                 service.CreateBloodwork(blood, "K", blood.K);
-            else if (blood.NA != -1)
+            if (blood.NA != -1)
                 service.CreateBloodwork(blood, "NA", blood.NA);
-            else if (blood.PCV != -1)
+            if (blood.PCV != -1)
                 service.CreateBloodwork(blood, "PCV", blood.PCV);
-            else if (blood.TP != -1)
+            if (blood.TP != -1)
                 service.CreateBloodwork(blood, "TP", blood.TP);
-            else if (blood.USG != -1)
+            if (blood.USG != -1)
                 service.CreateBloodwork(blood, "USG", blood.USG);
-            else if (blood.WBC != -1)
+            if (blood.WBC != -1)
                 service.CreateBloodwork(blood, "WBC", blood.WBC);
-            else if (blood.OtherType != "" && blood.OtherValue != -1)
+            if (blood.OtherType != "" && blood.OtherValue != -1)
                 service.CreateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
@@ -536,37 +537,37 @@ namespace SOAP.Controllers
         {
             if (blood.Albumin != -1)
                 service.UpdateBloodwork(blood, "Albumin", blood.Albumin);
-            else if (blood.ALP != -1)
+            if (blood.ALP != -1)
                 service.UpdateBloodwork(blood, "ALP", blood.ALP);
-            else if (blood.ALT != -1)
+            if (blood.ALT != -1)
                 service.UpdateBloodwork(blood, "ALT", blood.ALT);
-            else if (blood.BUN != -1)
+            if (blood.BUN != -1)
                 service.UpdateBloodwork(blood, "BUN", blood.BUN);
-            else if (blood.Ca != -1)
+            if (blood.Ca != -1)
                 service.UpdateBloodwork(blood, "Ca", blood.Ca);
-            else if (blood.Cl != -1)
+            if (blood.Cl != -1)
                 service.UpdateBloodwork(blood, "Cl", blood.Cl);
-            else if (blood.CREAT != -1)
+            if (blood.CREAT != -1)
                 service.UpdateBloodwork(blood, "CREAT", blood.CREAT);
-            else if (blood.Globulin != -1)
+            if (blood.Globulin != -1)
                 service.UpdateBloodwork(blood, "Globulin", blood.Globulin);
-            else if (blood.Glucose != -1)
+            if (blood.Glucose != -1)
                 service.UpdateBloodwork(blood, "Glucose", blood.Glucose);
-            else if (blood.iCa != -1)
+            if (blood.iCa != -1)
                 service.UpdateBloodwork(blood, "iCa", blood.iCa);
-            else if (blood.K != -1)
+            if (blood.K != -1)
                 service.UpdateBloodwork(blood, "K", blood.K);
-            else if (blood.NA != -1)
+            if (blood.NA != -1)
                 service.UpdateBloodwork(blood, "NA", blood.NA);
-            else if (blood.PCV != -1)
+            if (blood.PCV != -1)
                 service.UpdateBloodwork(blood, "PCV", blood.PCV);
-            else if (blood.TP != -1)
+            if (blood.TP != -1)
                 service.UpdateBloodwork(blood, "TP", blood.TP);
-            else if (blood.USG != -1)
+            if (blood.USG != -1)
                 service.UpdateBloodwork(blood, "USG", blood.USG);
-            else if (blood.WBC != -1)
+            if (blood.WBC != -1)
                 service.UpdateBloodwork(blood, "WBC", blood.WBC);
-            else if (blood.OtherType != "" && blood.OtherValue != -1)
+            if (blood.OtherType != "" && blood.OtherValue != -1)
                 service.UpdateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
