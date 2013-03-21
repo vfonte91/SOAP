@@ -11,7 +11,8 @@ namespace SOAP.Models.Callbacks
             PriorAnesthesia prioAnes = new PriorAnesthesia();
             prioAnes.Id = Convert.ToInt32(read["a.Id"]);
             prioAnes.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            prioAnes.DateOfProblem = Convert.ToDateTime(read["a.DateOfProblem"].ToString());
+            if (read["a.DateOfProblem"].ToString() != "") 
+                prioAnes.DateOfProblem = Convert.ToDateTime(read["a.DateOfProblem"].ToString());
             prioAnes.Problem = read["a.Problem"].ToString();
             return prioAnes;
         }

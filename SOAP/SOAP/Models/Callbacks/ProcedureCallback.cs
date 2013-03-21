@@ -11,11 +11,12 @@ namespace SOAP.Models.Callbacks
             Procedure procedure = new Procedure();
             procedure.Id = Convert.ToInt32(read["a.Id"]);
             procedure.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            procedure.ProcedureInformation.Id = Convert.ToInt32(read["a.ProcedureId"].ToString());
+            if (read["a.ProcedureId"].ToString() != "") 
+                procedure.ProcedureInformation.Id = Convert.ToInt32(read["a.ProcedureId"].ToString());
 
             foreach (Procedure.LazyComponents a in lazyComponents)
             {
-                if (a == Procedure.LazyComponents.LOAD_PROCEDURE_WITH_DETAIL)
+                if (a == Procedure.LazyComponents.LOAD_PROCEDURE_WITH_DETAIL && procedure.ProcedureInformation.Id != -1)
                 {
                     procedure.ProcedureInformation.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     procedure.ProcedureInformation.Label = read["b.Label"].ToString();

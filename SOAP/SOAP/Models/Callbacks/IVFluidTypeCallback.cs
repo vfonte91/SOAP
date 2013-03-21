@@ -11,12 +11,14 @@ namespace SOAP.Models.Callbacks
             IVFluidType ivFluidType = new IVFluidType();
             ivFluidType.Id = Convert.ToInt32(read["a.Id"]);
             ivFluidType.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            ivFluidType.FluidType.Id = Convert.ToInt32(read["a.FluidTypeId"].ToString());
-            ivFluidType.Dose = Convert.ToDecimal(read["a.Dose"].ToString());
+            if (read["a.FluidTypeId"].ToString() != "")
+                ivFluidType.FluidType.Id = Convert.ToInt32(read["a.FluidTypeId"].ToString());
+            if (read["a.Dose"].ToString() != "")
+                ivFluidType.Dose = Convert.ToDecimal(read["a.Dose"].ToString());
 
             foreach (IVFluidType.LazyComponents a in lazyComponents)
             {
-                if (a == IVFluidType.LazyComponents.LOAD_FLUID_TYPE_WITH_DETAILS)
+                if (a == IVFluidType.LazyComponents.LOAD_FLUID_TYPE_WITH_DETAILS && ivFluidType.FluidType.Id != -1)
                 {
                     ivFluidType.FluidType.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     ivFluidType.FluidType.Label = read["b.Label"].ToString();

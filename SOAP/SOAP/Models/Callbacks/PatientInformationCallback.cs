@@ -34,53 +34,35 @@ namespace SOAP.Models.Callbacks
             {
                 if (a == PatientInformation.LazyComponents.LOAD_CLINICIAN_DETAIL)
                 {
-                    if (read["b.Username"].ToString() != "")
                         patientInfo.Clinician.Username = read["b.Username"].ToString();
-                    if (read["b.FullName"].ToString() != "")
                         patientInfo.Clinician.FullName = read["b.FullName"].ToString();
-                    if (read["b.Email"].ToString() != "") 
                         patientInfo.Clinician.EmailAddress = read["b.Email"].ToString();
                 }
                 else if (a == PatientInformation.LazyComponents.LOAD_STUDENT_DETAIL)
                 {
-                    if (read["c.Username"].ToString() != "")
                         patientInfo.Student.Username = read["c.Username"].ToString();
-                    if (read["c.FullName"].ToString() != "")
                         patientInfo.Student.FullName = read["c.FullName"].ToString();
-                    if (read["c.Email"].ToString() != "") 
                     patientInfo.Student.EmailAddress = read["c.Email"].ToString();
                 }
-                else if (a == PatientInformation.LazyComponents.LOAD_POSTOP_PAIN_DETAIL)
+                else if (a == PatientInformation.LazyComponents.LOAD_POSTOP_PAIN_DETAIL && patientInfo.PostOperationPainAssessment.Id != -1)
                 {
-                    if (read["d.CategoryId"].ToString() != "")
                         patientInfo.PostOperationPainAssessment.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
-                    if (read["d.Label"].ToString() != "")
                         patientInfo.PostOperationPainAssessment.Label = read["d.Label"].ToString();
-                    if (read["d.OtherFlag"].ToString() != "")
                         patientInfo.PostOperationPainAssessment.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
-                    if (read["d.Description"].ToString() != "") 
                         patientInfo.PostOperationPainAssessment.Description = read["d.Description"].ToString();
                 }
-                else if (a == PatientInformation.LazyComponents.LOAD_PREOP_PAIN_DETAIL)
+                else if (a == PatientInformation.LazyComponents.LOAD_PREOP_PAIN_DETAIL && patientInfo.PreOperationPainAssessment.Id != -1)
                 {
-                    if (read["e.CategoryId"].ToString() != "")
                         patientInfo.PreOperationPainAssessment.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
-                    if (read["e.Label"].ToString() != "")
                         patientInfo.PreOperationPainAssessment.Label = read["e.Label"].ToString();
-                    if (read["e.OtherFlag"].ToString() != "")
                         patientInfo.PreOperationPainAssessment.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
-                    if (read["e.Description"].ToString() != "") 
                         patientInfo.PreOperationPainAssessment.Description = read["e.Description"].ToString();
                 }
-                else if (a == PatientInformation.LazyComponents.LOAD_TEMPERAMENT_DETAIL)
+                else if (a == PatientInformation.LazyComponents.LOAD_TEMPERAMENT_DETAIL && patientInfo.Temperament.Id != -1)
                 {
-                    if (read["f.CategoryId"].ToString() != "")
                         patientInfo.Temperament.Category.Id = Convert.ToInt32(read["f.CategoryId"].ToString());
-                    if (read["f.Label"].ToString() != "")
                         patientInfo.Temperament.Label = read["f.Label"].ToString();
-                    if (read["f.OtherFlag"].ToString() != "")
                         patientInfo.Temperament.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
-                    if (read["f.Description"].ToString() != "") 
                         patientInfo.Temperament.Description = read["f.Description"].ToString();
                 }
             }

@@ -198,7 +198,7 @@ namespace SOAP.Controllers
         {
             MaintenanceInhalantDrug.LazyComponents[] list = 
             {
-                MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_SETAILS,
+                MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_DETAILS,
                 MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_SYSTEM_WITH_DETAILS,
                 MaintenanceInhalantDrug.LazyComponents.LOAD_DRUG_WITH_DETAILS
             };

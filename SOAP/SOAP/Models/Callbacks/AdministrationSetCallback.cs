@@ -12,8 +12,10 @@ namespace SOAP.Models.Callbacks
             AdministrationSet aSet = new AdministrationSet();
             aSet.Id = Convert.ToInt32(read["a.Id"]);
             aSet.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            aSet.MiniDripFlag = Convert.ToInt32(read["a.MiniDripFlag"].ToString());
-            aSet.MaxiDripFlag = Convert.ToInt32(read["a.MaxiDripFlag"].ToString());
+            if (read["a.MiniDripFlag"].ToString() != "")
+                aSet.MiniDripFlag = Convert.ToInt32(read["a.MiniDripFlag"].ToString());
+            if (read["a.MiniDripFlag"].ToString() != "")
+                aSet.MaxiDripFlag = Convert.ToInt32(read["a.MaxiDripFlag"].ToString());
             return aSet;
         }
     }

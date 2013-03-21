@@ -11,13 +11,16 @@ namespace SOAP.Models.Callbacks
             MaintenanceInjectionDrug maintInjectDrug = new MaintenanceInjectionDrug();
             maintInjectDrug.Id = Convert.ToInt32(read["a.Id"]);
             maintInjectDrug.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            maintInjectDrug.Drug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
-            maintInjectDrug.RouteOfAdministration.Id = Convert.ToInt32(read["a.RouteOfAdministrationId"].ToString());
-            maintInjectDrug.Dose = Convert.ToDecimal(read["a.Dosage"].ToString());
+            if (read["a.DrugId"].ToString() != "")
+                maintInjectDrug.Drug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+            if (read["a.RouteOfAdministrationId"].ToString() != "")
+                maintInjectDrug.RouteOfAdministration.Id = Convert.ToInt32(read["a.RouteOfAdministrationId"].ToString());
+            if (read["a.Dosage"].ToString() != "")
+                maintInjectDrug.Dose = Convert.ToDecimal(read["a.Dosage"].ToString());
 
             foreach (MaintenanceInjectionDrug.LazyComponents a in lazyComponents)
             {
-                if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_DRUG_INFORMATION)
+                if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_DRUG_INFORMATION && maintInjectDrug.Drug.Drug.Id != -1)
                 {
                     maintInjectDrug.Drug.Drug.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
                     maintInjectDrug.Drug.Drug.Label = read["d.Label"].ToString();
@@ -32,7 +35,7 @@ namespace SOAP.Models.Callbacks
                     maintInjectDrug.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                     maintInjectDrug.Drug.ConcentrationUnits = read["b.ConcentrationUnits"].ToString();
                 }
-                if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
+                if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS && maintInjectDrug.RouteOfAdministration.Id != -1)
                 {
                     maintInjectDrug.RouteOfAdministration.Category.Id = Convert.ToInt32(read["c.CategoryId"].ToString());
                     maintInjectDrug.RouteOfAdministration.Label = read["c.Label"].ToString();

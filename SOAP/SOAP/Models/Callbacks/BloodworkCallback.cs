@@ -12,7 +12,8 @@ namespace SOAP.Models.Callbacks
             bloodwork.Id = Convert.ToInt32(read["a.Id"]);
             bloodwork.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
             bloodwork.BloodworkName = read["a.BloodworkName"].ToString();
-            bloodwork.Value = Convert.ToDecimal(read["a.Value"].ToString());
+            if (read["a.Value"].ToString() != "")
+                bloodwork.Value = Convert.ToDecimal(read["a.Value"].ToString());
 
             return bloodwork;
         }

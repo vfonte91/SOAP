@@ -11,11 +11,12 @@ namespace SOAP.Models.Callbacks
             OtherAnestheticDrug otherAnesDrug = new OtherAnestheticDrug();
             otherAnesDrug.Id = Convert.ToInt32(read["a.Id"]);
             otherAnesDrug.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            otherAnesDrug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+            if (read["a.EquipmentId"].ToString() != "")
+                otherAnesDrug.Drug.Id = Convert.ToInt32(read["a.EquipmentId"].ToString());
 
             foreach (OtherAnestheticDrug.LazyComponents a in lazyComponents)
             {
-                if (a == OtherAnestheticDrug.LazyComponents.LOAD_DRUG_WITH_DETAIL)
+                if (a == OtherAnestheticDrug.LazyComponents.LOAD_DRUG_WITH_DETAIL && otherAnesDrug.Drug.Id != -1)
                 {
                     otherAnesDrug.Drug.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     otherAnesDrug.Drug.Label = read["b.Label"].ToString();

@@ -12,20 +12,23 @@ namespace SOAP.Models.Callbacks
             AnestheticPlanInjection anesPlanInject = new AnestheticPlanInjection();
             anesPlanInject.Id = Convert.ToInt32(read["a.Id"]);
             anesPlanInject.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            anesPlanInject.Drug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
-            anesPlanInject.Route.Id = Convert.ToInt32(read["a.Route_Id"].ToString());
-            anesPlanInject.Dosage = Convert.ToDecimal(read["a.Dosage"].ToString());
+            if (read["a.DrugId"].ToString() != "")
+                anesPlanInject.Drug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+            if (read["a.Route_Id"].ToString() != "")
+                anesPlanInject.Route.Id = Convert.ToInt32(read["a.Route_Id"].ToString());
+            if (read["a.Dosage"].ToString() != "")
+                anesPlanInject.Dosage = Convert.ToDecimal(read["a.Dosage"].ToString());
 
             foreach (AnestheticPlanInjection.LazyComponents a in lazyComponents)
             {
-                if (a == AnestheticPlanInjection.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
+                if (a == AnestheticPlanInjection.LazyComponents.LOAD_ROUTE_WITH_DETAILS && anesPlanInject.Route.Id != -1)
                 {
                     anesPlanInject.Route.Category.Id = Convert.ToInt32(read["c.CategoryId"].ToString());
                     anesPlanInject.Route.Label = read["c.Label"].ToString();
                     anesPlanInject.Route.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     anesPlanInject.Route.Label = read["c.Description"].ToString();
                 }
-                else if (a == AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION)
+                else if (a == AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION && anesPlanInject.Drug.Drug.Id != -1)
                 {
                     anesPlanInject.Drug.Drug.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
                     anesPlanInject.Drug.Drug.Label = read["d.Label"].ToString();
