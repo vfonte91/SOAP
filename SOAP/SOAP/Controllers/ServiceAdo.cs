@@ -1438,10 +1438,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.Clinical_Findings (
                             PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColorId, 
-                            CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification
+                            CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification, CurrentMedications
                             ) VALUES (
                             @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColorId,
-                            @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification
+                            @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification, @CurrentMedications
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1496,6 +1496,11 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+
+                if (cFind.CurrentMedications == null)
+                    cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = cFind.CurrentMedications;
 
                 try
                 {
@@ -2248,7 +2253,7 @@ namespace SOAP.Controllers
                             Temperature = @Temperature, PulseRate = @PulseRate, RespiratoryRate = @RespiratoryRate, CardiacAuscultationId = @CardiacAuscultationId, 
                             PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTime = @CapillaryRefillTime, 
                             RespiratoryAuscultationId = @RespiratoryAuscultationId, PhysicalStatusClassId = @PhysicalStatusClassId, 
-                            ReasonForClassification = @ReasonForClassification
+                            ReasonForClassification = @ReasonForClassification, CurrentMedications = @CurrentMedications
                             WHERE
                             Id = @Id";
 
@@ -2264,6 +2269,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
                 cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
                 cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+                cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = cFind.CurrentMedications;
                 try
                 {
                     conn.Open();
@@ -3353,7 +3359,8 @@ namespace SOAP.Controllers
                     a.RespiratoryRate as 'a.RespiratoryRate', a.CardiacAuscultationId as 'a.CardiacAuscultationId', 
                     a.PulseQualityId as 'a.PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
                     a.CapillaryRefillTime as 'a.CapillaryRefillTime', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
-                    a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification' ";
+                    a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification',
+                    a.CurrentMedications as 'a.CurrentMedications' ";
         }
 
         private string BuildCurrentMedicationsSQL()

@@ -60,18 +60,18 @@
                 </div>
                      <div class="input">
                         <label>Prior Anesthesia</label>
-                        <input type="radio" name="PriorAnesthesia" value="PriorYes" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.Yes"/>
+                        <input type="radio" name="PriorAnesthesia" value="PriorYes" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.Yes" onclick="showPriorAnesthesia()"/>
                         <label for="Patient.ClinicalFindings.PriorAnesthesia.Yes" class="radio">Yes</label>
-                        <input type="radio"  name="PriorAnesthesia" value="PriorNo" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No"/>
+                        <input type="radio"  name="PriorAnesthesia" value="PriorNo" checked="checked" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No" onclick="hidePriorAnesthesia()"/>
                         <label for="Patient.ClinicalFindings.PriorAnesthesia.No" class="radio">No</label>
                     </div> 
                     <div class="input">
 			           <label>Date:</label>
-                       <input type="text" name="DateOfProblem" class="inline" id="Patient.ClinicalFindings.Date" onchange="dateSelected(this)"/>
+                       <input type="text" name="DateOfProblem" class="inline" id="Patient.ClinicalFindings.Date" subgroup="PriorAnesthesia" onchange="dateSelected(this)"/>
                     </div>
                     <div class="input">
 			           <label>Problems:</label>
-                       <input type="text" name="Problem" class="inline"id="Patient.ClinicalFindings.Problems"/>
+                       <input type="text" name="Problem" class="inline" subgroup="PriorAnesthesia" id="Patient.ClinicalFindings.Problems"/>
                     </div>
                     <div class="input">
                     <label>Concerns:</label>
@@ -113,9 +113,5 @@
 			           <label>Current Medications:</label>
                        <input type="text" name="CurrentMedications" class="inline"id="Patient.ClinicalFindings.CurrentMedications"/>
                     </div>
-                    <div class="input">
-			           <label>Other Current Medications:</label>
-                       <input type="text" name="OtherCurrentMedications" class="inline"id="Patient.ClinicalFindings.OtherCurrentMedications"/>
-                    </div>	
                 </div>	
 				</form>

@@ -109,7 +109,6 @@ namespace SOAP.Controllers
                 ClinicalFindings.LazyComponents.LOAD_MUCOUS_MEMBRANE_WITH_DETAILS
             };
             ClinicalFindings clinicalFinding = service.GetClinicalFindings(patientId, list);
-            clinicalFinding.CurrentMedications = GetCurrentMedications(patientId);
             clinicalFinding.PriorAnesthesia = GetPriorAnesthesia(patientId);
             clinicalFinding.AnesthesiaConcerns = GetAnesthesiaConcerns(patientId);
             return clinicalFinding;
@@ -289,23 +288,11 @@ namespace SOAP.Controllers
             pat.ClinicalFindings.PatientId = pat.PatientId;
             service.CreateClinicalFinding(pat.ClinicalFindings);
 
-            if (pat.ClinicalFindings.CurrentMedications.Count > 0)
-                CreateCurrentMedications(pat);
-
             if (pat.ClinicalFindings.PriorAnesthesia.PriorAnesthesiaBool)
                 CreatePriorAnesthesia(pat);
 
             if (pat.ClinicalFindings.AnesthesiaConcerns.Count > 0)
                 CreateAnesthesiaConcerns(pat);
-        }
-
-        public void CreateCurrentMedications(Patient pat)
-        {
-            foreach (CurrentMedication c in pat.ClinicalFindings.CurrentMedications)
-            {
-                c.PatientId = pat.PatientId;
-                service.CreateCurrentMedication(c);
-            }
         }
 
         public void CreatePriorAnesthesia(Patient pat)
@@ -501,9 +488,6 @@ namespace SOAP.Controllers
         public void SaveClinicalFindings(ClinicalFindings clinicalFindings)
         {
             service.UpdateClinicalFinding(clinicalFindings);
-
-            if (clinicalFindings.CurrentMedications.Count > 0)
-                SaveCurrentMedications(clinicalFindings.CurrentMedications);
 
             if (clinicalFindings.PriorAnesthesia.PriorAnesthesiaBool)
                 SavePriorAnesthesia(clinicalFindings.PriorAnesthesia);
