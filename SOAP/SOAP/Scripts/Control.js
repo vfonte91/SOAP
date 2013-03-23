@@ -83,6 +83,7 @@ $(document).ready(function () {
 
     $("#Patient\\.PatientInfo\\.Date").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
+
 });
 
 function addValue(section, name, value) {
@@ -615,6 +616,12 @@ function logOut() {
 
     //Reloads page
     location.reload();
+}
+
+function showInputs(ids) {
+    for (var i = 0; i < ids.length; i++) {
+        $('#' + ids[i]).toggle('slow');
+    }
 }
 
 String.prototype.hashCode = function(){
