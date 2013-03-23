@@ -130,10 +130,10 @@ function SaveForm() {
     Patient.PatientInfo.Clinician.Username = UserInformation.Username;
     var url = "";
     if (newPatient) {
-        url = 'Home/CreateForm'
+        url = 'CreateForm'
     }
     else {
-        url = 'Home/SaveForm'
+        url = 'SaveForm'
     }
     ajax('Post', url, JSON.stringify(Patient), true)
     .done(function (data) {
@@ -149,7 +149,7 @@ function SaveForm() {
 
 function OpenForm(formId) {
     var pat = { PatientId: formId };
-    ajax('Post', 'Home/GetPatient', JSON.stringify(pat), false)
+    ajax('Post', 'GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
         }
@@ -162,7 +162,7 @@ function OpenForm(formId) {
 }
 
 function GetUserForms() {
-    ajax('Post', 'Home/GetUserForms', JSON.stringify(UserInformation), true)
+    ajax('Post', 'GetUserForms', JSON.stringify(UserInformation), true)
     .done(function (data) {
         if (data.success) {
             var forms = $('#saved-forms');
@@ -221,7 +221,7 @@ function editUserInformation() {
     var foobarredUser = UserInformation;
     foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
     foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
-    ajax('Post', 'Home/EditProfile', JSON.stringify(foobarredUser), true)
+    ajax('Post', 'EditProfile', JSON.stringify(foobarredUser), true)
         .done(function (data) {
             if (data.success) {
                 UserInformation.FullName = foobarredUser.FullName;
@@ -326,7 +326,7 @@ function forgetClicked() {
         Username: forgotUser,
         EmailAddress: emailForgot
     };
-    ajax('Post', 'Home/CheckForgotPassword', JSON.stringify(ASFUser1), false)
+    ajax('Post', 'CheckForgotPassword', JSON.stringify(ASFUser1), false)
     .done(function (data) {
 
         if (data.success) {
@@ -361,7 +361,7 @@ function ChangePassword(user) {
                 Password: pw1.hashCode()
             }
         };
-        ajax('Post', 'Home/ChangeForgottenPassword', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'ChangeForgottenPassword', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) {
                 $("#change-password").dialog("close");
@@ -392,7 +392,7 @@ function hidePriorAnesthesia() {
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', 'Home/GetAllDropdownCategories', '', false)
+    ajax('Post', 'GetAllDropdownCategories', '', false)
     .done(function (data) {
         if (data.success) {
             dCats = data.DropdownCategories;
@@ -420,7 +420,7 @@ function PopulateAdminCategories() {
 function PopulateAdminDropdownValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        ajax('Post', 'Home/GetDropdownValues', JSON.stringify(obj), false)
+        ajax('Post', 'GetDropdownValues', JSON.stringify(obj), false)
         .done(function (data) {
             if (data.success) {
                 var values = data.DropdownValues;
@@ -463,7 +463,7 @@ function editDropdownValue(id, label, desc) {
         Description: desc + " "
         }
 
-        ajax('Post', 'Home/EditDropdownValue', JSON.stringify(dropdown), true)
+        ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
         .done(function(data) {
             if(data.success) {
                 alert("Value edited successfully");
@@ -489,7 +489,7 @@ function validateUser(member, password) {
             Username: member,
             Password: password
         };
-        ajax('Post', 'Home/DoLogin', JSON.stringify(memberInfo), false)
+        ajax('Post', "DoLogin", JSON.stringify(memberInfo), false)
         .fail(function (jqXHR, textStatus) {
             returned = false;
         })
@@ -539,7 +539,7 @@ function registerUser() {
                 "Password": pwHash
             }
         };
-        ajax('Post', 'Home/RegisterUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'RegisterUser', JSON.stringify(ASFUser1), false)
         .done(function (data) {
             if (data.success) {
                 returned = "success";
@@ -566,7 +566,7 @@ function getUsers() {
 
     $("#users").empty();
 
-    ajax('Post', 'Home/GetUsers', '', false)
+    ajax('Post', 'GetUsers', '', false)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
@@ -587,12 +587,11 @@ function getUsers() {
 
 function deleteUser(users) {
     var returned = '';
-    if (users.length)
-        for (var i = 0; i < users.length; i++) {
-            var ASFUser1 = {
-                "Username": users[i]
-            };
-            ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
+    for (var i = 0; i < users.length; i++) {
+        var ASFUser1 = {
+            "Username": users[i]
+        };
+        ajax('Post', 'DeleteUser', JSON.stringify(ASFUser1), true)
             .done(function (data) {
                 if (data.success)
                     returned += users[i] + " deleted. ";
@@ -602,21 +601,6 @@ function deleteUser(users) {
             .fail(function (data) {
                 returned += "Error: " + users[i] + " could not be deleted. ";
             });
-        }
-    else {
-        var ASFUser2 = {
-                "Username": users
-            };
-        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser2), true)
-        .done(function (data) {
-            if (data.success)
-                returned += users[i] + " deleted. ";
-            else
-                returned += "Error: " + users[i] + " could not be deleted. ";
-        })
-        .fail(function (data) {
-            returned += "Error: " + users[i] + " could not be deleted. ";
-        });
     }
     getUsers();
     alert(returned);
@@ -628,7 +612,7 @@ function promoteUser(users) {
         var ASFUser1 = {
             "Username": users[i]
         }/// <reference path="http://localhost/VSOAP/Scripts/" />
-        ajax('Post', 'Home/PromoteUser', JSON.stringify(ASFUser1), true)
+        ajax('Post', 'PromoteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) 
                 returned += users[i] + " promoted. ";
@@ -651,16 +635,10 @@ function logOut() {
     location.reload();
 }
 
-function ajax(typeIn, urlIn, dataIn, asyncIn) {
-
-    return $.ajax({
-        type: typeIn,
-        dataType: 'json',
-        url: rootDir + urlIn,
-        data: dataIn,
-        contentType: 'application/json; charset=utf-8',
-        async: asyncIn
-    });
+function showInputs(ids) {
+    for (var i = 0; i < ids.length; i++) {
+        $('#' + ids[i]).toggle('slow');
+    }
 }
 
 String.prototype.hashCode = function(){

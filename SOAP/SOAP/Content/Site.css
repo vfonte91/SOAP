@@ -202,10 +202,9 @@ div.navi{
     display: block;
     float: left;
     text-decoration: none;
-    margin: 0 0 0 5px;
     color: #fff;
     height: 40px;
-    width: 120px;  
+    width: 113px;  
     cursor: pointer;
     text-align: center;
 }
