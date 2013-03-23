@@ -18,6 +18,7 @@ namespace SOAP.Models
         private int _cageOrStallNumber;
         private DropdownValue _preOperationPainAssessment;
         private DropdownValue _postOperationPainAssessment;
+        private DateTime _procedureDate;
 
         public enum LazyComponents
         {
@@ -118,6 +119,12 @@ namespace SOAP.Models
         {
             get { return _postOperationPainAssessment; }
             set { _postOperationPainAssessment = value; }
+        }
+
+        public DateTime ProcedureDate
+        {
+            get { return _procedureDate; }
+            set { _procedureDate = value; }
         }
 
 

@@ -6,8 +6,8 @@ namespace SOAP.Models
     public class AnestheticPlan
     {
         private List<AnestheticPlanPremedication> _preMedications;
-        private List<AnestheticPlanInjection> _injectionPlans;
-        private List<AnestheticPlanInhalant> _inhalantPlans;
+        private AnestheticPlanInjection _injectionPlan;
+        private AnestheticPlanInhalant _inhalantPlan;
 
         public List<AnestheticPlanPremedication> PreMedications
         {
@@ -15,22 +15,22 @@ namespace SOAP.Models
             set { _preMedications = value; }
         }
 
-        public List<AnestheticPlanInjection> InjectionPlans
+        public AnestheticPlanInjection InjectionPlan
         {
-            get { return _injectionPlans; }
-            set { _injectionPlans = value; }
+            get { return _injectionPlan; }
+            set { _injectionPlan = value; }
         }
 
-        public List<AnestheticPlanInhalant> InhalantPlans
+        public AnestheticPlanInhalant InhalantPlan
         {
-            get { return _inhalantPlans; }
-            set { _inhalantPlans = value; }
+            get { return _inhalantPlan; }
+            set { _inhalantPlan = value; }
         }
 
         public AnestheticPlan()
         {
-            _inhalantPlans = new List<AnestheticPlanInhalant>();
-            _injectionPlans = new List<AnestheticPlanInjection>();
+            _inhalantPlan = new AnestheticPlanInhalant();
+            _injectionPlan = new AnestheticPlanInjection();
             _preMedications = new List<AnestheticPlanPremedication>();
         }
     }

@@ -7,13 +7,13 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private decimal _dose;
+        private decimal _percentage;
         private decimal _flowRate;
-        private DrugInformation _drug;
+        private DropdownValue _drug;
 
         public enum LazyComponents
         {
-            LOAD_DRUG_INFORMATION
+            LOAD_DRUG_WITH_DETAILS
         };
 
         public int Id
@@ -28,10 +28,10 @@ namespace SOAP.Models
             set { _patientId = value; }
         }
 
-        public decimal Dose
+        public decimal Percentage
         {
-            get { return _dose; }
-            set { _dose = value; }
+            get { return _percentage; }
+            set { _percentage = value; }
         }
 
         public decimal FlowRate
@@ -40,7 +40,7 @@ namespace SOAP.Models
             set { _flowRate = value; }
         }
 
-        public DrugInformation Drug
+        public DropdownValue Drug
         {
             get { return _drug; }
             set { _drug = value; }
@@ -49,7 +49,12 @@ namespace SOAP.Models
         public AnestheticPlanInhalant()
         {
             _id = -1;
-            _drug = new DrugInformation();
+            _drug = new DropdownValue();
+        }
+
+        public bool HasValues()
+        {
+            return (_percentage != 0.0M || _drug.Id != -1 || _flowRate != 0.0M);
         }
 
         public bool ValidateAnestheticPlanInhalant()

@@ -23,8 +23,8 @@ namespace SOAP.Models.Callbacks
                 clinicalFindings.PulseQuality.Id = Convert.ToInt32(read["a.PulseQualityId"]);
             if (read["a.MucousMembraneColorId"].ToString() != "")
                 clinicalFindings.MucousMembraneColor.Id = Convert.ToInt32(read["a.MucousMembraneColorId"]);
-            if (read["a.CapillaryRefillTime"].ToString() != "")
-                clinicalFindings.CapillaryRefillTime = Convert.ToDecimal(read["a.CapillaryRefillTime"]);
+            if (read["a.CapillaryRefillTimeId"].ToString() != "")
+                clinicalFindings.CapillaryRefillTime.Id = Convert.ToInt32(read["a.CapillaryRefillTimeId"]);
             if (read["a.RespiratoryAuscultationId"].ToString() != "")
                 clinicalFindings.RespiratoryAuscultation.Id = Convert.ToInt32(read["a.RespiratoryAuscultationId"]);
             if (read["a.PhysicalStatusClassId"].ToString() != "")
@@ -68,6 +68,13 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.MucousMembraneColor.Label = read["f.Label"].ToString();
                     clinicalFindings.MucousMembraneColor.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
                     clinicalFindings.MucousMembraneColor.Description = read["f.Description"].ToString();
+                }
+                else if (a == ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS && clinicalFindings.CapillaryRefillTime.Id != -1)
+                {
+                    clinicalFindings.MucousMembraneColor.Category.Id = Convert.ToInt32(read["g.CategoryId"]);
+                    clinicalFindings.MucousMembraneColor.Label = read["g.Label"].ToString();
+                    clinicalFindings.MucousMembraneColor.OtherFlag = Convert.ToChar(read["g.OtherFlag"].ToString());
+                    clinicalFindings.MucousMembraneColor.Description = read["g.Description"].ToString();
                 }
             }
 

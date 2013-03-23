@@ -1,62 +1,53 @@
 ﻿@{
     ViewBag.Title = "Anesthetic Plan";
 }
-            <form action="">
+            <form action="" name="AnestheticPlan">
             <div class="left half">
             <h2>Anesthetic Plan</h2>
             <h4>Premedication</h4>
                 <div class="input">
                     <label>Route of Administration: </label>
                     <button type="button" id="AnestheticPlan-Premedication-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.AnestheticPlanPremedication.Route')">?</button>
-                    <select name="PreMedRoute" id="Patient.AnestheticPlanPremedication.Route">
+                    <select name="PreMedRoute" id="Patient.AnestheticPlanPremedication.Route" subgroup="PreMedications">
 					</select>
                 </div>
                 <div class="input">
                     <label>Sedative Drugs: </label>
                     <button type="button" id="AnestheticPlan-Premedication-SedativeDrug" class="toolTipButton" onclick="toolTipGenerate(21, 'Patient.AnestheticPlanPremedication.SedativeDrug')">?</button>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.SedativeDrug">
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.SedativeDrug" subgroup="PreMedications">
 					</select>
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.SedativeDosage" />
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.SedativeDosage" subgroup="PreMedications"/>
                 </div>
                 <div class="input">
                     <label>Opioid Drugs: </label>
                     <button type="button" id="AnestheticPlan-Premedication-OpioidDrug" class="toolTipButton" onclick="toolTipGenerate(22, 'Patient.AnestheticPlanPremedication.OpioidDrug')">?</button>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.OpioidDrug">
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.OpioidDrug" subgroup="PreMedications">
 					</select>
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.OpioidDosage" />
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.OpioidDosage" subgroup="PreMedications"/>
                 </div>
                 <div class="input">
                     <label>Anticholinergic Drugs: </label>
                     <button type="button" id="AnestheticPlan-Premedication-AnticholinergicDrug" class="toolTipButton" onclick="toolTipGenerate(23, 'Patient.AnestheticPlanPremedication.AnticholinergicDrug')">?</button>
-                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.AnticholinergicDrug">
+                    <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.AnticholinergicDrug" subgroup="PreMedications">
 					</select>
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.AnticholinergicDosage" />
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.AnticholinergicDosage" subgroup="PreMedications"/>
                 </div>
             </div>
             <div class="right half">
             <div style="margin-top: 115px"></div>
-                 <div class="input">
-                    <label>Ketamine</label>
-                    <input type="radio" id="Patient.AnestheticPlanPremedication.Ketamine.Yes" name="Paralyze"  class="radio" value="ParalyzeYes"/>
-                    <label for="Patient.AnestheticPlanPremedication.Ketamine.Yes" class="radio">Yes</label>
-                    <input type="radio" id="Patient.AnestheticPlanPremedication.Ketamine.No" name="Paralyze" class="radio" value="ParalyzeNo"/>
-                    <label for="Patient.AnestheticPlanPremedication.Ketamine.No" class="radio">No</label>
-                </div>
                <div class="input">
-			       <label>Dosage: </label>
-                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.KetamineDosage" />
+			       <label>Ketamine Dosage: </label>
+                   <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.KetamineDosage" subgroup="PreMedications"/>
                 </div>                
             
             </div>
-           
-
              </form>

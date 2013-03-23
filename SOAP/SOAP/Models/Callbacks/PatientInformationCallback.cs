@@ -27,8 +27,10 @@ namespace SOAP.Models.Callbacks
                 patientInfo.AgeInMonths = Convert.ToInt32(read["a.AgeInMonths"].ToString());
             if (read["a.PreOpPainAssessmentId"].ToString() != "")
                 patientInfo.PreOperationPainAssessment.Id = Convert.ToInt32(read["a.PreOpPainAssessmentId"].ToString());
-            if (read["a.PostOpPainAssessmentId"].ToString() != "") 
+            if (read["a.PostOpPainAssessmentId"].ToString() != "")
                 patientInfo.PostOperationPainAssessment.Id = Convert.ToInt32(read["a.PostOpPainAssessmentId"].ToString());
+            if (read["a.ProcedureDate"].ToString() != "")
+                patientInfo.ProcedureDate = Convert.ToDateTime(read["a.ProcedureDate"].ToString());
 
             foreach (PatientInformation.LazyComponents a in lazyComponents)
             {

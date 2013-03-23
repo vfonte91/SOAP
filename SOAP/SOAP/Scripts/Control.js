@@ -2,7 +2,7 @@
     PatientInfo: { Student: {}, Clinician: {} },
     ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
     Bloodwork: {},
-    AnestheticPlan: {},
+    AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
     Monitoring: {}
 }
@@ -81,7 +81,7 @@ $(document).ready(function () {
         });
     }
 
-    $("#Patient\\.PatientInfo\\.Date").datepicker();
+    $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect({ header: "Anesthetic Concerns" });
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
@@ -92,12 +92,45 @@ $(document).ready(function () {
 function addValue(section, name, value, subgroup) {
     if (section && name) {
         section = section[0].name;
-        if (subgroup) {
-             Patient[section][subgroup][name] = value
+        if (section != "AnestheticPlan") {
+            if (subgroup) {
+                Patient[section][subgroup][name] = value
+            }
+            else {
+                Patient[section][name] = value;
+            }
         }
-        else {
-            Patient[section][name] = value;
-        }
+    }
+}
+
+function buildAnestheticPlanPremeds() {
+    Patient.AnestheticPlan.PreMedications = [];
+    var route = $("#Patient\\.AnestheticPlanPremedication\\.Route").val();
+    var sedative = $("#Patient\\.AnestheticPlanPremedication\\.SedativeDrug").val();
+    var sedativeDosage = $("#Patient\\.AnestheticPlanPremedication\\.SedativeDosage").val();
+    if (sedative || sedativeDosage) {
+        var sedativeObj = { Drug: { Id: sedative }, Route: { Id: route }, Dosage: sedativeDosage };
+        Patient.AnestheticPlan.PreMedications.push(sedativeObj);
+    }
+
+    var oploid = $("#Patient\\.AnestheticPlanPremedication\\.OpioidDrug").val();
+    var oploidDosage = $("#Patient\\.AnestheticPlanPremedication\\.OpioidDosage").val();
+    if (oploid || oploidDosage) {
+        var oploidObj = { Drug: { Id: oploid }, Route: { Id: route }, Dosage: oploidDosage };
+        Patient.AnestheticPlan.PreMedications.push(oploidObj);
+    }
+
+    var antichol = $("#Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug").val();
+    var anticholDosage = $("#Patient\\.AnestheticPlanPremedication\\.AnticholinergicDosage").val();
+    if (antichol || anticholDosage) {
+        var anticholObj = { Drug: { Id: antichol }, Route: { Id: route }, Dosage: anticholDosage };
+        Patient.AnestheticPlan.PreMedications.push(anticholObj);
+    }
+
+    var ketamineDosage = $("#Patient\\.AnestheticPlanPremedication\\.KetamineDosage").val();
+    if (ketamineDosage) {
+        var ketamineObj = { Drug: { Id: ketamineEnum }, Route: { Id: route }, Dosage: ketamineDosage };
+        Patient.AnestheticPlan.PreMedications.push(ketamineObj);
     }
 }
 
@@ -134,6 +167,7 @@ function SaveForm() {
         var val = { Concern: { Id: idOfVal} };
         Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
     }
+    buildAnestheticPlanPremeds();
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
@@ -158,12 +192,42 @@ function OpenForm(formId) {
     ajax('Post', 'GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
+            var patient = data.Patient;
+            for (var i in patient) {
+                if (patient.hasOwnProperty(i)) {
+                    var section = patient[i];
+                    for (var j in section) {
+                        if (section.hasOwnProperty(j)) {
+                            var input = section[j];
+                            var $input = $('#Patient\\.' + i + '\\.' + j);
+                            if ($input.length) {
+                                var value = section[j];
+                                if (value.length) {
+                                    for (var k = 0; k < value.length; k++) {
+                                        if (value[k] && value[k].hasOwnProperty('Id'))
+                                            $input.val(value[k].Id);
+                                        else if (value[k])
+                                            $input.val(value[k]);
+                                    }
+                                }
+                                else {
+                                    if (value && value.hasOwnProperty('Id'))
+                                        $input.val(value.Id);
+                                    else if (value)
+                                        $input.val(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         else {
+            alert("Could not open form");
         }
     })
     .fail(function (data) {
-
+        alert("Could not open form");
     });
 }
 
@@ -172,6 +236,7 @@ function GetUserForms() {
     .done(function (data) {
         if (data.success) {
             var forms = $('#saved-forms');
+            forms.empty();
             forms.append('<option value="0"> - Select One - </option>');
             for (var i = 0; i < data.Forms.length; i++) {
                 var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
@@ -253,8 +318,8 @@ function setProfileInfo() {
 function populateAll() {
     populate(1, "Patient\\.PatientInfo\\.Procedure");
     populate(2, "Patient\\.PatientInfo\\.Temperament");
-    populate(4, "Patient\\.PatientInfo\\.PreoperativePainAssesment");
-    populate(4, "Patient\\.PatientInfo\\.PostperativePainAssesment");
+    populate(4, "Patient\\.PatientInfo\\.PreOperationPainAssessment");
+    populate(4, "Patient\\.PatientInfo\\.PostOperationPainAssessment");
     populate(6, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
     populate(7, "Patient\\.ClinicalFindings\\.PulseQuality");
     populate(21, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
@@ -294,7 +359,7 @@ function populate(id, name) {
     }
     var x = $('#' + name);
     if (dCatName != "Anesthesia Concerns" && dCatName != "Monitoring") 
-        x.append('<option value="0"> - Select One - </option>');
+        x.append('<option value="-1"> - Select One - </option>');
     for (var i = 0; i < values.length; i++) {
         var option = '<option value="' + values[i].Id + '">' + values[i].Label + '</option>';
         x.append(option);
