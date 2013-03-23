@@ -71,10 +71,10 @@ namespace SOAP.Models.Callbacks
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS && clinicalFindings.CapillaryRefillTime.Id != -1)
                 {
-                    clinicalFindings.MucousMembraneColor.Category.Id = Convert.ToInt32(read["g.CategoryId"]);
-                    clinicalFindings.MucousMembraneColor.Label = read["g.Label"].ToString();
-                    clinicalFindings.MucousMembraneColor.OtherFlag = Convert.ToChar(read["g.OtherFlag"].ToString());
-                    clinicalFindings.MucousMembraneColor.Description = read["g.Description"].ToString();
+                    clinicalFindings.CapillaryRefillTime.Category.Id = Convert.ToInt32(read["g.CategoryId"]);
+                    clinicalFindings.CapillaryRefillTime.Label = read["g.Label"].ToString();
+                    clinicalFindings.CapillaryRefillTime.OtherFlag = Convert.ToChar(read["g.OtherFlag"].ToString());
+                    clinicalFindings.CapillaryRefillTime.Description = read["g.Description"].ToString();
                 }
             }
 

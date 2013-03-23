@@ -278,6 +278,11 @@ namespace SOAP.Controllers
                         sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.RouteId = c.Id ";
                     }
+                    else if (a == AnestheticPlanInjection.LazyComponents.LOAD_IV_WITH_DETAILS)
+                    {
+                        sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.IVFluidTypeId = d.Id ";
+                    }
                 }
 
                 
@@ -486,7 +491,7 @@ namespace SOAP.Controllers
                     else if (a == ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS)
                     {
                         sql += @", g.CategoryId as 'g.CategoryId', g.Label as 'g.Label', g.OtherFlag as 'g.OtherFlag', g.Description as 'g.Description'";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as g ON a.MucousMembraneColorId = g.Id ";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as g ON a.CapillaryRefillTimeId = g.Id ";
                     }
                 }
 
@@ -1261,16 +1266,17 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Anesthetic_Plan_Injection (
-                            PatientId, DrugId, RouteId, Dosage
+                            PatientId, DrugId, RouteId, Dosage, IVFluidTypeId
                             ) VALUES (
-                            @PatientId, @DrugId, @RouteId, @Dosage
+                            @PatientId, @DrugId, @RouteId, @Dosage, @IVFluidTypeId
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = injection.PatientId;
                 cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
-                cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = injection.Route.Id;
+                cmd.Parameters.Add("@RouteId", SqlDbType.Int).Value = injection.Route.Id;
                 cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = injection.Dosage;
+                cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = injection.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -2074,7 +2080,7 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Anesthetic_Plan_Injection SET
-                            DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage
+                            DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage, IVFluidTypeId = @IVFluidTypeId
                             WHERE
                             Id = @Id";
 
@@ -2083,6 +2089,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
                 cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = injection.Route.Id;
                 cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = injection.Dosage;
+                cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = injection.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -3343,7 +3350,7 @@ namespace SOAP.Controllers
 
         private string BuildAnestheticPlanInjectionSQL()
         {
-            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.RouteId as 'a.RouteId', a.Dosage as 'a.Dosage' ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.RouteId as 'a.RouteId', a.Dosage as 'a.Dosage', a.IVFluidTypeId as 'a.IVFluidTypeId' ";
         }
 
         private string BuildAnestheticPlanInhalantSQL()
