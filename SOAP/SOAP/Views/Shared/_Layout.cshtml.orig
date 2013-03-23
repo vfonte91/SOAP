@@ -6,8 +6,12 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         <link rel="stylesheet" type="text/css" href="~/Content/Site.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-1.10.2.custom.min.css" media="screen" />
+<<<<<<< HEAD
+        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="~/Content/jquery.multiselect.css" media="screen" />
+=======
+        <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-1.10.2.custom.min.css" media="screen" />
+>>>>>>> c95a9a2e4ae7cdb825f7114771fe0b8eccaf2d4d
     </head>
     <body>
         <div id="body">
