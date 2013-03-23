@@ -1,6 +1,6 @@
 ﻿var Patient = {
     PatientInfo: { Student: {}, Clinician: {} },
-    ClinicalFindings: { PriorAnesthesia: {} },
+    ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
     Bloodwork: {},
     AnestheticPlan: {},
     Maintenance: {},
@@ -83,7 +83,10 @@ $(document).ready(function () {
 
     $("#Patient\\.PatientInfo\\.Date").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
-
+    $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect({ header: "Anesthetic Concerns" });
+    $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
+    $("#Patient\\.Monitoring\\.Monitoring").multiselect({ header: "Monitoring" });
+    $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
 });
 
 function addValue(section, name, value, subgroup) {
@@ -125,6 +128,12 @@ function SaveForm() {
     Patient.PatientInfo.FormCompleted = 'N';
     Patient.PatientInfo.Student.Username = UserInformation.Username;
     Patient.PatientInfo.Clinician.Username = UserInformation.Username;
+    var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
+    for (var i = 0; i < anesthesiaValues.length; i++) {
+        var idOfVal = anesthesiaValues[i].getAttribute("value");
+        var val = { Concern: { Id: idOfVal} };
+        Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
+    }
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
@@ -246,37 +255,46 @@ function populateAll() {
     populate(2, "Patient\\.PatientInfo\\.Temperament");
     populate(4, "Patient\\.PatientInfo\\.PreoperativePainAssesment");
     populate(4, "Patient\\.PatientInfo\\.PostperativePainAssesment");
-    populate(5, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
-    populate(6, "Patient\\.ClinicalFindings\\.PulseQuality");
-    populate(20, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
-    populate(7, "Patient\\.ClinicalFindings\\.RespiratoryAuscultationId");
-    populate(9, "Patient\\.ClinicalFindings\\.PhysicalStatusClass");
-    populate(25, "Patient\\.ClinicalFindings\\.MucousMembraneColor");
-    populate(13, "Patient\\.AnestheticPlanPremedication\\.Route");
-    populate(21, "Patient\\.AnestheticPlanPremedication\\.SedativeDrug");
-    populate(22, "Patient\\.AnestheticPlanPremedication\\.OpioidDrug");
-    populate(23, "Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug");
-    populate(14, "Patient\\.AnestheticPlanInjection\\.Drug");
-    populate(13, "Patient\\.AnestheticPlanInjection\\.Route");
-    populate(24, "Patient\\.AnestheticPlanInjection\\.IVFluidTypes");
-    populate(15, "Patient\\.AnestheticPlanInhalant\\.Drug");
-    populate(14, "Patient\\.MaintenanceInjectionDrug\\.Drug");
-    populate(13, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
-    populate(15, "Patient\\.MaintenanceInhalentDrug\\.Drug");
-    populate(16, "Patient\\.MaintenanceInhalentDrug\\.BreathingSystem");
-    populate(17, "Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize");
-    populate(18, "Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia");
+    populate(6, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
+    populate(7, "Patient\\.ClinicalFindings\\.PulseQuality");
+    populate(21, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
+    populate(8, "Patient\\.ClinicalFindings\\.RespiratoryAuscultationId");
+    populate(10, "Patient\\.ClinicalFindings\\.PhysicalStatusClass");
+    populate(26, "Patient\\.ClinicalFindings\\.MucousMembraneColor");
+    populate(11, "Patient\\.ClinicalFindings\\.AnesthesiaConcerns");
+    populate(14, "Patient\\.AnestheticPlanPremedication\\.Route");
+    populate(22, "Patient\\.AnestheticPlanPremedication\\.SedativeDrug");
+    populate(23, "Patient\\.AnestheticPlanPremedication\\.OpioidDrug");
+    populate(24, "Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug");
+    populate(15, "Patient\\.AnestheticPlanInjection\\.Drug");
+    populate(14, "Patient\\.AnestheticPlanInjection\\.Route");
+    populate(25, "Patient\\.AnestheticPlanInjection\\.IVFluidTypes");
+    populate(16, "Patient\\.AnestheticPlanInhalant\\.Drug");
+    populate(15, "Patient\\.MaintenanceInjectionDrug\\.Drug");
+    populate(14, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
+    populate(16, "Patient\\.MaintenanceInhalentDrug\\.Drug");
+    populate(17, "Patient\\.MaintenanceInhalentDrug\\.BreathingSystem");
+    populate(18, "Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize");
+    populate(19, "Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia");
+    populate(20, "Patient\\.Monitoring\\.Monitoring");
 
 }
 
 function populate(id, name) {
-   
+
     var num = parseInt(id);
-    num = num - 1;
-    var cats = DropdownCategories;
-    var values = cats[num].DropdownValues;
+    var values;
+    var dCatName;
+    for (var i = 0; i < DropdownCategories.length; i++) {
+        if (DropdownCategories[i].Id == num) {
+            values = DropdownCategories[i].DropdownValues;
+            dCatName = DropdownCategories[i].ShortName;
+            break;
+        }
+    }
     var x = $('#' + name);
-    x.append('<option value="0"> - Select One - </option>');
+    if (dCatName != "Anesthesia Concerns" && dCatName != "Monitoring") 
+        x.append('<option value="0"> - Select One - </option>');
     for (var i = 0; i < values.length; i++) {
         var option = '<option value="' + values[i].Id + '">' + values[i].Label + '</option>';
         x.append(option);

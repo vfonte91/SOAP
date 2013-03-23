@@ -288,7 +288,7 @@ namespace SOAP.Controllers
             pat.ClinicalFindings.PatientId = pat.PatientId;
             service.CreateClinicalFinding(pat.ClinicalFindings);
 
-            if (pat.ClinicalFindings.PriorAnesthesia.PriorAnesthesiaBool)
+            if (pat.ClinicalFindings.PriorAnesthesia.DateOfProblem != DateTime.MinValue || pat.ClinicalFindings.PriorAnesthesia.Problem != null)
                 CreatePriorAnesthesia(pat);
 
             if (pat.ClinicalFindings.AnesthesiaConcerns.Count > 0)
@@ -489,7 +489,7 @@ namespace SOAP.Controllers
         {
             service.UpdateClinicalFinding(clinicalFindings);
 
-            if (clinicalFindings.PriorAnesthesia.PriorAnesthesiaBool)
+            if (clinicalFindings.PriorAnesthesia.DateOfProblem != DateTime.MinValue || clinicalFindings.PriorAnesthesia.Problem != null)
                 SavePriorAnesthesia(clinicalFindings.PriorAnesthesia);
 
             if (clinicalFindings.AnesthesiaConcerns.Count > 0)

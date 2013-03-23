@@ -74,8 +74,13 @@
                        <input type="text" name="Problem" class="inline" subgroup="PriorAnesthesia" id="Patient.ClinicalFindings.Problems"/>
                     </div>
                     <div class="input">
+<<<<<<< HEAD
                     <label>Anesthetic Concerns</label>
                         <select id="Patient.ClinicalFindings.AnesthesiaConcerns" name="AnesthesiaConcerns" subgroup="AnesthesiaConcerns" multiple="multiple" style="float: right; width: 400px;">
+=======
+                    <label>Concerns:</label>
+                        <select multiple name ="Concerns" id="Patient.ClinicalFindings.Concerns" onchange="dateSelected(this)">
+>>>>>>> c95a9a2e4ae7cdb825f7114771fe0b8eccaf2d4d
                         </select>
                     </div>
                     <div class="input">

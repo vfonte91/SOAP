@@ -7,7 +7,6 @@ namespace SOAP.Models
     {
         private int _id;
         private int _patientId;
-        private bool _priorAnesthesia;
         private DateTime _dateOfProblem;
         private string _problem;
 
@@ -35,16 +34,9 @@ namespace SOAP.Models
             set { _problem = value; }
         }
 
-        public bool PriorAnesthesiaBool
-        {
-            get { return _priorAnesthesia; }
-            set { _priorAnesthesia = value; }
-        }
-
         public PriorAnesthesia()
         {
             _id = -1;
-            _priorAnesthesia = false;
         }
 
         public bool ValidatePriorAnesthesia()
