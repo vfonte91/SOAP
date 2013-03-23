@@ -486,7 +486,7 @@ namespace SOAP.Controllers
                     else if (a == ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS)
                     {
                         sql += @", g.CategoryId as 'g.CategoryId', g.Label as 'g.Label', g.OtherFlag as 'g.OtherFlag', g.Description as 'g.Description'";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as g ON a.MucousMembraneColorId = g.Id ";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as g ON a.CapillaryRefillTimeId = g.Id ";
                     }
                 }
 
