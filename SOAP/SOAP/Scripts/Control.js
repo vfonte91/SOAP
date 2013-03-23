@@ -202,13 +202,16 @@ function OpenForm(formId) {
                             var $input = $('#Patient\\.' + i + '\\.' + j);
                             if ($input.length) {
                                 var value = section[j];
-                                if (value.length) {
+                                if (value.length && typeof value != 'string') {
+                                    var valArray = new Array();
                                     for (var k = 0; k < value.length; k++) {
-                                        if (value[k] && value[k].hasOwnProperty('Id'))
-                                            $input.val(value[k].Id);
-                                        else if (value[k])
-                                            $input.val(value[k]);
+                                        var temp1 = value[k];
+                                        for (var r in temp1) {
+                                            if (temp1[r] && temp1[r].hasOwnProperty('Id'))
+                                                valArray.push(temp1[r].Id);
+                                        }
                                     }
+                                    $input.val(valArray);
                                 }
                                 else {
                                     if (value && value.hasOwnProperty('Id'))
