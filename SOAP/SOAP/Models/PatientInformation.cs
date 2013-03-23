@@ -9,7 +9,7 @@ namespace SOAP.Models
         private ASFUser _student;
         private ASFUser _clinician;
         private char _formCompleted;
-        private Procedure _procedure;
+        private DropdownValue _procedure;
         private decimal _bodyWeight;
         private DropdownValue _temperament;
         private int _ageInYears;
@@ -26,14 +26,15 @@ namespace SOAP.Models
             LOAD_CLINICIAN_DETAIL,
             LOAD_TEMPERAMENT_DETAIL,
             LOAD_PREOP_PAIN_DETAIL,
-            LOAD_POSTOP_PAIN_DETAIL
+            LOAD_POSTOP_PAIN_DETAIL,
+            LOAD_PROCEDURE_DETAIL
         };
 
         public PatientInformation()
         {
             _student = new ASFUser();
             _clinician = new ASFUser();
-            _procedure = new Procedure();
+            _procedure = new DropdownValue();
             _temperament = new DropdownValue();
             _preOperationPainAssessment = new DropdownValue();
             _postOperationPainAssessment = new DropdownValue();
@@ -67,7 +68,7 @@ namespace SOAP.Models
             set { _formCompleted = value; }
         }
 
-        public Procedure Procedure
+        public DropdownValue Procedure
         {
             get { return _procedure; }
             set { _procedure = value; }

@@ -11,8 +11,8 @@ namespace SOAP.Models.Callbacks
             IVFluidType ivFluidType = new IVFluidType();
             ivFluidType.Id = Convert.ToInt32(read["a.Id"]);
             ivFluidType.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            if (read["a.FluidTypeId"].ToString() != "")
-                ivFluidType.FluidType.Id = Convert.ToInt32(read["a.FluidTypeId"].ToString());
+            if (read["a.IVFluidTypeId"].ToString() != "")
+                ivFluidType.FluidType.Id = Convert.ToInt32(read["a.IVFluidTypeId"].ToString());
             if (read["a.Dose"].ToString() != "")
                 ivFluidType.Dose = Convert.ToDecimal(read["a.Dose"].ToString());
 

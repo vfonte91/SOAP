@@ -92,10 +92,10 @@ namespace SOAP.Controllers
                 PatientInformation.LazyComponents.LOAD_STUDENT_DETAIL,
                 PatientInformation.LazyComponents.LOAD_TEMPERAMENT_DETAIL,
                 PatientInformation.LazyComponents.LOAD_POSTOP_PAIN_DETAIL,
-                PatientInformation.LazyComponents.LOAD_PREOP_PAIN_DETAIL
+                PatientInformation.LazyComponents.LOAD_PREOP_PAIN_DETAIL,
+                PatientInformation.LazyComponents.LOAD_PROCEDURE_DETAIL
             };
             PatientInformation patInfo = service.GetPatientInformation(patientId, list);
-            patInfo.Procedure = service.GetProcedure(patientId, Procedure.LazyComponents.LOAD_PROCEDURE_WITH_DETAIL);
             return patInfo;
         }
 

@@ -280,8 +280,8 @@ namespace SOAP.Controllers
                     }
                     else if (a == AnestheticPlanInjection.LazyComponents.LOAD_IV_WITH_DETAILS)
                     {
-                        sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description'";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.IVFluidTypeId = d.Id ";
+                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description'";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.IVFluidTypeId = e.Id ";
                     }
                 }
 
@@ -1019,6 +1019,12 @@ namespace SOAP.Controllers
                         sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.TemperamentId = f.Id ";
                     }
+
+                    else if (a == PatientInformation.LazyComponents.LOAD_PROCEDURE_DETAIL)
+                    {
+                        sql += @", g.CategoryId as 'g.CategoryId', g.Label as 'g.Label', g.OtherFlag as 'g.OtherFlag', g.Description as 'g.Description'";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as g ON a.ProcedureId = g.Id ";
+                    }
                 }
 
                 sql = sql + from + where;
@@ -1243,8 +1249,14 @@ namespace SOAP.Controllers
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = inhalant.PatientId;
                 cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = inhalant.Drug.Id;
-                cmd.Parameters.Add("@Percentage", SqlDbType.Decimal).Value = inhalant.Percentage;
-                cmd.Parameters.Add("@FlowRate", SqlDbType.Decimal).Value = inhalant.FlowRate;
+                if (inhalant.Percentage == 0.0M)
+                    cmd.Parameters.Add("@Percentage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Percentage", SqlDbType.Decimal).Value = inhalant.Percentage;
+                if (inhalant.FlowRate == 0.0M)
+                    cmd.Parameters.Add("@FlowRate", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@FlowRate", SqlDbType.Decimal).Value = inhalant.FlowRate;
                 try
                 {
                     conn.Open();
@@ -1274,9 +1286,18 @@ namespace SOAP.Controllers
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = injection.PatientId;
                 cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
-                cmd.Parameters.Add("@RouteId", SqlDbType.Int).Value = injection.Route.Id;
-                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = injection.Dosage;
-                cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = injection.IVFluidType.Id;
+                if (injection.Route.Id == -1)
+                    cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = injection.Route.Id;
+                if (injection.Dosage == 0.0M)
+                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = injection.Dosage;
+                if (injection.IVFluidType.Id == -1)
+                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Decimal).Value = injection.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -1306,8 +1327,14 @@ namespace SOAP.Controllers
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = premed.PatientId;
                 cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
-                cmd.Parameters.Add("@RouteId", SqlDbType.Int).Value = premed.Route.Id;
-                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = premed.Dosage;
+                if (premed.Route.Id == -1)
+                    cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = premed.Route.Id;
+                if (premed.Dosage == 0.0M)
+                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = premed.Dosage;
                 try
                 {
                     conn.Open();
@@ -1849,10 +1876,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.Patient (
                             StudentId, ClinicianId, FormCompleted, TemperamentId, ProcedureDate, CageOrStallNumber, BodyWeight,
-                            AgeInYears, AgeInMonths, PreOpPainAssessmentId, PostOpPainAssessmentId, DateSeenOn
+                            AgeInYears, AgeInMonths, PreOpPainAssessmentId, PostOpPainAssessmentId, DateSeenOn, ProcedureId
                             ) VALUES (
                             @StudentId, @ClinicianId, @FormCompleted, @TemperamentId, @ProcedureDate, @CageOrStallNumber, @BodyWeight,
-                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId, @DateSeenOn)
+                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId, @DateSeenOn, @ProcedureId)
                             SELECT SCOPE_IDENTITY() as Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1901,6 +1928,11 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
+                
+                if (pat.PatientInfo.Procedure.Id == -1)
+                    cmd.Parameters.Add("@ProcedureId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@ProcedureId", SqlDbType.Int).Value = pat.PatientInfo.Procedure.Id;
 
                 try
                 {
@@ -2611,7 +2643,7 @@ namespace SOAP.Controllers
                             StudentId = @StudentId, ClinicianId = @ClinicianId, FormCompleted = @FormCompleted, TemperamentId = @TemperamentId, 
                             DateSeenOn = @DateSeenOn, CageOrStallNumber = @CageOrStallNumber, BodyWeight = @BodyWeight,
                             AgeInYears = @AgeInYears, AgeInMonths = @AgeInMonths, PreOpPainAssessmentId = @PreOpPainAssessmentId, 
-                            PostOpPainAssessmentId = @PostOpPainAssessmentId, ProcedureDate = @ProcedureDate
+                            PostOpPainAssessmentId = @PostOpPainAssessmentId, ProcedureDate = @ProcedureDate, ProcedureId = @ProcedureId
                             WHERE
                             PatientId = @PatientId";
 
@@ -2629,6 +2661,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@AgeInMonths", SqlDbType.TinyInt).Value = pat.PatientInfo.AgeInMonths;
                 cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PreOperationPainAssessment.Id;
                 cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
+                cmd.Parameters.Add("@ProcedureId", SqlDbType.Int).Value = pat.PatientInfo.Procedure.Id;
                 try
                 {
                     conn.Open();
@@ -3435,7 +3468,7 @@ namespace SOAP.Controllers
                     a.TemperamentId as 'a.TemperamentId', a.DateSeenOn as 'a.DateSeenOn', a.CageOrStallNumber as 'a.CageOrStallNumber', 
                     a.BodyWeight as 'a.BodyWeight', a.AgeInYears as 'a.AgeInYears', a.AgeInMonths as 'a.AgeInMonths', 
                     a.PreOpPainAssessmentId as 'a.PreOpPainAssessmentId', a.PostOpPainAssessmentId as 'a.PostOpPainAssessmentId', 
-                    a.ProcedureDate as 'a.ProcedureDate' ";
+                    a.ProcedureDate as 'a.ProcedureDate', a.ProcedureId as 'a.ProcedureId' ";
         }
 
         private string BuildPriorAnesthesiaSQL()

@@ -54,7 +54,7 @@ namespace SOAP.Models
 
         public bool HasValues()
         {
-            return (_percentage != 0.0M || _drug.Id != -1 || _flowRate != 0.0M);
+            return ((_percentage != 0.0M || _flowRate != 0.0M) && _drug.Id != -1);
         }
 
         public bool ValidateAnestheticPlanInhalant()

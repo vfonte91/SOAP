@@ -15,7 +15,7 @@ namespace SOAP.Models.Callbacks
             if (read["a.DrugId"].ToString() != "")
                 anesPlanInhalant.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
             if (read["a.FlowRate"].ToString() != "")
-                anesPlanInhalant.FlowRate = Convert.ToInt32(read["a.FlowRate"].ToString());
+                anesPlanInhalant.FlowRate = Convert.ToDecimal(read["a.FlowRate"].ToString());
             if (read["a.Percentage"].ToString() != "")
                 anesPlanInhalant.Percentage = Convert.ToDecimal(read["a.Percentage"].ToString());
 

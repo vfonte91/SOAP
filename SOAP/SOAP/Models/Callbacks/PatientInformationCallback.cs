@@ -31,6 +31,8 @@ namespace SOAP.Models.Callbacks
                 patientInfo.PostOperationPainAssessment.Id = Convert.ToInt32(read["a.PostOpPainAssessmentId"].ToString());
             if (read["a.ProcedureDate"].ToString() != "")
                 patientInfo.ProcedureDate = Convert.ToDateTime(read["a.ProcedureDate"].ToString());
+            if (read["a.ProcedureId"].ToString() != "")
+                patientInfo.Procedure.Id = Convert.ToInt32(read["a.ProcedureId"].ToString());
 
             foreach (PatientInformation.LazyComponents a in lazyComponents)
             {
@@ -66,6 +68,13 @@ namespace SOAP.Models.Callbacks
                         patientInfo.Temperament.Label = read["f.Label"].ToString();
                         patientInfo.Temperament.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
                         patientInfo.Temperament.Description = read["f.Description"].ToString();
+                }
+                else if (a == PatientInformation.LazyComponents.LOAD_PROCEDURE_DETAIL && patientInfo.Procedure.Id != -1)
+                {
+                    patientInfo.Procedure.Category.Id = Convert.ToInt32(read["g.CategoryId"].ToString());
+                    patientInfo.Procedure.Label = read["g.Label"].ToString();
+                    patientInfo.Procedure.OtherFlag = Convert.ToChar(read["g.OtherFlag"].ToString());
+                    patientInfo.Procedure.Description = read["g.Description"].ToString();
                 }
             }
 
