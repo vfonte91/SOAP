@@ -483,6 +483,11 @@ namespace SOAP.Controllers
                         sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description'";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.MucousMembraneColorId = f.Id ";
                     }
+                    else if (a == ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS)
+                    {
+                        sql += @", g.CategoryId as 'g.CategoryId', g.Label as 'g.Label', g.OtherFlag as 'g.OtherFlag', g.Description as 'g.Description'";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as g ON a.MucousMembraneColorId = g.Id ";
+                    }
                 }
 
 
@@ -646,7 +651,7 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
 
-                string sql = @"SELECT PatientId, DateSeenOn FROM dbo.Patient WHERE StudentId = @Username";
+                string sql = @"SELECT PatientId, DateSeenOn FROM dbo.Patient WHERE StudentId = @Username ORDER BY DateSeenOn DESC ";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
@@ -1435,10 +1440,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.Clinical_Findings (
                             PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColorId, 
-                            CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification, CurrentMedications
+                            CapillaryRefillTimeId, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification, CurrentMedications
                             ) VALUES (
                             @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColorId,
-                            @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification, @CurrentMedications
+                            @CapillaryRefillTimeId, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification, @CurrentMedications
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1474,10 +1479,10 @@ namespace SOAP.Controllers
                 else
                     cmd.Parameters.Add("@MucousMembraneColorId", SqlDbType.NVarChar).Value = cFind.MucousMembraneColor.Id;
                 
-                if (cFind.CapillaryRefillTime == 0.0M)
-                    cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = DBNull.Value;
+                if (cFind.CapillaryRefillTime.Id == -1)
+                    cmd.Parameters.Add("@CapillaryRefillTimeId", SqlDbType.Int).Value = DBNull.Value;
                 else
-                    cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = cFind.CapillaryRefillTime;
+                    cmd.Parameters.Add("@CapillaryRefillTimeId", SqlDbType.Int).Value = cFind.CapillaryRefillTime.Id;
 
                 if (cFind.RespiratoryAuscultation.Id == -1)
                     cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = DBNull.Value;
@@ -1855,7 +1860,11 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@TemperamentId", SqlDbType.Int).Value = pat.PatientInfo.Temperament.Id;
 
                 cmd.Parameters.Add("@DateSeenOn", SqlDbType.DateTime).Value = DateTime.Now;
-                cmd.Parameters.Add("@ProcedureDate", SqlDbType.DateTime).Value = pat.PatientInfo.ProcedureDate;
+
+                if (pat.PatientInfo.ProcedureDate == DateTime.MinValue)
+                    cmd.Parameters.Add("@ProcedureDate", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@ProcedureDate", SqlDbType.DateTime).Value = pat.PatientInfo.ProcedureDate;
 
                 if (pat.PatientInfo.CageOrStallNumber == -1)
                     cmd.Parameters.Add("@CageOrStallNumber", SqlDbType.Int).Value = DBNull.Value;
@@ -2249,7 +2258,7 @@ namespace SOAP.Controllers
             {
                 string sql = @"UPDATE dbo.Clinical_Findings SET
                             Temperature = @Temperature, PulseRate = @PulseRate, RespiratoryRate = @RespiratoryRate, CardiacAuscultationId = @CardiacAuscultationId, 
-                            PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTime = @CapillaryRefillTime, 
+                            PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTimeId = @CapillaryRefillTimeId 
                             RespiratoryAuscultationId = @RespiratoryAuscultationId, PhysicalStatusClassId = @PhysicalStatusClassId, 
                             ReasonForClassification = @ReasonForClassification, CurrentMedications = @CurrentMedications
                             WHERE
@@ -2263,7 +2272,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@CardiacAuscultationId", SqlDbType.Int).Value = cFind.CardiacAuscultation.Id;
                 cmd.Parameters.Add("@PulseQualityId", SqlDbType.Int).Value = cFind.PulseQuality.Id;
                 cmd.Parameters.Add("@MucousMembraneColor", SqlDbType.NVarChar).Value = cFind.MucousMembraneColor;
-                cmd.Parameters.Add("@CapillaryRefillTime", SqlDbType.Decimal).Value = cFind.CapillaryRefillTime;
+                cmd.Parameters.Add("@CapillaryRefillTimeId", SqlDbType.Int).Value = cFind.CapillaryRefillTime.Id;
                 cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
                 cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
                 cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
@@ -3357,7 +3366,7 @@ namespace SOAP.Controllers
             return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.Temperature as 'a.Temperature', a.PulseRate as 'a.PulseRate',
                     a.RespiratoryRate as 'a.RespiratoryRate', a.CardiacAuscultationId as 'a.CardiacAuscultationId', 
                     a.PulseQualityId as 'a.PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
-                    a.CapillaryRefillTime as 'a.CapillaryRefillTime', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
+                    a.CapillaryRefillTimeId as 'a.CapillaryRefillTimeId', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
                     a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification',
                     a.CurrentMedications as 'a.CurrentMedications' ";
         }

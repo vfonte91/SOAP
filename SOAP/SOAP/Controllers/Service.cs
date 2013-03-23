@@ -107,7 +107,8 @@ namespace SOAP.Controllers
                 ClinicalFindings.LazyComponents.LOAD_PHYSICAL_STATUS_WITH_DETAILS,
                 ClinicalFindings.LazyComponents.LOAD_PULSE_QUALITY_WITH_DETAILS,
                 ClinicalFindings.LazyComponents.LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS,
-                ClinicalFindings.LazyComponents.LOAD_MUCOUS_MEMBRANE_WITH_DETAILS
+                ClinicalFindings.LazyComponents.LOAD_MUCOUS_MEMBRANE_WITH_DETAILS,
+                ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS
             };
             ClinicalFindings clinicalFinding = service.GetClinicalFindings(patientId, list);
             clinicalFinding.PriorAnesthesia = GetPriorAnesthesia(patientId);
@@ -379,8 +380,11 @@ namespace SOAP.Controllers
         {
             foreach (AnestheticPlanPremedication a in pat.AnestheticPlan.PreMedications)
             {
-                a.PatientId = pat.PatientId;
-                service.CreateAnestheticPlanPremedication(a);
+                if (a.HasValues())
+                {
+                    a.PatientId = pat.PatientId;
+                    service.CreateAnestheticPlanPremedication(a);
+                }
             }
         }
 

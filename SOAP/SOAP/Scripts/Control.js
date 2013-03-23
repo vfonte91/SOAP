@@ -2,7 +2,7 @@
     PatientInfo: { Student: {}, Clinician: {} },
     ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
     Bloodwork: {},
-    AnestheticPlan: {PreMedications: [], InjectionPlans: [], InhalantPlans: [] },
+    AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
     Monitoring: {}
 }
@@ -81,7 +81,7 @@ $(document).ready(function () {
         });
     }
 
-    $("#Patient\\.PatientInfo\\.Date").datepicker();
+    $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect({ header: "Anesthetic Concerns" });
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
@@ -328,7 +328,7 @@ function populate(id, name) {
     }
     var x = $('#' + name);
     if (dCatName != "Anesthesia Concerns" && dCatName != "Monitoring") 
-        x.append('<option value="0"> - Select One - </option>');
+        x.append('<option value="-1"> - Select One - </option>');
     for (var i = 0; i < values.length; i++) {
         var option = '<option value="' + values[i].Id + '">' + values[i].Label + '</option>';
         x.append(option);

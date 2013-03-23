@@ -13,7 +13,7 @@ namespace SOAP.Models
         private DropdownValue _cardiacAuscultation;
         private DropdownValue _pulseQuality;
         private DropdownValue _mucousMembraneColor;
-        private decimal _capillaryRefillTime;
+        private DropdownValue _capillaryRefillTime;
         private DropdownValue _respiratoryAuscultation;
         private DropdownValue _physicalStatusClassification;
         private string _reasonForClassification;
@@ -27,7 +27,8 @@ namespace SOAP.Models
             LOAD_PULSE_QUALITY_WITH_DETAILS,
             LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS,
             LOAD_PHYSICAL_STATUS_WITH_DETAILS,
-            LOAD_MUCOUS_MEMBRANE_WITH_DETAILS
+            LOAD_MUCOUS_MEMBRANE_WITH_DETAILS,
+            LOAD_CAP_REFILL_WITH_DETAILS
         }
 
         public ClinicalFindings()
@@ -40,12 +41,13 @@ namespace SOAP.Models
             _respiratoryAuscultation = new DropdownValue();
             _physicalStatusClassification = new DropdownValue();
             _mucousMembraneColor = new DropdownValue();
+            _capillaryRefillTime = new DropdownValue();
         }
 
         public bool ContainsValue()
         {
             if (_temperature != 0 || _pulseRate != 0 || _respiratoryRate != 0 || _cardiacAuscultation.Id != -1 ||
-                _pulseQuality.Id != -1 || _mucousMembraneColor.Id != -1 || _capillaryRefillTime != 0 || _respiratoryAuscultation.Id != -1 ||
+                _pulseQuality.Id != -1 || _mucousMembraneColor.Id != -1 || _capillaryRefillTime.Id != -1 || _respiratoryAuscultation.Id != -1 ||
                 _physicalStatusClassification.Id != -1 || _reasonForClassification != null || _priorAnesthesia.DateOfProblem != DateTime.MinValue ||
                 _priorAnesthesia.Problem != null || _anesthesiaConcerns.Count > 0)
                 return true;
@@ -101,7 +103,7 @@ namespace SOAP.Models
             set { _mucousMembraneColor = value; }
         }
 
-        public decimal CapillaryRefillTime
+        public DropdownValue CapillaryRefillTime
         {
             get { return _capillaryRefillTime; }
             set { _capillaryRefillTime = value; }

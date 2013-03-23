@@ -57,6 +57,11 @@ namespace SOAP.Models
             _route = new DropdownValue();
         }
 
+        public bool HasValues()
+        {
+            return (_route.Id != -1 && _drug.Id != -1 && _dosage != 0.0M);
+        }
+
         public bool ValidateAnestheticPlanPremedication()
         {
             if (_id == 0 || _patientId == 0 || _drug.Id == 0)
