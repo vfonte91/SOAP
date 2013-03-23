@@ -742,3 +742,22 @@ function toolTipGenerate(id, name) {
         alert("No description avaliable");
     }
 }
+function calculateDosages() {
+
+    var weight;
+    var dose;
+    var dosage = weight * dose;
+    if (weight != null) {
+        document.getElementById("Premed-Sedative-Dosage").innerHTML = "test";
+        document.getElementById("Premed-Opioid-Dosage").innerHTML = "test";
+        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "test";
+        document.getElementById("Induction-Injectable-Dosage").innerHTML = "test";
+        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "test";
+    } else {
+        document.getElementById("Premed-Sedative-Dosage").innerHTML = "Enter Body Weight";
+        document.getElementById("Premed-Opioid-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Induction-Injectable-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Enter Body Weight"; ;
+    }
+}

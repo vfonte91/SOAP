@@ -14,9 +14,13 @@
                 <div class="input">
                     <label>Sedative Drugs: </label>
                     <button type="button" id="AnestheticPlan-Premedication-SedativeDrug" class="toolTipButton" onclick="toolTipGenerate(21, 'Patient.AnestheticPlanPremedication.SedativeDrug')">?</button>
+                    <label id="Premed-Sedative-Dosage"></label>
                     <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.SedativeDrug" subgroup="PreMedications">
 					</select>
                 </div>
+               <!---<div class="input">
+                    <input type="button" onclick="calculateDosages()" value="test" />
+                </div>--->
                <div class="input">
 			       <label>Dosage: </label>
                    <input type="text" name="PreMedDosage" class="inline" id="Patient.AnestheticPlanPremedication.SedativeDosage" subgroup="PreMedications"/>
@@ -24,6 +28,7 @@
                 <div class="input">
                     <label>Opioid Drugs: </label>
                     <button type="button" id="AnestheticPlan-Premedication-OpioidDrug" class="toolTipButton" onclick="toolTipGenerate(22, 'Patient.AnestheticPlanPremedication.OpioidDrug')">?</button>
+                    <label id="Premed-Opioid-Dosage"></label>
                     <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.OpioidDrug" subgroup="PreMedications">
 					</select>
                 </div>
@@ -34,6 +39,7 @@
                 <div class="input">
                     <label>Anticholinergic Drugs: </label>
                     <button type="button" id="AnestheticPlan-Premedication-AnticholinergicDrug" class="toolTipButton" onclick="toolTipGenerate(23, 'Patient.AnestheticPlanPremedication.AnticholinergicDrug')">?</button>
+                    <label id="Premed-Anticholinergic-Dosage"></label>
                     <select name="PreMedDrugs"  id="Patient.AnestheticPlanPremedication.AnticholinergicDrug" subgroup="PreMedications">
 					</select>
                 </div>
