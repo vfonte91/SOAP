@@ -18,6 +18,21 @@
         <footer>
         </footer>
     </body>
+    <script type="text/javascript">
+        function ajax(typeIn, urlIn, dataIn, asyncIn) {
+            var actionlink = '@Url.Action("Action", "Home")';
+            var link = actionlink.replace("Action", urlIn);
+
+            return $.ajax({
+                type: typeIn,
+                dataType: 'json',
+                url: link,
+                data: dataIn,
+                contentType: 'application/json; charset=utf-8',
+                async: asyncIn
+            });
+        }
+    </script>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="http://code.jquery.com/ui/1.10.1/jquery-ui.min.js"></script>
     <script type="text/javascript" src="~/Scripts/Control.js"></script>

@@ -60,16 +60,16 @@
                 </div>
                      <div class="input">
                         <label>Prior Anesthesia</label>
-                        <input type="radio" name="PriorAnesthesia" value="PriorYes" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.Yes" onclick="showPriorAnesthesia()"/>
+                        <input type="radio" name="PriorAnesthesia" value="PriorYes" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.Yes" onclick="showInputs(['Patient-ClinicalFindings-Date-input', 'Patient-ClinicalFindings-Problems-input'])"/>
                         <label for="Patient.ClinicalFindings.PriorAnesthesia.Yes" class="radio">Yes</label>
-                        <input type="radio"  name="PriorAnesthesia" value="PriorNo" checked="checked" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No" onclick="hidePriorAnesthesia()"/>
+                        <input type="radio"  name="PriorAnesthesia" value="PriorNo" checked="checked" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No" onclick="showInputs(['Patient-ClinicalFindings-Date-input', 'Patient-ClinicalFindings-Problems-input'])"/>
                         <label for="Patient.ClinicalFindings.PriorAnesthesia.No" class="radio">No</label>
                     </div> 
-                    <div class="input">
+                    <div class="input" id="Patient-ClinicalFindings-Date-input" style="display:none">
 			           <label>Date:</label>
                        <input type="text" name="DateOfProblem" class="inline" id="Patient.ClinicalFindings.Date" subgroup="PriorAnesthesia" onchange="dateSelected(this)"/>
                     </div>
-                    <div class="input">
+                    <div class="input" id="Patient-ClinicalFindings-Problems-input" style="display:none">
 			           <label>Problems:</label>
                        <input type="text" name="Problem" class="inline" subgroup="PriorAnesthesia" id="Patient.ClinicalFindings.Problems"/>
                     </div>
