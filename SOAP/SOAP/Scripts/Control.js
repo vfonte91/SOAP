@@ -221,13 +221,16 @@ function OpenForm(formId) {
                             var $input = $('#Patient\\.' + i + '\\.' + j);
                             if ($input.length) {
                                 var value = section[j];
-                                if (value.length) {
+                                if (value.length && typeof value != 'string') {
+                                    var valArray = new Array();
                                     for (var k = 0; k < value.length; k++) {
-                                        if (value[k] && value[k].hasOwnProperty('Id'))
-                                            $input.val(value[k].Id);
-                                        else if (value[k])
-                                            $input.val(value[k]);
+                                        var temp1 = value[k];
+                                        for (var r in temp1) {
+                                            if (temp1[r] && temp1[r].hasOwnProperty('Id'))
+                                                valArray.push(temp1[r].Id);
+                                        }
                                     }
+                                    $input.val(valArray);
                                 }
                                 else {
                                     if (value && value.hasOwnProperty('Id'))
@@ -759,5 +762,24 @@ function toolTipGenerate(id, name) {
         alert(description);
     } else {
         alert("No description avaliable");
+    }
+}
+function calculateDosages() {
+
+    var weight;
+    var dose;
+    var dosage = weight * dose;
+    if (weight != null) {
+        document.getElementById("Premed-Sedative-Dosage").innerHTML = "test";
+        document.getElementById("Premed-Opioid-Dosage").innerHTML = "test";
+        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "test";
+        document.getElementById("Induction-Injectable-Dosage").innerHTML = "test";
+        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "test";
+    } else {
+        document.getElementById("Premed-Sedative-Dosage").innerHTML = "Enter Body Weight";
+        document.getElementById("Premed-Opioid-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Induction-Injectable-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Enter Body Weight"; ;
     }
 }

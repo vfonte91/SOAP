@@ -16,24 +16,25 @@
                 <h4>Injectable</h4>
                 <div class="input">
                     <label>Select Injectable Drugs: </label>
-                    <button type="button" id="Induction-Injectable-Drugs" class="toolTipButton" onclick="toolTipGenerate(14, 'Patient.AnestheticPlanInjection.Drug')">?</button>
-                    <select name="InductionDrugs" id="Patient.AnestheticPlanInjection.Drug">
+                    <button type="button" id="Induction-Injectable-Drugs" class="toolTipButton" onclick="toolTipGenerate(14, 'Patient.AnestheticPlan.InjectionPlan.Drug')">?</button>
+                    <label id="Induction-Injectable-Dosage"></label>
+                    <select name="InductionDrugs" id="Patient.AnestheticPlan.InjectionPlan.Drug">
 					</select>
                 </div>
                 <div class="input">
                     <label>Select Route of Administration: </label>
-                    <button type="button" id="Induction-Injectable-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.AnestheticPlanInjection.Route')">?</button>
-                    <select name="InductionRoute" id="Patient.AnestheticPlanInjection.Route">
+                    <button type="button" id="Induction-Injectable-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.AnestheticPlan.InjectionPlan.Route')">?</button>
+                    <select name="InductionRoute" id="Patient.AnestheticPlan.InjectionPlan.Route">
 					</select>
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="InductionDosage" class="inline" id="Patient.AnestheticPlanInjection.Dosage" subgroup="InjectionPlan"/>
+                   <input type="text" name="InductionDosage" class="inline" id="Patient.AnestheticPlan.InjectionPlan.Dosage" subgroup="InjectionPlan"/>
                 </div>
                 <div class="input">
                     <label>IV Fluid Types: </label>
-                    <button type="button" id="Induction-Injectable-IVFluidTypes" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlanInjection.IVFluidTypes')">?</button>
-                    <select name="InductionRoute" id="Patient.AnestheticPlanInjection.IVFluidTypes">
+                    <button type="button" id="Induction-Injectable-IVFluidTypes" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlan.InjectionPlan.IVFluidTypes')">?</button>
+                    <select name="InductionRoute" id="Patient.AnestheticPlan.InjectionPlan.IVFluidTypes">
 					</select>
                 </div>
         </div>
@@ -41,17 +42,17 @@
             <h4>Inhalants</h4>
             <div class="input">
                 <label>Inhalant Drugs</label>
-                <button type="button" id="Induction-Inhalent-Drug" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlanInhalant.Drug')">?</button>
-                <select name="InductionRoute" id="Patient.AnestheticPlanInhalant.Drug">
+                <button type="button" id="Induction-Inhalent-Drug" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlan.InhalantPlan.Drug')">?</button>
+                <select name="InductionRoute" id="Patient.AnestheticPlan.InhalantPlan.Drug">
 			    </select>
              </div>
                <div class="input">
 			       <label>Starting Percentage</label>
-                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageStarting" subgroup="InjectionPlan"/>
+                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlan.InhalantPlan.DosageStarting" subgroup="InjectionPlan"/>
                 </div>
                  <div class="input">
 			       <label>Starting Oxygen Flow Rate</label>
-                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateStarting" subgroup="InjectionPlan"/>
+                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlan.InhalantPlan.FlowRateStarting" subgroup="InjectionPlan"/>
                 </div>     
         </div>
     </div>
