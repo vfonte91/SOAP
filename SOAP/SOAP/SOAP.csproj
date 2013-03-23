@@ -221,18 +221,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\jquery.multiSelect.css" />
+    <Content Include="Content\jquery.multiselect.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\Active.jpg" />
     <Content Include="Images\arrow_down.png" />
     <Content Include="Images\arrow_up.png" />
-    <Content Include="Images\dropdown.blue.active.png" />
-    <Content Include="Images\dropdown.blue.hover.png" />
-    <Content Include="Images\dropdown.blue.png" />
-    <Content Include="Images\dropdown.gif" />
-    <Content Include="Images\dropdown_active.gif" />
-    <Content Include="Images\dropdown_hover.gif" />
     <Content Include="Images\edutechnoPLbluecalibri.png" />
     <Content Include="Images\InActive.jpg" />
     <Content Include="Images\Active.jpg" />
@@ -242,8 +236,7 @@
     <Content Include="Images\InActive.jpg" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\IdEnum.js" />
-    <Content Include="Scripts\jquery.bgiframe.min.js" />
-    <Content Include="Scripts\jquery.multiSelect.js" />
+    <Content Include="Scripts\jquery.multiselect.min.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
