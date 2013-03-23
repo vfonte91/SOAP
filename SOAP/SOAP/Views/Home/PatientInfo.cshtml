@@ -7,6 +7,7 @@
 <div class="left half">
 <div class="input">
     <label>Procedure: </label>
+     <button type="button" id="PatientInfo-BasicInfo-Procedure" class="toolTipButton" onclick="toolTipGenerate(1, 'Patient.PatientInfo.Procedure')">?</button>
     <select name="Procedure" id="Patient.PatientInfo.Procedure" onchange="dropdownSelected(this)">
 	</select>
 </div>
@@ -25,6 +26,7 @@
 </div>
 <div class="input">
     <label>Temperament: </label>
+    <button type="button" id="PatientInfo-BasicInfo-Temperament" class="toolTipButton" onclick="toolTipGenerate(2, 'Patient.PatientInfo.Temperament')">?</button>
     <select name="Temperament" id="Patient.PatientInfo.Temperament" onchange="dropdownSelected(this)">
 	</select>
 </div>
@@ -37,11 +39,13 @@
 <h2>Pain Assessment</h2>
 <div class="input">
     <label>Preoperative: </label>
+    <button type="button" id="PatientInfo-PainAssesment-Preop" class="toolTipButton" onclick="toolTipGenerate(3, 'Patient.PatientInfo.PreoperativePainAssesment')">?</button>
     <select name="PreOperationPainAssessment" id="Patient.PatientInfo.PreoperativePainAssesment" onchange="dropdownSelected(this)">
 	</select>
 </div>
 <div class="input">
     <label>Anticipated Postoperative: </label>
+    <button type="button" id="PatientInfo-PainAssesment-Postop" class="toolTipButton" onclick="toolTipGenerate(4, 'Patient.PatientInfo.PostperativePainAssesment')">?</button>
     <select name="PostOperationPainAssessment" id="Patient.PatientInfo.PostperativePainAssesment" onchange="dropdownSelected(this)">
 	</select>
 </div>

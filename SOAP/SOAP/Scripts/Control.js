@@ -258,8 +258,8 @@ function populateAll() {
     populate(6, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
     populate(7, "Patient\\.ClinicalFindings\\.PulseQuality");
     populate(21, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
-    populate(8, "Patient\\.ClinicalFindings\\.RespiratoryAuscultationId");
-    populate(10, "Patient\\.ClinicalFindings\\.PhysicalStatusClass");
+    populate(8, "Patient\\.ClinicalFindings\\.RespiratoryAuscultation");
+    populate(10, "Patient\\.ClinicalFindings\\.PhysicalStatusClassification");
     populate(26, "Patient\\.ClinicalFindings\\.MucousMembraneColor");
     populate(11, "Patient\\.ClinicalFindings\\.AnesthesiaConcerns");
     populate(14, "Patient\\.AnestheticPlanPremedication\\.Route");
@@ -674,6 +674,6 @@ function toolTipGenerate(id, name) {
     if(description != null) {
         alert(description);
     } else {
-        alert("no description avaliable");
+        alert("No description avaliable");
     }
 }

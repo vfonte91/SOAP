@@ -16,11 +16,13 @@
                 <h4>Injectable</h4>
                 <div class="input">
                     <label>Select Injectable Drugs: </label>
+                    <button type="button" id="Induction-Injectable-Drugs" class="toolTipButton" onclick="toolTipGenerate(14, 'Patient.AnestheticPlanInjection.Drug')">?</button>
                     <select name="InductionDrugs" id="Patient.AnestheticPlanInjection.Drug">
 					</select>
                 </div>
                 <div class="input">
                     <label>Select Route of Administration: </label>
+                    <button type="button" id="Induction-Injectable-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.AnestheticPlanInjection.Route')">?</button>
                     <select name="InductionRoute" id="Patient.AnestheticPlanInjection.Route">
 					</select>
                 </div>
@@ -30,6 +32,7 @@
                 </div>
                 <div class="input">
                     <label>IV Fluid Types: </label>
+                    <button type="button" id="Induction-Injectable-IVFluidTypes" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlanInjection.IVFluidTypes')">?</button>
                     <select name="InductionRoute" id="Patient.AnestheticPlanInjection.IVFluidTypes">
 					</select>
                 </div>
@@ -38,7 +41,8 @@
             <h4>Inhalants</h4>
             <div class="input">
                 <label>Inhalant Drugs</label>
-                <select name="InductionRoute" id="Patient.AnestheticPlanInhalant.Drug.Route">
+                <button type="button" id="Induction-Inhalent-Drug" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlanInhalant.Drug')">?</button>
+                <select name="InductionRoute" id="Patient.AnestheticPlanInhalant.Drug">
 			    </select>
              </div>
                <div class="input">

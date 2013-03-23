@@ -7,12 +7,13 @@
             <h2>Maintenance</h2>
                 <div class ="input">
                     <label>Select Injectable Drugs: </label>
-                     <input type="button" id="Maintenance-Injectable-Drugs" value="?" class="submit" onclick="toolTipGenerate(14, 'Patient.MaintenanceInjectionDrug.Drug')"  />
+                     <button type="button" id="Maintenance-Injectable-Drugs" class="toolTipButton" onclick="toolTipGenerate(14, 'Patient.MaintenanceInjectionDrug.Drug')">?</button>
                     <select name="MaintenDrugs" id="Patient.MaintenanceInjectionDrug.Drug">
             		</select>
                 </div>
                 <div class="input">
                     <label>Select Route of Administration: </label>
+                     <button type="button" id="Maintenance-Injectable-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.MaintenanceInjectionDrug.RouteOfAdministration')">?</button>
                     <select name="MainenRoute" id="Patient.MaintenanceInjectionDrug.RouteOfAdministration">
 					</select>
                 </div>
@@ -23,6 +24,7 @@
 
                 <div class="input">
                     <label>Select Inhalant Drugs: </label>
+                     <button type="button" id="Maintenance-Inhalent-Drug" class="toolTipButton" onclick="toolTipGenerate(15, 'Patient.MaintenanceInhalentDrug.Drug')">?</button>
                     <select name="MaintenInhalantDrugs" id="Patient.MaintenanceInhalentDrug.Drug">
 					</select>
                 </div>
@@ -61,17 +63,20 @@
             <h4>Equipment required: </h4>
                 <div class="input">
                     <label>Breathing System: </label>
+                    <button type="button" id="Maintenance-Inhalent-BreathingSystem" class="toolTipButton" onclick="toolTipGenerate(16, 'Patient.MaintenanceInhalentDrug.BreathingSystem')">?</button>
                     <select name="BreathingSystem"  id="Patient.MaintenanceInhalentDrug.BreathingSystem">
 					</select>
                 </div>
                 <div class="input">
                     <label>Breathing Bag Size: </label>
+                    <button type="button" id="Maintenance-Inhalent-BagSize" class="toolTipButton" onclick="toolTipGenerate(17, 'Patient.MaintenanceInhalentDrug.BreathingBagSize')">?</button>
                     <select name="BagSize" id="Patient.MaintenanceInhalentDrug.BreathingBagSize">
 					</select>
                 </div>
             <h4>Other</h4>
                 <div class="input">
                     <label>Intraoperative Analgesia: </label>
+                    <button type="button" id="Maintenance-OtherAnestheticDrug-IntraOperativeAnalgesia" class="toolTipButton" onclick="toolTipGenerate(18, 'Patient.OtherAnestheticDrug.IntraoperativeAnalgesia')">?</button>
                     <select name="IntraAnalgesia" id="Patient.OtherAnestheticDrug.IntraoperativeAnalgesia">
 					</select>
                 </div>

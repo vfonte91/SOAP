@@ -340,3 +340,13 @@ table td input[type=text]
     width: 90% !important;
     float: none !important;
 }
+.toolTipButton
+{
+    background-image: url(@URL.Content("~/Images/small-question-mark.jpg"));
+    font-size : 10px;
+    border-style:groove;
+    background-color:Silver;
+    height: 18px;
+    width: 13px; 
+    
+}
