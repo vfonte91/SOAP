@@ -46,7 +46,8 @@ namespace SOAP.Models
         {
             if (_temperature != 0 || _pulseRate != 0 || _respiratoryRate != 0 || _cardiacAuscultation.Id != -1 ||
                 _pulseQuality.Id != -1 || _mucousMembraneColor.Id != -1 || _capillaryRefillTime != 0 || _respiratoryAuscultation.Id != -1 ||
-                _physicalStatusClassification.Id != -1 || _reasonForClassification != null)
+                _physicalStatusClassification.Id != -1 || _reasonForClassification != null || _priorAnesthesia.DateOfProblem != DateTime.MinValue ||
+                _priorAnesthesia.Problem != null || _anesthesiaConcerns.Count > 0)
                 return true;
             else
                 return false;

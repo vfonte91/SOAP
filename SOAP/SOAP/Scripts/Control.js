@@ -1,6 +1,6 @@
 ﻿var Patient = {
     PatientInfo: { Student: {}, Clinician: {} },
-    ClinicalFindings: { PriorAnesthesia: {} },
+    ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
     Bloodwork: {},
     AnestheticPlan: {},
     Maintenance: {},
@@ -128,6 +128,12 @@ function SaveForm() {
     Patient.PatientInfo.FormCompleted = 'N';
     Patient.PatientInfo.Student.Username = UserInformation.Username;
     Patient.PatientInfo.Clinician.Username = UserInformation.Username;
+    var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
+    for (var i = 0; i < anesthesiaValues.length; i++) {
+        var idOfVal = anesthesiaValues[i].getAttribute("value");
+        var val = { Concern: { Id: idOfVal} };
+        Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
+    }
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
