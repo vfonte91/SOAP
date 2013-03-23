@@ -5,6 +5,14 @@
 <h2>Induction</h2>
 <form action="">
     <div class="left half">
+        <div class="input">
+            <label>Drug Type</label>
+            <input type="radio" name="DrugType" id="Injectable" class="radio" onclick="showInputs(['Inhalant-input', 'Injectable-input'])" checked="checked"/>
+            <label for="Injectable" class="radio">Injectable</label>
+            <input type="radio" name="DrugType" id="Inhalant" class="radio" onclick="showInputs(['Inhalant-input', 'Injectable-input'])"/>
+            <label for="Inhalant" class="radio">Inhalant</label>
+        </div>
+        <div id="Injectable-input">
                 <h4>Injectable</h4>
                 <div class="input">
                     <label>Select Injectable Drugs: </label>
@@ -25,31 +33,30 @@
                     <select name="InductionRoute" id="Patient.AnestheticPlanInjection.IVFluidTypes">
 					</select>
                 </div>
-    </div>
-    <div class = "right half">
-    <h4>Inhalants</h4>
-        <div class="input">
-            <label>Inhalant Drugs</label>
-            <input type="radio" value="InhalantYes" name="Inhalant" class="radio" id="Patient.AnestheticPlanInhalant.Drug.Yes" onclick="showInputs(['Patient-AnestheticPlanInhalant-DosageStarting-input', 'Patient-AnestheticPlanInhalant-FlowRateStarting-input', 'Patient-AnestheticPlanInhalant-DosageSecondary-input', 'Patient-AnestheticPlanInhalant-FlowRateSecondary-input'])"/>
-            <label for="Patient.AnestheticPlanInhalant.Drug.Yes" class="radio">Yes</label>
-            <input type="radio" value="InhalantNo" name="Inhalant" checked="checked" class="radio" id="Patient.AnestheticPlanInhalant.Drug.No" onclick="showInputs(['Patient-AnestheticPlanInhalant-DosageStarting-input', 'Patient-AnestheticPlanInhalant-FlowRateStarting-input', 'Patient-AnestheticPlanInhalant-DosageSecondary-input', 'Patient-AnestheticPlanInhalant-FlowRateSecondary-input'])"/>
-            <label for="Patient.AnestheticPlanInhalant.Drug.No" class="radio">No</label>
-         </div>
-               <div class="input" id="Patient-AnestheticPlanInhalant-DosageStarting-input" style="display:none;">
+        </div>
+        <div style="display:none" id="Inhalant-input">
+            <h4>Inhalants</h4>
+            <div class="input">
+                <label>Inhalant Drugs</label>
+                <select name="InductionRoute" id="Patient.AnestheticPlanInhalant.Drug.Route">
+			    </select>
+             </div>
+               <div class="input" id="Patient-AnestheticPlanInhalant-DosageStarting-input">
 			       <label>Starting Percentage</label>
                    <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageStarting" />
                 </div>
-                 <div class="input" id="Patient-AnestheticPlanInhalant-FlowRateStarting-input" style="display:none;">
+                 <div class="input" id="Patient-AnestheticPlanInhalant-FlowRateStarting-input">
 			       <label>Starting Oxygen Flow Rate</label>
                    <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateStarting" />
                 </div>
-               <div class="input" id="Patient-AnestheticPlanInhalant-DosageSecondary-input" style="display:none;">
+               <div class="input" id="Patient-AnestheticPlanInhalant-DosageSecondary-input">
 			       <label>Secondary Percentage</label>
                    <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageSecondary" />
                 </div>
-                 <div class="input" id="Patient-AnestheticPlanInhalant-FlowRateSecondary-input" style="display:none;">
+                 <div class="input" id="Patient-AnestheticPlanInhalant-FlowRateSecondary-input">
 			       <label>Secondary Oxygen Flow Rate</label>
                    <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateSecondary" />
                 </div>       
+        </div>
     </div>
 </form>
