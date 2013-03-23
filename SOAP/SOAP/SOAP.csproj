@@ -236,6 +236,8 @@
     <Content Include="Images\arrow_up.png" />
     <Content Include="Images\edutechnoPLbluecalibri.png" />
     <Content Include="Images\InActive.jpg" />
+    <Content Include="Images\small-question-mark.jpg" />
+    <Content Include="Images\small_question_mark.gif" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\IdEnum.js" />
     <Content Include="Scripts\jquery.multiselect.min.js" />

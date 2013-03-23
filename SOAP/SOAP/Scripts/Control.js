@@ -723,3 +723,22 @@ String.prototype.hashCode = function(){
 	}
 	return hash.toString();
 }
+function toolTipGenerate(id, name) {
+    var num = parseInt(id);
+    num = num - 1;
+    var cats = DropdownCategories;
+    var values = cats[num].DropdownValues;
+    var e = document.getElementById(name);
+    var current = e.options[e.selectedIndex].text;
+    var description;
+    for (var i = 0; i < values.length; i++) {
+        if (values[i].Label == current) {
+            description = values[i].Description;
+        }
+    }
+    if(description != null) {
+        alert(description);
+    } else {
+        alert("No description avaliable");
+    }
+}
