@@ -105,29 +105,29 @@ function addValue(section, name, value, subgroup) {
 
 function buildAnestheticPlanPremeds() {
     Patient.AnestheticPlan.PreMedications = [];
-    var route = $("#Patient\\.AnestheticPlanPremedication\\.Route").val();
-    var sedative = $("#Patient\\.AnestheticPlanPremedication\\.SedativeDrug").val();
-    var sedativeDosage = $("#Patient\\.AnestheticPlanPremedication\\.SedativeDosage").val();
+    var route = $("#Patient\\.AnestheticPlan\\.PreMedication\\.Route").val();
+    var sedative = $("#Patient\\.AnestheticPlan\\.PreMedication\\.SedativeDrug").val();
+    var sedativeDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDosage").val();
     if (sedative || sedativeDosage) {
         var sedativeObj = { Drug: { Id: sedative }, Route: { Id: route }, Dosage: sedativeDosage };
         Patient.AnestheticPlan.PreMedications.push(sedativeObj);
     }
 
-    var oploid = $("#Patient\\.AnestheticPlanPremedication\\.OpioidDrug").val();
-    var oploidDosage = $("#Patient\\.AnestheticPlanPremedication\\.OpioidDosage").val();
+    var oploid = $("#Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDrug").val();
+    var oploidDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDosage").val();
     if (oploid || oploidDosage) {
         var oploidObj = { Drug: { Id: oploid }, Route: { Id: route }, Dosage: oploidDosage };
         Patient.AnestheticPlan.PreMedications.push(oploidObj);
     }
 
-    var antichol = $("#Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug").val();
-    var anticholDosage = $("#Patient\\.AnestheticPlanPremedication\\.AnticholinergicDosage").val();
+    var antichol = $("#Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDrug").val();
+    var anticholDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDosage").val();
     if (antichol || anticholDosage) {
         var anticholObj = { Drug: { Id: antichol }, Route: { Id: route }, Dosage: anticholDosage };
         Patient.AnestheticPlan.PreMedications.push(anticholObj);
     }
 
-    var ketamineDosage = $("#Patient\\.AnestheticPlanPremedication\\.KetamineDosage").val();
+    var ketamineDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.KetamineDosage").val();
     if (ketamineDosage) {
         var ketamineObj = { Drug: { Id: ketamineEnum }, Route: { Id: route }, Dosage: ketamineDosage };
         Patient.AnestheticPlan.PreMedications.push(ketamineObj);
@@ -138,17 +138,17 @@ function buildInduction() {
     if ($('#Injectable').is(':checked')) {
         Patient.AnestheticPlan.InhalantPlan = {};
         Patient.AnestheticPlan.InjectionPlan = { Drug: {}, Route: {}, IVFluidType: {} };
-        Patient.AnestheticPlan.InjectionPlan.Drug.Id = $('#Patient\\.AnestheticPlanInjection\\.Drug').val();
-        Patient.AnestheticPlan.InjectionPlan.Route.Id = $('#Patient\\.AnestheticPlanInjection\\.Route').val();
-        Patient.AnestheticPlan.InjectionPlan.Dosage = $('#Patient\\.AnestheticPlanInjection\\.Dosage').val();
-        Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlanInjection\\.IVFluidTypes').val();
+        Patient.AnestheticPlan.InjectionPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Drug').val();
+        Patient.AnestheticPlan.InjectionPlan.Route.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Route').val();
+        Patient.AnestheticPlan.InjectionPlan.Dosage = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Dosage').val();
+        Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidTypes').val();
     }
     else {
         Patient.AnestheticPlan.InjectionPlan = {};
         Patient.AnestheticPlan.InhalantPlan = { Drug: {} };
-        Patient.AnestheticPlan.InhalantPlan.Drug.Id = $('#Patient\\.AnestheticPlanInhalant\\.Drug').val();
-        Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlanInhalant\\.DosageStarting').val();
-        Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlanInhalant\\.FlowRateStarting').val();
+        Patient.AnestheticPlan.InhalantPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug').val();
+        Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.DosageStarting').val();
+        Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.FlowRateStarting').val();
     }
 }
 
@@ -221,7 +221,7 @@ function OpenForm(formId) {
                             var $input = $('#Patient\\.' + i + '\\.' + j);
                             if ($input.length) {
                                 var value = section[j];
-                                if (value.length && typeof value != 'string') {
+                                if (value && value.length && typeof value != 'string') {
                                     var valArray = new Array();
                                     for (var k = 0; k < value.length; k++) {
                                         var temp1 = value[k];
@@ -349,14 +349,14 @@ function populateAll() {
     populate(10, "Patient\\.ClinicalFindings\\.PhysicalStatusClassification");
     populate(26, "Patient\\.ClinicalFindings\\.MucousMembraneColor");
     populate(11, "Patient\\.ClinicalFindings\\.AnesthesiaConcerns");
-    populate(14, "Patient\\.AnestheticPlanPremedication\\.Route");
-    populate(22, "Patient\\.AnestheticPlanPremedication\\.SedativeDrug");
-    populate(23, "Patient\\.AnestheticPlanPremedication\\.OpioidDrug");
-    populate(24, "Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug");
-    populate(15, "Patient\\.AnestheticPlanInjection\\.Drug");
-    populate(14, "Patient\\.AnestheticPlanInjection\\.Route");
-    populate(25, "Patient\\.AnestheticPlanInjection\\.IVFluidTypes");
-    populate(16, "Patient\\.AnestheticPlanInhalant\\.Drug");
+    populate(14, "Patient\\.AnestheticPlan\\.PreMedications\\.Route");
+    populate(22, "Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDrug");
+    populate(23, "Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDrug");
+    populate(24, "Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDrug");
+    populate(15, "Patient\\.AnestheticPlan\\.InjectionPlan\\.Drug");
+    populate(14, "Patient\\.AnestheticPlan\\.InjectionPlan\\.Route");
+    populate(25, "Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidTypes");
+    populate(16, "Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug");
     populate(15, "Patient\\.MaintenanceInjectionDrug\\.Drug");
     populate(14, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
     populate(16, "Patient\\.MaintenanceInhalentDrug\\.Drug");
