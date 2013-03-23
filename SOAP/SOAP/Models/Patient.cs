@@ -8,7 +8,7 @@ namespace SOAP.Models
         private int _patientId;
         private PatientInformation _patientInfo;
         private ClinicalFindings _clinicalFindings;
-        private List<Bloodwork> _bloodworkGroup;
+        private Bloodwork _bloodwork;
         private AnestheticPlan _anestheticPlan;
         private Maintenance _maintenance;
         private List<Monitoring> _monitoring;
@@ -31,10 +31,10 @@ namespace SOAP.Models
             set { _clinicalFindings = value; }
         }
 
-        public List<Bloodwork> BloodworkGroup
+        public Bloodwork Bloodwork
         {
-            get { return _bloodworkGroup; }
-            set { _bloodworkGroup = value; }
+            get { return _bloodwork; }
+            set { _bloodwork = value; }
         }
 
         public AnestheticPlan AnestheticPlan
@@ -60,7 +60,7 @@ namespace SOAP.Models
             _patientId = -1;
             _patientInfo = new PatientInformation();
             _monitoring = new List<Monitoring>();
-            _bloodworkGroup = new List<Bloodwork>();
+            _bloodwork = new Bloodwork();
             _clinicalFindings = new ClinicalFindings();
             _anestheticPlan = new AnestheticPlan();
             _maintenance = new Maintenance();

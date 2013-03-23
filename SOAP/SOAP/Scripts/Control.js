@@ -1,7 +1,7 @@
 ﻿var Patient = {
-    PatientInfo: {Student: {}, Clinician: {}},
-    ClinicalFindings: {},
-    BloodworkGroup: {},
+    PatientInfo: { Student: {}, Clinician: {} },
+    ClinicalFindings: { PriorAnesthesia: {} },
+    Bloodwork: {},
     AnestheticPlan: {},
     Maintenance: {},
     Monitoring: {}
@@ -42,7 +42,7 @@ $(document).ready(function () {
     //When an input loses focus, grab information
     $("input").blur(function () {
         $this = $(this);
-        addValue($this.closest('form'), $this.attr('name'), $this.val());
+        addValue($this.closest('form'), $this.attr('name'), $this.val(), $this.attr('subgroup'));
     });
 
     //Button to open Edit Profile drop down
@@ -85,10 +85,15 @@ $(document).ready(function () {
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
 });
 
-function addValue(section, name, value) {
+function addValue(section, name, value, subgroup) {
     if (section && name) {
         section = section[0].name;
-        Patient[section][name] = value;
+        if (subgroup) {
+             Patient[section][subgroup][name] = value
+        }
+        else {
+            Patient[section][name] = value;
+        }
     }
 }
 
@@ -106,8 +111,12 @@ function dateSelected(domObject) {
     var section = $(domObject).closest("form")[0].name;
     var name = domObject.name;
     var value = domObject.value;
+    var subgroup = $(domObject).attr('subgroup');
     if (section && name) {
-        Patient[section][name] = value;
+        if (subgroup)
+            Patient[section][subgroup][name] = value;
+        else
+            Patient[section][name] = value;
     }
 }
 
@@ -356,6 +365,18 @@ function ChangePassword(user) {
     }
 }
 
+function showPriorAnesthesia() {
+    //$('#Patient.ClinicalFindings.Date').css('visibility','visible');
+    //$('#Patient.ClinicalFindings.Problems').css('visibility', 'visible');
+    $('#Patient.ClinicalFindings.Date').show();
+    $('#Patient.ClinicalFindings.Problems').show();
+}
+
+function hidePriorAnesthesia() {
+    $('#Patient.ClinicalFindings.Date').hide();
+    $('#Patient.ClinicalFindings.Problems').hide();
+}
+
 function GetAllDropdownCategories() {
     var dCats;
     ajax('Post', 'Home/GetAllDropdownCategories', '', false)
@@ -559,21 +580,21 @@ function deleteUser(users) {
                 "Username": users[i]
             };
             ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
-        .done(function (data) {
-            if (data.success)
-                returned += users[i] + " deleted. ";
-            else
+            .done(function (data) {
+                if (data.success)
+                    returned += users[i] + " deleted. ";
+                else
+                    returned += "Error: " + users[i] + " could not be deleted. ";
+            })
+            .fail(function (data) {
                 returned += "Error: " + users[i] + " could not be deleted. ";
-        })
-        .fail(function (data) {
-            returned += "Error: " + users[i] + " could not be deleted. ";
-        });
+            });
         }
     else {
-        var ASFUser1 = {
+        var ASFUser2 = {
                 "Username": users
             };
-        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser1), true)
+        ajax('Post', 'Home/DeleteUser', JSON.stringify(ASFUser2), true)
         .done(function (data) {
             if (data.success)
                 returned += users[i] + " deleted. ";

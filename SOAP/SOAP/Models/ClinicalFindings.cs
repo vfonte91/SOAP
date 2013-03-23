@@ -17,7 +17,7 @@ namespace SOAP.Models
         private DropdownValue _respiratoryAuscultation;
         private DropdownValue _physicalStatusClassification;
         private string _reasonForClassification;
-        private List<CurrentMedication> _currentMedications;
+        private string _currentMedications;
         private PriorAnesthesia _priorAnesthesia;
         private List<AnesthesiaConcern> _anesthesiaConcerns;
 
@@ -33,7 +33,6 @@ namespace SOAP.Models
         public ClinicalFindings()
         {
             _id = -1;
-            _currentMedications = new List<CurrentMedication>();
             _anesthesiaConcerns = new List<AnesthesiaConcern>();
             _priorAnesthesia = new PriorAnesthesia();
             _cardiacAuscultation = new DropdownValue();
@@ -125,7 +124,7 @@ namespace SOAP.Models
             set { _reasonForClassification = value; }
         }
 
-        public List<CurrentMedication> CurrentMedications
+        public string CurrentMedications
         {
             get { return _currentMedications; }
             set { _currentMedications = value; }
