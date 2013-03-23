@@ -134,6 +134,24 @@ function buildAnestheticPlanPremeds() {
     }
 }
 
+function buildInduction() {
+    if ($('#Injectable').is(':checked')) {
+        Patient.AnestheticPlan.InhalantPlan = {};
+        Patient.AnestheticPlan.InjectionPlan = { Drug: {}, Route: {}, IVFluidType: {} };
+        Patient.AnestheticPlan.InjectionPlan.Drug.Id = $('#Patient\\.AnestheticPlanInjection\\.Drug').val();
+        Patient.AnestheticPlan.InjectionPlan.Route.Id = $('#Patient\\.AnestheticPlanInjection\\.Route').val();
+        Patient.AnestheticPlan.InjectionPlan.Dosage = $('#Patient\\.AnestheticPlanInjection\\.Dosage').val();
+        Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlanInjection\\.IVFluidTypes').val();
+    }
+    else {
+        Patient.AnestheticPlan.InjectionPlan = {};
+        Patient.AnestheticPlan.InhalantPlan = { Drug: {} };
+        Patient.AnestheticPlan.InhalantPlan.Drug.Id = $('#Patient\\.AnestheticPlanInhalant\\.Drug').val();
+        Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlanInhalant\\.DosageStarting').val();
+        Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlanInhalant\\.FlowRateStarting').val();
+    }
+}
+
 function dropdownSelected(domObject) {
     var section = $(domObject).closest("form")[0].name;
     var name = domObject.name;
@@ -168,6 +186,7 @@ function SaveForm() {
         Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
     }
     buildAnestheticPlanPremeds();
+    buildInduction();
     var url = "";
     if (newPatient) {
         url = 'CreateForm'

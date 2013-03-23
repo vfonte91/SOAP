@@ -3,7 +3,7 @@
 }
 
 <h2>Induction</h2>
-<form action="">
+<form action="" name="AnestheticPlan">
     <div class="left half">
         <div class="input">
             <label>Drug Type</label>
@@ -28,7 +28,7 @@
                 </div>
                <div class="input">
 			       <label>Dosage: </label>
-                   <input type="text" name="InductionDosage" class="inline" id="Patient.AnestheticPlanInjection.Dosage" />
+                   <input type="text" name="InductionDosage" class="inline" id="Patient.AnestheticPlanInjection.Dosage" subgroup="InjectionPlan"/>
                 </div>
                 <div class="input">
                     <label>IV Fluid Types: </label>
@@ -47,20 +47,12 @@
              </div>
                <div class="input">
 			       <label>Starting Percentage</label>
-                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageStarting" />
+                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageStarting" subgroup="InjectionPlan"/>
                 </div>
                  <div class="input">
 			       <label>Starting Oxygen Flow Rate</label>
-                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateStarting" />
-                </div>
-               <div class="input">
-			       <label>Secondary Percentage</label>
-                   <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlanInhalant.DosageSecondary" />
-                </div>
-                 <div class="input">
-			       <label>Secondary Oxygen Flow Rate</label>
-                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateSecondary" />
-                </div>       
+                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlanInhalant.FlowRateStarting" subgroup="InjectionPlan"/>
+                </div>     
         </div>
     </div>
 </form>

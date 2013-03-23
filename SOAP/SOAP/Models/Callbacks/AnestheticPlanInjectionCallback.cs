@@ -17,7 +17,9 @@ namespace SOAP.Models.Callbacks
             if (read["a.Route_Id"].ToString() != "")
                 anesPlanInject.Route.Id = Convert.ToInt32(read["a.Route_Id"].ToString());
             if (read["a.Dosage"].ToString() != "")
-                anesPlanInject.Dosage = Convert.ToDecimal(read["a.Dosage"].ToString());
+                anesPlanInject.Dosage = Convert.ToDecimal(read["a.IVFluidTypeId"].ToString());
+            if (read["a.Dosage"].ToString() != "")
+                anesPlanInject.IVFluidType.Id = Convert.ToInt32(read["a.IVFluidTypeId"].ToString());
 
             foreach (AnestheticPlanInjection.LazyComponents a in lazyComponents)
             {
@@ -42,6 +44,13 @@ namespace SOAP.Models.Callbacks
                     anesPlanInject.Drug.Route = read["b.Route"].ToString();
                     anesPlanInject.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                     anesPlanInject.Drug.ConcentrationUnits = read["b.ConcentrationUnits"].ToString();
+                }
+                else if (a == AnestheticPlanInjection.LazyComponents.LOAD_IV_WITH_DETAILS && anesPlanInject.IVFluidType.Id != -1)
+                {
+                    anesPlanInject.Route.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
+                    anesPlanInject.Route.Label = read["d.Label"].ToString();
+                    anesPlanInject.Route.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
+                    anesPlanInject.Route.Label = read["d.Description"].ToString();
                 }
             }
 

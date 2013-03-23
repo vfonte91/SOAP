@@ -217,7 +217,8 @@ namespace SOAP.Controllers
             AnestheticPlanInjection.LazyComponents[] list = 
             {
                 AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION,
-                AnestheticPlanInjection.LazyComponents.LOAD_ROUTE_WITH_DETAILS
+                AnestheticPlanInjection.LazyComponents.LOAD_ROUTE_WITH_DETAILS,
+                AnestheticPlanInjection.LazyComponents.LOAD_IV_WITH_DETAILS
             };
             return service.GetAnestheticPlanInjection(patientId, list);
         }
