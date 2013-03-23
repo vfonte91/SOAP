@@ -342,11 +342,7 @@ table td input[type=text]
 }
 .toolTipButton
 {
-    background-image: url("../Images/small-question-mark.jpg");
     font-size : 10px;
-    border-style:groove;
     background-color:Silver;
-    height: 18px;
-    width: 13px; 
-    
+    height: 18px;    
 }
