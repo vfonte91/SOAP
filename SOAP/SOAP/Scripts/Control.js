@@ -192,12 +192,42 @@ function OpenForm(formId) {
     ajax('Post', 'GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
+            var patient = data.Patient;
+            for (var i in patient) {
+                if (patient.hasOwnProperty(i)) {
+                    var section = patient[i];
+                    for (var j in section) {
+                        if (section.hasOwnProperty(j)) {
+                            var input = section[j];
+                            var $input = $('#Patient\\.' + i + '\\.' + j);
+                            if ($input.length) {
+                                var value = section[j];
+                                if (value.length) {
+                                    for (var k = 0; k < value.length; k++) {
+                                        if (value[k] && value[k].hasOwnProperty('Id'))
+                                            $input.val(value[k].Id);
+                                        else if (value[k])
+                                            $input.val(value[k]);
+                                    }
+                                }
+                                else {
+                                    if (value && value.hasOwnProperty('Id'))
+                                        $input.val(value.Id);
+                                    else if (value)
+                                        $input.val(value);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         else {
+            alert("Could not open form");
         }
     })
     .fail(function (data) {
-
+        alert("Could not open form");
     });
 }
 
@@ -206,6 +236,7 @@ function GetUserForms() {
     .done(function (data) {
         if (data.success) {
             var forms = $('#saved-forms');
+            forms.empty();
             forms.append('<option value="0"> - Select One - </option>');
             for (var i = 0; i < data.Forms.length; i++) {
                 var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
@@ -287,13 +318,13 @@ function setProfileInfo() {
 function populateAll() {
     populate(1, "Patient\\.PatientInfo\\.Procedure");
     populate(2, "Patient\\.PatientInfo\\.Temperament");
-    populate(4, "Patient\\.PatientInfo\\.PreoperativePainAssesment");
-    populate(4, "Patient\\.PatientInfo\\.PostperativePainAssesment");
+    populate(4, "Patient\\.PatientInfo\\.PreOperationPainAssessment");
+    populate(4, "Patient\\.PatientInfo\\.PostOperationPainAssessment");
     populate(6, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
     populate(7, "Patient\\.ClinicalFindings\\.PulseQuality");
     populate(21, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
-    populate(8, "Patient\\.ClinicalFindings\\.RespiratoryAuscultationId");
-    populate(10, "Patient\\.ClinicalFindings\\.PhysicalStatusClass");
+    populate(8, "Patient\\.ClinicalFindings\\.RespiratoryAuscultation");
+    populate(10, "Patient\\.ClinicalFindings\\.PhysicalStatusClassification");
     populate(26, "Patient\\.ClinicalFindings\\.MucousMembraneColor");
     populate(11, "Patient\\.ClinicalFindings\\.AnesthesiaConcerns");
     populate(14, "Patient\\.AnestheticPlanPremedication\\.Route");
