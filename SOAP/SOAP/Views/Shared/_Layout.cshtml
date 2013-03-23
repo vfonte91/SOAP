@@ -6,17 +6,12 @@
         <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
         <meta name="viewport" content="width=device-width" />
         <link rel="stylesheet" type="text/css" href="~/Content/Site.css" media="screen" />
-        <link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="~/Content/jquery-ui-1.10.2.custom.min.css" media="screen" />
     </head>
     <body>
-        <script type="text/javascript">
-            var rootDir = '@Url.Content("~/")';
-        </script>
         <div id="body">
             @RenderBody()
         </div>
-        <footer>
-        </footer>
     </body>
     <script type="text/javascript">
         function ajax(typeIn, urlIn, dataIn, asyncIn) {
