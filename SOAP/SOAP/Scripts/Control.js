@@ -562,7 +562,7 @@ function getUsers() {
             for (var i = 0; i < users.length; i++) {
                 var name = users[i].FullName;
                 var username = users[i].Username;
-                $("#users").append("<option value='" + username + "'>" + name + "</option>");
+                $("#users").append("<option value='" + username + "'>" + name + " - " + username + "</option>");
             }
         }
         else
@@ -623,6 +623,7 @@ function logOut() {
     location.reload();
 }
 
+//toggle visibilty for elements
 function showInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
         $('#' + ids[i]).toggle('slow');
