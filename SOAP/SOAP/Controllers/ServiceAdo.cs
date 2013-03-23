@@ -1402,7 +1402,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateBloodwork(Bloodwork blood)
+        public void CreateBloodwork(Bloodwork blood, string bloodworkName, decimal bloodworkValue)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -1414,8 +1414,8 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = blood.PatientId;
-                cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = blood.BloodworkName;
-                cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = blood.Value;
+                cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = bloodworkName;
+                cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = bloodworkValue;
                 try
                 {
                     conn.Open();
@@ -1438,10 +1438,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.Clinical_Findings (
                             PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColorId, 
-                            CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification
+                            CapillaryRefillTime, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification, CurrentMedications
                             ) VALUES (
                             @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColorId,
-                            @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification
+                            @CapillaryRefillTime, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification, @CurrentMedications
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1496,6 +1496,11 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+
+                if (cFind.CurrentMedications == null)
+                    cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = cFind.CurrentMedications;
 
                 try
                 {
@@ -2211,7 +2216,7 @@ namespace SOAP.Controllers
             return b;
         }
 
-        public void UpdateBloodwork(Bloodwork blood)
+        public void UpdateBloodwork(Bloodwork blood, string bloodworkName, decimal bloodworkValue)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2222,8 +2227,8 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.Id;
-                cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = blood.BloodworkName;
-                cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = blood.Value;
+                cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = bloodworkName;
+                cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = bloodworkValue;
                 try
                 {
                     conn.Open();
@@ -2248,7 +2253,7 @@ namespace SOAP.Controllers
                             Temperature = @Temperature, PulseRate = @PulseRate, RespiratoryRate = @RespiratoryRate, CardiacAuscultationId = @CardiacAuscultationId, 
                             PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTime = @CapillaryRefillTime, 
                             RespiratoryAuscultationId = @RespiratoryAuscultationId, PhysicalStatusClassId = @PhysicalStatusClassId, 
-                            ReasonForClassification = @ReasonForClassification
+                            ReasonForClassification = @ReasonForClassification, CurrentMedications = @CurrentMedications
                             WHERE
                             Id = @Id";
 
@@ -2264,6 +2269,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@RespiratoryAuscultationId", SqlDbType.Int).Value = cFind.RespiratoryAuscultation.Id;
                 cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
                 cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
+                cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = cFind.CurrentMedications;
                 try
                 {
                     conn.Open();
@@ -2740,7 +2746,7 @@ namespace SOAP.Controllers
         #endregion
 
         #region DELETE
-        public void DeleteAdministrationSet(AdministrationSet adminSet)
+        public void DeleteAdministrationSet(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2749,7 +2755,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = adminSet.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2766,7 +2772,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteAnesthesiaConcern(AnesthesiaConcern aConcern)
+        public void DeleteAnesthesiaConcern(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2775,7 +2781,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = aConcern.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2792,7 +2798,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteAnestheticPlanInhalant(AnestheticPlanInhalant inhalant)
+        public void DeleteAnestheticPlanInhalant(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2801,7 +2807,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = inhalant.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2818,7 +2824,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteAnestheticPlanInjection(AnestheticPlanInjection injection)
+        public void DeleteAnestheticPlanInjection(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2827,7 +2833,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = injection.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2844,7 +2850,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteAnestheticPlanPremedication(AnestheticPlanPremedication premed)
+        public void DeleteAnestheticPlanPremedication(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2853,7 +2859,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = premed.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2923,7 +2929,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteBloodwork(Bloodwork blood)
+        public void DeleteBloodwork(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2932,7 +2938,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2949,7 +2955,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteClinicalFinding(ClinicalFindings cFind)
+        public void DeleteClinicalFinding(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2958,7 +2964,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cFind.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -2975,7 +2981,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteCurrentMedication(CurrentMedication meds)
+        public void DeleteCurrentMedication(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -2984,7 +2990,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = meds.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3079,7 +3085,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteIntraoperativeAnalgesia(IntraoperativeAnalgesia opera)
+        public void DeleteIntraoperativeAnalgesia(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3088,7 +3094,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = opera.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3105,7 +3111,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteIVFluidType(IVFluidType iv)
+        public void DeleteIVFluidType(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3114,7 +3120,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3131,7 +3137,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteMaintenanceInhalantDrug(MaintenanceInhalantDrug maintInhalant)
+        public void DeleteMaintenanceInhalantDrug(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3140,7 +3146,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInhalant.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3157,7 +3163,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteMaintenanceInjectionDrug(MaintenanceInjectionDrug maintInject)
+        public void DeleteMaintenanceInjectionDrug(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3166,7 +3172,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintInject.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3183,7 +3189,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteMonitoring(Monitoring monitor)
+        public void DeleteMonitoring(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3192,7 +3198,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = monitor.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3209,7 +3215,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteOtherAnestheticDrug(OtherAnestheticDrug otherDrugs)
+        public void DeleteOtherAnestheticDrug(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3218,7 +3224,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = otherDrugs.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3235,7 +3241,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeletePatient(Patient pat)
+        public void DeletePatient(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3244,7 +3250,7 @@ namespace SOAP.Controllers
                             PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = pat.PatientId;
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3261,7 +3267,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeletePriorAnesthesia(PriorAnesthesia priorAnes)
+        public void DeletePriorAnesthesia(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3270,7 +3276,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = priorAnes.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3287,7 +3293,7 @@ namespace SOAP.Controllers
             }
         }
 
-        public void DeleteProcedure(Procedure proc)
+        public void DeleteProcedure(int patientId)
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
@@ -3296,7 +3302,7 @@ namespace SOAP.Controllers
                             PatientId = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.PatientId;
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
                 try
                 {
                     conn.Open();
@@ -3353,7 +3359,8 @@ namespace SOAP.Controllers
                     a.RespiratoryRate as 'a.RespiratoryRate', a.CardiacAuscultationId as 'a.CardiacAuscultationId', 
                     a.PulseQualityId as 'a.PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
                     a.CapillaryRefillTime as 'a.CapillaryRefillTime', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
-                    a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification' ";
+                    a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification',
+                    a.CurrentMedications as 'a.CurrentMedications' ";
         }
 
         private string BuildCurrentMedicationsSQL()

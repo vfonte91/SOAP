@@ -52,9 +52,11 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Web" />
-    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing">
@@ -221,11 +223,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\jquery.multiSelect.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\Active.jpg" />
     <Content Include="Images\arrow_down.png" />
     <Content Include="Images\arrow_up.png" />
+    <Content Include="Images\dropdown.blue.active.png" />
+    <Content Include="Images\dropdown.blue.hover.png" />
+    <Content Include="Images\dropdown.blue.png" />
+    <Content Include="Images\dropdown.gif" />
+    <Content Include="Images\dropdown_active.gif" />
+    <Content Include="Images\dropdown_hover.gif" />
     <Content Include="Images\edutechnoPLbluecalibri.png" />
     <Content Include="Images\InActive.jpg" />
     <Content Include="Images\Active.jpg" />
@@ -235,6 +244,8 @@
     <Content Include="Images\InActive.jpg" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\IdEnum.js" />
+    <Content Include="Scripts\jquery.bgiframe.min.js" />
+    <Content Include="Scripts\jquery.multiSelect.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
