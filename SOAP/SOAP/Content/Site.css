@@ -342,7 +342,7 @@ table td input[type=text]
 }
 .toolTipButton
 {
-    background-image: url(@URL.Content("~/Images/small-question-mark.jpg"));
+    background-image: url("../Images/small-question-mark.jpg");
     font-size : 10px;
     border-style:groove;
     background-color:Silver;
