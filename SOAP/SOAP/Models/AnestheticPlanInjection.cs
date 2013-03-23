@@ -60,6 +60,11 @@ namespace SOAP.Models
             _drug = new DrugInformation();
         }
 
+        public bool HasValues()
+        {
+            return (_dose != 0.0M || _drug.Id != -1 || _dosage != 0.0M);
+        }
+
         public bool ValidateAnestheticPlanInjection()
         {
             if (_id == 0 || _patientId == 0 || _drug.Id == 0)

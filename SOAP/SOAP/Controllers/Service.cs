@@ -77,6 +77,7 @@ namespace SOAP.Controllers
             pat.PatientId = patientId;
             pat.PatientInfo = GetPatientInformation(patientId);
             pat.ClinicalFindings = GetClinicalFindings(patientId);
+            pat.AnestheticPlan = GetAnestheticPlan(patientId);
             pat.Bloodwork = GetBloodwork(patientId);
             pat.Maintenance = GetMaintenance(patientId);
             pat.Monitoring = GetMonitoring(patientId);
@@ -118,8 +119,8 @@ namespace SOAP.Controllers
         {
             AnestheticPlan anesPlan = new AnestheticPlan();
             anesPlan.PreMedications = GetAnestheticPreMedications(patientId);
-            anesPlan.InjectionPlans = GetAnestheticPlanInjection(patientId);
-            anesPlan.InhalantPlans = GetAnestheticPlanInhalant(patientId);
+            anesPlan.InjectionPlan = GetAnestheticPlanInjection(patientId);
+            anesPlan.InhalantPlan = GetAnestheticPlanInhalant(patientId);
             return anesPlan;
         }
 
@@ -210,7 +211,7 @@ namespace SOAP.Controllers
             return service.GetAnestheticPlanPremedication(patientId, list);
         }
 
-        public List<AnestheticPlanInjection> GetAnestheticPlanInjection(int patientId)
+        public AnestheticPlanInjection GetAnestheticPlanInjection(int patientId)
         {
             AnestheticPlanInjection.LazyComponents[] list = 
             {
@@ -220,9 +221,9 @@ namespace SOAP.Controllers
             return service.GetAnestheticPlanInjection(patientId, list);
         }
 
-        public List<AnestheticPlanInhalant> GetAnestheticPlanInhalant(int patientId)
+        public AnestheticPlanInhalant GetAnestheticPlanInhalant(int patientId)
         {
-            return service.GetAnestheticPlanInhalant(patientId, AnestheticPlanInhalant.LazyComponents.LOAD_DRUG_INFORMATION);
+            return service.GetAnestheticPlanInhalant(patientId, AnestheticPlanInhalant.LazyComponents.LOAD_DRUG_WITH_DETAILS);
         }
 
         public List<MaintenanceInjectionDrug> GetMaintenanceInjectionDrugs(int patientId)
@@ -352,10 +353,10 @@ namespace SOAP.Controllers
 
         public void CreateAnestheticPlan(Patient pat)
         {
-            if (pat.AnestheticPlan.InhalantPlans.Count > 0)
+            if (pat.AnestheticPlan.InhalantPlan.HasValues())
                 CreateAnestheticInhalantPlans(pat);
 
-            if (pat.AnestheticPlan.InjectionPlans.Count > 0)
+            if (pat.AnestheticPlan.InjectionPlan.HasValues())
                 CreateAnestheticInjectionPlans(pat);
 
             if (pat.AnestheticPlan.PreMedications.Count > 0)
@@ -364,20 +365,14 @@ namespace SOAP.Controllers
 
         public void CreateAnestheticInhalantPlans(Patient pat)
         {
-            foreach (AnestheticPlanInhalant a in pat.AnestheticPlan.InhalantPlans)
-            {
-                a.PatientId = pat.PatientId;
-                service.CreateAnestheticPlanInhalant(a);
-            }
+            pat.AnestheticPlan.InhalantPlan.PatientId = pat.PatientId;
+            service.CreateAnestheticPlanInhalant(pat.AnestheticPlan.InhalantPlan);
         }
 
         public void CreateAnestheticInjectionPlans(Patient pat)
         {
-            foreach (AnestheticPlanInjection a in pat.AnestheticPlan.InjectionPlans)
-            {
-                a.PatientId = pat.PatientId;
-                service.CreateAnestheticPlanInjection(a);
-            }
+            pat.AnestheticPlan.InjectionPlan.PatientId = pat.PatientId;
+            service.CreateAnestheticPlanInjection(pat.AnestheticPlan.InjectionPlan);
         }
 
         public void CreateAnestheticPremedications(Patient pat)
@@ -557,30 +552,24 @@ namespace SOAP.Controllers
 
         public void SaveAnestheticPlan(AnestheticPlan a)
         {
-            if (a.InhalantPlans.Count > 0)
-                SaveAnestheticInhalantPlans(a.InhalantPlans);
+            if (a.InhalantPlan.HasValues())
+                SaveAnestheticInhalantPlans(a.InhalantPlan);
 
-            if (a.InjectionPlans.Count > 0)
-                SaveAnestheticInjectionPlans(a.InjectionPlans);
+            if (a.InjectionPlan.HasValues())
+                SaveAnestheticInjectionPlans(a.InjectionPlan);
 
             if (a.PreMedications.Count > 0)
                 SaveAnestheticPremedications(a.PreMedications);
         }
 
-        public void SaveAnestheticInhalantPlans(List<AnestheticPlanInhalant> inhalants)
+        public void SaveAnestheticInhalantPlans(AnestheticPlanInhalant inhalants)
         {
-            foreach (AnestheticPlanInhalant a in inhalants)
-            {
-                service.UpdateAnestheticPlanInhalant(a);
-            }
+            service.UpdateAnestheticPlanInhalant(inhalants);
         }
 
-        public void SaveAnestheticInjectionPlans(List<AnestheticPlanInjection> injects)
+        public void SaveAnestheticInjectionPlans(AnestheticPlanInjection injects)
         {
-            foreach (AnestheticPlanInjection a in injects)
-            {
-                service.UpdateAnestheticPlanInjection(a);
-            }
+            service.UpdateAnestheticPlanInjection(injects);
         }
 
         public void SaveAnestheticPremedications(List<AnestheticPlanPremedication> premeds)

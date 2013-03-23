@@ -2,7 +2,7 @@
     PatientInfo: { Student: {}, Clinician: {} },
     ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
     Bloodwork: {},
-    AnestheticPlan: {},
+    AnestheticPlan: {PreMedications: [], InjectionPlans: [], InhalantPlans: [] },
     Maintenance: {},
     Monitoring: {}
 }
@@ -92,12 +92,45 @@ $(document).ready(function () {
 function addValue(section, name, value, subgroup) {
     if (section && name) {
         section = section[0].name;
-        if (subgroup) {
-             Patient[section][subgroup][name] = value
+        if (section != "AnestheticPlan") {
+            if (subgroup) {
+                Patient[section][subgroup][name] = value
+            }
+            else {
+                Patient[section][name] = value;
+            }
         }
-        else {
-            Patient[section][name] = value;
-        }
+    }
+}
+
+function buildAnestheticPlanPremeds() {
+    Patient.AnestheticPlan.PreMedications = [];
+    var route = $("#Patient\\.AnestheticPlanPremedication\\.Route").val();
+    var sedative = $("#Patient\\.AnestheticPlanPremedication\\.SedativeDrug").val();
+    var sedativeDosage = $("#Patient\\.AnestheticPlanPremedication\\.SedativeDosage").val();
+    if (sedative || sedativeDosage) {
+        var sedativeObj = { Drug: { Id: sedative }, Route: { Id: route }, Dosage: sedativeDosage };
+        Patient.AnestheticPlan.PreMedications.push(sedativeObj);
+    }
+
+    var oploid = $("#Patient\\.AnestheticPlanPremedication\\.OpioidDrug").val();
+    var oploidDosage = $("#Patient\\.AnestheticPlanPremedication\\.OpioidDosage").val();
+    if (oploid || oploidDosage) {
+        var oploidObj = { Drug: { Id: oploid }, Route: { Id: route }, Dosage: oploidDosage };
+        Patient.AnestheticPlan.PreMedications.push(oploidObj);
+    }
+
+    var antichol = $("#Patient\\.AnestheticPlanPremedication\\.AnticholinergicDrug").val();
+    var anticholDosage = $("#Patient\\.AnestheticPlanPremedication\\.AnticholinergicDosage").val();
+    if (antichol || anticholDosage) {
+        var anticholObj = { Drug: { Id: antichol }, Route: { Id: route }, Dosage: anticholDosage };
+        Patient.AnestheticPlan.PreMedications.push(anticholObj);
+    }
+
+    var ketamineDosage = $("#Patient\\.AnestheticPlanPremedication\\.KetamineDosage").val();
+    if (ketamineDosage) {
+        var ketamineObj = { Drug: { Id: ketamineEnum }, Route: { Id: route }, Dosage: ketamineDosage };
+        Patient.AnestheticPlan.PreMedications.push(ketamineObj);
     }
 }
 
@@ -134,6 +167,7 @@ function SaveForm() {
         var val = { Concern: { Id: idOfVal} };
         Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
     }
+    buildAnestheticPlanPremeds();
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
