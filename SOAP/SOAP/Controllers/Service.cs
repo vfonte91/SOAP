@@ -130,8 +130,8 @@ namespace SOAP.Controllers
             Maintenance maint = new Maintenance();
             maint.MaintenanceInjectionDrugs = GetMaintenanceInjectionDrugs(patientId);
             maint.MaintenanceInhalantDrugs = GetMaintenanceInhalantDrugs(patientId);
-            maint.IntraOperativeAnalgesias = GetIntraOperativeAnalgesia(patientId);
-            maint.OtherAnestheticDrugs = GetOtherAnestheticDrugs(patientId);
+            //maint.IntraOperativeAnalgesias = GetIntraOperativeAnalgesia(patientId);
+            //maint.OtherAnestheticDrugs = GetOtherAnestheticDrugs(patientId);
             return maint;
         }
 
@@ -216,7 +216,6 @@ namespace SOAP.Controllers
         {
             AnestheticPlanInjection.LazyComponents[] list = 
             {
-                AnestheticPlanInjection.LazyComponents.LOAD_DRUG_INFORMATION,
                 AnestheticPlanInjection.LazyComponents.LOAD_ROUTE_WITH_DETAILS,
                 AnestheticPlanInjection.LazyComponents.LOAD_IV_WITH_DETAILS
             };
@@ -228,23 +227,24 @@ namespace SOAP.Controllers
             return service.GetAnestheticPlanInhalant(patientId, AnestheticPlanInhalant.LazyComponents.LOAD_DRUG_WITH_DETAILS);
         }
 
-        public List<MaintenanceInjectionDrug> GetMaintenanceInjectionDrugs(int patientId)
+        public MaintenanceInjectionDrug GetMaintenanceInjectionDrugs(int patientId)
         {
             MaintenanceInjectionDrug.LazyComponents[] list = 
             {
-                MaintenanceInjectionDrug.LazyComponents.LOAD_DRUG_INFORMATION,
-                MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS
+                MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS,
+                MaintenanceInjectionDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS
             };
             return service.GetMaintenanceInjectionDrugs(patientId, list);
         }
 
-        public List<MaintenanceInhalantDrug> GetMaintenanceInhalantDrugs(int patientId)
+        public MaintenanceInhalantDrug GetMaintenanceInhalantDrugs(int patientId)
         {
             MaintenanceInhalantDrug.LazyComponents[] list = 
             {
                 MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_DETAILS,
                 MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_SYSTEM_WITH_DETAILS,
-                MaintenanceInhalantDrug.LazyComponents.LOAD_DRUG_WITH_DETAILS
+                MaintenanceInhalantDrug.LazyComponents.LOAD_DRUG_WITH_DETAILS,
+                MaintenanceInhalantDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS
             };
             return service.GetMaintenanceInhalantDrugs(patientId, list);
         }
@@ -391,55 +391,49 @@ namespace SOAP.Controllers
 
         public void CreateMaintenance(Patient pat)
         {
-            if (pat.Maintenance.IntraOperativeAnalgesias.Count > 0)
-                CreateIntraOperativeAnalgesias(pat);
+            //if (pat.Maintenance.IntraOperativeAnalgesias.Count > 0)
+            //    CreateIntraOperativeAnalgesias(pat);
 
-            if (pat.Maintenance.MaintenanceInhalantDrugs.Count > 0)
+            if (pat.Maintenance.MaintenanceInhalantDrugs.HasValues())
                 CreateMaintenanceInhalantDrugs(pat);
 
-            if (pat.Maintenance.MaintenanceInjectionDrugs.Count > 0)
+            if (pat.Maintenance.MaintenanceInjectionDrugs.HasValues())
                 CreateMaintenanceInjectionDrugs(pat);
 
-            if (pat.Maintenance.OtherAnestheticDrugs.Count > 0)
-                CreateOtherAnestheticDrugs(pat);
+            //if (pat.Maintenance.OtherAnestheticDrugs.Count > 0)
+            //    CreateOtherAnestheticDrugs(pat);
 
         }
 
-        public void CreateIntraOperativeAnalgesias(Patient pat)
-        {
-            foreach (IntraoperativeAnalgesia b in pat.Maintenance.IntraOperativeAnalgesias)
-            {
-                b.PatientId = pat.PatientId;
-                service.CreateIntraoperativeAnalgesia(b);
-            }
-        }
+        //public void CreateIntraOperativeAnalgesias(Patient pat)
+        //{
+        //    foreach (IntraoperativeAnalgesia b in pat.Maintenance.IntraOperativeAnalgesias)
+        //    {
+        //        b.PatientId = pat.PatientId;
+        //        service.CreateIntraoperativeAnalgesia(b);
+        //    }
+        //}
 
         public void CreateMaintenanceInhalantDrugs(Patient pat)
         {
-            foreach (MaintenanceInhalantDrug a in pat.Maintenance.MaintenanceInhalantDrugs)
-            {
-                a.PatientId = pat.PatientId;
-                service.CreateMaintenanceInhalantDrug(a);
-            }
+                pat.Maintenance.MaintenanceInhalantDrugs.PatientId = pat.PatientId;
+                service.CreateMaintenanceInhalantDrug(pat.Maintenance.MaintenanceInhalantDrugs);
         }
 
         public void CreateMaintenanceInjectionDrugs(Patient pat)
         {
-            foreach (MaintenanceInjectionDrug a in pat.Maintenance.MaintenanceInjectionDrugs)
-            {
-                a.PatientId = pat.PatientId;
-                service.CreateMaintenanceInjectionDrug(a);
-            }
+                pat.Maintenance.MaintenanceInjectionDrugs.PatientId = pat.PatientId;
+                service.CreateMaintenanceInjectionDrug(pat.Maintenance.MaintenanceInjectionDrugs);
         }
 
-        public void CreateOtherAnestheticDrugs(Patient pat)
-        {
-            foreach (OtherAnestheticDrug o in pat.Maintenance.OtherAnestheticDrugs)
-            {
-                o.PatientId = pat.PatientId;
-                service.CreateOtherAnestheticDrug(o);
-            }
-        }
+        //public void CreateOtherAnestheticDrugs(Patient pat)
+        //{
+        //    foreach (OtherAnestheticDrug o in pat.Maintenance.OtherAnestheticDrugs)
+        //    {
+        //        o.PatientId = pat.PatientId;
+        //        service.CreateOtherAnestheticDrug(o);
+        //    }
+        //}
 
         public void CreateMonitoring(Patient pat)
         {
@@ -587,50 +581,35 @@ namespace SOAP.Controllers
 
         public void SaveMaintenance(Maintenance m)
         {
-            if (m.IntraOperativeAnalgesias.Count > 0)
-                SaveIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
+            //if (m.IntraOperativeAnalgesias.Id != -1)
+            //    SaveIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
 
-            if (m.MaintenanceInhalantDrugs.Count > 0)
+            if (m.MaintenanceInhalantDrugs.HasValues())
                 SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrugs);
 
-            if (m.MaintenanceInjectionDrugs.Count > 0)
+            if (m.MaintenanceInjectionDrugs.HasValues())
                 SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrugs);
 
-            if (m.OtherAnestheticDrugs.Count > 0)
-                SaveOtherAnestheticDrugs(m.OtherAnestheticDrugs);
-
         }
 
-        public void SaveIntraOperativeAnalgesias(List<IntraoperativeAnalgesia> intras)
+        //public void SaveIntraOperativeAnalgesias(DropdownValue intras)
+        //{
+        //    service.UpdateIntraoperativeAnalgesia(intras);
+        //}
+
+        public void SaveMaintenanceInhalantDrugs(MaintenanceInhalantDrug drugs)
         {
-            foreach (IntraoperativeAnalgesia b in intras)
-            {
-                service.UpdateIntraoperativeAnalgesia(b);
-            }
+            service.UpdateMaintenanceInhalantDrug(drugs);
         }
 
-        public void SaveMaintenanceInhalantDrugs(List<MaintenanceInhalantDrug> drugs)
+        public void SaveMaintenanceInjectionDrugs(MaintenanceInjectionDrug drugs)
         {
-            foreach (MaintenanceInhalantDrug a in drugs)
-            {
-                service.UpdateMaintenanceInhalantDrug(a);
-            }
+            service.UpdateMaintenanceInjectionDrug(drugs);
         }
 
-        public void SaveMaintenanceInjectionDrugs(List<MaintenanceInjectionDrug> drugs)
+        public void SaveOtherAnestheticDrugs(OtherAnestheticDrug drugs)
         {
-            foreach (MaintenanceInjectionDrug a in drugs)
-            {
-                service.UpdateMaintenanceInjectionDrug(a);
-            }
-        }
-
-        public void SaveOtherAnestheticDrugs(List<OtherAnestheticDrug> drugs)
-        {
-            foreach (OtherAnestheticDrug o in drugs)
-            {
-                service.UpdateOtherAnestheticDrug(o);
-            }
+            service.UpdateOtherAnestheticDrug(drugs);
         }
 
         public void SaveMonitoring(List<Monitoring> monitors)

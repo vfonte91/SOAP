@@ -11,11 +11,14 @@ namespace SOAP.Models
         private decimal _dosage;
         private decimal _dose;
         private DrugInformation _drug;
+        private string _otherAnestheticDrug;
+        private DropdownValue _intraoperativeAnalgesia;
 
         public enum LazyComponents
         {
             LOAD_ROUTE_WITH_DETAILS,
-            LOAD_DRUG_INFORMATION
+            LOAD_DRUG_INFORMATION,
+            LOAD_INTRAOP_WITH_DETAILS
         };
 
         public MaintenanceInjectionDrug()
@@ -23,6 +26,13 @@ namespace SOAP.Models
             _id = -1;
             _routeOfAdministration = new DropdownValue();
             _drug = new DrugInformation();
+            _intraoperativeAnalgesia = new DropdownValue();
+        }
+
+        public bool HasValues()
+        {
+            return (_routeOfAdministration.Id != -1 || _dosage != 0.0M || _dose != 0.0M || _drug.Id != -1 || _otherAnestheticDrug != null ||
+                    _intraoperativeAnalgesia.Id != -1);
         }
 
         public int Id
@@ -59,6 +69,18 @@ namespace SOAP.Models
         {
             get { return _drug; }
             set { _drug = value; }
+        }
+
+        public string OtherAnestheticDrug
+        {
+            get { return _otherAnestheticDrug; }
+            set { _otherAnestheticDrug = value; }
+        }
+
+        public DropdownValue IntroaperativeAnalgesia
+        {
+            get { return _intraoperativeAnalgesia; }
+            set { _intraoperativeAnalgesia = value; }
         }
 
         public bool ValidateMaintenanceInjectionDrug()

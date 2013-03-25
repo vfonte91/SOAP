@@ -8,21 +8,21 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private DropdownValue _drug;
-        private char _inductionReqFlag;
-        private decimal _inductionDose;
+        private decimal _inductionPercentage;
         private decimal _inductionOxygenFlowRate;
-        private char _maintenanceReqFlag;
-        private decimal _maintenanceDose;
+        private decimal _maintenancePercentage;
         private decimal _maintenanceOxygenFlowRate;
-        private char _equipmentReqFlag;
         private DropdownValue _breathingSystem;
         private DropdownValue _breathingBagSize;
+        private string _otherAnestheticDrug;
+        private DropdownValue _intraoperativeAnalgesia;
 
         public enum LazyComponents
         {
             LOAD_DRUG_WITH_DETAILS,
             LOAD_BREATHING_SYSTEM_WITH_DETAILS,
-            LOAD_BREATHING_BAG_SIZE_WITH_DETAILS
+            LOAD_BREATHING_BAG_SIZE_WITH_DETAILS,
+            LOAD_INTRAOP_WITH_DETAILS
         };
 
         public MaintenanceInhalantDrug()
@@ -31,6 +31,14 @@ namespace SOAP.Models
             _drug = new DropdownValue();
             _breathingBagSize = new DropdownValue();
             _breathingSystem = new DropdownValue();
+            _intraoperativeAnalgesia = new DropdownValue();
+        }
+
+        public bool HasValues()
+        {
+            return (_drug.Id != -1 || _inductionPercentage != 0.0M || _inductionOxygenFlowRate != 0.0M || _maintenanceOxygenFlowRate != 0.0M ||
+                    _maintenancePercentage != 0.0M || _breathingBagSize.Id != -1 || _breathingSystem.Id != -1 || _otherAnestheticDrug != null ||
+                    _intraoperativeAnalgesia.Id != -1);
         }
 
         public int Id
@@ -51,16 +59,10 @@ namespace SOAP.Models
             set { _drug = value; }
         }
 
-        public char InductionReqFlag
+        public decimal InductionPercentage
         {
-            get { return _inductionReqFlag; }
-            set { _inductionReqFlag = value; }
-        }
-
-        public decimal InductionDose
-        {
-            get { return _inductionDose; }
-            set { _inductionDose = value; }
+            get { return _inductionPercentage; }
+            set { _inductionPercentage = value; }
         }
 
         public decimal InductionOxygenFlowRate
@@ -69,28 +71,16 @@ namespace SOAP.Models
             set { _inductionOxygenFlowRate = value; }
         }
 
-        public char MaintenanceReqFlag
+        public decimal MaintenancePercentage
         {
-            get { return _maintenanceReqFlag; }
-            set { _maintenanceReqFlag = value; }
-        }
-
-        public decimal MaintenanceDose
-        {
-            get { return _maintenanceDose; }
-            set { _maintenanceDose = value; }
+            get { return _maintenancePercentage; }
+            set { _maintenancePercentage = value; }
         }
 
         public decimal MaintenanceOxygenFlowRate
         {
             get { return _maintenanceOxygenFlowRate; }
             set { _maintenanceOxygenFlowRate = value; }
-        }
-
-        public char EquipmentReqFlag
-        {
-            get { return _equipmentReqFlag; }
-            set { _equipmentReqFlag = value; }
         }
 
         public DropdownValue BreathingSystem
@@ -103,6 +93,18 @@ namespace SOAP.Models
         {
             get { return _breathingBagSize; }
             set { _breathingBagSize = value; }
+        }
+
+        public string OtherAnestheticDrug
+        {
+            get { return _otherAnestheticDrug; }
+            set { _otherAnestheticDrug = value; }
+        }
+
+        public DropdownValue IntraoperativeAnalgesia
+        {
+            get { return _intraoperativeAnalgesia; }
+            set { _intraoperativeAnalgesia = value; }
         }
 
         public bool ValidateMaintenanceInhalantDrug()

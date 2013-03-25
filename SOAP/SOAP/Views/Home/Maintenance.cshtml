@@ -2,66 +2,62 @@
     ViewBag.Title = "Maintenance";
 }
 
-           <form action="">
+           <form action="" name="Maintenance">
             <div class="left half">
             <h2>Maintenance</h2>
-                <div class ="input">
-                    <label>Select Injectable Drugs: </label>
-                     <button type="button" id="Maintenance-Injectable-Drugs" class="toolTipButton" onclick="toolTipGenerate(14, 'Patient.MaintenanceInjectionDrug.Drug')">?</button>
-                     <label id="Maintenance-Injectable-Dosage"></label>
-                    <select name="MaintenDrugs" id="Patient.MaintenanceInjectionDrug.Drug">
-            		</select>
+            <div class="input">
+                <label>Drug Type</label>
+                <input type="radio" name="DrugType" id="MaintenanceInject" class="radio" onclick="showInputs(['Inhalant-Maintenance-input', 'Injectable-Maintenance-input'])" checked="checked"/>
+                <label for="MaintenanceInject" class="radio">Injectable</label>
+                <input type="radio" name="DrugType" id="MaintenanceInhalant" class="radio" onclick="showInputs(['Inhalant-Maintenance-input', 'Injectable-Maintenance-input'])"/>
+                <label for="MaintenanceInhalant" class="radio">Inhalant</label>
                 </div>
-                <div class="input">
-                    <label>Select Route of Administration: </label>
-                     <button type="button" id="Maintenance-Injectable-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.MaintenanceInjectionDrug.RouteOfAdministration')">?</button>
-                    <select name="MainenRoute" id="Patient.MaintenanceInjectionDrug.RouteOfAdministration">
-					</select>
+                <div id="Injectable-Maintenance-input">
+                    <h4>Injectable</h4>
+                    <div class ="input">
+                        <label>Select Injectable Drugs: </label>
+                         <button type="button" id="Maintenance-Injectable-Drugs" class="toolTipButton" onclick="toolTipGenerate(14, 'Patient.MaintenanceInjectionDrug.Drug')">?</button>
+                         <label id="Maintenance-Injectable-Dosage"></label>
+                        <select name="MaintenDrugs" id="Patient.MaintenanceInjectionDrug.Drug">
+            		    </select>
+                    </div>
+                    <div class="input">
+                        <label>Select Route of Administration: </label>
+                         <button type="button" id="Maintenance-Injectable-Route" class="toolTipButton" onclick="toolTipGenerate(13, 'Patient.MaintenanceInjectionDrug.RouteOfAdministration')">?</button>
+                        <select name="MainenRoute" id="Patient.MaintenanceInjectionDrug.RouteOfAdministration">
+					    </select>
+                    </div>
+                   <div class="input">
+			           <label>Dosage: </label>
+                       <input type="text" name="MaintenDosage" class="inline"  id="Patient.MaintenanceInjectionDrug.Dosage" />
+                    </div>
                 </div>
-               <div class="input">
-			       <label>Dosage: </label>
-                   <input type="text" name="MaintenDosage" class="inline"  id="Patient.MaintenanceInjectionDrug.Dosage" />
-                </div>
-
-                <div class="input">
-                    <label>Select Inhalant Drugs: </label>
-                     <button type="button" id="Maintenance-Inhalent-Drug" class="toolTipButton" onclick="toolTipGenerate(15, 'Patient.MaintenanceInhalentDrug.Drug')">?</button>
-                    <select name="MaintenInhalantDrugs" id="Patient.MaintenanceInhalentDrug.Drug">
-					</select>
-                </div>
-            <!--<h4>Maintenenance Required:</h4>-->
-               <div class="input">
-			       <label>Starting Percentage: </label>
-                   <input type="text" name="MaintenMaintenDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDose" />
-                </div>
-                 <div class="input">
-			       <label>Starting Oxygen Flow Rate: </label>
-                   <input type="text" name="MaintenMaintenOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRate" />
-                </div>
-               <div class="input">
-			       <label>Maintenance Percentage: </label>
-                   <input type="text" name="InhalantDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDoseSecondary" />
-                </div>
-                 <div class="input">
-			       <label>Maintenance Oxygen Flow Rate: </label>
-                   <input type="text" name="InhalantOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRateSecondary" />
-                </div>
-                <!--
-                <h4>Induction Required: </h4>
-               <div class="input">
-			       <label>Dosage: </label>
-                   <input type="text" name="MaintenInducDosage" class="inline" id="Patient.MaintenanceInhalentDrug.InductionDose" />
-                </div>
-                 <div class="input">
-			       <label>Oxygen Flow Rate: </label>
-                   <input type="text" name="MaintenInducOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.InductionOxygenFlowRate" />
-                </div>'
-                <!--------->
-            </div>
-
-            <div class="right half">
-
-            <h4>Equipment required: </h4>
+                <div style="display:none" id="Inhalant-Maintenance-input">
+                    <h4>Inhalant</h4>
+                    <div class="input">
+                        <label>Select Inhalant Drugs: </label>
+                         <button type="button" id="Maintenance-Inhalent-Drug" class="toolTipButton" onclick="toolTipGenerate(15, 'Patient.MaintenanceInhalentDrug.Drug')">?</button>
+                        <select name="MaintenInhalantDrugs" id="Patient.MaintenanceInhalentDrug.Drug">
+					    </select>
+                    </div>
+                <!--<h4>Maintenenance Required:</h4>-->
+                   <div class="input">
+			           <label>Starting Percentage: </label>
+                       <input type="text" name="MaintenMaintenDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDose" />
+                    </div>
+                     <div class="input">
+			           <label>Starting Oxygen Flow Rate: </label>
+                       <input type="text" name="MaintenMaintenOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRate" />
+                    </div>
+                   <div class="input">
+			           <label>Maintenance Percentage: </label>
+                       <input type="text" name="InhalantDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDoseSecondary" />
+                    </div>
+                     <div class="input">
+			           <label>Maintenance Oxygen Flow Rate: </label>
+                       <input type="text" name="InhalantOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRateSecondary" />
+                    </div>
+                    <h4>Equipment required: </h4>
                 <div class="input">
                     <label>Breathing System: </label>
                     <button type="button" id="Maintenance-Inhalent-BreathingSystem" class="toolTipButton" onclick="toolTipGenerate(16, 'Patient.MaintenanceInhalentDrug.BreathingSystem')">?</button>
@@ -74,6 +70,23 @@
                     <select name="BagSize" id="Patient.MaintenanceInhalentDrug.BreathingBagSize">
 					</select>
                 </div>
+                    <!--
+                    <h4>Induction Required: </h4>
+                   <div class="input">
+			           <label>Dosage: </label>
+                       <input type="text" name="MaintenInducDosage" class="inline" id="Patient.MaintenanceInhalentDrug.InductionDose" />
+                    </div>
+                     <div class="input">
+			           <label>Oxygen Flow Rate: </label>
+                       <input type="text" name="MaintenInducOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.InductionOxygenFlowRate" />
+                    </div>'
+                    <!--------->
+                </div>
+            </div>
+
+            <div class="right half">
+
+            
             <h4>Other</h4>
                 <div class="input">
                     <label>Intraoperative Analgesia: </label>

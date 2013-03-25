@@ -23,7 +23,8 @@ namespace SOAP.Models.Callbacks
             {
                 if (a == AnestheticPlanInhalant.LazyComponents.LOAD_DRUG_WITH_DETAILS && anesPlanInhalant.Drug.Id != -1)
                 {
-                    anesPlanInhalant.Drug.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
+                    if (read["b.CategoryId"].ToString() != "")
+                        anesPlanInhalant.Drug.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
                     anesPlanInhalant.Drug.Label = read["b.Label"].ToString();
                     anesPlanInhalant.Drug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     anesPlanInhalant.Drug.Description = read["b.Description"].ToString();
