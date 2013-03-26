@@ -7,9 +7,9 @@
     <div class="left half">
         <div class="input">
             <label>Drug Type</label>
-            <input type="radio" name="DrugType" id="Injectable" class="radio" onclick="showInputs(['Inhalant-input', 'Injectable-input'])" checked="checked"/>
+            <input type="radio" name="DrugType" id="Injectable" class="radio" onclick="showInputs(['Injectable-input']); hideInputs(['Inhalant-input'])" checked="checked"/>
             <label for="Injectable" class="radio">Injectable</label>
-            <input type="radio" name="DrugType" id="Inhalant" class="radio" onclick="showInputs(['Inhalant-input', 'Injectable-input'])"/>
+            <input type="radio" name="DrugType" id="Inhalant" class="radio" onclick="showInputs(['Inhalant-input']); hideInputs(['Injectable-input'])"/>
             <label for="Inhalant" class="radio">Inhalant</label>
         </div>
         <div id="Injectable-input">

@@ -366,8 +366,8 @@ function setProfileInfo() {
 function populateAll() {
     populate(1, "Patient\\.PatientInfo\\.Procedure");
     populate(2, "Patient\\.PatientInfo\\.Temperament");
-    populate(4, "Patient\\.PatientInfo\\.PreoperativePainAssessment");
-    populate(5, "Patient\\.PatientInfo\\.PostperativePainAssessment");
+    populate(4, "Patient\\.PatientInfo\\.PreOperationPainAssessment");
+    populate(5, "Patient\\.PatientInfo\\.PostOperationPainAssessment");
     populate(6, "Patient\\.ClinicalFindings\\.CardiacAuscultation");
     populate(7, "Patient\\.ClinicalFindings\\.PulseQuality");
     populate(21, "Patient\\.ClinicalFindings\\.CapillaryRefillTime");
@@ -757,7 +757,12 @@ function logOut() {
 //toggle visibilty for elements
 function showInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
-        $('#' + ids[i]).toggle('slow');
+        $('#' + ids[i]).show('slow');
+    }
+}
+function hideInputs(ids) {
+    for (var i = 0; i < ids.length; i++) {
+        $('#' + ids[i]).hide('slow');
     }
 }
 

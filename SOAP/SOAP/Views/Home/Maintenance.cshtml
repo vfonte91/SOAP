@@ -7,9 +7,9 @@
             <h2>Maintenance</h2>
             <div class="input">
                 <label>Drug Type</label>
-                <input type="radio" name="DrugType" id="MaintenanceInject" class="radio" onclick="showInputs(['Inhalant-Maintenance-input', 'Injectable-Maintenance-input'])" checked="checked"/>
+                <input type="radio" name="DrugType" id="MaintenanceInject" class="radio" onclick="showInputs(['Injectable-Maintenance-input']); hideInputs(['Inhalant-Maintenance-input'])" checked="checked"/>
                 <label for="MaintenanceInject" class="radio">Injectable</label>
-                <input type="radio" name="DrugType" id="MaintenanceInhalant" class="radio" onclick="showInputs(['Inhalant-Maintenance-input', 'Injectable-Maintenance-input'])"/>
+                <input type="radio" name="DrugType" id="MaintenanceInhalant" class="radio" onclick="showInputs(['Inhalant-Maintenance-input']); hideInputs(['Injectable-Maintenance-input'])"/>
                 <label for="MaintenanceInhalant" class="radio">Inhalant</label>
                 </div>
                 <div id="Injectable-Maintenance-input">
