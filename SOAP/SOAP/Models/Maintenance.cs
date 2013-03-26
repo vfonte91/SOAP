@@ -5,25 +5,25 @@ namespace SOAP.Models
 {
     public class Maintenance
     {
-        private MaintenanceInjectionDrug _maintenanceInjectionDrugs;
-        private MaintenanceInhalantDrug _maintenanceInhalantDrugs;
+        private MaintenanceInjectionDrug _maintenanceInjectionDrug;
+        private MaintenanceInhalantDrug _maintenanceInhalantDrug;
 
-        public MaintenanceInjectionDrug MaintenanceInjectionDrugs
+        public MaintenanceInjectionDrug MaintenanceInjectionDrug
         {
-            get { return _maintenanceInjectionDrugs; }
-            set { _maintenanceInjectionDrugs = value; }
+            get { return _maintenanceInjectionDrug; }
+            set { _maintenanceInjectionDrug = value; }
         }
 
-        public MaintenanceInhalantDrug MaintenanceInhalantDrugs
+        public MaintenanceInhalantDrug MaintenanceInhalantDrug
         {
-            get { return _maintenanceInhalantDrugs; }
-            set { _maintenanceInhalantDrugs = value; }
+            get { return _maintenanceInhalantDrug; }
+            set { _maintenanceInhalantDrug = value; }
         }
 
         public Maintenance()
         {
-            _maintenanceInjectionDrugs = new MaintenanceInjectionDrug();
-            _maintenanceInhalantDrugs = new MaintenanceInhalantDrug();
+            _maintenanceInjectionDrug = new MaintenanceInjectionDrug();
+            _maintenanceInhalantDrug = new MaintenanceInhalantDrug();
         }
 
 

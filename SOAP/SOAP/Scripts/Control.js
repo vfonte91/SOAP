@@ -141,39 +141,39 @@ function buildInduction() {
         Patient.AnestheticPlan.InjectionPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Drug').val();
         Patient.AnestheticPlan.InjectionPlan.Route.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Route').val();
         Patient.AnestheticPlan.InjectionPlan.Dosage = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Dosage').val();
-        Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidTypes').val();
+        Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidType').val();
     }
     else {
         Patient.AnestheticPlan.InjectionPlan = {};
         Patient.AnestheticPlan.InhalantPlan = { Drug: {} };
         Patient.AnestheticPlan.InhalantPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug').val();
-        Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.DosageStarting').val();
-        Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.FlowRateStarting').val();
+        Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Percentage').val();
+        Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.FlowRate').val();
     }
 }
 
 function buildMaintenance() {
     if ($('#MaintenanceInject').is(':checked')) {
-        Patient.Maintenance.MaintenanceInhalantDrugs = {};
-        Patient.Maintenance.MaintenanceInjectionDrugs = { Drug: {}, RouteOfAdministration: {}, IntroaperativeAnalgesia: {} }
-        Patient.Maintenance.MaintenanceInjectionDrugs.Drug.Id = $('#Patient\\.MaintenanceInjectionDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrugs.RouteOfAdministration.Id = $('#Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
-        Patient.Maintenance.MaintenanceInjectionDrugs.Dosage = $('#Patient\\.MaintenanceInjectionDrug\\.Dosage').val();
-        Patient.Maintenance.MaintenanceInjectionDrugs.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrugs.IntroaperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
+        Patient.Maintenance.MaintenanceInhalantDrug = {};
+        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {}, IntroaperativeAnalgesia: {} }
+        Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.MaintenanceInjectionDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.MaintenanceInjectionDrug\\.Dosage').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.IntroaperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
     }
     else {
-        Patient.Maintenance.MaintenanceInjectionDrugs = {};
-        Patient.Maintenance.MaintenanceInhalantDrugs = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {}, IntraoperativeAnalgesia: {} };
-        Patient.Maintenance.MaintenanceInhalantDrugs.Drug.Id = $('#Patient\\.MaintenanceInhalentDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.InductionPercentage = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceDose').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.InductionOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.MaintenancePercentage = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceDoseSecondary').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.MaintenanceOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRateSecondary').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.BreathingSystem.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.BreathingBagSize.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrugs.IntroaperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
+        Patient.Maintenance.MaintenanceInjectionDrug = {};
+        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {}, IntraoperativeAnalgesia: {} };
+        Patient.Maintenance.MaintenanceInhalantDrug.Drug.Id = $('#Patient\\.MaintenanceInhalentDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceDose').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceDoseSecondary').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRateSecondary').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.IntroaperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
     }
 }
 
@@ -223,6 +223,8 @@ function SaveForm() {
     ajax('Post', url, JSON.stringify(Patient), true)
     .done(function (data) {
         if (data.success) {
+            //Reload user form dropdown
+            GetUserForms();
         }
         else {
         }
@@ -261,7 +263,7 @@ function OpenForm(formId) {
                                 else {
                                     if (value && value.hasOwnProperty('Id'))
                                         $input.val(value.Id);
-                                    else if (value)
+                                    else if (value != -1)
                                         $input.val(value);
                                 }
                             }
@@ -381,7 +383,7 @@ function populateAll() {
     populate(24, "Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDrug");
     populate(15, "Patient\\.AnestheticPlan\\.InjectionPlan\\.Drug");
     populate(14, "Patient\\.AnestheticPlan\\.InjectionPlan\\.Route");
-    populate(25, "Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidTypes");
+    populate(25, "Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidType");
     populate(16, "Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug");
     populate(15, "Patient\\.MaintenanceInjectionDrug\\.Drug");
     populate(14, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");

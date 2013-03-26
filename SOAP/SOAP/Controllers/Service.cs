@@ -128,8 +128,8 @@ namespace SOAP.Controllers
         public Maintenance GetMaintenance(int patientId)
         {
             Maintenance maint = new Maintenance();
-            maint.MaintenanceInjectionDrugs = GetMaintenanceInjectionDrugs(patientId);
-            maint.MaintenanceInhalantDrugs = GetMaintenanceInhalantDrugs(patientId);
+            maint.MaintenanceInjectionDrug = GetMaintenanceInjectionDrugs(patientId);
+            maint.MaintenanceInhalantDrug = GetMaintenanceInhalantDrugs(patientId);
             //maint.IntraOperativeAnalgesias = GetIntraOperativeAnalgesia(patientId);
             //maint.OtherAnestheticDrugs = GetOtherAnestheticDrugs(patientId);
             return maint;
@@ -394,10 +394,10 @@ namespace SOAP.Controllers
             //if (pat.Maintenance.IntraOperativeAnalgesias.Count > 0)
             //    CreateIntraOperativeAnalgesias(pat);
 
-            if (pat.Maintenance.MaintenanceInhalantDrugs.HasValues())
+            if (pat.Maintenance.MaintenanceInhalantDrug.HasValues())
                 CreateMaintenanceInhalantDrugs(pat);
 
-            if (pat.Maintenance.MaintenanceInjectionDrugs.HasValues())
+            if (pat.Maintenance.MaintenanceInjectionDrug.HasValues())
                 CreateMaintenanceInjectionDrugs(pat);
 
             //if (pat.Maintenance.OtherAnestheticDrugs.Count > 0)
@@ -416,14 +416,14 @@ namespace SOAP.Controllers
 
         public void CreateMaintenanceInhalantDrugs(Patient pat)
         {
-                pat.Maintenance.MaintenanceInhalantDrugs.PatientId = pat.PatientId;
-                service.CreateMaintenanceInhalantDrug(pat.Maintenance.MaintenanceInhalantDrugs);
+                pat.Maintenance.MaintenanceInhalantDrug.PatientId = pat.PatientId;
+                service.CreateMaintenanceInhalantDrug(pat.Maintenance.MaintenanceInhalantDrug);
         }
 
         public void CreateMaintenanceInjectionDrugs(Patient pat)
         {
-                pat.Maintenance.MaintenanceInjectionDrugs.PatientId = pat.PatientId;
-                service.CreateMaintenanceInjectionDrug(pat.Maintenance.MaintenanceInjectionDrugs);
+                pat.Maintenance.MaintenanceInjectionDrug.PatientId = pat.PatientId;
+                service.CreateMaintenanceInjectionDrug(pat.Maintenance.MaintenanceInjectionDrug);
         }
 
         //public void CreateOtherAnestheticDrugs(Patient pat)
@@ -584,11 +584,11 @@ namespace SOAP.Controllers
             //if (m.IntraOperativeAnalgesias.Id != -1)
             //    SaveIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
 
-            if (m.MaintenanceInhalantDrugs.HasValues())
-                SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrugs);
+            if (m.MaintenanceInhalantDrug.HasValues())
+                SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrug);
 
-            if (m.MaintenanceInjectionDrugs.HasValues())
-                SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrugs);
+            if (m.MaintenanceInjectionDrug.HasValues())
+                SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrug);
 
         }
 
