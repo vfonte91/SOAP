@@ -824,20 +824,34 @@ function toolTipGenerate(id, name) {
 }
 function calculateDosages() {
 
-    var weight;
+    var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
+    debugger;
     var dose;
-    var dosage = weight * dose;
-    if (weight != null) {
+    var dosage;
+    var cats = DropdownCategories;
+    if (weight != "") {
+        //dosage = weight * dose;
+        weight = parseFloat(weight);
+        var epi = .1 * weight;
+        var atro = .1 * weight;
+
+
+
+
         document.getElementById("Premed-Sedative-Dosage").innerHTML = "test";
         document.getElementById("Premed-Opioid-Dosage").innerHTML = "test";
         document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "test";
         document.getElementById("Induction-Injectable-Dosage").innerHTML = "test";
         document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "test";
+        document.getElementById("Emergency-Epinephrine").innerHTML = epi+"mL";
+        document.getElementById("Emergency-Atropine").innerHTML = atro + "mL";
     } else {
         document.getElementById("Premed-Sedative-Dosage").innerHTML = "Enter Body Weight";
-        document.getElementById("Premed-Opioid-Dosage").innerHTML = "Enter Body Weight"; ;
-        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Enter Body Weight"; ;
-        document.getElementById("Induction-Injectable-Dosage").innerHTML = "Enter Body Weight"; ;
-        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Enter Body Weight"; ;
+        document.getElementById("Premed-Opioid-Dosage").innerHTML = "Enter Body Weight"; 
+        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Enter Body Weight";
+        document.getElementById("Induction-Injectable-Dosage").innerHTML = "Enter Body Weight";
+        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Enter Body Weight";
+        document.getElementById("Emergency-Epinephrine").innerHTML = "Enter Body Weight";
+        document.getElementById("Emergency-Atropine").innerHTML = "Enter Body Weight";
     }
 }
