@@ -70,7 +70,11 @@ $(document).ready(function () {
     });
 
     if (sessionStorage.username && sessionStorage.password) {
-        login(sessionStorage.username, sessionStorage.password);
+        if (login(sessionStorage.username, sessionStorage.password)) {
+            if (sessionStorage.formId) {
+                OpenForm(sessionStorage.formId);
+            }
+        }
     }
     else {
         $("#login").click(function () {
@@ -263,8 +267,27 @@ function OpenForm(formId) {
                                 else {
                                     if (value && value.hasOwnProperty('Id'))
                                         $input.val(value.Id);
+                                    else if (typeof value == 'string' && value.search(/date/i) != -1) {
+                                        var date = new Date(parseInt(value.substr(6)));
+                                        $input.val(date.toLocaleDateString());
+                                    }
                                     else if (value != -1)
                                         $input.val(value);
+                                }
+                            }
+                            //Needed for AnesthesiaPlan
+                            else {
+                                for (var q in input) {
+                                    if (input.hasOwnProperty(q)) {
+                                        var input2 = input[q];
+                                        var $input2 = $('#Patient\\.' + i + '\\.' + j + '\\.' + q);
+                                        if ($input2.length) {
+                                            if (input2 && input2.hasOwnProperty('Id'))
+                                                $input2.val(input2.Id);
+                                            else if (input2 != -1)
+                                                $input2.val(input2);
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -332,9 +355,11 @@ function login(username, password) {
 
         populateAll();
         GetUserForms();
+        return true;
     }
     else {
         alert('Validate User Failed');
+        return false;
     }
 }
 
