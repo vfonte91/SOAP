@@ -68,7 +68,7 @@
                         <label>Prior Anesthesia</label>
                         <input type="radio" name="PriorAnesthesia" value="PriorYes" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.Yes" onclick="showInputs(['Patient-ClinicalFindings-Date-input', 'Patient-ClinicalFindings-Problems-input'])"/>
                         <label for="Patient.ClinicalFindings.PriorAnesthesia.Yes" class="radio">Yes</label>
-                        <input type="radio"  name="PriorAnesthesia" value="PriorNo" checked="checked" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No" onclick="showInputs(['Patient-ClinicalFindings-Date-input', 'Patient-ClinicalFindings-Problems-input'])"/>
+                        <input type="radio"  name="PriorAnesthesia" value="PriorNo" checked="checked" class="radio" id="Patient.ClinicalFindings.PriorAnesthesia.No" onclick="hideInputs(['Patient-ClinicalFindings-Date-input', 'Patient-ClinicalFindings-Problems-input'])"/>
                         <label for="Patient.ClinicalFindings.PriorAnesthesia.No" class="radio">No</label>
                     </div> 
                     <div class="input" id="Patient-ClinicalFindings-Date-input" style="display:none">

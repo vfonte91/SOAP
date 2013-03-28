@@ -7,9 +7,9 @@
             <h2>Maintenance</h2>
             <div class="input">
                 <label>Drug Type</label>
-                <input type="radio" name="DrugType" id="MaintenanceInject" class="radio" onclick="showInputs(['Inhalant-Maintenance-input', 'Injectable-Maintenance-input'])" checked="checked"/>
+                <input type="radio" name="DrugType" id="MaintenanceInject" class="radio" onclick="showInputs(['Injectable-Maintenance-input']); hideInputs(['Inhalant-Maintenance-input'])" checked="checked"/>
                 <label for="MaintenanceInject" class="radio">Injectable</label>
-                <input type="radio" name="DrugType" id="MaintenanceInhalant" class="radio" onclick="showInputs(['Inhalant-Maintenance-input', 'Injectable-Maintenance-input'])"/>
+                <input type="radio" name="DrugType" id="MaintenanceInhalant" class="radio" onclick="showInputs(['Inhalant-Maintenance-input']); hideInputs(['Injectable-Maintenance-input'])"/>
                 <label for="MaintenanceInhalant" class="radio">Inhalant</label>
                 </div>
                 <div id="Injectable-Maintenance-input">
@@ -43,19 +43,19 @@
                 <!--<h4>Maintenenance Required:</h4>-->
                    <div class="input">
 			           <label>Starting Percentage: </label>
-                       <input type="text" name="MaintenMaintenDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDose" />
+                       <input type="text" name="MaintenMaintenDosage" class="inline" id="Patient.MaintenanceInhalentDrug.InductionPercentage" />
                     </div>
                      <div class="input">
 			           <label>Starting Oxygen Flow Rate: </label>
-                       <input type="text" name="MaintenMaintenOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRate" />
+                       <input type="text" name="MaintenMaintenOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.InductionOxygenFlowRate" />
                     </div>
                    <div class="input">
 			           <label>Maintenance Percentage: </label>
-                       <input type="text" name="InhalantDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceDoseSecondary" />
+                       <input type="text" name="InhalantDosage" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenancePercentage" />
                     </div>
                      <div class="input">
 			           <label>Maintenance Oxygen Flow Rate: </label>
-                       <input type="text" name="InhalantOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRateSecondary" />
+                       <input type="text" name="InhalantOxygen" class="inline" id="Patient.MaintenanceInhalentDrug.MaintenanceOxygenFlowRate" />
                     </div>
                     <h4>Equipment required: </h4>
                 <div class="input">
@@ -98,6 +98,9 @@
                     <label>Other Anesthetic Drugs</label>
                     <input type="text" name ="OtherAnestheticDrugs" id="Patient.OtherAnestheticDrug.Drug" />
                 </div>
+                <div class="input">
+                    <input type="button" class="submit" value="Calculated Required Medicine" onclick="calculateDosages()" />
+               </div>
                 
             </div>
             </form>
