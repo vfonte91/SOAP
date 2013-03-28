@@ -108,9 +108,10 @@ function addValue(section, name, value, subgroup) {
 }
 
 function buildAnestheticPlanPremeds() {
+    debugger;
     Patient.AnestheticPlan.PreMedications = [];
-    var route = $("#Patient\\.AnestheticPlan\\.PreMedication\\.Route").val();
-    var sedative = $("#Patient\\.AnestheticPlan\\.PreMedication\\.SedativeDrug").val();
+    var route = $("#Patient\\.AnestheticPlan\\.PreMedications\\.Route").val();
+    var sedative = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDrug").val();
     var sedativeDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDosage").val();
     if (sedative || sedativeDosage) {
         var sedativeObj = { Drug: { Id: sedative }, Route: { Id: route }, Dosage: sedativeDosage };

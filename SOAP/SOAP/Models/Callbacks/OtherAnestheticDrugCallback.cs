@@ -11,8 +11,8 @@ namespace SOAP.Models.Callbacks
             OtherAnestheticDrug otherAnesDrug = new OtherAnestheticDrug();
             otherAnesDrug.Id = Convert.ToInt32(read["a.Id"]);
             otherAnesDrug.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
-            if (read["a.EquipmentId"].ToString() != "")
-                otherAnesDrug.Drug.Id = Convert.ToInt32(read["a.EquipmentId"].ToString());
+            if (read["a.DrugId"].ToString() != "")
+                otherAnesDrug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
 
             foreach (OtherAnestheticDrug.LazyComponents a in lazyComponents)
             {
@@ -22,6 +22,8 @@ namespace SOAP.Models.Callbacks
                     otherAnesDrug.Drug.Label = read["b.Label"].ToString();
                     otherAnesDrug.Drug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     otherAnesDrug.Drug.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        otherAnesDrug.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
             }
 

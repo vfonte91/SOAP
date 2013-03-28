@@ -14,6 +14,9 @@ namespace SOAP.Models.Callbacks
             value.Label = read["a.Label"].ToString();
             value.OtherFlag = Convert.ToChar(read["a.OtherFlag"].ToString());
             value.Description = read["a.Description"].ToString();
+            if (read["a.Concentration"].ToString() != "")
+                value.Concentration = Convert.ToDecimal(read["a.Concentration"].ToString());
+
 
             foreach (DropdownValue.LazyComponents a in lazyComponents)
             {

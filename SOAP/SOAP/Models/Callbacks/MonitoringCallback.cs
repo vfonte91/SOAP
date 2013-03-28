@@ -22,6 +22,8 @@ namespace SOAP.Models.Callbacks
                     monitor.Equipment.Label = read["b.Label"].ToString();
                     monitor.Equipment.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     monitor.Equipment.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        monitor.Equipment.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
             }
 

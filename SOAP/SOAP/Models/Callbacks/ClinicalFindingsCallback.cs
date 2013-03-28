@@ -40,6 +40,8 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.CardiacAuscultation.Label = read["b.Label"].ToString();
                     clinicalFindings.CardiacAuscultation.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     clinicalFindings.CardiacAuscultation.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        clinicalFindings.CardiacAuscultation.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_PHYSICAL_STATUS_WITH_DETAILS && clinicalFindings.PhysicalStatusClassification.Id != -1)
                 {
@@ -47,6 +49,8 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.PhysicalStatusClassification.Label = read["c.Label"].ToString();
                     clinicalFindings.PhysicalStatusClassification.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     clinicalFindings.PhysicalStatusClassification.Description = read["c.Description"].ToString();
+                    if (read["c.Concentration"].ToString() != "")
+                        clinicalFindings.PhysicalStatusClassification.Concentration = Convert.ToDecimal(read["c.Concentration"].ToString());
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_PULSE_QUALITY_WITH_DETAILS && clinicalFindings.PulseQuality.Id != -1)
                 {
@@ -54,6 +58,8 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.PulseQuality.Label = read["d.Label"].ToString();
                     clinicalFindings.PulseQuality.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     clinicalFindings.PulseQuality.Description = read["d.Description"].ToString();
+                    if (read["d.Concentration"].ToString() != "")
+                        clinicalFindings.PulseQuality.Concentration = Convert.ToDecimal(read["d.Concentration"].ToString());
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_RESPIRATORY_AUSCULTATION_WITH_DETAILS && clinicalFindings.RespiratoryAuscultation.Id != -1)
                 {
@@ -61,6 +67,8 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.RespiratoryAuscultation.Label = read["e.Label"].ToString();
                     clinicalFindings.RespiratoryAuscultation.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
                     clinicalFindings.RespiratoryAuscultation.Description = read["e.Description"].ToString();
+                    if (read["e.Concentration"].ToString() != "")
+                        clinicalFindings.RespiratoryAuscultation.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_MUCOUS_MEMBRANE_WITH_DETAILS && clinicalFindings.MucousMembraneColor.Id != -1)
                 {
@@ -68,6 +76,8 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.MucousMembraneColor.Label = read["f.Label"].ToString();
                     clinicalFindings.MucousMembraneColor.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
                     clinicalFindings.MucousMembraneColor.Description = read["f.Description"].ToString();
+                    if (read["f.Concentration"].ToString() != "")
+                        clinicalFindings.MucousMembraneColor.Concentration = Convert.ToDecimal(read["f.Concentration"].ToString());
                 }
                 else if (a == ClinicalFindings.LazyComponents.LOAD_CAP_REFILL_WITH_DETAILS && clinicalFindings.CapillaryRefillTime.Id != -1)
                 {
@@ -75,6 +85,8 @@ namespace SOAP.Models.Callbacks
                     clinicalFindings.CapillaryRefillTime.Label = read["g.Label"].ToString();
                     clinicalFindings.CapillaryRefillTime.OtherFlag = Convert.ToChar(read["g.OtherFlag"].ToString());
                     clinicalFindings.CapillaryRefillTime.Description = read["g.Description"].ToString();
+                    if (read["g.Concentration"].ToString() != "")
+                        clinicalFindings.CapillaryRefillTime.Concentration = Convert.ToDecimal(read["g.Concentration"].ToString());
                 }
             }
 

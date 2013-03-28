@@ -26,6 +26,8 @@ namespace SOAP.Models.Callbacks
                     anesPlanPremed.Drug.Label = read["b.Label"].ToString();
                     anesPlanPremed.Drug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     anesPlanPremed.Drug.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        anesPlanPremed.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
                 else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ROUTE_WITH_DETAILS && anesPlanPremed.Route.Id != -1)
                 {
@@ -33,6 +35,8 @@ namespace SOAP.Models.Callbacks
                     anesPlanPremed.Route.Label = read["c.Label"].ToString();
                     anesPlanPremed.Route.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     anesPlanPremed.Route.Description = read["c.Description"].ToString();
+                    if (read["c.Concentration"].ToString() != "")
+                        anesPlanPremed.Route.Concentration = Convert.ToDecimal(read["c.Concentration"].ToString());
                 }
             }
 

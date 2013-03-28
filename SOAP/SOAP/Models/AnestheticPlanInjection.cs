@@ -10,7 +10,7 @@ namespace SOAP.Models
         private DropdownValue _route;
         private decimal _dosage;
         private decimal _dose;
-        private DrugInformation _drug;
+        private DropdownValue _drug;
         private DropdownValue _iVFluidType;
 
         public enum LazyComponents {
@@ -49,7 +49,7 @@ namespace SOAP.Models
             set { _dose = value; }
         }
 
-        public DrugInformation Drug
+        public DropdownValue Drug
         {
             get { return _drug; }
             set { _drug = value; }
@@ -65,7 +65,7 @@ namespace SOAP.Models
         {
             _id = -1;
             _route = new DropdownValue();
-            _drug = new DrugInformation();
+            _drug = new DropdownValue();
             _iVFluidType = new DropdownValue();
         }
 

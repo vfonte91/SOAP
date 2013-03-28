@@ -22,6 +22,8 @@ namespace SOAP.Models.Callbacks
                     med.Medication.Label = read["b.Label"].ToString();
                     med.Medication.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     med.Medication.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        med.Medication.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
             }
 

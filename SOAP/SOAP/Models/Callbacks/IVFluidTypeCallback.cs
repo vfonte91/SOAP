@@ -24,6 +24,8 @@ namespace SOAP.Models.Callbacks
                     ivFluidType.FluidType.Label = read["b.Label"].ToString();
                     ivFluidType.FluidType.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     ivFluidType.FluidType.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        ivFluidType.FluidType.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
             }
 

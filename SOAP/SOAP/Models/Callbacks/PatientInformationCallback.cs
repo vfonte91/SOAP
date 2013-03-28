@@ -54,6 +54,8 @@ namespace SOAP.Models.Callbacks
                         patientInfo.PostOperationPainAssessment.Label = read["d.Label"].ToString();
                         patientInfo.PostOperationPainAssessment.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                         patientInfo.PostOperationPainAssessment.Description = read["d.Description"].ToString();
+                        if (read["d.Concentration"].ToString() != "")
+                            patientInfo.PostOperationPainAssessment.Concentration = Convert.ToDecimal(read["d.Concentration"].ToString());
                 }
                 else if (a == PatientInformation.LazyComponents.LOAD_PREOP_PAIN_DETAIL && patientInfo.PreOperationPainAssessment.Id != -1)
                 {
@@ -61,6 +63,8 @@ namespace SOAP.Models.Callbacks
                         patientInfo.PreOperationPainAssessment.Label = read["e.Label"].ToString();
                         patientInfo.PreOperationPainAssessment.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
                         patientInfo.PreOperationPainAssessment.Description = read["e.Description"].ToString();
+                        if (read["e.Concentration"].ToString() != "")
+                            patientInfo.PreOperationPainAssessment.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
                 }
                 else if (a == PatientInformation.LazyComponents.LOAD_TEMPERAMENT_DETAIL && patientInfo.Temperament.Id != -1)
                 {
@@ -68,6 +72,8 @@ namespace SOAP.Models.Callbacks
                         patientInfo.Temperament.Label = read["f.Label"].ToString();
                         patientInfo.Temperament.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
                         patientInfo.Temperament.Description = read["f.Description"].ToString();
+                        if (read["f.Concentration"].ToString() != "")
+                            patientInfo.Temperament.Concentration = Convert.ToDecimal(read["f.Concentration"].ToString());
                 }
                 else if (a == PatientInformation.LazyComponents.LOAD_PROCEDURE_DETAIL && patientInfo.Procedure.Id != -1)
                 {
@@ -75,6 +81,8 @@ namespace SOAP.Models.Callbacks
                     patientInfo.Procedure.Label = read["g.Label"].ToString();
                     patientInfo.Procedure.OtherFlag = Convert.ToChar(read["g.OtherFlag"].ToString());
                     patientInfo.Procedure.Description = read["g.Description"].ToString();
+                    if (read["g.Concentration"].ToString() != "")
+                        patientInfo.Procedure.Concentration = Convert.ToDecimal(read["g.Concentration"].ToString());
                 }
             }
 

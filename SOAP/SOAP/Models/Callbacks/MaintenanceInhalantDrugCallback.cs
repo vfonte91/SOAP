@@ -38,6 +38,8 @@ namespace SOAP.Models.Callbacks
                     maintInhalantDrug.Drug.Label = read["b.Label"].ToString();
                     maintInhalantDrug.Drug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     maintInhalantDrug.Drug.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        maintInhalantDrug.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
                 else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_DETAILS && maintInhalantDrug.BreathingBagSize.Id != -1)
                 {
@@ -46,6 +48,8 @@ namespace SOAP.Models.Callbacks
                     maintInhalantDrug.BreathingBagSize.Label = read["c.Label"].ToString();
                     maintInhalantDrug.BreathingBagSize.OtherFlag = Convert.ToChar(read["c.OtherFlag"].ToString());
                     maintInhalantDrug.BreathingBagSize.Description = read["c.Description"].ToString();
+                    if (read["c.Concentration"].ToString() != "")
+                        maintInhalantDrug.BreathingBagSize.Concentration = Convert.ToDecimal(read["c.Concentration"].ToString());
                 }
                 else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_SYSTEM_WITH_DETAILS && maintInhalantDrug.BreathingSystem.Id != -1)
                 {
@@ -54,6 +58,8 @@ namespace SOAP.Models.Callbacks
                     maintInhalantDrug.BreathingSystem.Label = read["d.Label"].ToString();
                     maintInhalantDrug.BreathingSystem.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     maintInhalantDrug.BreathingSystem.Description = read["d.Description"].ToString();
+                    if (read["d.Concentration"].ToString() != "")
+                        maintInhalantDrug.BreathingSystem.Concentration = Convert.ToDecimal(read["d.Concentration"].ToString());
                 }
                 else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS && maintInhalantDrug.IntraoperativeAnalgesia.Id != -1)
                 {
@@ -62,6 +68,8 @@ namespace SOAP.Models.Callbacks
                     maintInhalantDrug.IntraoperativeAnalgesia.Label = read["e.Label"].ToString();
                     maintInhalantDrug.IntraoperativeAnalgesia.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
                     maintInhalantDrug.IntraoperativeAnalgesia.Description = read["e.Description"].ToString();
+                    if (read["e.Concentration"].ToString() != "")
+                        maintInhalantDrug.IntraoperativeAnalgesia.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
                 }
             }
 

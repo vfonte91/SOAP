@@ -28,6 +28,8 @@ namespace SOAP.Models.Callbacks
                     anesPlanInhalant.Drug.Label = read["b.Label"].ToString();
                     anesPlanInhalant.Drug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     anesPlanInhalant.Drug.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        anesPlanInhalant.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
             }
 

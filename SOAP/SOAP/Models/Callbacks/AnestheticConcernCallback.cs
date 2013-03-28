@@ -23,6 +23,8 @@ namespace SOAP.Models.Callbacks
                     anestheticConcern.Concern.Label = read["b.Label"].ToString();
                     anestheticConcern.Concern.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
                     anestheticConcern.Concern.Description = read["b.Description"].ToString();
+                    if (read["b.Concentration"].ToString() != "")
+                        anestheticConcern.Concern.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                 }
             }
 
