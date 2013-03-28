@@ -825,25 +825,53 @@ function toolTipGenerate(id, name) {
 function calculateDosages() {
 
     var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
-    debugger;
+
     var dose;
     var dosage;
     var cats = DropdownCategories;
     if (weight != "") {
         //dosage = weight * dose;
         weight = parseFloat(weight);
+
+        var sed = specificCalculations(21, "Patient.AnestheticPlan.PreMedications.SedativeDrug", "Patient.AnestheticPlan.PreMedications.SedativeDosage");
+        if (sed == null) {
+            document.getElementById("Premed-Sedative-Dosage").innerHTML = "Unable to Calculate";
+        } else {
+            document.getElementById("Premed-Sedative-Dosage").innerHTML = sed+ "mL";
+        }
+
+        var opi = specificCalculations(22, "Patient.AnestheticPlan.PreMedications.OpioidDrug", "Patient.AnestheticPlan.PreMedications.OpioidDosage");
+        if (opi == null) {
+            document.getElementById("Premed-Opioid-Dosage").innerHTML = "Unable to Calculate";
+        } else {
+            document.getElementById("Premed-Opioid-Dosage").innerHTML = opi+"mL";
+        }
+
+        var anti = specificCalculations(23, "Patient.AnestheticPlan.PreMedications.AnticholinergicDrug", "Patient.AnestheticPlan.PreMedications.AnticholinergicDosage");
+        if (anti == null) {
+            document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Unable to Calculate";
+        } else {
+            document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = anti+"mL";
+        }
+
+        var induc = specificCalculations(14, "Patient.AnestheticPlan.InjectionPlan.Drug", "Patient.AnestheticPlan.InjectionPlan.Dosage");
+        if (induc == null) {
+            document.getElementById("Induction-Injectable-Dosage").innerHTML = "Unable to Calculate";
+        } else {
+            document.getElementById("Induction-Injectable-Dosage").innerHTML = induc+ "mL";
+        }
+
+        var main = specificCalculations(14, "Patient.MaintenanceInjectionDrug.Drug", "Patient.MaintenanceInjectionDrug.Dosage");
+        if (induc == null) {
+            document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Unable to Calculate";
+        } else {
+            document.getElementById("Maintenance-Injectable-Dosage").innerHTML = main +"mL";
+        }
+
         var epi = .1 * weight;
+        document.getElementById("Emergency-Epinephrine").innerHTML = epi + "mL";
+
         var atro = .1 * weight;
-
-
-
-
-        document.getElementById("Premed-Sedative-Dosage").innerHTML = "test";
-        document.getElementById("Premed-Opioid-Dosage").innerHTML = "test";
-        document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "test";
-        document.getElementById("Induction-Injectable-Dosage").innerHTML = "test";
-        document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "test";
-        document.getElementById("Emergency-Epinephrine").innerHTML = epi+"mL";
         document.getElementById("Emergency-Atropine").innerHTML = atro + "mL";
     } else {
         document.getElementById("Premed-Sedative-Dosage").innerHTML = "Enter Body Weight";
@@ -854,4 +882,35 @@ function calculateDosages() {
         document.getElementById("Emergency-Epinephrine").innerHTML = "Enter Body Weight";
         document.getElementById("Emergency-Atropine").innerHTML = "Enter Body Weight";
     }
+}
+
+function specificCalculations(id, name, dosage) {
+    debugger;
+    var dosageVal = document.getElementById(dosage).value;
+    if (dosageVal == "") {
+        return null;
+    }
+    dosageVal = parseFloat(dosageVal);
+    var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
+    weight = parseFloat(weight);
+    var num = parseInt(id);
+    num = num - 1;
+    var cats = DropdownCategories;
+    var values = cats[num].DropdownValues;
+    var e = document.getElementById(name);
+    var current = e.options[e.selectedIndex].text;
+    var concentraion;
+    for (var i = 0; i < values.length; i++) {
+        if (values[i].Label == current) {
+            concentraion = values[i].Concentration;
+        }
+        if (concentraion == null) {
+            return null;
+        }
+    }
+
+    var dose = dosageVal * weight;
+    var mL = dose / concentraion;
+    return mL;
+
 }
