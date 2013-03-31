@@ -30,6 +30,8 @@ namespace SOAP.Models.Callbacks
                     anesPlanInhalant.Drug.Description = read["b.Description"].ToString();
                     if (read["b.Concentration"].ToString() != "")
                         anesPlanInhalant.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
+                    if (read["b.MaxDosage"].ToString() != "")
+                        anesPlanInhalant.Drug.MaxDosage = Convert.ToDecimal(read["b.MaxDosage"].ToString());
                 }
             }
 

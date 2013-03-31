@@ -19,7 +19,8 @@ namespace SOAP.Models
         {
             LOAD_ROUTE_WITH_DETAILS,
             LOAD_DRUG_INFORMATION,
-            LOAD_INTRAOP_WITH_DETAILS
+            LOAD_INTRAOP_WITH_DETAILS,
+            LOAD_IV_WITH_DETAILS
         };
 
         public MaintenanceInjectionDrug()

@@ -42,6 +42,8 @@ namespace SOAP.Models.Callbacks
                     maintInhalantDrug.Drug.Description = read["b.Description"].ToString();
                     if (read["b.Concentration"].ToString() != "")
                         maintInhalantDrug.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
+                    if (read["b.MaxDosage"].ToString() != "")
+                        maintInhalantDrug.Drug.MaxDosage = Convert.ToDecimal(read["b.MaxDosage"].ToString());
                 }
                 else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_DETAILS && maintInhalantDrug.BreathingBagSize.Id != -1)
                 {
@@ -72,6 +74,16 @@ namespace SOAP.Models.Callbacks
                     maintInhalantDrug.IntraoperativeAnalgesia.Description = read["e.Description"].ToString();
                     if (read["e.Concentration"].ToString() != "")
                         maintInhalantDrug.IntraoperativeAnalgesia.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
+                }
+                else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_IV_WITH_DETAILS && maintInhalantDrug.IVFluidType.Id != -1)
+                {
+                    if (read["f.CategoryId"].ToString() != "")
+                        maintInhalantDrug.IVFluidType.Category.Id = Convert.ToInt32(read["f.CategoryId"].ToString());
+                    maintInhalantDrug.IVFluidType.Label = read["f.Label"].ToString();
+                    maintInhalantDrug.IVFluidType.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
+                    maintInhalantDrug.IVFluidType.Description = read["f.Description"].ToString();
+                    if (read["f.Concentration"].ToString() != "")
+                        maintInhalantDrug.IVFluidType.Concentration = Convert.ToDecimal(read["f.Concentration"].ToString());
                 }
             }
 

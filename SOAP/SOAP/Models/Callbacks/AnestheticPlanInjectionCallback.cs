@@ -40,6 +40,8 @@ namespace SOAP.Models.Callbacks
                         anesPlanInject.Drug.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     if (read["d.Concentration"].ToString() != "")
                         anesPlanInject.Drug.Concentration = Convert.ToDecimal(read["d.Concentration"].ToString());
+                    if (read["d.MaxDosage"].ToString() != "")
+                        anesPlanInject.Drug.MaxDosage = Convert.ToDecimal(read["d.MaxDosage"].ToString());
                     anesPlanInject.Drug.Description = read["d.Description"].ToString();
                     //if (read["b.Id"].ToString() != "")
                     //    anesPlanInject.Drug.Id = Convert.ToInt32(read["b.Id"].ToString());

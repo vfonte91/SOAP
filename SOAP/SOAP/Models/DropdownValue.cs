@@ -11,6 +11,7 @@ namespace SOAP.Models
         private char _otherFlag;
         private string _description;
         private decimal _concentration;
+        private decimal _maxDosage;
 
         public enum LazyComponents
         {
@@ -21,7 +22,6 @@ namespace SOAP.Models
         {
             _id = -1;
             _category = new DropdownCategory();
-            _concentration = -1;
         }
 
         public int Id
@@ -58,6 +58,12 @@ namespace SOAP.Models
         {
             get { return _concentration; }
             set { _concentration = value; }
+        }
+
+        public decimal MaxDosage
+        {
+            get { return _maxDosage; }
+            set { _maxDosage = value; }
         }
 
         public bool ValidateDropdownValue()
