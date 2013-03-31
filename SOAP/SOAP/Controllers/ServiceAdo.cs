@@ -1730,11 +1730,11 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.IV_Fluid_Type_To_Patient (
-                            PatientId, DrugId, InductionReqFlag, InductionDose, InductionOxygenFlowRate, MaintenanceReqFlag, 
-                            MaintenanceDose, MaintenanceOxygenFlowRate, EquipmentReqFlag, BreathingSystemId, BreathingBagSizeId
+                            PatientId, DrugId, InductionDose, InductionOxygenFlowRate,
+                            MaintenanceDose, MaintenanceOxygenFlowRate, BreathingSystemId, BreathingBagSizeId
                             ) VALUES (
-                            @PatientId, @DrugId, @InductionReqFlag, @InductionDose, @InductionOxygenFlowRate, @MaintenanceReqFlag,
-                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @EquipmentReqFlag, @BreathingSystemId, @BreathingBagSizeId
+                            @PatientId, @DrugId, @InductionDose, @InductionOxygenFlowRate,
+                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @BreathingSystemId, @BreathingBagSizeId
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -2582,9 +2582,9 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
-                            DrugId = @DrugId, InductionReqFlag = @InductionReqFlag, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
-                            MaintenanceReqFlag = @MaintenanceReqFlag, MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
-                            EquipmentReqFlag = @EquipmentReqFlag, BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
+                            DrugId = @DrugId, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
+                            MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
+                            BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
                             WHERE
                             Id = @Id";
 
