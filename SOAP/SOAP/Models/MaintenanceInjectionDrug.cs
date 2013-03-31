@@ -11,16 +11,11 @@ namespace SOAP.Models
         private decimal _dosage;
         private decimal _dose;
         private DropdownValue _drug;
-        private string _otherAnestheticDrug;
-        private DropdownValue _intraoperativeAnalgesia;
-        private DropdownValue _iVFluidType;
 
         public enum LazyComponents
         {
             LOAD_ROUTE_WITH_DETAILS,
-            LOAD_DRUG_INFORMATION,
-            LOAD_INTRAOP_WITH_DETAILS,
-            LOAD_IV_WITH_DETAILS
+            LOAD_DRUG_INFORMATION
         };
 
         public MaintenanceInjectionDrug()
@@ -28,14 +23,11 @@ namespace SOAP.Models
             _id = -1;
             _routeOfAdministration = new DropdownValue();
             _drug = new DropdownValue();
-            _intraoperativeAnalgesia = new DropdownValue();
-            _iVFluidType = new DropdownValue();
         }
 
         public bool HasValues()
         {
-            return (_routeOfAdministration.Id != -1 || _dosage != 0.0M || _dose != 0.0M || _drug.Id != -1 || _otherAnestheticDrug != null ||
-                    _intraoperativeAnalgesia.Id != -1);
+            return (_routeOfAdministration.Id != -1 || _dosage != 0.0M || _dose != 0.0M || _drug.Id != -1);
         }
 
         public int Id
@@ -72,24 +64,6 @@ namespace SOAP.Models
         {
             get { return _drug; }
             set { _drug = value; }
-        }
-
-        public string OtherAnestheticDrug
-        {
-            get { return _otherAnestheticDrug; }
-            set { _otherAnestheticDrug = value; }
-        }
-
-        public DropdownValue IntroaperativeAnalgesia
-        {
-            get { return _intraoperativeAnalgesia; }
-            set { _intraoperativeAnalgesia = value; }
-        }
-
-        public DropdownValue IVFluidType
-        {
-            get { return _iVFluidType; }
-            set { _iVFluidType = value; }
         }
 
         public bool ValidateMaintenanceInjectionDrug()

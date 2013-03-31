@@ -175,8 +175,6 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
         Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
         Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Dosage').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.IntroaperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
     }
     else {
         Patient.Maintenance.MaintenanceInjectionDrug = {};
@@ -188,9 +186,9 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
     }
+    Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.Drug').val();
+    Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia').val();
 }
 
 function dropdownSelected(domObject) {
@@ -429,7 +427,7 @@ function populateAll() {
     populate(16, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.Drug");
     populate(17, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem");
     populate(18, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize");
-    populate(19, "Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia");
+    populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia");
     populate(20, "Patient\\.Monitoring\\.Monitoring");
 
 }

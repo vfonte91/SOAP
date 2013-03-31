@@ -7,6 +7,7 @@ namespace SOAP.Models
     {
         private MaintenanceInjectionDrug _maintenanceInjectionDrug;
         private MaintenanceInhalantDrug _maintenanceInhalantDrug;
+        private MaintenanceOther _maintenanceOther;
 
         public MaintenanceInjectionDrug MaintenanceInjectionDrug
         {
@@ -20,10 +21,17 @@ namespace SOAP.Models
             set { _maintenanceInhalantDrug = value; }
         }
 
+        public MaintenanceOther MaintenanceOther
+        {
+            get { return _maintenanceOther; }
+            set { _maintenanceOther = value; }
+        }
+
         public Maintenance()
         {
             _maintenanceInjectionDrug = new MaintenanceInjectionDrug();
             _maintenanceInhalantDrug = new MaintenanceInhalantDrug();
+            _maintenanceOther = new MaintenanceOther();
         }
 
 
