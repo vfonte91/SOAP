@@ -924,7 +924,7 @@ function specificCalculations(id, name, dosage) {
     }
     if (maxDose != 0) {
         if (maxDose < dosageVal) {
-            alert("Alert: Dosage greater than max for this medicine, automatically altered");
+            alert("Alert: Dosage greater than max for " + current +", automatically altered");
             dosageVal = maxDose;
         }
     }
