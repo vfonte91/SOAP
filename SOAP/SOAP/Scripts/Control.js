@@ -1,6 +1,6 @@
 ﻿var Patient = {
-    PatientInfo: { Student: {}, Clinician: {} },
-    ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
+    PatientInfo: { },
+    ClinicalFindings: { },
     Bloodwork: {},
     AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
@@ -37,12 +37,6 @@ $(document).ready(function () {
                 $('#' + currentContent).show('slide');
             });
         }
-    });
-
-    //When an input loses focus, grab information
-    $("input").blur(function () {
-        $this = $(this);
-        addValue($this.closest('form'), $this.attr('name'), $this.val(), $this.attr('subgroup'));
     });
 
     //Button to open Edit Profile drop down
@@ -93,20 +87,6 @@ $(document).ready(function () {
     $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
 });
 
-function addValue(section, name, value, subgroup) {
-    if (section && name) {
-        section = section[0].name;
-        if (section != "AnestheticPlan") {
-            if (subgroup) {
-                Patient[section][subgroup][name] = value
-            }
-            else {
-                Patient[section][name] = value;
-            }
-        }
-    }
-}
-
 function buildPatientInfo() {
     var procedure = $('#Patient\\.PatientInfo\\.Procedure').val();
     var otherProcedure = $('#Patient\\.PatientInfo\\.ProcedureOther').val();
@@ -115,8 +95,68 @@ function buildPatientInfo() {
     var ageInYears = $('#Patient\\.PatientInfo\\.AgeInYears').val();
     var temperament = $('#Patient\\.PatientInfo\\.Temperament').val();
     var procedureDate = $('#Patient\\.PatientInfo\\.ProcedureDate').val();
-    var preOp = $('#').val();
-    var postOp = $('#').val();
+    var preOp = $('#Patient\\.PatientInfo\\.PreOperationPainAssessment').val();
+    var postOp = $('#Patient\\.PatientInfo\\.PostOperationPainAssessment').val();
+    var student = UserInformation.Username;
+    var clinician = UserInformation.Username;
+    Patient.PatientInfo = { Procedure: { Id: procedure }, ProcedureOther: otherProcedure, BodyWeight: bodyWeight, AgeInMonths: ageInMonths, AgeInYears: ageInYears,
+        Temperament: { Id: temperament }, ProcedureDate: procedureDate, PreOperationPainAssessment: { Id: preOp }, PostOperationPainAssessment: { Id: postOp },
+        Student: { Username: student }, Clinician: { Username: student }
+    }
+}
+
+function buildClinicalFindings() {
+    var temperature = $('#Patient\\.ClinicalFindings\\.Temperature').val();
+    var pulseRate = $('#Patient\\.ClinicalFindings\\.PulseRate').val();
+    var respiratoryRate = $('#Patient\\.ClinicalFindings\\.RespiratoryRate').val();
+    var cardiacAusc = $('#Patient\\.ClinicalFindings\\.CardiacAuscultation').val();
+    var pulseQuality = $('#Patient\\.ClinicalFindings\\.PulseQuality').val();
+    var capRefill = $('#Patient\\.ClinicalFindings\\.CapillaryRefillTime').val();
+    var respiratoryAusc = $('#Patient\\.ClinicalFindings\\.RespiratoryAuscultation').val();
+    var physicalStatus = $('#Patient\\.ClinicalFindings\\.PhysicalStatusClassification').val();
+    var classification = $('#Patient\\.ClinicalFindings\\.ReasonForClassification').val();
+    var mucous = $('#Patient\\.ClinicalFindings\\.MucousMembraneColor').val();
+    var priorAnesDate = $('#Patient\\.ClinicalFindings\\.Date').val();
+    var priorAnesProb = $('#Patient\\.ClinicalFindings\\.Problems').val();
+    var currentMeds = $('#Patient\\.ClinicalFindings\\.CurrentMedications').val();
+    var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
+    Patient.ClinicalFindings = { Temperature: temperature, PulseRate: pulseRate, RespiratoryRate: respiratoryRate, CardiacAuscultation: { Id: cardiacAusc },
+        CapillaryRefillTime: { Id: capRefill }, PulseQuality: { Id: pulseQuality }, RespiratoryAuscultation: { Id: respiratoryAusc },
+        PhysicalStatusClassification: { Id: physicalStatus }, ReasonForClassification: classification, MucousMembraneColor: { Id: mucous }, CurrentMedications: currentMeds,
+        AnesthesiaConcerns: [], PriorAnesthesia: {}
+    };
+    for (var i = 0; i < anesthesiaValues.length; i++) {
+        var idOfVal = anesthesiaValues[i].getAttribute("value");
+        var val = { Concern: { Id: idOfVal} };
+        Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
+    }
+    if ($('#Patient\\.ClinicalFindings\\.PriorAnesthesia\\.Yes').is(':checked')) {
+        Patient.ClinicalFindings.PriorAnesthesia = { DateOfProblem: priorAnesDate, Problem: priorAnesProb };
+    }
+}
+
+function buildBloodwork() {
+    var pcv = $('#Patient\\.Bloodwork\\.PCV').val();
+    var tp = $('#Patient\\.Bloodwork\\.TP').val();
+    var albumin = $('#Patient\\.Bloodwork\\.Albumin').val();
+    var globulin = $('#Patient\\.Bloodwork\\.Globulin').val();
+    var wbc = $('#Patient\\.Bloodwork\\.WBC').val();
+    var na = $('#Patient\\.Bloodwork\\.NA').val();
+    var k = $('#Patient\\.Bloodwork\\.K').val();
+    var cl = $('#Patient\\.Bloodwork\\.Cl').val();
+    var ca = $('#Patient\\.Bloodwork\\.Ca').val();
+    var ica = $('#Patient\\.Bloodwork\\.iCa').val();
+    var glucose = $('#Patient\\.Bloodwork\\.Glucose').val();
+    var alt = $('#Patient\\.Bloodwork\\.ALT').val();
+    var alp = $('#Patient\\.Bloodwork\\.ALP').val();
+    var bun = $('#Patient\\.Bloodwork\\.BUN').val();
+    var creat = $('#Patient\\.Bloodwork\\.CREAT').val();
+    var usg = $('#Patient\\.Bloodwork\\.USG').val();
+    var otherType = $('#Patient\\.Bloodwork\\.OtherType').val();
+    var otherResult = $('#Patient\\.Bloodwork\\.OtherValue').val();
+    Patient.Bloodwork = { PCV: pcv, TP: tp, Albumin: albumin, Globulin: globulin, WBC: wbc, NA: na, K: k, Cl: cl,
+        Ca: ca, iCa: ica, Glucose: glucose, ALT: alt, ALP: alp, BUN: bun, CREAT: creat, USG: usg, OtherType: otherType, OtherValue: otherResult
+    };
 }
 
 function buildAnestheticPlanPremeds() {
@@ -193,42 +233,14 @@ function buildMaintenance() {
     }
 }
 
-function dropdownSelected(domObject) {
-    var section = $(domObject).closest("form")[0].name;
-    var name = domObject.name;
-    var value = domObject.value;
-    if (section && name) {
-        Patient[section][name] = {};
-        Patient[section][name].Id = value;
-    }
-}
-
-function dateSelected(domObject) {
-    var section = $(domObject).closest("form")[0].name;
-    var name = domObject.name;
-    var value = domObject.value;
-    var subgroup = $(domObject).attr('subgroup');
-    if (section && name) {
-        if (subgroup)
-            Patient[section][subgroup][name] = value;
-        else
-            Patient[section][name] = value;
-    }
-}
-
 function SaveForm() {
     Patient.PatientInfo.FormCompleted = 'N';
-    Patient.PatientInfo.Student.Username = UserInformation.Username;
-    Patient.PatientInfo.Clinician.Username = UserInformation.Username;
-    var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
-    for (var i = 0; i < anesthesiaValues.length; i++) {
-        var idOfVal = anesthesiaValues[i].getAttribute("value");
-        var val = { Concern: { Id: idOfVal} };
-        Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
-    }
     buildAnestheticPlanPremeds();
     buildInduction();
     buildMaintenance();
+    buildPatientInfo();
+    buildClinicalFindings();
+    buildBloodwork();
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
