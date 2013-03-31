@@ -80,7 +80,7 @@ namespace SOAP.Models
             set { _otherAnestheticDrug = value; }
         }
 
-        public DropdownValue IntroaperativeAnalgesia
+        public DropdownValue IntraoperativeAnalgesia
         {
             get { return _intraoperativeAnalgesia; }
             set { _intraoperativeAnalgesia = value; }

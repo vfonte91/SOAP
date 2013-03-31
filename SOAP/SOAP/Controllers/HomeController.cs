@@ -139,6 +139,7 @@ namespace SOAP.Controllers
             }
             catch
             {
+                service.DeletePatient(pat);
                 dict["success"] = false;
             }
             return Json(dict);

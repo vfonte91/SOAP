@@ -20,6 +20,7 @@ namespace SOAP.Models
         private string _currentMedications;
         private PriorAnesthesia _priorAnesthesia;
         private List<AnesthesiaConcern> _anesthesiaConcerns;
+        private string _otherAnestheticConcerns;
 
         public enum LazyComponents
         {
@@ -143,6 +144,12 @@ namespace SOAP.Models
         {
             get { return _anesthesiaConcerns; }
             set { _anesthesiaConcerns = value; }
+        }
+
+        public string OtherAnestheticConcerns
+        {
+            get { return _otherAnestheticConcerns; }
+            set { _otherAnestheticConcerns = value; }
         }
 
         public bool ValidateClinicalFindings()

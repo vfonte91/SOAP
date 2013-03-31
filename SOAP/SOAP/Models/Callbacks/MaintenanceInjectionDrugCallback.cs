@@ -19,7 +19,7 @@ namespace SOAP.Models.Callbacks
                 maintInjectDrug.Dose = Convert.ToDecimal(read["a.Dosage"].ToString());
             maintInjectDrug.OtherAnestheticDrug = read["a.OtherAnestheticDrugs"].ToString();
             if (read["a.IntraoperativeAnalgesiaId"].ToString() != "")
-                maintInjectDrug.IntroaperativeAnalgesia.Id = Convert.ToInt32(read["a.IntraoperativeAnalgesiaId"].ToString());
+                maintInjectDrug.IntraoperativeAnalgesia.Id = Convert.ToInt32(read["a.IntraoperativeAnalgesiaId"].ToString());
             if (read["a.IVFluidTypeId"].ToString() != "")
                 maintInjectDrug.IVFluidType.Id = Convert.ToInt32(read["a.IVFluidTypeId"].ToString());
 
@@ -60,15 +60,15 @@ namespace SOAP.Models.Callbacks
                     if (read["c.Concentration"].ToString() != "")
                         maintInjectDrug.RouteOfAdministration.Concentration = Convert.ToDecimal(read["c.Concentration"].ToString());
                 }
-                else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS && maintInjectDrug.IntroaperativeAnalgesia.Id != -1)
+                else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS && maintInjectDrug.IntraoperativeAnalgesia.Id != -1)
                 {
                     if (read["e.CategoryId"].ToString() != "")
-                        maintInjectDrug.IntroaperativeAnalgesia.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
-                    maintInjectDrug.IntroaperativeAnalgesia.Label = read["e.Label"].ToString();
-                    maintInjectDrug.IntroaperativeAnalgesia.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
-                    maintInjectDrug.IntroaperativeAnalgesia.Description = read["e.Description"].ToString();
+                        maintInjectDrug.IntraoperativeAnalgesia.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
+                    maintInjectDrug.IntraoperativeAnalgesia.Label = read["e.Label"].ToString();
+                    maintInjectDrug.IntraoperativeAnalgesia.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
+                    maintInjectDrug.IntraoperativeAnalgesia.Description = read["e.Description"].ToString();
                     if (read["e.Concentration"].ToString() != "")
-                        maintInjectDrug.IntroaperativeAnalgesia.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
+                        maintInjectDrug.IntraoperativeAnalgesia.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
                 }
                 else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_IV_WITH_DETAILS && maintInjectDrug.IVFluidType.Id != -1)
                 {

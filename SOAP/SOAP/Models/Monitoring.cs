@@ -8,6 +8,7 @@ namespace SOAP.Models
         private int _id;
         private int _patientId;
         private DropdownValue _equipment;
+        private string _otherEquipment;
 
         public enum LazyComponents
         {
@@ -36,6 +37,12 @@ namespace SOAP.Models
         {
             get { return _equipment; }
             set { _equipment = value; }
+        }
+
+        public string OtherEquipment
+        {
+            get { return _otherEquipment; }
+            set { _otherEquipment = value; }
         }
 
         public bool ValidateMonitoring()

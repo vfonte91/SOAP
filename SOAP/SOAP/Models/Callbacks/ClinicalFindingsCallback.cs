@@ -31,6 +31,7 @@ namespace SOAP.Models.Callbacks
                 clinicalFindings.PhysicalStatusClassification.Id = Convert.ToInt32(read["a.PhysicalStatusClassId"]);
             clinicalFindings.CurrentMedications = read["a.CurrentMedications"].ToString();
             clinicalFindings.ReasonForClassification = read["a.ReasonForClassification"].ToString();
+            clinicalFindings.OtherAnestheticConcerns = read["a.OtherAnestheticConcerns"].ToString();
 
             foreach (ClinicalFindings.LazyComponents a in lazyComponents)
             {

@@ -1512,10 +1512,12 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.Clinical_Findings (
                             PatientId, Temperature, PulseRate, RespiratoryRate, CardiacAuscultationId, PulseQualityId, MucousMembraneColorId, 
-                            CapillaryRefillTimeId, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification, CurrentMedications
+                            CapillaryRefillTimeId, RespiratoryAuscultationId, PhysicalStatusClassId, ReasonForClassification, CurrentMedications,
+                            OtherAnestheticConcerns
                             ) VALUES (
                             @PatientId, @Temperature, @PulseRate, @RespiratoryRate, @CardiacAuscultationId, @PulseQualityId, @MucousMembraneColorId,
-                            @CapillaryRefillTimeId, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification, @CurrentMedications
+                            @CapillaryRefillTimeId, @RespiratoryAuscultationId, @PhysicalStatusClassId, @ReasonForClassification, @CurrentMedications,
+                            @OtherAnestheticConcerns
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1575,6 +1577,10 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = cFind.CurrentMedications;
+                if (cFind.OtherAnestheticConcerns == null)
+                    cmd.Parameters.Add("@OtherAnestheticConcerns", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OtherAnestheticConcerns", SqlDbType.NVarChar).Value = cFind.OtherAnestheticConcerns;
 
                 try
                 {
@@ -1795,15 +1801,41 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInhalant.PatientId;
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInhalant.Drug.Id;
-                cmd.Parameters.Add("@InductionDose", SqlDbType.Decimal).Value = maintInhalant.InductionPercentage;
-                cmd.Parameters.Add("@InductionOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.InductionOxygenFlowRate;
-                cmd.Parameters.Add("@MaintenanceDose", SqlDbType.Decimal).Value = maintInhalant.MaintenancePercentage;
-                cmd.Parameters.Add("@MaintenanceOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.MaintenanceOxygenFlowRate;
-                cmd.Parameters.Add("@BreathingSystemId", SqlDbType.Int).Value = maintInhalant.BreathingSystem.Id;
-                cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
+                if (maintInhalant.Drug.Id == -1)
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInhalant.Drug.Id;
+                if (maintInhalant.InductionPercentage == 0.0M)
+                    cmd.Parameters.Add("@InductionDose", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@InductionDose", SqlDbType.Decimal).Value = maintInhalant.InductionPercentage;
+                if (maintInhalant.InductionOxygenFlowRate == 0.0M)
+                    cmd.Parameters.Add("@InductionOxygenFlowRate", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@InductionOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.InductionOxygenFlowRate;
+                if (maintInhalant.MaintenancePercentage == 0.0M)
+                    cmd.Parameters.Add("@MaintenanceDose", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MaintenanceDose", SqlDbType.Decimal).Value = maintInhalant.MaintenancePercentage;
+                if (maintInhalant.MaintenanceOxygenFlowRate == 0.0M)
+                    cmd.Parameters.Add("@MaintenanceOxygenFlowRate", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MaintenanceOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.MaintenanceOxygenFlowRate;
+                if (maintInhalant.BreathingSystem.Id == -1)
+                    cmd.Parameters.Add("@BreathingSystemId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@BreathingSystemId", SqlDbType.Int).Value = maintInhalant.BreathingSystem.Id;
+                if (maintInhalant.BreathingBagSize.Id == -1)
+                    cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
+
                 cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInhalant.OtherAnestheticDrug;
-                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
+
+                if (maintInhalant.IntraoperativeAnalgesia.Id == -1)
+                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
                 if (maintInhalant.IVFluidType.Id == -1)
                     cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
                 else
@@ -1836,11 +1868,25 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInject.PatientId;
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInject.Drug.Id;
-                cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = maintInject.RouteOfAdministration.Id;
-                cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
+                if (maintInject.Drug.Id == -1)
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInject.Drug.Id;
+                if (maintInject.RouteOfAdministration.Id == -1)
+                    cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = maintInject.RouteOfAdministration.Id;
+                if (maintInject.Dosage == 0.0M)
+                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
+
                 cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInject.OtherAnestheticDrug;
-                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntroaperativeAnalgesia.Id;
+
+                if (maintInject.IntraoperativeAnalgesia.Id == -1)
+                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntraoperativeAnalgesia.Id;
                 if (maintInject.IVFluidType.Id == -1)
                     cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
                 else
@@ -1866,14 +1912,23 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Monitoring_To_Patient (
-                            PatientId, EquipmentId
+                            PatientId, EquipmentId, OtherEquipment
                             ) VALUES (
-                            @PatientId, @EquipmentId
+                            @PatientId, @EquipmentId, @OtherEquipment
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = monitor.PatientId;
-                cmd.Parameters.Add("@EquipmentId", SqlDbType.Int).Value = monitor.Equipment.Id;
+                if (monitor.Equipment.Id == -1)
+                    cmd.Parameters.Add("@EquipmentId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@EquipmentId", SqlDbType.NVarChar).Value = monitor.Equipment.Id;
+
+                if (monitor.OtherEquipment == null)
+                    cmd.Parameters.Add("@OtherEquipment", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OtherEquipment", SqlDbType.NVarChar).Value = monitor.OtherEquipment;
+
                 try
                 {
                     conn.Open();
@@ -1926,10 +1981,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.Patient (
                             StudentId, ClinicianId, FormCompleted, TemperamentId, ProcedureDate, CageOrStallNumber, BodyWeight,
-                            AgeInYears, AgeInMonths, PreOpPainAssessmentId, PostOpPainAssessmentId, DateSeenOn, ProcedureId
+                            AgeInYears, AgeInMonths, PreOpPainAssessmentId, PostOpPainAssessmentId, DateSeenOn, ProcedureId, ProcedureOther
                             ) VALUES (
                             @StudentId, @ClinicianId, @FormCompleted, @TemperamentId, @ProcedureDate, @CageOrStallNumber, @BodyWeight,
-                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId, @DateSeenOn, @ProcedureId)
+                            @AgeInYears, @AgeInMonths, @PreOpPainAssessmentId, @PostOpPainAssessmentId, @DateSeenOn, @ProcedureId, @ProcedureOther)
                             SELECT SCOPE_IDENTITY() as Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1983,6 +2038,11 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@ProcedureId", SqlDbType.Int).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@ProcedureId", SqlDbType.Int).Value = pat.PatientInfo.Procedure.Id;
+
+                if (pat.PatientInfo.ProcedureOther == null)
+                    cmd.Parameters.Add("@ProcedureOther", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@ProcedureOther", SqlDbType.NVarChar).Value = pat.PatientInfo.ProcedureOther;
 
                 try
                 {
@@ -2348,7 +2408,8 @@ namespace SOAP.Controllers
                             Temperature = @Temperature, PulseRate = @PulseRate, RespiratoryRate = @RespiratoryRate, CardiacAuscultationId = @CardiacAuscultationId, 
                             PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTimeId = @CapillaryRefillTimeId 
                             RespiratoryAuscultationId = @RespiratoryAuscultationId, PhysicalStatusClassId = @PhysicalStatusClassId, 
-                            ReasonForClassification = @ReasonForClassification, CurrentMedications = @CurrentMedications
+                            ReasonForClassification = @ReasonForClassification, CurrentMedications = @CurrentMedications, 
+                            OtherAnestheticConcerns = @OtherAnestheticConcerns
                             WHERE
                             Id = @Id";
 
@@ -2365,6 +2426,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@PhysicalStatusClassId", SqlDbType.Int).Value = cFind.PhysicalStatusClassification.Id;
                 cmd.Parameters.Add("@ReasonForClassification", SqlDbType.NVarChar).Value = cFind.ReasonForClassification;
                 cmd.Parameters.Add("@CurrentMedications", SqlDbType.NVarChar).Value = cFind.CurrentMedications;
+                cmd.Parameters.Add("@OtherAnestheticConcerns", SqlDbType.NVarChar).Value = cFind.OtherAnestheticConcerns;
                 try
                 {
                     conn.Open();
@@ -2615,7 +2677,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = maintInject.RouteOfAdministration.Id;
                 cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
                 cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInject.OtherAnestheticDrug;
-                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntroaperativeAnalgesia.Id;
+                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntraoperativeAnalgesia.Id;
                 cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = maintInject.IVFluidType.Id;
                 try
                 {
@@ -2638,13 +2700,14 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Monitoring_To_Patient SET
-                            EquipmentId = @EquipmentId
+                            EquipmentId = @EquipmentId, OtherEquipment = @OtherEquipment
                             WHERE
                             Id = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = monitor.Id;
                 cmd.Parameters.Add("@EquipmentId", SqlDbType.Int).Value = monitor.Equipment.Id;
+                cmd.Parameters.Add("@OtherEquipment", SqlDbType.NVarChar).Value = monitor.OtherEquipment;
                 try
                 {
                     conn.Open();
@@ -2697,7 +2760,8 @@ namespace SOAP.Controllers
                             StudentId = @StudentId, ClinicianId = @ClinicianId, FormCompleted = @FormCompleted, TemperamentId = @TemperamentId, 
                             DateSeenOn = @DateSeenOn, CageOrStallNumber = @CageOrStallNumber, BodyWeight = @BodyWeight,
                             AgeInYears = @AgeInYears, AgeInMonths = @AgeInMonths, PreOpPainAssessmentId = @PreOpPainAssessmentId, 
-                            PostOpPainAssessmentId = @PostOpPainAssessmentId, ProcedureDate = @ProcedureDate, ProcedureId = @ProcedureId
+                            PostOpPainAssessmentId = @PostOpPainAssessmentId, ProcedureDate = @ProcedureDate, ProcedureId = @ProcedureId,
+                            ProcedureOther = @ProcedureOther
                             WHERE
                             PatientId = @PatientId";
 
@@ -2716,6 +2780,7 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@PreOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PreOperationPainAssessment.Id;
                 cmd.Parameters.Add("@PostOpPainAssessmentId", SqlDbType.Int).Value = pat.PatientInfo.PostOperationPainAssessment.Id;
                 cmd.Parameters.Add("@ProcedureId", SqlDbType.Int).Value = pat.PatientInfo.Procedure.Id;
+                cmd.Parameters.Add("@ProcedureOther", SqlDbType.NVarChar).Value = pat.PatientInfo.ProcedureOther;
                 try
                 {
                     conn.Open();
@@ -3462,7 +3527,7 @@ namespace SOAP.Controllers
                     a.PulseQualityId as 'a.PulseQualityId', a.MucousMembraneColorId as 'a.MucousMembraneColorId',
                     a.CapillaryRefillTimeId as 'a.CapillaryRefillTimeId', a.RespiratoryAuscultationId as 'a.RespiratoryAuscultationId',
                     a.PhysicalStatusClassId as 'a.PhysicalStatusClassId', a.ReasonForClassification as 'a.ReasonForClassification',
-                    a.CurrentMedications as 'a.CurrentMedications' ";
+                    a.CurrentMedications as 'a.CurrentMedications', a.OtherAnestheticConcerns as 'a.OtherAnestheticConcerns' ";
         }
 
         private string BuildCurrentMedicationsSQL()
@@ -3510,7 +3575,7 @@ namespace SOAP.Controllers
 
         private string BuildMonitoringSQL()
         {
-            return @"SELECT a.Id as 'a.Id', a.PatientId 'a.PatientId', a.EquipmentId as 'a.EquipmentId' ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId 'a.PatientId', a.EquipmentId as 'a.EquipmentId', a.OtherEquipment as 'a.OtherEquipment' ";
         }
 
         private string BuildOtherAnestheticDrugSQL()
@@ -3524,7 +3589,7 @@ namespace SOAP.Controllers
                     a.TemperamentId as 'a.TemperamentId', a.DateSeenOn as 'a.DateSeenOn', a.CageOrStallNumber as 'a.CageOrStallNumber', 
                     a.BodyWeight as 'a.BodyWeight', a.AgeInYears as 'a.AgeInYears', a.AgeInMonths as 'a.AgeInMonths', 
                     a.PreOpPainAssessmentId as 'a.PreOpPainAssessmentId', a.PostOpPainAssessmentId as 'a.PostOpPainAssessmentId', 
-                    a.ProcedureDate as 'a.ProcedureDate', a.ProcedureId as 'a.ProcedureId' ";
+                    a.ProcedureDate as 'a.ProcedureDate', a.ProcedureId as 'a.ProcedureId', a.ProcedureOther as 'a.ProcedureOther' ";
         }
 
         private string BuildPriorAnesthesiaSQL()

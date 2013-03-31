@@ -196,7 +196,7 @@ namespace SOAP.Controllers
                 else if (b.OtherType != "" && b.OtherValue != -1)
                 {
                     blood.OtherType = b.OtherType;
-                    blood.OtherValue = blood.OtherValue;
+                    blood.OtherValue = b.OtherValue;
                 }
             }
             return blood;

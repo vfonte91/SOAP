@@ -4,7 +4,7 @@
     Bloodwork: {},
     AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
-    Monitoring: {}
+    Monitoring: []
 }
 
 var newPatient = true;
@@ -233,6 +233,20 @@ function buildMaintenance() {
     }
 }
 
+function buildMonitoring() {
+    var monitorValues = $("#Patient\\.Monitoring\\.Monitoring").multiselect("getChecked");
+    for (var i = 0; i < monitorValues.length; i++) {
+        var idOfVal = monitorValues[i].getAttribute("value");
+        var val = { Equipment: { Id: idOfVal} };
+        Patient.Monitoring.push(val);
+    }
+    var otherValue = $('#Patient\\.Monitoring\\.OtherMonitoring').val();
+    if (otherValue) {
+        var val = { OtherEquipment: otherValue };
+        Patient.Monitoring.push(val);
+    }
+}
+
 function SaveForm() {
     Patient.PatientInfo.FormCompleted = 'N';
     buildAnestheticPlanPremeds();
@@ -241,6 +255,7 @@ function SaveForm() {
     buildPatientInfo();
     buildClinicalFindings();
     buildBloodwork();
+    buildMonitoring();
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
@@ -320,6 +335,7 @@ function OpenForm(formId) {
                     }
                 }
             }
+            alert('Form Successfully Loaded');
         }
         else {
             alert("Could not open form");
