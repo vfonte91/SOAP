@@ -107,8 +107,19 @@ function addValue(section, name, value, subgroup) {
     }
 }
 
+function buildPatientInfo() {
+    var procedure = $('#Patient\\.PatientInfo\\.Procedure').val();
+    var otherProcedure = $('#Patient\\.PatientInfo\\.ProcedureOther').val();
+    var bodyWeight = $('#Patient\\.PatientInfo\\.BodyWeight').val();
+    var ageInMonths = $('#Patient\\.PatientInfo\\.AgeInMonths').val();
+    var ageInYears = $('#Patient\\.PatientInfo\\.AgeInYears').val();
+    var temperament = $('#Patient\\.PatientInfo\\.Temperament').val();
+    var procedureDate = $('#Patient\\.PatientInfo\\.ProcedureDate').val();
+    var preOp = $('#').val();
+    var postOp = $('#').val();
+}
+
 function buildAnestheticPlanPremeds() {
-    debugger;
     Patient.AnestheticPlan.PreMedications = [];
     var route = $("#Patient\\.AnestheticPlan\\.PreMedications\\.Route").val();
     var sedative = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDrug").val();
