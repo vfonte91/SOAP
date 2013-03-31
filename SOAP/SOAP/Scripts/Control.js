@@ -108,7 +108,7 @@ function addValue(section, name, value, subgroup) {
 }
 
 function buildAnestheticPlanPremeds() {
-    debugger;
+     
     Patient.AnestheticPlan.PreMedications = [];
     var route = $("#Patient\\.AnestheticPlan\\.PreMedications\\.Route").val();
     var sedative = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDrug").val();
@@ -229,13 +229,15 @@ function SaveForm() {
     .done(function (data) {
         if (data.success) {
             //Reload user form dropdown
+            alert("Form saved");
             GetUserForms();
         }
         else {
+            alert("Error: Form could not be saved");
         }
     })
     .fail(function (jqXHR, textStatus) {
-
+        alert("Error: Form could not be saved");
     });
 }
 
@@ -886,7 +888,7 @@ function calculateDosages() {
 }
 
 function specificCalculations(id, name, dosage) {
-    debugger;
+     
     var dosageVal = document.getElementById(dosage).value;
     if (dosageVal == "") {
         return null;
