@@ -837,6 +837,8 @@ function calculateDosages() {
         var sed = specificCalculations(21, "Patient.AnestheticPlan.PreMedications.SedativeDrug", "Patient.AnestheticPlan.PreMedications.SedativeDosage");
         if (sed == null) {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = "Unable to Calculate";
+        } else if (sed == "dose") {
+            document.getElementById("Premed-Sedative-Dosage").innerHTML = "Enter Dosage";
         } else {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = sed+ "mL";
         }
@@ -844,29 +846,37 @@ function calculateDosages() {
         var opi = specificCalculations(22, "Patient.AnestheticPlan.PreMedications.OpioidDrug", "Patient.AnestheticPlan.PreMedications.OpioidDosage");
         if (opi == null) {
             document.getElementById("Premed-Opioid-Dosage").innerHTML = "Unable to Calculate";
+        } else if (opi == "dose") {
+            document.getElementById("Premed-Opioid-Dosage").innerHTML = "Enter Dosage";
         } else {
-            document.getElementById("Premed-Opioid-Dosage").innerHTML = opi+"mL";
+            document.getElementById("Premed-Opioid-Dosage").innerHTML = opi + "mL";
         }
 
         var anti = specificCalculations(23, "Patient.AnestheticPlan.PreMedications.AnticholinergicDrug", "Patient.AnestheticPlan.PreMedications.AnticholinergicDosage");
         if (anti == null) {
             document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Unable to Calculate";
+        } else if (anti == "dose") {
+            document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Enter Dosage";
         } else {
-            document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = anti+"mL";
+            document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = anti + "mL";
         }
 
         var induc = specificCalculations(14, "Patient.AnestheticPlan.InjectionPlan.Drug", "Patient.AnestheticPlan.InjectionPlan.Dosage");
         if (induc == null) {
             document.getElementById("Induction-Injectable-Dosage").innerHTML = "Unable to Calculate";
+        } else if (induc == "dose") {
+            document.getElementById("Induction-Injectable-Dosage").innerHTML = "Enter Dosage";
         } else {
-            document.getElementById("Induction-Injectable-Dosage").innerHTML = induc+ "mL";
+            document.getElementById("Induction-Injectable-Dosage").innerHTML = induc + "mL";
         }
 
         var main = specificCalculations(14, "Patient.MaintenanceInjectionDrug.Drug", "Patient.MaintenanceInjectionDrug.Dosage");
-        if (induc == null) {
+        if (main == null) {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Unable to Calculate";
+        } else if (main == "dose") {
+            document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Enter Dosage";
         } else {
-            document.getElementById("Maintenance-Injectable-Dosage").innerHTML = main +"mL";
+            document.getElementById("Maintenance-Injectable-Dosage").innerHTML = main + "mL";
         }
 
         var epi = .1 * weight;
@@ -886,10 +896,10 @@ function calculateDosages() {
 }
 
 function specificCalculations(id, name, dosage) {
-    debugger;
+    //debugger;
     var dosageVal = document.getElementById(dosage).value;
     if (dosageVal == "") {
-        return null;
+        return "dose";
     }
     dosageVal = parseFloat(dosageVal);
     var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
@@ -901,15 +911,22 @@ function specificCalculations(id, name, dosage) {
     var e = document.getElementById(name);
     var current = e.options[e.selectedIndex].text;
     var concentraion;
+    var maxDose;
     for (var i = 0; i < values.length; i++) {
         if (values[i].Label == current) {
             concentraion = values[i].Concentration;
+            maxDose = values[i].MaxDosage;
         }
         if (concentraion == null) {
             return null;
         }
     }
-
+    if (maxDose != null) {
+        if (maxDose < dosageVal) {
+            alert("Alert: Dosage greater than max for this medicine, automatically altered");
+            dosageVal = maxDose;
+        }
+    }
     var dose = dosageVal * weight;
     var mL = dose / concentraion;
     return mL;
