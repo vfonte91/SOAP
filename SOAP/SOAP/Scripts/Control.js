@@ -60,11 +60,13 @@ $(document).ready(function () {
             //Register user
             var result = registerUser()
             if (result == "success") {
-                alert('Registration was succesful');
+                //alert('Registration was succesful');
+                popupBox('Registration was succesful');
                 $("#register-div").slideUp('slow');
             }
             else {
-                alert(result);
+                //alert(result);
+                popupBox(result);
             }
         }
     });
@@ -240,15 +242,18 @@ function SaveForm() {
     .done(function (data) {
         if (data.success) {
             //Reload user form dropdown
-            alert("Form saved");
+            //alert("Form saved");
+            popupBox("Form saved");
             GetUserForms();
         }
         else {
-            alert("Error: Form could not be saved");
+            //alert("Error: Form could not be saved");
+            popupBox("Error: Form could not be saved");
         }
     })
     .fail(function (jqXHR, textStatus) {
-        alert("Error: Form could not be saved");
+        popupBox("Error: Form could not be saved");
+        //alert("Error: Form could not be saved");
     });
 }
 
@@ -310,11 +315,13 @@ function OpenForm(formId) {
             }
         }
         else {
-            alert("Could not open form");
+            //alert("Could not open form");
+            popupBox("Could not open form");
         }
     })
     .fail(function (data) {
-        alert("Could not open form");
+        //alert("Could not open form");
+        popupBox("Could not open form");
     });
 }
 
@@ -372,7 +379,8 @@ function login(username, password) {
         return true;
     }
     else {
-        alert('Validate User Failed');
+        //alert('Validate User Failed');
+        popupBox('Validate User Failed');
         return false;
     }
 }
@@ -388,14 +396,17 @@ function editUserInformation() {
                 UserInformation.EmailAddress = foobarredUser.EmailAddress;
                 $("#profile-menu").slideToggle("slow")
                 $("#edit-profile-button").toggleClass("menu-close");
-                alert('User Info Updated');
+                //alert('User Info Updated');
+                popupBox('User Info Updated');
             }
             else {
-                alert('Error updating User Info');
+                //alert('Error updating User Info');
+                popupBox('Error updating User Info');
             }
         })
         .fail(function (data) {
-            alert('Error updating User Info');
+            //alert('Error updating User Info');
+            popupBox('Error updating User Info');
         });
 }
 
@@ -534,7 +545,8 @@ function ChangePassword(user) {
         });
     }
     else {
-        alert('Passwords do not match');
+        //alert('Passwords do not match');
+        popupBox('Passwords do not match');
     }
 }
 
@@ -606,10 +618,12 @@ function PopulateAdminDropdownValues(idOfCat) {
                 $("#dropdown-body").append(newRow);
             }
             else
-                alert("Clould not get drop down values");
+                //alert("Clould not get drop down values");
+            popupBox("Could not get drop down values");
         })
         .fail(function (data) {
-            alert("Clould not get drop down values");
+            //alert("Clould not get drop down values");
+            popupBox("Could not get drop down values");
         });
     }
 }
@@ -624,16 +638,19 @@ function editDropdownValue(id, label, desc) {
         }
 
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
-        .done(function(data) {
-            if(data.success) {
-                alert("Value edited successfully");
+        .done(function (data) {
+            if (data.success) {
+                //alert("Value edited successfully");
+                popupBox("Value edited successfully");
             }
             else {
-                alert("Error: value could not be edited");
+                //alert("Error: value could not be edited");
+                popupBox("Error: value could not be edited");
             }
         })
-        .fail(function(data) {
-            alert("Error: value could not be edited");
+        .fail(function (data) {
+            //alert("Error: value could not be edited");
+            popupBox("Error: value could not be edited");
         });
 }
 
@@ -763,7 +780,8 @@ function deleteUser(users) {
             });
     }
     getUsers();
-    alert(returned);
+    //alert(returned);
+    popupBox(returned);
 }
 
 function promoteUser(users) {
@@ -783,7 +801,8 @@ function promoteUser(users) {
             returned += "Error: " + users[i] + " could not be promoted. ";
         });
     }
-    alert(returned);
+    //alert(returned);
+    popupBox(returned);
 }
 
 //Logs user out of session
@@ -830,10 +849,13 @@ function toolTipGenerate(id, name) {
             description = values[i].Description;
         }
     }
-    if(description != null) {
-        alert(description);
+    if(description != "") {
+        //alert(description);
+        popupBox(description);
     } else {
-        alert("No description avaliable");
+        //alert("No description avaliable");
+
+        popupBox("No Description Avaliable");
     }
 }
 function calculateDosages() {
@@ -935,7 +957,8 @@ function specificCalculations(id, name, dosage) {
     }
     if (maxDose != 0) {
         if (maxDose < dosageVal) {
-            alert("Alert: Dosage greater than max for " + current +", automatically altered");
+            //alert("Alert: Dosage greater than max for " + current +", automatically altered");
+            popupBox("Dosage more than maximum allowed detected. Automatically reduced.");
             dosageVal = maxDose;
         }
     }
@@ -944,4 +967,24 @@ function specificCalculations(id, name, dosage) {
     mL = mL.toFixed(2);
     return mL;
 
+}
+function popupBox(text) {
+    $("#dialog-modal").dialog(
+    {
+
+        width: 350,
+        height: 200,
+        title: "Notification",
+
+        open: function (event, ui) {
+
+        }
+
+    });
+    $(".ui-dialog .ui-widget-content").css("background-color", "White");
+    $(".ui-dialog .ui-dialog-titlebar").css("background-color", "Red");
+    document.getElementById("dialog-modal").innerHTML = text;
+
+    //$("dialog-modal").dialog("open");
+    //alert("here");
 }
