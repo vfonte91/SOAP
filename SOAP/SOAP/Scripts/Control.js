@@ -460,7 +460,8 @@ function populateAll() {
     populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia");
     populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType");
     populate(20, "Patient\\.Monitoring\\.Monitoring");
-
+    $('#Patient\\.ClinicalFindings\\.AnesthesiaConcerns').multiselect("refresh");
+    $('#Patient\\.Monitoring\\.Monitoring').multiselect("refresh");
 }
 
 function populate(id, name) {
