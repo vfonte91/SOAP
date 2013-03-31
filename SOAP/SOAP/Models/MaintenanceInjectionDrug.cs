@@ -13,6 +13,7 @@ namespace SOAP.Models
         private DropdownValue _drug;
         private string _otherAnestheticDrug;
         private DropdownValue _intraoperativeAnalgesia;
+        private DropdownValue _iVFluidType;
 
         public enum LazyComponents
         {
@@ -27,6 +28,7 @@ namespace SOAP.Models
             _routeOfAdministration = new DropdownValue();
             _drug = new DropdownValue();
             _intraoperativeAnalgesia = new DropdownValue();
+            _iVFluidType = new DropdownValue();
         }
 
         public bool HasValues()
@@ -81,6 +83,12 @@ namespace SOAP.Models
         {
             get { return _intraoperativeAnalgesia; }
             set { _intraoperativeAnalgesia = value; }
+        }
+
+        public DropdownValue IVFluidType
+        {
+            get { return _iVFluidType; }
+            set { _iVFluidType = value; }
         }
 
         public bool ValidateMaintenanceInjectionDrug()
