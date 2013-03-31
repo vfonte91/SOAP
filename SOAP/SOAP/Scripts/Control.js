@@ -842,7 +842,7 @@ function calculateDosages() {
         } else {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = sed+ "mL";
         }
-
+        debugger;
         var opi = specificCalculations(22, "Patient.AnestheticPlan.PreMedications.OpioidDrug", "Patient.AnestheticPlan.PreMedications.OpioidDosage");
         if (opi == null) {
             document.getElementById("Premed-Opioid-Dosage").innerHTML = "Unable to Calculate";
@@ -917,11 +917,12 @@ function specificCalculations(id, name, dosage) {
             concentraion = values[i].Concentration;
             maxDose = values[i].MaxDosage;
         }
-        if (concentraion == null) {
-            return null;
-        }
+
     }
-    if (maxDose != null) {
+    if (concentraion == null) {
+        return null;
+    }
+    if (maxDose != 0) {
         if (maxDose < dosageVal) {
             alert("Alert: Dosage greater than max for this medicine, automatically altered");
             dosageVal = maxDose;
