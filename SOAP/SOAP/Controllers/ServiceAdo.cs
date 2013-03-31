@@ -1305,7 +1305,10 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = premed.PatientId;
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
+                if (premed.Drug.Id == -1)
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
                 if (premed.Route.Id == -1)
                     cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = DBNull.Value;
                 else
@@ -1729,12 +1732,12 @@ namespace SOAP.Controllers
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"INSERT INTO dbo.IV_Fluid_Type_To_Patient (
-                            PatientId, DrugId, InductionReqFlag, InductionDose, InductionOxygenFlowRate, MaintenanceReqFlag, 
-                            MaintenanceDose, MaintenanceOxygenFlowRate, EquipmentReqFlag, BreathingSystemId, BreathingBagSizeId
+                string sql = @"INSERT INTO dbo.Maintenance_Inhalant_Drugs_To_Patient (
+                            PatientId, DrugId, InductionDose, InductionOxygenFlowRate, 
+                            MaintenanceDose, MaintenanceOxygenFlowRate, BreathingSystemId, BreathingBagSizeId
                             ) VALUES (
-                            @PatientId, @DrugId, @InductionReqFlag, @InductionDose, @InductionOxygenFlowRate, @MaintenanceReqFlag,
-                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @EquipmentReqFlag, @BreathingSystemId, @BreathingBagSizeId
+                            @PatientId, @DrugId, @InductionDose, @InductionOxygenFlowRate,
+                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @BreathingSystemId, @BreathingBagSizeId
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);

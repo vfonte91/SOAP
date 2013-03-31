@@ -15,6 +15,10 @@ var DropdownCategories = new Object();
 
 $(document).ready(function () {
 
+    $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect({ header: "Anesthetic Concerns" });
+    $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
+    $("#Patient\\.Monitoring\\.Monitoring").multiselect({ header: "Monitoring" });
+    $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
     // tooltip does not work for <option>
     // $(document).tooltip();
 
@@ -81,10 +85,6 @@ $(document).ready(function () {
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
-    $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect({ header: "Anesthetic Concerns" });
-    $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
-    $("#Patient\\.Monitoring\\.Monitoring").multiselect({ header: "Monitoring" });
-    $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
 });
 
 function buildPatientInfo() {

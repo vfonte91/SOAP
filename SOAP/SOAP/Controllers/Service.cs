@@ -280,7 +280,7 @@ namespace SOAP.Controllers
             if (pat.Maintenance != null)
                 CreateMaintenance(pat);
 
-            if (pat.Monitoring != null)
+            if (pat.Monitoring.Count > 0)
                 CreateMonitoring(pat);
         }
 
@@ -347,7 +347,7 @@ namespace SOAP.Controllers
                 service.CreateBloodwork(blood, "USG", blood.USG);
             if (blood.WBC != -1)
                 service.CreateBloodwork(blood, "WBC", blood.WBC);
-            if (blood.OtherType != "" && blood.OtherValue != -1)
+            if (blood.OtherType != null && blood.OtherValue != -1)
                 service.CreateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
@@ -528,7 +528,7 @@ namespace SOAP.Controllers
                 service.UpdateBloodwork(blood, "USG", blood.USG);
             if (blood.WBC != -1)
                 service.UpdateBloodwork(blood, "WBC", blood.WBC);
-            if (blood.OtherType != "" && blood.OtherValue != -1)
+            if (blood.OtherType != null && blood.OtherValue != -1)
                 service.UpdateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
