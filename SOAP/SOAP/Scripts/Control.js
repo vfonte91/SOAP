@@ -853,7 +853,6 @@ function calculateDosages() {
         } else {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = sed+ "mL";
         }
-        debugger;
         var opi = specificCalculations(22, "Patient.AnestheticPlan.PreMedications.OpioidDrug", "Patient.AnestheticPlan.PreMedications.OpioidDosage");
         if (opi == null) {
             document.getElementById("Premed-Opioid-Dosage").innerHTML = "Unable to Calculate";
@@ -907,7 +906,6 @@ function calculateDosages() {
 }
 
 function specificCalculations(id, name, dosage) {
-    //debugger;
     var dosageVal = document.getElementById(dosage).value;
     if (dosageVal == "") {
         return "dose";
@@ -941,6 +939,7 @@ function specificCalculations(id, name, dosage) {
     }
     var dose = dosageVal * weight;
     var mL = dose / concentraion;
+    mL = mL.toFixed(2);
     return mL;
 
 }
