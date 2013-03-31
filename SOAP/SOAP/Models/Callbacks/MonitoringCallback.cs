@@ -13,6 +13,7 @@ namespace SOAP.Models.Callbacks
             monitor.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
             if (read["a.EquipmentId"].ToString() != "")
                 monitor.Equipment.Id = Convert.ToInt32(read["a.EquipmentId"].ToString());
+            monitor.OtherEquipment = read["a.OtherEquipment"].ToString();
 
             foreach (Monitoring.LazyComponents a in lazyComponents)
             {

@@ -33,6 +33,7 @@ namespace SOAP.Models.Callbacks
                 patientInfo.ProcedureDate = Convert.ToDateTime(read["a.ProcedureDate"].ToString());
             if (read["a.ProcedureId"].ToString() != "")
                 patientInfo.Procedure.Id = Convert.ToInt32(read["a.ProcedureId"].ToString());
+            patientInfo.ProcedureOther = read["a.ProcedureOther"].ToString();
 
             foreach (PatientInformation.LazyComponents a in lazyComponents)
             {

@@ -130,8 +130,7 @@ namespace SOAP.Controllers
             Maintenance maint = new Maintenance();
             maint.MaintenanceInjectionDrug = GetMaintenanceInjectionDrugs(patientId);
             maint.MaintenanceInhalantDrug = GetMaintenanceInhalantDrugs(patientId);
-            //maint.IntraOperativeAnalgesias = GetIntraOperativeAnalgesia(patientId);
-            //maint.OtherAnestheticDrugs = GetOtherAnestheticDrugs(patientId);
+            maint.MaintenanceOther = GetMaintenanceOther(patientId);
             return maint;
         }
 
@@ -196,7 +195,7 @@ namespace SOAP.Controllers
                 else if (b.OtherType != "" && b.OtherValue != -1)
                 {
                     blood.OtherType = b.OtherType;
-                    blood.OtherValue = blood.OtherValue;
+                    blood.OtherValue = b.OtherValue;
                 }
             }
             return blood;
@@ -231,9 +230,7 @@ namespace SOAP.Controllers
             MaintenanceInjectionDrug.LazyComponents[] list = 
             {
                 MaintenanceInjectionDrug.LazyComponents.LOAD_DRUG_INFORMATION,
-                MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS,
-                MaintenanceInjectionDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS,
-                MaintenanceInjectionDrug.LazyComponents.LOAD_IV_WITH_DETAILS
+                MaintenanceInjectionDrug.LazyComponents.LOAD_ROUTE_WITH_DETAILS
             };
             return service.GetMaintenanceInjectionDrugs(patientId, list);
         }
@@ -244,22 +241,21 @@ namespace SOAP.Controllers
             {
                 MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_BAG_SIZE_WITH_DETAILS,
                 MaintenanceInhalantDrug.LazyComponents.LOAD_BREATHING_SYSTEM_WITH_DETAILS,
-                MaintenanceInhalantDrug.LazyComponents.LOAD_DRUG_WITH_DETAILS,
-                MaintenanceInhalantDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS,
-                MaintenanceInhalantDrug.LazyComponents.LOAD_IV_WITH_DETAILS
+                MaintenanceInhalantDrug.LazyComponents.LOAD_DRUG_WITH_DETAILS
             };
             return service.GetMaintenanceInhalantDrugs(patientId, list);
         }
 
-        public List<IntraoperativeAnalgesia> GetIntraOperativeAnalgesia(int patientId)
+        public MaintenanceOther GetMaintenanceOther(int patientId)
         {
-            return service.GetIntraoperativeAnalgesia(patientId, IntraoperativeAnalgesia.LazyComponents.LOAD_ANALGESIA_WITH_DETAILS);
+            MaintenanceOther.LazyComponents[] list = 
+            {
+                MaintenanceOther.LazyComponents.LOAD_INTRAOP_WITH_DETAILS,
+                MaintenanceOther.LazyComponents.LOAD_IV_WITH_DETAILS
+            };
+            return service.GetMaintenanceOther(patientId, list);
         }
 
-        public List<OtherAnestheticDrug> GetOtherAnestheticDrugs(int patientId)
-        {
-            return service.GetOtherAnestheticDrugs(patientId, OtherAnestheticDrug.LazyComponents.LOAD_DRUG_WITH_DETAIL);
-        }
         #endregion
 
         #region CREATE
@@ -393,28 +389,16 @@ namespace SOAP.Controllers
 
         public void CreateMaintenance(Patient pat)
         {
-            //if (pat.Maintenance.IntraOperativeAnalgesias.Count > 0)
-            //    CreateIntraOperativeAnalgesias(pat);
-
             if (pat.Maintenance.MaintenanceInhalantDrug.HasValues())
                 CreateMaintenanceInhalantDrugs(pat);
 
             if (pat.Maintenance.MaintenanceInjectionDrug.HasValues())
                 CreateMaintenanceInjectionDrugs(pat);
 
-            //if (pat.Maintenance.OtherAnestheticDrugs.Count > 0)
-            //    CreateOtherAnestheticDrugs(pat);
+            if (pat.Maintenance.MaintenanceOther.HasValues())
+                CreateMaintenanceOther(pat);
 
         }
-
-        //public void CreateIntraOperativeAnalgesias(Patient pat)
-        //{
-        //    foreach (IntraoperativeAnalgesia b in pat.Maintenance.IntraOperativeAnalgesias)
-        //    {
-        //        b.PatientId = pat.PatientId;
-        //        service.CreateIntraoperativeAnalgesia(b);
-        //    }
-        //}
 
         public void CreateMaintenanceInhalantDrugs(Patient pat)
         {
@@ -428,14 +412,11 @@ namespace SOAP.Controllers
                 service.CreateMaintenanceInjectionDrug(pat.Maintenance.MaintenanceInjectionDrug);
         }
 
-        //public void CreateOtherAnestheticDrugs(Patient pat)
-        //{
-        //    foreach (OtherAnestheticDrug o in pat.Maintenance.OtherAnestheticDrugs)
-        //    {
-        //        o.PatientId = pat.PatientId;
-        //        service.CreateOtherAnestheticDrug(o);
-        //    }
-        //}
+        public void CreateMaintenanceOther(Patient pat)
+        {
+            pat.Maintenance.MaintenanceOther.PatientId = pat.PatientId;
+            service.CreateMaintenanceOther(pat.Maintenance.MaintenanceOther);
+        }
 
         public void CreateMonitoring(Patient pat)
         {
@@ -583,22 +564,16 @@ namespace SOAP.Controllers
 
         public void SaveMaintenance(Maintenance m)
         {
-            //if (m.IntraOperativeAnalgesias.Id != -1)
-            //    SaveIntraOperativeAnalgesias(m.IntraOperativeAnalgesias);
-
             if (m.MaintenanceInhalantDrug.HasValues())
                 SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrug);
 
             if (m.MaintenanceInjectionDrug.HasValues())
                 SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrug);
 
+            if (m.MaintenanceOther.HasValues())
+                SaveMaintenanceOther(m.MaintenanceOther);
+
         }
-
-        //public void SaveIntraOperativeAnalgesias(DropdownValue intras)
-        //{
-        //    service.UpdateIntraoperativeAnalgesia(intras);
-        //}
-
         public void SaveMaintenanceInhalantDrugs(MaintenanceInhalantDrug drugs)
         {
             service.UpdateMaintenanceInhalantDrug(drugs);
@@ -609,9 +584,9 @@ namespace SOAP.Controllers
             service.UpdateMaintenanceInjectionDrug(drugs);
         }
 
-        public void SaveOtherAnestheticDrugs(OtherAnestheticDrug drugs)
+        public void SaveMaintenanceOther(MaintenanceOther drugs)
         {
-            service.UpdateOtherAnestheticDrug(drugs);
+            service.UpdateMaintenanceOther(drugs);
         }
 
         public void SaveMonitoring(List<Monitoring> monitors)
@@ -677,8 +652,7 @@ namespace SOAP.Controllers
         {
             DeleteMaintenanceInjectionDrugs(pat);
             DeleteMaintenanceInhalantDrugs(pat);
-            DeleteIntraoperativeAnalgesia(pat);
-            DeleteOtherAnestheticDrugs(pat);
+            DeleteMaintenanceOther(pat);
         }
 
         public void DeleteMaintenanceInjectionDrugs(Patient pat)
@@ -691,14 +665,9 @@ namespace SOAP.Controllers
             service.DeleteMaintenanceInhalantDrug(pat.PatientId);
         }
 
-        public void DeleteIntraoperativeAnalgesia(Patient pat)
+        public void DeleteMaintenanceOther(Patient pat)
         {
-            service.DeleteIntraoperativeAnalgesia(pat.PatientId);
-        }
-
-        public void DeleteOtherAnestheticDrugs(Patient pat)
-        {
-            service.DeleteOtherAnestheticDrug(pat.PatientId);
+            service.DeleteMaintenanceOther(pat.PatientId);
         }
 
         public void DeleteAnestheticPlan(Patient pat)

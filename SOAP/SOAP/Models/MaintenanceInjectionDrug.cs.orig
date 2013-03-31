@@ -66,6 +66,27 @@ namespace SOAP.Models
             set { _drug = value; }
         }
 
+<<<<<<< HEAD
+        public string OtherAnestheticDrug
+        {
+            get { return _otherAnestheticDrug; }
+            set { _otherAnestheticDrug = value; }
+        }
+
+        public DropdownValue IntraoperativeAnalgesia
+        {
+            get { return _intraoperativeAnalgesia; }
+            set { _intraoperativeAnalgesia = value; }
+        }
+
+        public DropdownValue IVFluidType
+        {
+            get { return _iVFluidType; }
+            set { _iVFluidType = value; }
+        }
+
+=======
+>>>>>>> 18acd4417863cdcbb2147a36c0d1a1f75c973866
         public bool ValidateMaintenanceInjectionDrug()
         {
             if (_id == -1 || _patientId == -1 || _drug.Id == -1)

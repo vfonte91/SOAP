@@ -1,10 +1,10 @@
 ﻿var Patient = {
-    PatientInfo: { Student: {}, Clinician: {} },
-    ClinicalFindings: { PriorAnesthesia: {}, AnesthesiaConcerns: [] },
+    PatientInfo: { },
+    ClinicalFindings: { },
     Bloodwork: {},
     AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
-    Monitoring: {}
+    Monitoring: []
 }
 
 var newPatient = true;
@@ -37,12 +37,6 @@ $(document).ready(function () {
                 $('#' + currentContent).show('slide');
             });
         }
-    });
-
-    //When an input loses focus, grab information
-    $("input").blur(function () {
-        $this = $(this);
-        addValue($this.closest('form'), $this.attr('name'), $this.val(), $this.attr('subgroup'));
     });
 
     //Button to open Edit Profile drop down
@@ -95,20 +89,6 @@ $(document).ready(function () {
     $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
 });
 
-function addValue(section, name, value, subgroup) {
-    if (section && name) {
-        section = section[0].name;
-        if (section != "AnestheticPlan") {
-            if (subgroup) {
-                Patient[section][subgroup][name] = value
-            }
-            else {
-                Patient[section][name] = value;
-            }
-        }
-    }
-}
-
 function buildPatientInfo() {
     var procedure = $('#Patient\\.PatientInfo\\.Procedure').val();
     var otherProcedure = $('#Patient\\.PatientInfo\\.ProcedureOther').val();
@@ -117,8 +97,68 @@ function buildPatientInfo() {
     var ageInYears = $('#Patient\\.PatientInfo\\.AgeInYears').val();
     var temperament = $('#Patient\\.PatientInfo\\.Temperament').val();
     var procedureDate = $('#Patient\\.PatientInfo\\.ProcedureDate').val();
-    var preOp = $('#').val();
-    var postOp = $('#').val();
+    var preOp = $('#Patient\\.PatientInfo\\.PreOperationPainAssessment').val();
+    var postOp = $('#Patient\\.PatientInfo\\.PostOperationPainAssessment').val();
+    var student = UserInformation.Username;
+    var clinician = UserInformation.Username;
+    Patient.PatientInfo = { Procedure: { Id: procedure }, ProcedureOther: otherProcedure, BodyWeight: bodyWeight, AgeInMonths: ageInMonths, AgeInYears: ageInYears,
+        Temperament: { Id: temperament }, ProcedureDate: procedureDate, PreOperationPainAssessment: { Id: preOp }, PostOperationPainAssessment: { Id: postOp },
+        Student: { Username: student }, Clinician: { Username: student }
+    }
+}
+
+function buildClinicalFindings() {
+    var temperature = $('#Patient\\.ClinicalFindings\\.Temperature').val();
+    var pulseRate = $('#Patient\\.ClinicalFindings\\.PulseRate').val();
+    var respiratoryRate = $('#Patient\\.ClinicalFindings\\.RespiratoryRate').val();
+    var cardiacAusc = $('#Patient\\.ClinicalFindings\\.CardiacAuscultation').val();
+    var pulseQuality = $('#Patient\\.ClinicalFindings\\.PulseQuality').val();
+    var capRefill = $('#Patient\\.ClinicalFindings\\.CapillaryRefillTime').val();
+    var respiratoryAusc = $('#Patient\\.ClinicalFindings\\.RespiratoryAuscultation').val();
+    var physicalStatus = $('#Patient\\.ClinicalFindings\\.PhysicalStatusClassification').val();
+    var classification = $('#Patient\\.ClinicalFindings\\.ReasonForClassification').val();
+    var mucous = $('#Patient\\.ClinicalFindings\\.MucousMembraneColor').val();
+    var priorAnesDate = $('#Patient\\.ClinicalFindings\\.Date').val();
+    var priorAnesProb = $('#Patient\\.ClinicalFindings\\.Problems').val();
+    var currentMeds = $('#Patient\\.ClinicalFindings\\.CurrentMedications').val();
+    var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
+    Patient.ClinicalFindings = { Temperature: temperature, PulseRate: pulseRate, RespiratoryRate: respiratoryRate, CardiacAuscultation: { Id: cardiacAusc },
+        CapillaryRefillTime: { Id: capRefill }, PulseQuality: { Id: pulseQuality }, RespiratoryAuscultation: { Id: respiratoryAusc },
+        PhysicalStatusClassification: { Id: physicalStatus }, ReasonForClassification: classification, MucousMembraneColor: { Id: mucous }, CurrentMedications: currentMeds,
+        AnesthesiaConcerns: [], PriorAnesthesia: {}
+    };
+    for (var i = 0; i < anesthesiaValues.length; i++) {
+        var idOfVal = anesthesiaValues[i].getAttribute("value");
+        var val = { Concern: { Id: idOfVal} };
+        Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
+    }
+    if ($('#Patient\\.ClinicalFindings\\.PriorAnesthesia\\.Yes').is(':checked')) {
+        Patient.ClinicalFindings.PriorAnesthesia = { DateOfProblem: priorAnesDate, Problem: priorAnesProb };
+    }
+}
+
+function buildBloodwork() {
+    var pcv = $('#Patient\\.Bloodwork\\.PCV').val();
+    var tp = $('#Patient\\.Bloodwork\\.TP').val();
+    var albumin = $('#Patient\\.Bloodwork\\.Albumin').val();
+    var globulin = $('#Patient\\.Bloodwork\\.Globulin').val();
+    var wbc = $('#Patient\\.Bloodwork\\.WBC').val();
+    var na = $('#Patient\\.Bloodwork\\.NA').val();
+    var k = $('#Patient\\.Bloodwork\\.K').val();
+    var cl = $('#Patient\\.Bloodwork\\.Cl').val();
+    var ca = $('#Patient\\.Bloodwork\\.Ca').val();
+    var ica = $('#Patient\\.Bloodwork\\.iCa').val();
+    var glucose = $('#Patient\\.Bloodwork\\.Glucose').val();
+    var alt = $('#Patient\\.Bloodwork\\.ALT').val();
+    var alp = $('#Patient\\.Bloodwork\\.ALP').val();
+    var bun = $('#Patient\\.Bloodwork\\.BUN').val();
+    var creat = $('#Patient\\.Bloodwork\\.CREAT').val();
+    var usg = $('#Patient\\.Bloodwork\\.USG').val();
+    var otherType = $('#Patient\\.Bloodwork\\.OtherType').val();
+    var otherResult = $('#Patient\\.Bloodwork\\.OtherValue').val();
+    Patient.Bloodwork = { PCV: pcv, TP: tp, Albumin: albumin, Globulin: globulin, WBC: wbc, NA: na, K: k, Cl: cl,
+        Ca: ca, iCa: ica, Glucose: glucose, ALT: alt, ALP: alp, BUN: bun, CREAT: creat, USG: usg, OtherType: otherType, OtherValue: otherResult
+    };
 }
 
 function buildAnestheticPlanPremeds() {
@@ -173,64 +213,51 @@ function buildInduction() {
 function buildMaintenance() {
     if ($('#MaintenanceInject').is(':checked')) {
         Patient.Maintenance.MaintenanceInhalantDrug = {};
-        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {}, IntroaperativeAnalgesia: {} }
-        Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.MaintenanceInjectionDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.MaintenanceInjectionDrug\\.Dosage').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.IntroaperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
+        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {} };
+        Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Dosage').val();
     }
     else {
         Patient.Maintenance.MaintenanceInjectionDrug = {};
-        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {}, IntraoperativeAnalgesia: {} };
-        Patient.Maintenance.MaintenanceInhalantDrug.Drug.Id = $('#Patient\\.MaintenanceInhalentDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage = $('#Patient\\.MaintenanceInhalentDrug\\.InductionPercentage').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.InductionOxygenFlowRate').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenancePercentage').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.IntraoperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
+        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {} };
+        Patient.Maintenance.MaintenanceInhalantDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.InductionPercentage').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.InductionOxygenFlowRate').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.MaintenancePercentage').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
     }
+    Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {}, IVFluidType: {} };
+    Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
+    Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia').val();
+    Patient.Maintenance.MaintenanceOther.IVFluidType.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType').val();
 }
 
-function dropdownSelected(domObject) {
-    var section = $(domObject).closest("form")[0].name;
-    var name = domObject.name;
-    var value = domObject.value;
-    if (section && name) {
-        Patient[section][name] = {};
-        Patient[section][name].Id = value;
+function buildMonitoring() {
+    var monitorValues = $("#Patient\\.Monitoring\\.Monitoring").multiselect("getChecked");
+    for (var i = 0; i < monitorValues.length; i++) {
+        var idOfVal = monitorValues[i].getAttribute("value");
+        var val = { Equipment: { Id: idOfVal} };
+        Patient.Monitoring.push(val);
     }
-}
-
-function dateSelected(domObject) {
-    var section = $(domObject).closest("form")[0].name;
-    var name = domObject.name;
-    var value = domObject.value;
-    var subgroup = $(domObject).attr('subgroup');
-    if (section && name) {
-        if (subgroup)
-            Patient[section][subgroup][name] = value;
-        else
-            Patient[section][name] = value;
+    var otherValue = $('#Patient\\.Monitoring\\.OtherMonitoring').val();
+    if (otherValue) {
+        var val = { OtherEquipment: otherValue };
+        Patient.Monitoring.push(val);
     }
 }
 
 function SaveForm() {
     Patient.PatientInfo.FormCompleted = 'N';
-    Patient.PatientInfo.Student.Username = UserInformation.Username;
-    Patient.PatientInfo.Clinician.Username = UserInformation.Username;
-    var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
-    for (var i = 0; i < anesthesiaValues.length; i++) {
-        var idOfVal = anesthesiaValues[i].getAttribute("value");
-        var val = { Concern: { Id: idOfVal} };
-        Patient.ClinicalFindings.AnesthesiaConcerns.push(val);
-    }
     buildAnestheticPlanPremeds();
     buildInduction();
     buildMaintenance();
+    buildPatientInfo();
+    buildClinicalFindings();
+    buildBloodwork();
+    buildMonitoring();
     var url = "";
     if (newPatient) {
         url = 'CreateForm'
@@ -313,6 +340,7 @@ function OpenForm(formId) {
                     }
                 }
             }
+            alert('Form Successfully Loaded');
         }
         else {
             //alert("Could not open form");
@@ -435,14 +463,16 @@ function populateAll() {
     populate(14, "Patient\\.AnestheticPlan\\.InjectionPlan\\.Route");
     populate(25, "Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidType");
     populate(16, "Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug");
-    populate(15, "Patient\\.MaintenanceInjectionDrug\\.Drug");
-    populate(14, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
-    populate(16, "Patient\\.MaintenanceInhalentDrug\\.Drug");
-    populate(17, "Patient\\.MaintenanceInhalentDrug\\.BreathingSystem");
-    populate(18, "Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize");
-    populate(19, "Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia");
+    populate(15, "Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug");
+    populate(14, "Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
+    populate(16, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.Drug");
+    populate(17, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem");
+    populate(18, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize");
+    populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia");
+    populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType");
     populate(20, "Patient\\.Monitoring\\.Monitoring");
-
+    $('#Patient\\.ClinicalFindings\\.AnesthesiaConcerns').multiselect("refresh");
+    $('#Patient\\.Monitoring\\.Monitoring').multiselect("refresh");
 }
 
 function populate(id, name) {
@@ -904,7 +934,7 @@ function calculateDosages() {
             document.getElementById("Induction-Injectable-Dosage").innerHTML = induc + "mL";
         }
 
-        var main = specificCalculations(14, "Patient.MaintenanceInjectionDrug.Drug", "Patient.MaintenanceInjectionDrug.Dosage");
+        var main = specificCalculations(14, "Patient.Maintenance.MaintenanceInjectionDrug.Drug", "Patient.Maintenance.MaintenanceInjectionDrug.Dosage");
         if (main == null) {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Unable to Calculate";
         } else if (main == "dose") {
