@@ -20,6 +20,8 @@ namespace SOAP.Models.Callbacks
             maintInjectDrug.OtherAnestheticDrug = read["a.OtherAnestheticDrugs"].ToString();
             if (read["a.IntraoperativeAnalgesiaId"].ToString() != "")
                 maintInjectDrug.IntroaperativeAnalgesia.Id = Convert.ToInt32(read["a.IntraoperativeAnalgesiaId"].ToString());
+            if (read["a.IVFluidTypeId"].ToString() != "")
+                maintInjectDrug.IVFluidType.Id = Convert.ToInt32(read["a.IVFluidTypeId"].ToString());
 
             foreach (MaintenanceInjectionDrug.LazyComponents a in lazyComponents)
             {
