@@ -18,8 +18,6 @@ namespace SOAP.Models.Callbacks
                 anesPlanInject.Route.Id = Convert.ToInt32(read["a.RouteId"].ToString());
             if (read["a.Dosage"].ToString() != "")
                 anesPlanInject.Dosage = Convert.ToDecimal(read["a.Dosage"].ToString());
-            if (read["a.IVFluidTypeId"].ToString() != "")
-                anesPlanInject.IVFluidType.Id = Convert.ToInt32(read["a.IVFluidTypeId"].ToString());
 
             foreach (AnestheticPlanInjection.LazyComponents a in lazyComponents)
             {
@@ -42,6 +40,8 @@ namespace SOAP.Models.Callbacks
                         anesPlanInject.Drug.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
                     if (read["d.Concentration"].ToString() != "")
                         anesPlanInject.Drug.Concentration = Convert.ToDecimal(read["d.Concentration"].ToString());
+                    if (read["d.MaxDosage"].ToString() != "")
+                        anesPlanInject.Drug.MaxDosage = Convert.ToDecimal(read["d.MaxDosage"].ToString());
                     anesPlanInject.Drug.Description = read["d.Description"].ToString();
                     //if (read["b.Id"].ToString() != "")
                     //    anesPlanInject.Drug.Id = Convert.ToInt32(read["b.Id"].ToString());
@@ -56,16 +56,6 @@ namespace SOAP.Models.Callbacks
                     //if (read["b.Concentration"].ToString() != "")
                     //    anesPlanInject.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
                     //anesPlanInject.Drug.ConcentrationUnits = read["b.ConcentrationUnits"].ToString();
-                }
-                else if (a == AnestheticPlanInjection.LazyComponents.LOAD_IV_WITH_DETAILS && anesPlanInject.IVFluidType.Id != -1)
-                {
-                    if (read["e.CategoryId"].ToString() != "")
-                        anesPlanInject.Route.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
-                    anesPlanInject.Route.Label = read["e.Label"].ToString();
-                    anesPlanInject.Route.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
-                    anesPlanInject.Route.Label = read["e.Description"].ToString();
-                    if (read["e.Concentration"].ToString() != "")
-                        anesPlanInject.Route.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
                 }
             }
 

@@ -11,12 +11,10 @@ namespace SOAP.Models
         private decimal _dosage;
         private decimal _dose;
         private DropdownValue _drug;
-        private DropdownValue _iVFluidType;
 
         public enum LazyComponents {
             LOAD_ROUTE_WITH_DETAILS,
-            LOAD_DRUG_INFORMATION,
-            LOAD_IV_WITH_DETAILS
+            LOAD_DRUG_INFORMATION
         };
 
         public int Id
@@ -55,23 +53,16 @@ namespace SOAP.Models
             set { _drug = value; }
         }
 
-        public DropdownValue IVFluidType
-        {
-            get { return _iVFluidType; }
-            set { _iVFluidType = value; }
-        }
-
         public AnestheticPlanInjection()
         {
             _id = -1;
             _route = new DropdownValue();
             _drug = new DropdownValue();
-            _iVFluidType = new DropdownValue();
         }
 
         public bool HasValues()
         {
-            return (_dose != 0.0M || _drug.Id != -1 || _dosage != 0.0M || _iVFluidType.Id != -1);
+            return (_dose != 0.0M || _drug.Id != -1 || _dosage != 0.0M);
         }
 
         public bool ValidateAnestheticPlanInjection()

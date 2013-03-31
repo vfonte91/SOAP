@@ -24,6 +24,8 @@ namespace SOAP.Models.Callbacks
                     otherAnesDrug.Drug.Description = read["b.Description"].ToString();
                     if (read["b.Concentration"].ToString() != "")
                         otherAnesDrug.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
+                    if (read["b.MaxDosage"].ToString() != "")
+                        otherAnesDrug.Drug.MaxDosage = Convert.ToDecimal(read["b.MaxDosage"].ToString());
                 }
             }
 
