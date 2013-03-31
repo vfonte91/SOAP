@@ -341,7 +341,7 @@ function OpenForm(formId) {
                     }
                 }
             }
-            popupBox('Form Successfully Loaded");
+            popupBox('Form Successfully Loaded');
             //alert('Form Successfully Loaded');
         }
         else {
