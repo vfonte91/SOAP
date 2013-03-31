@@ -227,7 +227,7 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
     }
-    Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {} };
+    Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {}, IVFluidType: {} };
     Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
     Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia').val();
     Patient.Maintenance.MaintenanceOther.IVFluidType.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType').val();
