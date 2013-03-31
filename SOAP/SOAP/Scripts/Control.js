@@ -240,13 +240,15 @@ function SaveForm() {
     .done(function (data) {
         if (data.success) {
             //Reload user form dropdown
+            alert("Form saved");
             GetUserForms();
         }
         else {
+            alert("Error: Form could not be saved");
         }
     })
     .fail(function (jqXHR, textStatus) {
-
+        alert("Error: Form could not be saved");
     });
 }
 
