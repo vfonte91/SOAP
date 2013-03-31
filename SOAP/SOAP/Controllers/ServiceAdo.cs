@@ -1225,7 +1225,10 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = inhalant.PatientId;
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = inhalant.Drug.Id;
+                if (inhalant.Drug.Id == -1)
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = inhalant.Drug.Id;
                 if (inhalant.Percentage == 0.0M)
                     cmd.Parameters.Add("@Percentage", SqlDbType.Decimal).Value = DBNull.Value;
                 else
@@ -1262,7 +1265,10 @@ namespace SOAP.Controllers
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = injection.PatientId;
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
+                if (injection.Drug.Id == -1)
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = injection.Drug.Id;
                 if (injection.Route.Id == -1)
                     cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = DBNull.Value;
                 else
@@ -1761,16 +1767,6 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
-
-
-                if (maintInhalant.IntraoperativeAnalgesia.Id == -1)
-                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = DBNull.Value;
-                else
-                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
-                if (maintInhalant.IVFluidType.Id == -1)
-                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
-                else
-                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Decimal).Value = maintInhalant.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -1811,17 +1807,6 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
-
-                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInject.OtherAnestheticDrug;
-
-                if (maintInject.IntraoperativeAnalgesia.Id == -1)
-                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = DBNull.Value;
-                else
-                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntraoperativeAnalgesia.Id;
-                if (maintInject.IVFluidType.Id == -1)
- 		    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
-                else
-                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Decimal).Value = maintInject.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -1845,13 +1830,19 @@ namespace SOAP.Controllers
                 string sql = @"INSERT INTO dbo.Maintenance_Other_To_Patient (
                             PatientId, OtherAnestheticDrugs, IntraoperativeAnalgesiaId, IVFluidTypeId
                             ) VALUES (
-                            @PatientId,  @IntraoperativeAnalgesiaId, @IVFluidTypeId
+                            @PatientId, @OtherAnestheticDrugs, @IntraoperativeAnalgesiaId, @IVFluidTypeId
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInhalant.PatientId;
-                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInhalant.OtherAnestheticDrug;
-                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
+                if (maintInhalant.OtherAnestheticDrug == null)
+                    cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInhalant.OtherAnestheticDrug;
+                if (maintInhalant.IntraoperativeAnalgesia.Id == -1)
+                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
                 if (maintInhalant.IVFluidType.Id == -1)
                     cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
                 else
@@ -2636,9 +2627,6 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = maintInject.Drug.Id;
                 cmd.Parameters.Add("@RouteOfAdministrationId", SqlDbType.Int).Value = maintInject.RouteOfAdministration.Id;
                 cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = maintInject.Dosage;
-                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInject.OtherAnestheticDrug;
-                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntraoperativeAnalgesia.Id;
-                cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = maintInject.IVFluidType.Id;
                 try
                 {
                     conn.Open();

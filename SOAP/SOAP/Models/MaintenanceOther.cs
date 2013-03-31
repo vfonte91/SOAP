@@ -26,7 +26,7 @@ namespace SOAP.Models
 
         public bool HasValues()
         {
-            return (_otherAnestheticDrug != null || _intraoperativeAnalgesia.Id != -1);
+            return (_otherAnestheticDrug != null || _intraoperativeAnalgesia.Id != -1 || _iVFluidType.Id != -1);
         }
 
         public int Id

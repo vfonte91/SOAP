@@ -17,11 +17,7 @@ namespace SOAP.Models.Callbacks
                 maintInjectDrug.RouteOfAdministration.Id = Convert.ToInt32(read["a.RouteOfAdministrationId"].ToString());
             if (read["a.Dosage"].ToString() != "")
                 maintInjectDrug.Dose = Convert.ToDecimal(read["a.Dosage"].ToString());
-            maintInjectDrug.OtherAnestheticDrug = read["a.OtherAnestheticDrugs"].ToString();
-            if (read["a.IntraoperativeAnalgesiaId"].ToString() != "")
-                maintInjectDrug.IntraoperativeAnalgesia.Id = Convert.ToInt32(read["a.IntraoperativeAnalgesiaId"].ToString());
-            if (read["a.IVFluidTypeId"].ToString() != "")
-                maintInjectDrug.IVFluidType.Id = Convert.ToInt32(read["a.IVFluidTypeId"].ToString());
+            
 
             foreach (MaintenanceInjectionDrug.LazyComponents a in lazyComponents)
             {
@@ -60,26 +56,7 @@ namespace SOAP.Models.Callbacks
                     if (read["c.Concentration"].ToString() != "")
                         maintInjectDrug.RouteOfAdministration.Concentration = Convert.ToDecimal(read["c.Concentration"].ToString());
                 }
-                else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS && maintInjectDrug.IntraoperativeAnalgesia.Id != -1)
-                {
-                    if (read["e.CategoryId"].ToString() != "")
-                        maintInjectDrug.IntraoperativeAnalgesia.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
-                    maintInjectDrug.IntraoperativeAnalgesia.Label = read["e.Label"].ToString();
-                    maintInjectDrug.IntraoperativeAnalgesia.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
-                    maintInjectDrug.IntraoperativeAnalgesia.Description = read["e.Description"].ToString();
-                    if (read["e.Concentration"].ToString() != "")
-                        maintInjectDrug.IntraoperativeAnalgesia.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
-                }
-                else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_IV_WITH_DETAILS && maintInjectDrug.IVFluidType.Id != -1)
-                {
-                    if (read["f.CategoryId"].ToString() != "")
-                        maintInjectDrug.IVFluidType.Category.Id = Convert.ToInt32(read["f.CategoryId"].ToString());
-                    maintInjectDrug.IVFluidType.Label = read["f.Label"].ToString();
-                    maintInjectDrug.IVFluidType.OtherFlag = Convert.ToChar(read["f.OtherFlag"].ToString());
-                    maintInjectDrug.IVFluidType.Description = read["f.Description"].ToString();
-                    if (read["f.Concentration"].ToString() != "")
-                        maintInjectDrug.IVFluidType.Concentration = Convert.ToDecimal(read["f.Concentration"].ToString());
-                }
+                
             }
 
             return maintInjectDrug;
