@@ -14,17 +14,12 @@ namespace SOAP.Models
         private decimal _maintenanceOxygenFlowRate;
         private DropdownValue _breathingSystem;
         private DropdownValue _breathingBagSize;
-        private string _otherAnestheticDrug;
-        private DropdownValue _intraoperativeAnalgesia;
-        private DropdownValue _iVFluidType;
 
         public enum LazyComponents
         {
             LOAD_DRUG_WITH_DETAILS,
             LOAD_BREATHING_SYSTEM_WITH_DETAILS,
-            LOAD_BREATHING_BAG_SIZE_WITH_DETAILS,
-            LOAD_INTRAOP_WITH_DETAILS,
-            LOAD_IV_WITH_DETAILS
+            LOAD_BREATHING_BAG_SIZE_WITH_DETAILS
         };
 
         public MaintenanceInhalantDrug()
@@ -33,15 +28,12 @@ namespace SOAP.Models
             _drug = new DropdownValue();
             _breathingBagSize = new DropdownValue();
             _breathingSystem = new DropdownValue();
-            _intraoperativeAnalgesia = new DropdownValue();
-            _iVFluidType = new DropdownValue();
         }
 
         public bool HasValues()
         {
             return (_drug.Id != -1 || _inductionPercentage != 0.0M || _inductionOxygenFlowRate != 0.0M || _maintenanceOxygenFlowRate != 0.0M ||
-                    _maintenancePercentage != 0.0M || _breathingBagSize.Id != -1 || _breathingSystem.Id != -1 || _otherAnestheticDrug != null ||
-                    _intraoperativeAnalgesia.Id != -1);
+                    _maintenancePercentage != 0.0M || _breathingBagSize.Id != -1 || _breathingSystem.Id != -1 );
         }
 
         public int Id
@@ -96,24 +88,6 @@ namespace SOAP.Models
         {
             get { return _breathingBagSize; }
             set { _breathingBagSize = value; }
-        }
-
-        public string OtherAnestheticDrug
-        {
-            get { return _otherAnestheticDrug; }
-            set { _otherAnestheticDrug = value; }
-        }
-
-        public DropdownValue IntraoperativeAnalgesia
-        {
-            get { return _intraoperativeAnalgesia; }
-            set { _intraoperativeAnalgesia = value; }
-        }
-
-        public DropdownValue IVFluidType
-        {
-            get { return _iVFluidType; }
-            set { _iVFluidType = value; }
         }
 
         public bool ValidateMaintenanceInhalantDrug()

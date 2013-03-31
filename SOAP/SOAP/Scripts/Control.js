@@ -211,26 +211,26 @@ function buildInduction() {
 function buildMaintenance() {
     if ($('#MaintenanceInject').is(':checked')) {
         Patient.Maintenance.MaintenanceInhalantDrug = {};
-        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {}, IntroaperativeAnalgesia: {} }
-        Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.MaintenanceInjectionDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.MaintenanceInjectionDrug\\.Dosage').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInjectionDrug.IntroaperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
+        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {} };
+        Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Dosage').val();
     }
     else {
         Patient.Maintenance.MaintenanceInjectionDrug = {};
-        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {}, IntraoperativeAnalgesia: {} };
-        Patient.Maintenance.MaintenanceInhalantDrug.Drug.Id = $('#Patient\\.MaintenanceInhalentDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage = $('#Patient\\.MaintenanceInhalentDrug\\.InductionPercentage').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.InductionOxygenFlowRate').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenancePercentage').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.OtherAnestheticDrug = $('#Patient\\.OtherAnestheticDrug\\.Drug').val();
-        Patient.Maintenance.MaintenanceInhalantDrug.IntraoperativeAnalgesia.Id = $('#Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia').val();
+        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {} };
+        Patient.Maintenance.MaintenanceInhalantDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.Drug').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.InductionPercentage').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.InductionOxygenFlowRate').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.MaintenancePercentage').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.MaintenanceOxygenFlowRate').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
     }
+    Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {}, IVFluidType: {} };
+    Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
+    Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia').val();
+    Patient.Maintenance.MaintenanceOther.IVFluidType.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType').val();
 }
 
 function buildMonitoring() {
@@ -452,12 +452,13 @@ function populateAll() {
     populate(14, "Patient\\.AnestheticPlan\\.InjectionPlan\\.Route");
     populate(25, "Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidType");
     populate(16, "Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug");
-    populate(15, "Patient\\.MaintenanceInjectionDrug\\.Drug");
-    populate(14, "Patient\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
-    populate(16, "Patient\\.MaintenanceInhalentDrug\\.Drug");
-    populate(17, "Patient\\.MaintenanceInhalentDrug\\.BreathingSystem");
-    populate(18, "Patient\\.MaintenanceInhalentDrug\\.BreathingBagSize");
-    populate(19, "Patient\\.OtherAnestheticDrug\\.IntraoperativeAnalgesia");
+    populate(15, "Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug");
+    populate(14, "Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration");
+    populate(16, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.Drug");
+    populate(17, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem");
+    populate(18, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize");
+    populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia");
+    populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType");
     populate(20, "Patient\\.Monitoring\\.Monitoring");
 
 }
@@ -910,7 +911,7 @@ function calculateDosages() {
             document.getElementById("Induction-Injectable-Dosage").innerHTML = induc + "mL";
         }
 
-        var main = specificCalculations(14, "Patient.MaintenanceInjectionDrug.Drug", "Patient.MaintenanceInjectionDrug.Dosage");
+        var main = specificCalculations(14, "Patient.Maintenance.MaintenanceInjectionDrug.Drug", "Patient.Maintenance.MaintenanceInjectionDrug.Dosage");
         if (main == null) {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Unable to Calculate";
         } else if (main == "dose") {

@@ -192,6 +192,7 @@
     <Compile Include="Models\Callbacks\BloodworkCallback.cs" />
     <Compile Include="Models\Callbacks\ClinicalFindingsCallback.cs" />
     <Compile Include="Models\Callbacks\CurrentMedicationCallback.cs" />
+    <Compile Include="Models\Callbacks\MaintenanceOtherCallback.cs" />
     <Compile Include="Models\Callbacks\DropdownCategoryCallback.cs" />
     <Compile Include="Models\Callbacks\DropdownValueCallback.cs" />
     <Compile Include="Models\Callbacks\IntraoperativeAnalgesiaCallback.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Models\Callbacks\ProcedureCallback.cs" />
     <Compile Include="Models\ClinicalFindings.cs" />
     <Compile Include="Models\CurrentMedication.cs" />
+    <Compile Include="Models\MaintenanceOther.cs" />
     <Compile Include="Models\DropdownCategory.cs" />
     <Compile Include="Models\DropdownValue.cs" />
     <Compile Include="Models\DrugInformation.cs" />

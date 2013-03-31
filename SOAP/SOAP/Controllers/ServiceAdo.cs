@@ -692,102 +692,6 @@ namespace SOAP.Controllers
             return pats;
         }
 
-        public List<IntraoperativeAnalgesia> GetIntraoperativeAnalgesia(int patientId, params IntraoperativeAnalgesia.LazyComponents[] lazyComponents)
-        {
-            List<IntraoperativeAnalgesia> intraOp = new List<IntraoperativeAnalgesia>();
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-
-                string sql = BuildIntraoperativeAnalgesiaSQL();
-
-                string from = @"FROM dbo.Intraoperative_Analgesia_To_Patient AS a";
-
-                string where = @" WHERE a.PatientId = @PatientId ";
-
-                foreach (IntraoperativeAnalgesia.LazyComponents a in lazyComponents)
-                {
-                    if (a == IntraoperativeAnalgesia.LazyComponents.LOAD_ANALGESIA_WITH_DETAILS)
-                    {
-                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description',
-                                    b.Concentration as 'b.Concentration' ";
-                        from += @" INNER JOIN dbo.Dropdown_Types as b ON a.AnalgesiaId = b.Id ";
-                    }
-                }
-
-
-                sql = sql + from + where;
-
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patientId;
-                try
-                {
-                    conn.Open();
-                    SqlDataReader read = cmd.ExecuteReader();
-                    while (read.Read())
-                    {
-                        intraOp.Add(new IntraoperativeAnalgesiaCallback().ProcessRow(read, lazyComponents));
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-            return intraOp;
-        }
-
-        public List<IVFluidType> GetIVFluidTypes(int patientId, params IVFluidType.LazyComponents[] lazyComponents)
-        {
-            List<IVFluidType> ivs = new List<IVFluidType>();
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-
-                string sql = BuildIVFluidTypeSQL();
-
-                string from = @"FROM dbo.IV_Fluid_Type_To_Patient AS a";
-
-                string where = @" WHERE a.PatientId = @PatientId ";
-
-                foreach (IVFluidType.LazyComponents a in lazyComponents)
-                {
-                    if (a == IVFluidType.LazyComponents.LOAD_FLUID_TYPE_WITH_DETAILS)
-                    {
-                        sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description',
-                                    b.Concentration as 'b.Concentration' ";
-                        from += @" INNER JOIN dbo.Dropdown_Types as b ON a.FluidTypeId = b.Id ";
-                    }
-                }
-
-
-                sql = sql + from + where;
-
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patientId;
-                try
-                {
-                    conn.Open();
-                    SqlDataReader read = cmd.ExecuteReader();
-                    while (read.Read())
-                    {
-                        ivs.Add(new IVFluidTypeCallback().ProcessRow(read, lazyComponents));
-                    }
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-            return ivs;
-        }
-
         public MaintenanceInhalantDrug GetMaintenanceInhalantDrugs(int patientId, params MaintenanceInhalantDrug.LazyComponents[] lazyComponents)
         {
             MaintenanceInhalantDrug maintInhalantDrugs = new MaintenanceInhalantDrug();
@@ -819,18 +723,6 @@ namespace SOAP.Controllers
                         sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description', 
                                     d.Concentration as 'd.Concentration' ";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.BreathingBagSizeId = d.Id ";
-                    }
-                    else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS)
-                    {
-                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description', 
-                                    e.Concentration as 'e.Concentration' ";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.IntraoperativeAnalgesiaId = e.Id ";
-                    }
-                    else if (a == MaintenanceInhalantDrug.LazyComponents.LOAD_IV_WITH_DETAILS)
-                    {
-                        sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description', 
-                                    f.Concentration as 'f.Concentration' ";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.IVFluidTypeId = f.Id ";
                     }
                 }
 
@@ -886,18 +778,6 @@ namespace SOAP.Controllers
                                     c.Concentration as 'c.Concentration' ";
                         from += @" LEFT OUTER JOIN dbo.Dropdown_Types as c ON a.RouteOfAdministrationId = c.Id ";
                     }
-                    else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_INTRAOP_WITH_DETAILS)
-                    {
-                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description',
-                                    e.Concentration as 'e.Concentration' ";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.IntraoperativeAnalgesiaId = e.Id ";
-                    }
-                    else if (a == MaintenanceInjectionDrug.LazyComponents.LOAD_IV_WITH_DETAILS)
-                    {
-                        sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description', 
-                                    f.Concentration as 'f.Concentration' ";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.IVFluidTypeId = f.Id ";
-                    }
                 }
 
 
@@ -924,6 +804,60 @@ namespace SOAP.Controllers
                 }
             }
             return maintInjectDrugs;
+        }
+
+        public MaintenanceOther GetMaintenanceOther(int patientId, params MaintenanceOther.LazyComponents[] lazyComponents)
+        {
+            MaintenanceOther maintOther = new MaintenanceOther();
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+
+                string sql = BuildMaintenanceOtherSQL();
+
+                string from = @"FROM dbo.Maintenance_Other_To_Patient AS a";
+
+                string where = @" WHERE a.PatientId = @PatientId ";
+
+                foreach (MaintenanceOther.LazyComponents a in lazyComponents)
+                {
+                     if (a == MaintenanceOther.LazyComponents.LOAD_INTRAOP_WITH_DETAILS)
+                    {
+                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description', 
+                                    e.Concentration as 'e.Concentration' ";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.IntraoperativeAnalgesiaId = e.Id ";
+                    }
+                    else if (a == MaintenanceOther.LazyComponents.LOAD_IV_WITH_DETAILS)
+                    {
+                        sql += @", f.CategoryId as 'f.CategoryId', f.Label as 'f.Label', f.OtherFlag as 'f.OtherFlag', f.Description as 'f.Description', 
+                                    f.Concentration as 'f.Concentration' ";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as f ON a.IVFluidTypeId = f.Id ";
+                    }
+                }
+
+
+                sql = sql + from + where;
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = patientId;
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        maintOther = new MaintenanceOtherCallback().ProcessRow(read, lazyComponents);
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return maintOther;
         }
 
         public List<Monitoring> GetMonitoring(int patientId, params Monitoring.LazyComponents[] lazyComponents)
@@ -1791,12 +1725,10 @@ namespace SOAP.Controllers
             {
                 string sql = @"INSERT INTO dbo.IV_Fluid_Type_To_Patient (
                             PatientId, DrugId, InductionReqFlag, InductionDose, InductionOxygenFlowRate, MaintenanceReqFlag, 
-                            MaintenanceDose, MaintenanceOxygenFlowRate, EquipmentReqFlag, BreathingSystemId, BreathingBagSizeId,
-                            OtherAnestheticDrugs, IntraoperativeAnalgesiaId, IVFluidTypeId
+                            MaintenanceDose, MaintenanceOxygenFlowRate, EquipmentReqFlag, BreathingSystemId, BreathingBagSizeId
                             ) VALUES (
                             @PatientId, @DrugId, @InductionReqFlag, @InductionDose, @InductionOxygenFlowRate, @MaintenanceReqFlag,
-                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @EquipmentReqFlag, @BreathingSystemId, @BreathingBagSizeId,
-                            @OtherAnestheticDrugs, @IntraoperativeAnalgesiaId, @IVFluidTypeId
+                            @MaintenanceDose, @MaintenanceOxygenFlowRate, @EquipmentReqFlag, @BreathingSystemId, @BreathingBagSizeId
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1830,7 +1762,6 @@ namespace SOAP.Controllers
                 else
                     cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
 
-                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInhalant.OtherAnestheticDrug;
 
                 if (maintInhalant.IntraoperativeAnalgesia.Id == -1)
                     cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = DBNull.Value;
@@ -1861,9 +1792,9 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Maintenance_Injection_Drugs_To_Patient (
-                            PatientId, DrugId, RouteOfAdministrationId, Dosage, OtherAnestheticDrugs, IntraoperativeAnalgesiaId, IVFluidTypeId
+                            PatientId, DrugId, RouteOfAdministrationId, Dosage
                             ) VALUES (
-                            @PatientId, @DrugId, @RouteOfAdministrationId, @Dosage, @OtherAnestheticDrugs, @IntraoperativeAnalgesiaId, @IVFluidTypeId
+                            @PatientId, @DrugId, @RouteOfAdministrationId, @Dosage
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1888,9 +1819,43 @@ namespace SOAP.Controllers
                 else
                     cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntraoperativeAnalgesia.Id;
                 if (maintInject.IVFluidType.Id == -1)
-                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
+ 		    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Decimal).Value = maintInject.IVFluidType.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+        public void CreateMaintenanceOther(MaintenanceOther maintInhalant)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"INSERT INTO dbo.Maintenance_Other_To_Patient (
+                            PatientId, OtherAnestheticDrugs, IntraoperativeAnalgesiaId, IVFluidTypeId
+                            ) VALUES (
+                            @PatientId,  @IntraoperativeAnalgesiaId, @IVFluidTypeId
+                            )";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInhalant.PatientId;
+                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInhalant.OtherAnestheticDrug;
+                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
+                if (maintInhalant.IVFluidType.Id == -1)
+                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Decimal).Value = maintInhalant.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -2628,8 +2593,7 @@ namespace SOAP.Controllers
                 string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
                             DrugId = @DrugId, InductionReqFlag = @InductionReqFlag, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
                             MaintenanceReqFlag = @MaintenanceReqFlag, MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
-                            EquipmentReqFlag = @EquipmentReqFlag, BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId,
-                            OtherAnestheticDrugs = @OtherAnestheticDrugs, IntraoperativeAnalgesiaId = @IntraoperativeAnalgesiaId, IVFluidTypeId = @IVFluidTypeId
+                            EquipmentReqFlag = @EquipmentReqFlag, BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
                             WHERE
                             Id = @Id";
 
@@ -2642,9 +2606,6 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@MaintenanceOxygenFlowRate", SqlDbType.Decimal).Value = maintInhalant.MaintenanceOxygenFlowRate;
                 cmd.Parameters.Add("@BreathingSystemId", SqlDbType.Int).Value = maintInhalant.BreathingSystem.Id;
                 cmd.Parameters.Add("@BreathingBagSizeId", SqlDbType.Int).Value = maintInhalant.BreathingBagSize.Id;
-                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInhalant.OtherAnestheticDrug;
-                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInhalant.IntraoperativeAnalgesia.Id;
-                cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = maintInhalant.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -2666,8 +2627,7 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Maintenance_Injection_Drugs_To_Patient SET
-                            DrugId = @DrugId, RouteOfAdministrationId = @RouteOfAdministrationId, Dosage = @Dosage, 
-                            OtherAnestheticDrugs = @OtherAnestheticDrugs, IntraoperativeAnalgesiaId = @IntraoperativeAnalgesiaId, IVFluidTypeId = @IVFluidTypeId
+                            DrugId = @DrugId, RouteOfAdministrationId = @RouteOfAdministrationId, Dosage = @Dosage
                             WHERE
                             Id = @Id";
 
@@ -2679,6 +2639,37 @@ namespace SOAP.Controllers
                 cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintInject.OtherAnestheticDrug;
                 cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintInject.IntraoperativeAnalgesia.Id;
                 cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = maintInject.IVFluidType.Id;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void UpdateMaintenanceOther(MaintenanceOther maintOther)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"UPDATE dbo.Maintenance_Other__To_Patient SET
+                            OtherAnestheticDrugs = @OtherAnestheticDrugs, IntraoperativeAnalgesiaId = @IntraoperativeAnalgesiaId, IVFluidTypeId = @IVFluidTypeId
+                            WHERE
+                            Id = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = maintOther.Id;
+                cmd.Parameters.Add("@OtherAnestheticDrugs", SqlDbType.NVarChar).Value = maintOther.OtherAnestheticDrug;
+                cmd.Parameters.Add("@IntraoperativeAnalgesiaId", SqlDbType.Int).Value = maintOther.IntraoperativeAnalgesia.Id;
+                cmd.Parameters.Add("@IVFluidTypeId", SqlDbType.Int).Value = maintOther.IVFluidType.Id;
                 try
                 {
                     conn.Open();
@@ -3355,6 +3346,31 @@ namespace SOAP.Controllers
                 }
             }
         }
+        public void DeleteMaintenanceOther(int patientId)
+        {
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                string sql = @"DELETE FROM dbo.Maintenance_Other_To_Patient
+                            WHERE
+                            PatientId = @Id";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = patientId;
+                try
+                {
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+        }
 
         public void DeleteMonitoring(int patientId)
         {
@@ -3546,16 +3562,6 @@ namespace SOAP.Controllers
                     a.Description as 'a.Description', a.Concentration as 'a.Concentration', a.MaxDosage as 'a.MaxDosage' ";
         }
 
-        private string BuildIntraoperativeAnalgesiaSQL()
-        {
-            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.AnalgesiaId as 'a.AnalgesiaId' ";
-        }
-
-        private string BuildIVFluidTypeSQL()
-        {
-            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.FluidTypeId as 'a.FluidTypeId', a.Dose as 'a.Dose' ";
-        }
-
         private string BuildMaintenanceInhalantDrugSQL()
         {
             return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', 
@@ -3570,6 +3576,12 @@ namespace SOAP.Controllers
         {
             return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', 
                     a.RouteOfAdministrationId as 'a.RouteOfAdministrationId', a.Dosage as 'a.Dosage', a.OtherAnestheticDrugs as 'a.OtherAnestheticDrugs',
+                    a.IntraoperativeAnalgesiaId as 'a.IntraoperativeAnalgesiaId', a.IVFluidTypeId as 'a.IVFluidTypeId' ";
+        }
+
+        private string BuildMaintenanceOtherSQL()
+        {
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.OtherAnestheticDrugs as 'a.OtherAnestheticDrugs',
                     a.IntraoperativeAnalgesiaId as 'a.IntraoperativeAnalgesiaId', a.IVFluidTypeId as 'a.IVFluidTypeId' ";
         }
 
