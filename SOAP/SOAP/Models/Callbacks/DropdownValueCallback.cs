@@ -16,6 +16,8 @@ namespace SOAP.Models.Callbacks
             value.Description = read["a.Description"].ToString();
             if (read["a.Concentration"].ToString() != "")
                 value.Concentration = Convert.ToDecimal(read["a.Concentration"].ToString());
+            if (read["a.MaxDosage"].ToString() != "")
+                value.MaxDosage = Convert.ToDecimal(read["a.MaxDosage"].ToString());
 
 
             foreach (DropdownValue.LazyComponents a in lazyComponents)
