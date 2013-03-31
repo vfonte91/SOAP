@@ -137,9 +137,10 @@ namespace SOAP.Controllers
                 service.CreatePatient(pat);
                 dict["success"] = true;
             }
-            catch
+            catch (Exception e)
             {
                 dict["success"] = false;
+                dict["error"] = e.Message;
             }
             return Json(dict);
         }
@@ -201,9 +202,10 @@ namespace SOAP.Controllers
                 dict["Patient"] = service.GetPatient(form.PatientId);
                 dict["success"] = true;
             }
-            catch
+            catch (Exception e)
             {
                 dict["success"] = false;
+                dict["error"] = e.Message;
             }
             return Json(dict);
         }

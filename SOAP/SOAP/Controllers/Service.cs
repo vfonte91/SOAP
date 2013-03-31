@@ -131,8 +131,6 @@ namespace SOAP.Controllers
             maint.MaintenanceInjectionDrug = GetMaintenanceInjectionDrugs(patientId);
             maint.MaintenanceInhalantDrug = GetMaintenanceInhalantDrugs(patientId);
             maint.MaintenanceOther = GetMaintenanceOther(patientId);
-            //maint.IntraOperativeAnalgesias = GetIntraOperativeAnalgesia(patientId);
-            //maint.OtherAnestheticDrugs = GetOtherAnestheticDrugs(patientId);
             return maint;
         }
 
