@@ -23,7 +23,8 @@ namespace SOAP.Models
             LOAD_DRUG_WITH_DETAILS,
             LOAD_BREATHING_SYSTEM_WITH_DETAILS,
             LOAD_BREATHING_BAG_SIZE_WITH_DETAILS,
-            LOAD_INTRAOP_WITH_DETAILS
+            LOAD_INTRAOP_WITH_DETAILS,
+            LOAD_IV_WITH_DETAILS
         };
 
         public MaintenanceInhalantDrug()

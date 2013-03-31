@@ -28,6 +28,8 @@ namespace SOAP.Models.Callbacks
                     anesPlanPremed.Drug.Description = read["b.Description"].ToString();
                     if (read["b.Concentration"].ToString() != "")
                         anesPlanPremed.Drug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
+                    if (read["b.MaxDosage"].ToString() != "")
+                        anesPlanPremed.Drug.MaxDosage = Convert.ToDecimal(read["b.MaxDosage"].ToString());
                 }
                 else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ROUTE_WITH_DETAILS && anesPlanPremed.Route.Id != -1)
                 {
