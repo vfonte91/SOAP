@@ -211,14 +211,14 @@ function buildInduction() {
 function buildMaintenance() {
     if ($('#MaintenanceInject').is(':checked')) {
         Patient.Maintenance.MaintenanceInhalantDrug = {};
-        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {}, IntroaperativeAnalgesia: {} }
+        Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {} };
         Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
         Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
         Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Dosage').val();
     }
     else {
         Patient.Maintenance.MaintenanceInjectionDrug = {};
-        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {}, IntraoperativeAnalgesia: {} };
+        Patient.Maintenance.MaintenanceInhalantDrug = { Drug: {}, BreathingSystem: {}, BreathingBagSize: {} };
         Patient.Maintenance.MaintenanceInhalantDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.Drug').val();
         Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.InductionPercentage').val();
         Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.InductionOxygenFlowRate').val();
@@ -227,7 +227,8 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize').val();
     }
-    Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.Drug').val();
+    Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {} };
+    Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
     Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia').val();
 }
 
