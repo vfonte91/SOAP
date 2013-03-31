@@ -346,3 +346,10 @@ table td input[type=text]
     background-color:Silver;
     height: 18px;    
 }
+ #wrapper {
+    height: 400px;
+    width: 100%;
+    overflow:auto;
+}
+.ui-dialog .ui-dialog-content { background: yellow;}
+.ui-dialog .ui-dialog-titlebar{ background: yellow;}

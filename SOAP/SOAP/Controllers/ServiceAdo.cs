@@ -2585,9 +2585,9 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
-                            DrugId = @DrugId, InductionReqFlag = @InductionReqFlag, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
-                            MaintenanceReqFlag = @MaintenanceReqFlag, MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
-                            EquipmentReqFlag = @EquipmentReqFlag, BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
+                            DrugId = @DrugId, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
+                            MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
+                            BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
                             WHERE
                             Id = @Id";
 
