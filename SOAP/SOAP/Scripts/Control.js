@@ -230,6 +230,7 @@ function buildMaintenance() {
     Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {} };
     Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
     Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia').val();
+    Patient.Maintenance.MaintenanceOther.IVFluidType.Id = $('#Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType').val();
 }
 
 function SaveForm() {
@@ -441,6 +442,7 @@ function populateAll() {
     populate(17, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingSystem");
     populate(18, "Patient\\.Maintenance\\.MaintenanceInhalentDrug\\.BreathingBagSize");
     populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IntraoperativeAnalgesia");
+    populate(19, "Patient\\.Maintenance\\.MaintenanceOther\\.IVFluidType");
     populate(20, "Patient\\.Monitoring\\.Monitoring");
 
 }
