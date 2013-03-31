@@ -99,6 +99,12 @@
                     <input type="text" name ="OtherAnestheticDrugs" id="Patient.OtherAnestheticDrug.Drug" />
                 </div>
                 <div class="input">
+                    <label>IV Fluid Types: </label>
+                    <button type="button" id="Induction-Injectable-IVFluidTypes" class="toolTipButton" onclick="toolTipGenerate(24, 'Patient.AnestheticPlan.InjectionPlan.IVFluidType')">?</button>
+                    <select name="InductionRoute" id="Patient.AnestheticPlan.InjectionPlan.IVFluidType">
+					</select>
+                </div>
+                <div class="input">
                     <input type="button" class="submit" value="Calculated Required Medicine" onclick="calculateDosages()" />
                </div>
                 
