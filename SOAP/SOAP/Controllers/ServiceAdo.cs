@@ -3478,7 +3478,7 @@ namespace SOAP.Controllers
         private string BuildDropdownValueSQL()
         {
             return @"SELECT a.Id as 'a.Id', a.CategoryId as 'a.CategoryId', a.Label as 'a.Label', a.OtherFlag as 'a.OtherFlag', 
-                    a.Description as 'a.Description', a.Concentration as 'a.Concentration' ";
+                    a.Description as 'a.Description', a.Concentration as 'a.Concentration', a.MaxDosage as 'a.MaxDosage' ";
         }
 
         private string BuildIntraoperativeAnalgesiaSQL()
