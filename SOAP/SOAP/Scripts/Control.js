@@ -121,11 +121,12 @@ function buildClinicalFindings() {
     var priorAnesDate = $('#Patient\\.ClinicalFindings\\.Date').val();
     var priorAnesProb = $('#Patient\\.ClinicalFindings\\.Problems').val();
     var currentMeds = $('#Patient\\.ClinicalFindings\\.CurrentMedications').val();
+    var otherConc = $('#Patient\\.ClinicalFindings\\.OtherAnestheticConcerns').val();
     var anesthesiaValues = $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("getChecked");
     Patient.ClinicalFindings = { Temperature: temperature, PulseRate: pulseRate, RespiratoryRate: respiratoryRate, CardiacAuscultation: { Id: cardiacAusc },
         CapillaryRefillTime: { Id: capRefill }, PulseQuality: { Id: pulseQuality }, RespiratoryAuscultation: { Id: respiratoryAusc },
         PhysicalStatusClassification: { Id: physicalStatus }, ReasonForClassification: classification, MucousMembraneColor: { Id: mucous }, CurrentMedications: currentMeds,
-        AnesthesiaConcerns: [], PriorAnesthesia: {}
+        AnesthesiaConcerns: [], OtherAnestheticConcerns: otherConc, PriorAnesthesia: {}
     };
     for (var i = 0; i < anesthesiaValues.length; i++) {
         var idOfVal = anesthesiaValues[i].getAttribute("value");
