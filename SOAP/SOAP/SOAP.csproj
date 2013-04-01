@@ -41,6 +41,9 @@
     <DeployIisAppPath>Default Web Site/SOAP</DeployIisAppPath>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\..\..\Documents\iTextSharp\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -240,6 +243,7 @@
     <Content Include="Images\InActive.jpg" />
     <Content Include="Images\small-question-mark.jpg" />
     <Content Include="Images\small_question_mark.gif" />
+    <Content Include="Images\Test.jpg" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\IdEnum.js" />
     <Content Include="Scripts\jquery.multiselect.min.js" />
@@ -264,6 +268,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Filters\" />
+    <Folder Include="PDFs\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
