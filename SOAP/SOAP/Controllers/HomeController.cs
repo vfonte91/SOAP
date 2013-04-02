@@ -19,6 +19,21 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
+        public ActionResult Export(Patient pat)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.Export();
+            }
+            catch
+            {
+
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
         public ActionResult DoLogin(MembershipInfo user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();

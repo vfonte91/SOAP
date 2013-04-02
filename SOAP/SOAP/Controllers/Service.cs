@@ -4,6 +4,9 @@ using System.Web;
 using System.Configuration;
 using SOAP.Models;
 using SOAP.Models.Callbacks;
+using iTextSharp.text;
+using System.IO;
+using iTextSharp.text.pdf;
 
 namespace SOAP.Controllers
 {
@@ -722,7 +725,7 @@ namespace SOAP.Controllers
 
         #endregion
 
-        public void Page_Load(object sender, EventArgs e)
+        public void Export()
         {
 
 
@@ -1018,7 +1021,7 @@ namespace SOAP.Controllers
 
             #region CUSTOM OFFSET FOR TEXT (WITH WORD WRAP)
 
-        /*      
+             
          
         Document doc = new Document(PageSize.LETTER);
         doc.SetMargins(0f, 0f, 0f, 0f);
@@ -1027,12 +1030,11 @@ namespace SOAP.Controllers
 
         try
         {
-            string path = Server.MapPath("PDFs");
-            string imagepath = Server.MapPath("images");
+            //string path = Server.MapPath("PDFs");
+            //string imagepath = Server.MapPath("images");
 
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(path + "/SOAP.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
             doc.Open();
-
             PdfContentByte cb = writer.DirectContent;
             ColumnText ct = new ColumnText(cb);
             Phrase myText = new Phrase("This is a text phrase");
@@ -1040,10 +1042,9 @@ namespace SOAP.Controllers
             Phrase myText2 = new Phrase("This is another test phrase");
             Phrase myText3 = new Phrase(hi);
 
-            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imagepath + "/Test.jpg");
+            //iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imagepath + "/Test.jpg");
+            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance("~/Images/Test.jpg");
             doc.Add(img);
-
-
 
 //parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
             //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
@@ -1068,7 +1069,7 @@ namespace SOAP.Controllers
         doc.Close();
         }
 
-      */
+      
 
             #endregion
 

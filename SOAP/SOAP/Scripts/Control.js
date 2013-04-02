@@ -89,6 +89,10 @@ $(document).ready(function () {
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
 });
 
+function ExportToPDF() {
+    ajax('Post', 'Export', JSON.stringify(Patient), true);
+}
+
 function buildPatientInfo() {
     var procedure = $('#Patient\\.PatientInfo\\.Procedure').val();
     var otherProcedure = $('#Patient\\.PatientInfo\\.ProcedureOther').val();
