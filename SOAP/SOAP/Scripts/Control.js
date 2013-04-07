@@ -205,7 +205,7 @@ function buildAnestheticPlanPremeds() {
 
     var ketamineDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.KetamineDosage").val();
     if (ketamineDosage) {
-        var ketamineObj = { Drug: { Id: ketamineEnum }, Route: { Id: route }, Dosage: ketamineDosage };
+        var ketamineObj = { Drug: { Id: 183 }, Route: { Id: route }, Dosage: ketamineDosage };
         Patient.AnestheticPlan.PreMedications.push(ketamineObj);
     }
 }

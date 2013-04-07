@@ -3508,7 +3508,7 @@ namespace SOAP.Controllers
         {
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"DELETE FROM dbo.IV_Fluid_Type_To_Patient
+                string sql = @"DELETE FROM dbo.Maintenance_Inhalant_Drugs_To_Patient
                             WHERE
                             PatientId = @Id";
 

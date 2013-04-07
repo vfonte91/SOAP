@@ -514,7 +514,10 @@ namespace SOAP.Controllers
             }
 
             if (clinicalFindings.PriorAnesthesia.DateOfProblem != DateTime.MinValue || clinicalFindings.PriorAnesthesia.Problem != null)
+            {
+                clinicalFindings.PriorAnesthesia.PatientId = clinicalFindings.PatientId;
                 SavePriorAnesthesia(clinicalFindings.PriorAnesthesia);
+            }
 
             if (clinicalFindings.AnesthesiaConcerns.Count > 0)
             {
