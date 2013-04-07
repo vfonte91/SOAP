@@ -405,14 +405,14 @@ namespace SOAP.Controllers
 
         public void CreateMaintenanceInhalantDrugs(Patient pat)
         {
-                pat.Maintenance.MaintenanceInhalantDrug.PatientId = pat.PatientId;
-                service.CreateMaintenanceInhalantDrug(pat.Maintenance.MaintenanceInhalantDrug);
+            pat.Maintenance.MaintenanceInhalantDrug.PatientId = pat.PatientId;
+            service.CreateMaintenanceInhalantDrug(pat.Maintenance.MaintenanceInhalantDrug);
         }
 
         public void CreateMaintenanceInjectionDrugs(Patient pat)
         {
-                pat.Maintenance.MaintenanceInjectionDrug.PatientId = pat.PatientId;
-                service.CreateMaintenanceInjectionDrug(pat.Maintenance.MaintenanceInjectionDrug);
+            pat.Maintenance.MaintenanceInjectionDrug.PatientId = pat.PatientId;
+            service.CreateMaintenanceInjectionDrug(pat.Maintenance.MaintenanceInjectionDrug);
         }
 
         public void CreateMaintenanceOther(Patient pat)
@@ -450,153 +450,209 @@ namespace SOAP.Controllers
             service.UpdatePatient(pat);
 
             if (pat.ClinicalFindings.ContainsValue())
+            {
+                pat.ClinicalFindings.PatientId = pat.PatientId;
                 SaveClinicalFindings(pat.ClinicalFindings);
+            }
 
             if (pat.Bloodwork.HasValues())
+            {
+                pat.Bloodwork.PatientId = pat.PatientId;
                 SaveBloodwork(pat.Bloodwork);
+            }
 
             if (pat.AnestheticPlan != null)
-                SaveAnestheticPlan(pat.AnestheticPlan);
+            {
+                if (pat.AnestheticPlan.InhalantPlan.HasValues())
+                {
+                    pat.AnestheticPlan.InhalantPlan.PatientId = pat.PatientId;
+                    SaveAnestheticInhalantPlans(pat.AnestheticPlan.InhalantPlan);
+                }
+
+                if (pat.AnestheticPlan.InjectionPlan.HasValues())
+                {
+                    pat.AnestheticPlan.InjectionPlan.PatientId = pat.PatientId;
+                    SaveAnestheticInjectionPlans(pat.AnestheticPlan.InjectionPlan);
+                }
+
+                if (pat.AnestheticPlan.PreMedications.Count > 0)
+                {
+                    SaveAnestheticPremedications(pat);
+                }
+            }
 
             if (pat.Maintenance != null)
-                SaveMaintenance(pat.Maintenance);
+            {
+                if (pat.Maintenance.MaintenanceInhalantDrug.HasValues())
+                {
+                    pat.Maintenance.MaintenanceInhalantDrug.PatientId = pat.PatientId;
+                    SaveMaintenanceInhalantDrugs(pat.Maintenance.MaintenanceInhalantDrug);
+                }
+
+                if (pat.Maintenance.MaintenanceInjectionDrug.HasValues())
+                {
+                    pat.Maintenance.MaintenanceInhalantDrug.PatientId = pat.PatientId;
+                    SaveMaintenanceInjectionDrugs(pat.Maintenance.MaintenanceInjectionDrug);
+                }
+
+                if (pat.Maintenance.MaintenanceOther.HasValues())
+                {
+                    pat.Maintenance.MaintenanceOther.PatientId = pat.PatientId;
+                    SaveMaintenanceOther(pat.Maintenance.MaintenanceOther);
+                }
+            }
 
             if (pat.Monitoring.Count > 0)
-                SaveMonitoring(pat.Monitoring);
+                SaveMonitoring(pat);
         }
 
         public void SaveClinicalFindings(ClinicalFindings clinicalFindings)
         {
-            service.UpdateClinicalFinding(clinicalFindings);
+            if (service.UpdateClinicalFinding(clinicalFindings) == 0)
+            {
+                service.CreateClinicalFinding(clinicalFindings);
+            }
 
             if (clinicalFindings.PriorAnesthesia.DateOfProblem != DateTime.MinValue || clinicalFindings.PriorAnesthesia.Problem != null)
                 SavePriorAnesthesia(clinicalFindings.PriorAnesthesia);
 
             if (clinicalFindings.AnesthesiaConcerns.Count > 0)
-                SaveAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
-        }
-
-        public void SaveCurrentMedications(List<CurrentMedication> meds)
-        {
-            foreach (CurrentMedication c in meds)
             {
-                service.UpdateCurrentMedication(c);
+                service.DeleteAnesthesiaConcern(clinicalFindings.PatientId);
+                SaveAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
             }
         }
 
+        //public void SaveCurrentMedications(List<CurrentMedication> meds)
+        //{
+        //    foreach (CurrentMedication c in meds)
+        //    {
+        //        service.UpdateCurrentMedication(c);
+        //    }
+        //}
+
         public void SavePriorAnesthesia(PriorAnesthesia priors)
         {
-            service.UpdatePriorAnesthesia(priors);
+            if (service.UpdatePriorAnesthesia(priors) == 0)
+                service.CreatePriorAnesthesia(priors);
         }
 
         public void SaveAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
         {
             foreach (AnesthesiaConcern a in concerns)
             {
-                service.UpdateAnesthesiaConcern(a);
+                service.CreateAnesthesiaConcern(a);
             }
         }
 
         public void SaveBloodwork(Bloodwork blood)
         {
+            service.DeleteBloodwork(blood.PatientId);
             if (blood.Albumin != -1)
-                service.UpdateBloodwork(blood, "Albumin", blood.Albumin);
+                //if (service.UpdateBloodwork(blood, "Albumin", blood.Albumin) == 0)
+                service.CreateBloodwork(blood, "Albumin", blood.Albumin);
             if (blood.ALP != -1)
-                service.UpdateBloodwork(blood, "ALP", blood.ALP);
+                //if (service.UpdateBloodwork(blood, "ALP", blood.ALP) == 0)
+                service.CreateBloodwork(blood, "ALP", blood.ALP);
             if (blood.ALT != -1)
-                service.UpdateBloodwork(blood, "ALT", blood.ALT);
+                //if (service.UpdateBloodwork(blood, "ALT", blood.ALT) == 0)
+                service.CreateBloodwork(blood, "ALT", blood.ALT);
             if (blood.BUN != -1)
+                //if (service.UpdateBloodwork(blood, "BUN", blood.BUN) == 0)
                 service.UpdateBloodwork(blood, "BUN", blood.BUN);
             if (blood.Ca != -1)
-                service.UpdateBloodwork(blood, "Ca", blood.Ca);
+                //if (service.UpdateBloodwork(blood, "Ca", blood.Ca) == 0)
+                service.CreateBloodwork(blood, "Ca", blood.Ca);
             if (blood.Cl != -1)
-                service.UpdateBloodwork(blood, "Cl", blood.Cl);
+                //if (service.UpdateBloodwork(blood, "Cl", blood.Cl) == 0)
+                service.CreateBloodwork(blood, "Cl", blood.Cl);
             if (blood.CREAT != -1)
-                service.UpdateBloodwork(blood, "CREAT", blood.CREAT);
+                if (service.UpdateBloodwork(blood, "CREAT", blood.CREAT) == 0)
+                    service.CreateBloodwork(blood, "CREAT", blood.CREAT);
             if (blood.Globulin != -1)
-                service.UpdateBloodwork(blood, "Globulin", blood.Globulin);
+                //if (service.UpdateBloodwork(blood, "Globulin", blood.Globulin) == 0)
+                service.CreateBloodwork(blood, "Globulin", blood.Globulin);
             if (blood.Glucose != -1)
-                service.UpdateBloodwork(blood, "Glucose", blood.Glucose);
+                //if (service.UpdateBloodwork(blood, "Glucose", blood.Glucose) == 0)
+                service.CreateBloodwork(blood, "Glucose", blood.Glucose);
             if (blood.iCa != -1)
-                service.UpdateBloodwork(blood, "iCa", blood.iCa);
+                //if (service.UpdateBloodwork(blood, "iCa", blood.iCa) == 0)
+                service.CreateBloodwork(blood, "iCa", blood.iCa);
             if (blood.K != -1)
-                service.UpdateBloodwork(blood, "K", blood.K);
+                //if (service.UpdateBloodwork(blood, "K", blood.K) == 0)
+                service.CreateBloodwork(blood, "K", blood.K);
             if (blood.NA != -1)
-                service.UpdateBloodwork(blood, "NA", blood.NA);
+                //if (service.UpdateBloodwork(blood, "NA", blood.NA) == 0)
+                service.CreateBloodwork(blood, "NA", blood.NA);
             if (blood.PCV != -1)
-                service.UpdateBloodwork(blood, "PCV", blood.PCV);
+                //if (service.UpdateBloodwork(blood, "PCV", blood.PCV) == 0)
+                service.CreateBloodwork(blood, "PCV", blood.PCV);
             if (blood.TP != -1)
-                service.UpdateBloodwork(blood, "TP", blood.TP);
+                //if (service.UpdateBloodwork(blood, "TP", blood.TP) == 0)
+                service.CreateBloodwork(blood, "TP", blood.TP);
             if (blood.USG != -1)
-                service.UpdateBloodwork(blood, "USG", blood.USG);
+                //if (service.UpdateBloodwork(blood, "USG", blood.USG) == 0)
+                service.CreateBloodwork(blood, "USG", blood.USG);
             if (blood.WBC != -1)
-                service.UpdateBloodwork(blood, "WBC", blood.WBC);
+                //if (service.UpdateBloodwork(blood, "WBC", blood.WBC) == 0)
+                service.CreateBloodwork(blood, "WBC", blood.WBC);
             if (blood.OtherType != null && blood.OtherValue != -1)
-                service.UpdateBloodwork(blood, blood.OtherType, blood.OtherValue);
-        }
-
-        public void SaveAnestheticPlan(AnestheticPlan a)
-        {
-            if (a.InhalantPlan.HasValues())
-                SaveAnestheticInhalantPlans(a.InhalantPlan);
-
-            if (a.InjectionPlan.HasValues())
-                SaveAnestheticInjectionPlans(a.InjectionPlan);
-
-            if (a.PreMedications.Count > 0)
-                SaveAnestheticPremedications(a.PreMedications);
+                //if (service.UpdateBloodwork(blood, blood.OtherType, blood.OtherValue) == 0)
+                service.CreateBloodwork(blood, blood.OtherType, blood.OtherValue);
         }
 
         public void SaveAnestheticInhalantPlans(AnestheticPlanInhalant inhalants)
         {
-            service.UpdateAnestheticPlanInhalant(inhalants);
+            service.DeleteAnestheticPlanInjection(inhalants.PatientId);
+            if (service.UpdateAnestheticPlanInhalant(inhalants) == 0)
+                service.CreateAnestheticPlanInhalant(inhalants);
         }
 
         public void SaveAnestheticInjectionPlans(AnestheticPlanInjection injects)
         {
-            service.UpdateAnestheticPlanInjection(injects);
+            service.DeleteAnestheticPlanInhalant(injects.PatientId);
+            if (service.UpdateAnestheticPlanInjection(injects) == 0)
+                service.CreateAnestheticPlanInjection(injects);
         }
 
-        public void SaveAnestheticPremedications(List<AnestheticPlanPremedication> premeds)
+        public void SaveAnestheticPremedications(Patient pat)
         {
-            foreach (AnestheticPlanPremedication a in premeds)
+            service.DeleteAnestheticPlanPremedication(pat.PatientId);
+            foreach (AnestheticPlanPremedication a in pat.AnestheticPlan.PreMedications)
             {
-                service.UpdateAnestheticPlanPremedication(a);
+                a.PatientId = pat.PatientId;
+                service.CreateAnestheticPlanPremedication(a);
             }
         }
 
-        public void SaveMaintenance(Maintenance m)
-        {
-            if (m.MaintenanceInhalantDrug.HasValues())
-                SaveMaintenanceInhalantDrugs(m.MaintenanceInhalantDrug);
-
-            if (m.MaintenanceInjectionDrug.HasValues())
-                SaveMaintenanceInjectionDrugs(m.MaintenanceInjectionDrug);
-
-            if (m.MaintenanceOther.HasValues())
-                SaveMaintenanceOther(m.MaintenanceOther);
-
-        }
         public void SaveMaintenanceInhalantDrugs(MaintenanceInhalantDrug drugs)
         {
-            service.UpdateMaintenanceInhalantDrug(drugs);
+            service.DeleteMaintenanceInjectionDrug(drugs.PatientId);
+            if (service.UpdateMaintenanceInhalantDrug(drugs) == 0)
+                service.CreateMaintenanceInhalantDrug(drugs);
         }
 
         public void SaveMaintenanceInjectionDrugs(MaintenanceInjectionDrug drugs)
         {
-            service.UpdateMaintenanceInjectionDrug(drugs);
+            service.DeleteMaintenanceInhalantDrug(drugs.PatientId);
+            if (service.UpdateMaintenanceInjectionDrug(drugs) == 0)
+                service.CreateMaintenanceInjectionDrug(drugs);
         }
 
         public void SaveMaintenanceOther(MaintenanceOther drugs)
         {
-            service.UpdateMaintenanceOther(drugs);
+            if (service.UpdateMaintenanceOther(drugs) == 0)
+                service.CreateMaintenanceOther(drugs);
         }
 
-        public void SaveMonitoring(List<Monitoring> monitors)
+        public void SaveMonitoring(Patient pat)
         {
-            foreach (Monitoring m in monitors)
+            service.DeleteMonitoring(pat.PatientId);
+            foreach (Monitoring m in pat.Monitoring)
             {
-                service.UpdateMonitoring(m);
+                m.PatientId = pat.PatientId;
+                if (service.UpdateMonitoring(m) == 0)
+                    service.CreateMonitoring(m);
             }
         }
 
@@ -729,49 +785,49 @@ namespace SOAP.Controllers
         {
             #region PDF OUTPUT
 
-        Document doc = new Document(PageSize.LETTER);
-        doc.SetMargins(0f, 0f, 0f, 0f);
+            Document doc = new Document(PageSize.LETTER);
+            doc.SetMargins(0f, 0f, 0f, 0f);
 
-        MemoryStream memStream = new MemoryStream();
+            MemoryStream memStream = new MemoryStream();
 
-        try
-        {
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
-            doc.Open();
-            PdfContentByte cb = writer.DirectContent;
-            ColumnText ct = new ColumnText(cb);
-            Phrase myText = new Phrase("This is a text phrase");
-            string hi = "Hi";
-            Phrase myText2 = new Phrase("This is another test phrase");
-            Phrase myText3 = new Phrase(hi);
+            try
+            {
+                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
+                doc.Open();
+                PdfContentByte cb = writer.DirectContent;
+                ColumnText ct = new ColumnText(cb);
+                Phrase myText = new Phrase("This is a text phrase");
+                string hi = "Hi";
+                Phrase myText2 = new Phrase("This is another test phrase");
+                Phrase myText3 = new Phrase(hi);
 
 
-            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance("../Images/Test.jpg");
-            doc.Add(img);
+                iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance("../Images/Test.jpg");
+                doc.Add(img);
 
-//parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
-            //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
-            //NOTE: bottommargin determines x coordinate
+                //parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
+                //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
+                //NOTE: bottommargin determines x coordinate
 
-            ct.SetSimpleColumn(myText, 150, 100, 300, 700, 15, Element.ALIGN_LEFT);
-            ct.Go();
+                ct.SetSimpleColumn(myText, 150, 100, 300, 700, 15, Element.ALIGN_LEFT);
+                ct.Go();
 
-            ct.SetSimpleColumn(myText2, 150, 100, 100, 317, 15, Element.ALIGN_LEFT);
-            ct.Go();
+                ct.SetSimpleColumn(myText2, 150, 100, 100, 317, 15, Element.ALIGN_LEFT);
+                ct.Go();
 
-            ct.SetSimpleColumn(myText3, 300, 100, 400, 317, 15, Element.ALIGN_LEFT);
-            ct.Go();
+                ct.SetSimpleColumn(myText3, 300, 100, 400, 317, 15, Element.ALIGN_LEFT);
+                ct.Go();
 
-        }
+            }
 
-        catch
-        {
-        }
-        finally
-        {
-            doc.Close();
-        }
- 
+            catch
+            {
+            }
+            finally
+            {
+                doc.Close();
+            }
+
 
             #endregion
 
