@@ -588,7 +588,7 @@ namespace SOAP.Controllers
 
                 string where = @"";
 
-                sql = sql + from + where + " ORDER BY a.Id ";
+                sql = sql + from + where + " ORDER BY a.SHORTNAME ";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 try
@@ -622,7 +622,7 @@ namespace SOAP.Controllers
 
                 string from = @"FROM dbo.Dropdown_Types AS a";
 
-                string where = @" WHERE a.CategoryId = @CategoryId AND a.OtherFlag = 'N'";
+                string where = @" WHERE a.CategoryId = @CategoryId AND a.OtherFlag = 'N' ORDER BY a.LABEL ";
 
                 sql = sql + from + where;
 
@@ -1634,40 +1634,40 @@ namespace SOAP.Controllers
             }
         }
 
-        public void CreateDrugInformation(DrugInformation drug)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"INSERT INTO dbo.Drug_Information (
-                            DrugId, DoseMinRange, DoseMaxRange, DoseMax, DoseUnits, Route, Concentration, ConcentrationUnits
-                            ) VALUES (
-                            @DrugId, @DoseMinRange, @DoseMaxRange, @DoseMax, @DoseUnits, @Route, @Concentration, @ConcentrationUnits
-                            )";
+//        public void CreateDrugInformation(DrugInformation drug)
+//        {
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"INSERT INTO dbo.Drug_Information (
+//                            DrugId, DoseMinRange, DoseMaxRange, DoseMax, DoseUnits, Route, Concentration, ConcentrationUnits
+//                            ) VALUES (
+//                            @DrugId, @DoseMinRange, @DoseMaxRange, @DoseMax, @DoseUnits, @Route, @Concentration, @ConcentrationUnits
+//                            )";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
-                cmd.Parameters.Add("@DoseMinRange", SqlDbType.Float).Value = drug.DoseMinRange;
-                cmd.Parameters.Add("@DoseMaxRange", SqlDbType.Float).Value = drug.DoseMaxRange;
-                cmd.Parameters.Add("@DoseMax", SqlDbType.Float).Value = drug.DoseMax;
-                cmd.Parameters.Add("@DoseUnits", SqlDbType.NVarChar).Value = drug.DoseUnits;
-                cmd.Parameters.Add("@Route", SqlDbType.NVarChar).Value = drug.Route;
-                cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = drug.Concentration;
-                cmd.Parameters.Add("@ConcentrationUnits", SqlDbType.NVarChar).Value = drug.ConcentrationUnits;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
+//                cmd.Parameters.Add("@DoseMinRange", SqlDbType.Float).Value = drug.DoseMinRange;
+//                cmd.Parameters.Add("@DoseMaxRange", SqlDbType.Float).Value = drug.DoseMaxRange;
+//                cmd.Parameters.Add("@DoseMax", SqlDbType.Float).Value = drug.DoseMax;
+//                cmd.Parameters.Add("@DoseUnits", SqlDbType.NVarChar).Value = drug.DoseUnits;
+//                cmd.Parameters.Add("@Route", SqlDbType.NVarChar).Value = drug.Route;
+//                cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = drug.Concentration;
+//                cmd.Parameters.Add("@ConcentrationUnits", SqlDbType.NVarChar).Value = drug.ConcentrationUnits;
+//                try
+//                {
+//                    conn.Open();
+//                    cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//        }
 
         public void CreateIntraoperativeAnalgesia(IntraoperativeAnalgesia opera)
         {
@@ -2089,14 +2089,15 @@ namespace SOAP.Controllers
         #endregion
 
         #region UPDATE
-        public void UpdateAdministrationSet(AdministrationSet adminSet)
+        public int UpdateAdministrationSet(AdministrationSet adminSet)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Administration_Set_To_Patient SET
                             MiniDripFlag = @MiniDripFlag, MaxiDripFlag = @MaxiDripFlag
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = adminSet.PatientId;
@@ -2112,7 +2113,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2123,44 +2124,48 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateAnesthesiaConcern(AnesthesiaConcern aConcern)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"UPDATE dbo.Anesthesia_Concerns_To_Patient SET
-                            ConcernId = @ConcernId
-                            WHERE
-                            Id = @Id";
+//        public int UpdateAnesthesiaConcern(AnesthesiaConcern aConcern)
+//        {
+//            int returnNum = 0;
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"UPDATE dbo.Anesthesia_Concerns_To_Patient SET
+//                            ConcernId = @ConcernId
+//                            WHERE
+//                            PatientId = @PatientId";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = aConcern.Id;
-                cmd.Parameters.Add("@ConcernId", SqlDbType.Int).Value = aConcern.Concern.Id;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = aConcern.PatientId;
+//                cmd.Parameters.Add("@ConcernId", SqlDbType.Int).Value = aConcern.Concern.Id;
+//                try
+//                {
+//                    conn.Open();
+//                    returnNum = cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//            return returnNum;
+//        }
 
-        public void UpdateAnestheticPlanInhalant(AnestheticPlanInhalant inhalant)
+        public int UpdateAnestheticPlanInhalant(AnestheticPlanInhalant inhalant)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Anesthetic_Plan_Inhalant SET
                             DrugId = @DrugId, Dose =  @Dose, FlowRate = @FlowRate
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = inhalant.PatientId;
@@ -2179,7 +2184,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2190,16 +2195,18 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateAnestheticPlanInjection(AnestheticPlanInjection injection)
+        public int UpdateAnestheticPlanInjection(AnestheticPlanInjection injection)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Anesthetic_Plan_Injection SET
                             DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = injection.PatientId;
@@ -2218,7 +2225,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2229,16 +2236,18 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateAnestheticPlanPremedication(AnestheticPlanPremedication premed)
+        public int UpdateAnestheticPlanPremedication(AnestheticPlanPremedication premed)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UDPATE dbo.Anesthetic_Plan_Premed SET
                             DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = premed.PatientId;
@@ -2257,7 +2266,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2268,6 +2277,7 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
         public void UpdateASFUser(ASFUser user)
@@ -2371,23 +2381,24 @@ namespace SOAP.Controllers
             return b;
         }
 
-        public void UpdateBloodwork(Bloodwork blood, string bloodworkName, decimal bloodworkValue)
+        public int UpdateBloodwork(Bloodwork blood, string bloodworkName, decimal bloodworkValue)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Bloodwork_To_Patient SET
                             BloodworkName = @BloodworkName, Value = @Value
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = blood.Id;
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = blood.Id;
                 cmd.Parameters.Add("@BloodworkName", SqlDbType.NVarChar).Value = bloodworkName;
                 cmd.Parameters.Add("@Value", SqlDbType.Decimal).Value = bloodworkValue;
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2398,20 +2409,22 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateClinicalFinding(ClinicalFindings cFind)
+        public int UpdateClinicalFinding(ClinicalFindings cFind)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Clinical_Findings SET
                             Temperature = @Temperature, PulseRate = @PulseRate, RespiratoryRate = @RespiratoryRate, CardiacAuscultationId = @CardiacAuscultationId, 
-                            PulseQualityId = @PulseQualityId, MucousMembraneColor = @MucousMembraneColor, CapillaryRefillTimeId = @CapillaryRefillTimeId 
+                            PulseQualityId = @PulseQualityId, MucousMembraneColorId = @MucousMembraneColorId, CapillaryRefillTimeId = @CapillaryRefillTimeId, 
                             RespiratoryAuscultationId = @RespiratoryAuscultationId, PhysicalStatusClassId = @PhysicalStatusClassId, 
                             ReasonForClassification = @ReasonForClassification, CurrentMedications = @CurrentMedications, 
                             OtherAnestheticConcerns = @OtherAnestheticConcerns
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = cFind.PatientId;
@@ -2477,7 +2490,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2488,35 +2501,38 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateCurrentMedication(CurrentMedication meds)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"UPDATE dbo.Current_Medications_To_Patient SET
-                            MedicationId = @MedicationId
-                            WHERE
-                            Id = @Id";
+//        public int UpdateCurrentMedication(CurrentMedication meds)
+//        {
+//            int returnNum = 0;
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"UPDATE dbo.Current_Medications_To_Patient SET
+//                            MedicationId = @MedicationId
+//                            WHERE
+//                            Id = @Id";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = meds.Id;
-                cmd.Parameters.Add("@BloodworkId", SqlDbType.Int).Value = meds.Medication.Id;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = meds.Id;
+//                cmd.Parameters.Add("@MedicationId", SqlDbType.Int).Value = meds.Medication.Id;
+//                try
+//                {
+//                    conn.Open();
+//                    returnNum = cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//            return returnNum;
+//        }
 
         public void UpdateDropdownCategory(DropdownCategory cat)
         {
@@ -2578,40 +2594,40 @@ namespace SOAP.Controllers
             }
         }
 
-        public void UpdateDrugInformation(DrugInformation drug)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"UPDATE dbo.Drug_Information SET
-                            DoseMinRange = @DoseMinRange, DoseMaxRange = @DoseMaxRange, DoseMax = @DoseMax, DoseUnits = @DoseUnits, 
-                            Route = @Route, Concentration = @Concentration, ConcentrationUnits = @ConcentrationUnits
-                            WHERE
-                            DrugId = @DrugId";
+//        public void UpdateDrugInformation(DrugInformation drug)
+//        {
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"UPDATE dbo.Drug_Information SET
+//                            DoseMinRange = @DoseMinRange, DoseMaxRange = @DoseMaxRange, DoseMax = @DoseMax, DoseUnits = @DoseUnits, 
+//                            Route = @Route, Concentration = @Concentration, ConcentrationUnits = @ConcentrationUnits
+//                            WHERE
+//                            DrugId = @DrugId";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
-                cmd.Parameters.Add("@DoseMinRange", SqlDbType.Float).Value = drug.DoseMinRange;
-                cmd.Parameters.Add("@DoseMaxRange", SqlDbType.Float).Value = drug.DoseMaxRange;
-                cmd.Parameters.Add("@DoseMax", SqlDbType.Float).Value = drug.DoseMax;
-                cmd.Parameters.Add("@DoseUnits", SqlDbType.NVarChar).Value = drug.DoseUnits;
-                cmd.Parameters.Add("@Route", SqlDbType.NVarChar).Value = drug.Route;
-                cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = drug.Concentration;
-                cmd.Parameters.Add("@ConcentrationUnits", SqlDbType.NVarChar).Value = drug.ConcentrationUnits;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = drug.Drug.Id;
+//                cmd.Parameters.Add("@DoseMinRange", SqlDbType.Float).Value = drug.DoseMinRange;
+//                cmd.Parameters.Add("@DoseMaxRange", SqlDbType.Float).Value = drug.DoseMaxRange;
+//                cmd.Parameters.Add("@DoseMax", SqlDbType.Float).Value = drug.DoseMax;
+//                cmd.Parameters.Add("@DoseUnits", SqlDbType.NVarChar).Value = drug.DoseUnits;
+//                cmd.Parameters.Add("@Route", SqlDbType.NVarChar).Value = drug.Route;
+//                cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = drug.Concentration;
+//                cmd.Parameters.Add("@ConcentrationUnits", SqlDbType.NVarChar).Value = drug.ConcentrationUnits;
+//                try
+//                {
+//                    conn.Open();
+//                    cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//        }
 
 //        public void UpdateIntraoperativeAnalgesia(DropdownValue opera)
 //        {
@@ -2641,37 +2657,40 @@ namespace SOAP.Controllers
 //            }
 //        }
 
-        public void UpdateIVFluidType(IVFluidType iv)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
-                            FluidTypeId = @FluidTypeId, Dose = @Dose
-                            WHERE
-                            Id = @Id";
+//        public int UpdateIVFluidType(IVFluidType iv)
+//        {
+//            int returnNum = 0;
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
+//                            FluidTypeId = @FluidTypeId, Dose = @Dose
+//                            WHERE
+//                            Id = @Id";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.Id;
-                cmd.Parameters.Add("@FluidTypeId", SqlDbType.Int).Value = iv.FluidType.Id;
-                cmd.Parameters.Add("@Dose", SqlDbType.Decimal).Value = iv.Dose;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = iv.Id;
+//                cmd.Parameters.Add("@FluidTypeId", SqlDbType.Int).Value = iv.FluidType.Id;
+//                cmd.Parameters.Add("@Dose", SqlDbType.Decimal).Value = iv.Dose;
+//                try
+//                {
+//                    conn.Open();
+//                    returnNum = cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//            return returnNum;
+//        }
 
-        public void UpdateMaintenanceInhalantDrug(MaintenanceInhalantDrug maintInhalant)
+        public int UpdateMaintenanceInhalantDrug(MaintenanceInhalantDrug maintInhalant)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
@@ -2679,7 +2698,7 @@ namespace SOAP.Controllers
                             MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
                             BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInhalant.PatientId;
@@ -2714,7 +2733,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2725,16 +2744,18 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateMaintenanceInjectionDrug(MaintenanceInjectionDrug maintInject)
+        public int UpdateMaintenanceInjectionDrug(MaintenanceInjectionDrug maintInject)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Maintenance_Injection_Drugs_To_Patient SET
                             DrugId = @DrugId, RouteOfAdministrationId = @RouteOfAdministrationId, Dosage = @Dosage
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintInject.PatientId;
@@ -2753,7 +2774,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
 
                 catch (Exception e)
@@ -2765,16 +2786,18 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateMaintenanceOther(MaintenanceOther maintOther)
+        public int UpdateMaintenanceOther(MaintenanceOther maintOther)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"UPDATE dbo.Maintenance_Other__To_Patient SET
+                string sql = @"UPDATE dbo.Maintenance_Other_To_Patient SET
                             OtherAnestheticDrugs = @OtherAnestheticDrugs, IntraoperativeAnalgesiaId = @IntraoperativeAnalgesiaId, IVFluidTypeId = @IVFluidTypeId
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = maintOther.PatientId;
@@ -2793,7 +2816,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2804,16 +2827,18 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateMonitoring(Monitoring monitor)
+        public int UpdateMonitoring(Monitoring monitor)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Monitoring_To_Patient SET
                             EquipmentId = @EquipmentId, OtherEquipment = @OtherEquipment
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = monitor.PatientId;
@@ -2829,7 +2854,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2840,38 +2865,42 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateOtherAnestheticDrug(OtherAnestheticDrug otherDrugs)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"UPDATE dbo.Other_Anesthetic_Drugs_To_Patient SET
-                            DrugId = @DrugId
-                            WHERE
-                            Id = @Id";
+//        public int UpdateOtherAnestheticDrug(OtherAnestheticDrug otherDrugs)
+//        {
+//            int returnNum = 0;
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"UPDATE dbo.Other_Anesthetic_Drugs_To_Patient SET
+//                            DrugId = @DrugId
+//                            WHERE
+//                            PatientId = @PatientId";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = otherDrugs.Id;
-                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = otherDrugs.Drug.Id;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = otherDrugs.Id;
+//                cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = otherDrugs.Drug.Id;
+//                try
+//                {
+//                    conn.Open();
+//                    returnNum = cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//            return returnNum;
+//        }
 
-        public void UpdatePatient(Patient pat)
+        public int UpdatePatient(Patient pat)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Patient SET
@@ -2884,6 +2913,7 @@ namespace SOAP.Controllers
                             PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = pat.PatientId;
                 cmd.Parameters.Add("@StudentId", SqlDbType.NVarChar).Value = pat.PatientInfo.Student.Username;
                 cmd.Parameters.Add("@ClinicianId", SqlDbType.NVarChar).Value = pat.PatientInfo.Clinician.Username;
                 cmd.Parameters.Add("@FormCompleted", SqlDbType.Char).Value = pat.PatientInfo.FormCompleted;
@@ -2942,7 +2972,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2953,16 +2983,18 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdatePriorAnesthesia(PriorAnesthesia priorAnes)
+        public int UpdatePriorAnesthesia(PriorAnesthesia priorAnes)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Prior_Anesthesia_To_Patient SET
                             DateOfProblem = @DateOfProblem, Problem = @Problem
                             WHERE
-                            Id = @Id";
+                            PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = priorAnes.PatientId;
@@ -2974,7 +3006,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2985,38 +3017,42 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void UpdateProcedure(Procedure proc)
-        {
-            using (SqlConnection conn = new SqlConnection(connString))
-            {
-                string sql = @"UPDATE dbo.Procedure_To_Patient SET
-                            ProcedureId = @ProcedureId
-                            WHERE
-                            Id = @Id";
+//        public int UpdateProcedure(Procedure proc)
+//        {
+//            int returnNum = 0;
+//            using (SqlConnection conn = new SqlConnection(connString))
+//            {
+//                string sql = @"UPDATE dbo.Procedure_To_Patient SET
+//                            ProcedureId = @ProcedureId
+//                            WHERE
+//                            Id = @Id";
 
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.Id;
-                cmd.Parameters.Add("@ProcedureId", SqlDbType.DateTime).Value = proc.ProcedureInformation.Id;
-                try
-                {
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception e)
-                {
-                    throw e;
-                }
-                finally
-                {
-                    conn.Close();
-                }
-            }
-        }
+//                SqlCommand cmd = new SqlCommand(sql, conn);
+//                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = proc.Id;
+//                cmd.Parameters.Add("@ProcedureId", SqlDbType.DateTime).Value = proc.ProcedureInformation.Id;
+//                try
+//                {
+//                    conn.Open();
+//                    returnNum = cmd.ExecuteNonQuery();
+//                }
+//                catch (Exception e)
+//                {
+//                    throw e;
+//                }
+//                finally
+//                {
+//                    conn.Close();
+//                }
+//            }
+//            return returnNum;
+//        }
 
-        public void Promote(ASFUser user)
+        public int Promote(ASFUser user)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.ASF_User SET
@@ -3030,7 +3066,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -3041,10 +3077,12 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
-        public void Demote(ASFUser user)
+        public int Demote(ASFUser user)
         {
+            int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.ASF_User SET
@@ -3058,7 +3096,7 @@ namespace SOAP.Controllers
                 try
                 {
                     conn.Open();
-                    cmd.ExecuteNonQuery();
+                    returnNum = cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -3069,6 +3107,7 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
+            return returnNum;
         }
 
         #endregion

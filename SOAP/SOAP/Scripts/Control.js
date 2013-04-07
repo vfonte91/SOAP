@@ -294,6 +294,8 @@ function OpenForm(formId) {
     ajax('Post', 'GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
+            Patient = data.Patient;
+            newPatient = false;
             var patient = data.Patient;
             for (var i in patient) {
                 if (patient.hasOwnProperty(i)) {

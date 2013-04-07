@@ -162,6 +162,23 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
+        public ActionResult SaveForm(Patient pat)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.SavePatient(pat);
+                dict["success"] = true;
+            }
+            catch (Exception e)
+            {
+                dict["success"] = false;
+                dict["error"] = e.Message;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
         public ActionResult GetAllDropdownCategories()
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
