@@ -7,10 +7,10 @@
     <div class="left half">
         <div class="input">
             <label>Drug Type</label>
-            <input type="radio" name="DrugType" id="Injectable" class="radio" onclick="showInputs(['Injectable-input']); hideInputs(['Inhalant-input'])" checked="checked"/>
-            <label for="Injectable" class="radio">Injectable</label>
-            <input type="radio" name="DrugType" id="Inhalant" class="radio" onclick="showInputs(['Inhalant-input']); hideInputs(['Injectable-input'])"/>
-            <label for="Inhalant" class="radio">Inhalant</label>
+            <input type="radio" name="DrugType" id="Patient.AnestheticPlan.InjectionPlan.Checked" class="radio" show="Injectable-input" hide="Inhalant-input" checked="checked"/>
+            <label for="Patient.AnestheticPlan.InjectionPlan.Checked" class="radio">Injectable</label>
+            <input type="radio" name="DrugType" id="Patient.AnestheticPlan.InhalantPlan.Checked" class="radio" show="Inhalant-input" hide="Injectable-input"/>
+            <label for="Patient.AnestheticPlan.InhalantPlan.Checked" class="radio">Inhalant</label>
         </div>
         <div id="Injectable-input">
                 <h4>Injectable</h4>
