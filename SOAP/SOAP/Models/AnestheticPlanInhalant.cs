@@ -10,6 +10,7 @@ namespace SOAP.Models
         private decimal _percentage;
         private decimal _flowRate;
         private DropdownValue _drug;
+        private Boolean _checked;
 
         public enum LazyComponents
         {
@@ -55,6 +56,12 @@ namespace SOAP.Models
         public bool HasValues()
         {
             return ((_percentage != 0.0M || _flowRate != 0.0M) && _drug.Id != -1);
+        }
+
+        public Boolean Cheked
+        {
+            get { return _checked; }
+            set { _checked = true; }
         }
 
         public bool ValidateAnestheticPlanInhalant()

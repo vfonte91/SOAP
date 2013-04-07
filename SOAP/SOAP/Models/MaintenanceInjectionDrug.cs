@@ -11,6 +11,7 @@ namespace SOAP.Models
         private decimal _dosage;
         private decimal _dose;
         private DropdownValue _drug;
+        private Boolean _checked;
 
         public enum LazyComponents
         {
@@ -23,6 +24,7 @@ namespace SOAP.Models
             _id = -1;
             _routeOfAdministration = new DropdownValue();
             _drug = new DropdownValue();
+            _checked = false;
         }
 
         public bool HasValues()
@@ -64,6 +66,12 @@ namespace SOAP.Models
         {
             get { return _drug; }
             set { _drug = value; }
+        }
+
+        public Boolean Cheked
+        {
+            get { return _checked; }
+            set { _checked = true; }
         }
 
         public bool ValidateMaintenanceInjectionDrug()

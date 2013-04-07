@@ -87,6 +87,19 @@ $(document).ready(function () {
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
+
+    $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Checked').click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
+    $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Checked').click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
+    $("#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Checked").click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
+    $("#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.Checked").click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
 });
 
 function ExportToPDF() {
@@ -205,6 +218,7 @@ function buildInduction() {
         Patient.AnestheticPlan.InjectionPlan.Route.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Route').val();
         Patient.AnestheticPlan.InjectionPlan.Dosage = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Dosage').val();
         Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidType').val();
+        Patient.AnestheticPlan.InjectionPlan.Checked = true;
     }
     else {
         Patient.AnestheticPlan.InjectionPlan = {};
@@ -212,6 +226,7 @@ function buildInduction() {
         Patient.AnestheticPlan.InhalantPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug').val();
         Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Percentage').val();
         Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.FlowRate').val();
+        Patient.AnestheticPlan.InhalantPlan.Checked = true;
     }
 }
 
@@ -222,6 +237,7 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
         Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
         Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Dosage').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.Checked = true;
     }
     else {
         Patient.Maintenance.MaintenanceInjectionDrug = {};
@@ -233,6 +249,7 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.MaintenanceOxygenFlowRate').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.BreathingSystem').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.BreathingBagSize').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.Checked = true;
     }
     Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {}, IVFluidType: {} };
     Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
@@ -335,6 +352,10 @@ function OpenForm(formId) {
                                         if ($input2.length) {
                                             if (input2 && input2.hasOwnProperty('Id'))
                                                 $input2.val(input2.Id);
+                                            else if (input2 && input2.Checked == true)
+                                                toggleInputs(input2, $input2.attr('show'), $input2.attr('hide'));
+                                            else if (input2 && input2.Checked == false)
+                                                $input2.attr('checked', '');
                                             else if (input2 != -1)
                                                 $input2.val(input2);
                                         }
@@ -850,6 +871,12 @@ function logOut() {
     location.reload();
 }
 
+function toggleInputs(radioId, showIds, hideIds) {
+    radioId.attr('checked', 'checked');
+    showInputs(showIds);
+    hideInputs(hideIds);
+}
+
 //toggle visibilty for elements
 function showInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
@@ -1019,7 +1046,7 @@ function popupBox(text) {
     });
     $(".ui-dialog .ui-widget-content").css("background-color", "White");
     $(".ui-dialog .ui-dialog-titlebar").css("background-color", "Red");
-    document.getElementById("dialog-modal").innerHTML = text;
+    $("#dialog-modal").text(text);
 
     //$("dialog-modal").dialog("open");
     //alert("here");

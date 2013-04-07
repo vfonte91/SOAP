@@ -14,6 +14,7 @@ namespace SOAP.Models
         private decimal _maintenanceOxygenFlowRate;
         private DropdownValue _breathingSystem;
         private DropdownValue _breathingBagSize;
+        private Boolean _checked;
 
         public enum LazyComponents
         {
@@ -28,6 +29,7 @@ namespace SOAP.Models
             _drug = new DropdownValue();
             _breathingBagSize = new DropdownValue();
             _breathingSystem = new DropdownValue();
+            _checked = false;
         }
 
         public bool HasValues()
@@ -88,6 +90,12 @@ namespace SOAP.Models
         {
             get { return _breathingBagSize; }
             set { _breathingBagSize = value; }
+        }
+
+        public Boolean Cheked
+        {
+            get { return _checked; }
+            set { _checked = true; }
         }
 
         public bool ValidateMaintenanceInhalantDrug()
