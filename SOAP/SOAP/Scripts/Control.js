@@ -87,6 +87,19 @@ $(document).ready(function () {
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
     $("#Patient\\.ClinicalFindings\\.Date").datepicker();
+
+    $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Checked').click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
+    $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Checked').click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
+    $("#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Checked").click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
+    $("#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.Checked").click(function () {
+        toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
+    });
 });
 
 function ExportToPDF() {
@@ -192,7 +205,7 @@ function buildAnestheticPlanPremeds() {
 
     var ketamineDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.KetamineDosage").val();
     if (ketamineDosage) {
-        var ketamineObj = { Drug: { Id: ketamineEnum }, Route: { Id: route }, Dosage: ketamineDosage };
+        var ketamineObj = { Drug: { Id: 183 }, Route: { Id: route }, Dosage: ketamineDosage };
         Patient.AnestheticPlan.PreMedications.push(ketamineObj);
     }
 }
@@ -205,6 +218,7 @@ function buildInduction() {
         Patient.AnestheticPlan.InjectionPlan.Route.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Route').val();
         Patient.AnestheticPlan.InjectionPlan.Dosage = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Dosage').val();
         Patient.AnestheticPlan.InjectionPlan.IVFluidType.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.IVFluidType').val();
+        Patient.AnestheticPlan.InjectionPlan.Checked = true;
     }
     else {
         Patient.AnestheticPlan.InjectionPlan = {};
@@ -212,6 +226,7 @@ function buildInduction() {
         Patient.AnestheticPlan.InhalantPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Drug').val();
         Patient.AnestheticPlan.InhalantPlan.Percentage = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.Percentage').val();
         Patient.AnestheticPlan.InhalantPlan.FlowRate = $('#Patient\\.AnestheticPlan\\.InhalantPlan\\.FlowRate').val();
+        Patient.AnestheticPlan.InhalantPlan.Checked = true;
     }
 }
 
@@ -222,6 +237,7 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
         Patient.Maintenance.MaintenanceInjectionDrug.RouteOfAdministration.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.RouteOfAdministration').val();
         Patient.Maintenance.MaintenanceInjectionDrug.Dosage = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Dosage').val();
+        Patient.Maintenance.MaintenanceInjectionDrug.Checked = true;
     }
     else {
         Patient.Maintenance.MaintenanceInjectionDrug = {};
@@ -233,6 +249,7 @@ function buildMaintenance() {
         Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate = $('#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.MaintenanceOxygenFlowRate').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingSystem.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.BreathingSystem').val();
         Patient.Maintenance.MaintenanceInhalantDrug.BreathingBagSize.Id = $('#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.BreathingBagSize').val();
+        Patient.Maintenance.MaintenanceInhalantDrug.Checked = true;
     }
     Patient.Maintenance.MaintenanceOther = { IntraoperativeAnalgesia: {}, IVFluidType: {} };
     Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug = $('#Patient\\.Maintenance\\.MaintenanceOther\\.OtherAnestheticDrug').val();
@@ -294,6 +311,8 @@ function OpenForm(formId) {
     ajax('Post', 'GetPatient', JSON.stringify(pat), false)
     .done(function (data) {
         if (data.success) {
+            Patient = data.Patient;
+            newPatient = false;
             var patient = data.Patient;
             for (var i in patient) {
                 if (patient.hasOwnProperty(i)) {
@@ -335,6 +354,10 @@ function OpenForm(formId) {
                                         if ($input2.length) {
                                             if (input2 && input2.hasOwnProperty('Id'))
                                                 $input2.val(input2.Id);
+                                            else if (input2 && input2.Checked == true)
+                                                toggleInputs(input2, $input2.attr('show'), $input2.attr('hide'));
+                                            else if (input2 && input2.Checked == false)
+                                                $input2.attr('checked', '');
                                             else if (input2 != -1)
                                                 $input2.val(input2);
                                         }
@@ -850,6 +873,12 @@ function logOut() {
     location.reload();
 }
 
+function toggleInputs(radioId, showIds, hideIds) {
+    radioId.attr('checked', 'checked');
+    showInputs(showIds);
+    hideInputs(hideIds);
+}
+
 //toggle visibilty for elements
 function showInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
@@ -910,15 +939,21 @@ function calculateDosages() {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = "Unable to Calculate";
         } else if (sed == "dose") {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = "Enter Dosage";
-        } else {
-            document.getElementById("Premed-Sedative-Dosage").innerHTML = sed+ "mL";
+        } else if (sed == -1) {
+            document.getElementById("Premed-Sedative-Dosage").innerHTML = "Pre-set mL Amounts";
+        }
+        else {
+            document.getElementById("Premed-Sedative-Dosage").innerHTML = sed + "mL";
         }
         var opi = specificCalculations(22, "Patient.AnestheticPlan.PreMedications.OpioidDrug", "Patient.AnestheticPlan.PreMedications.OpioidDosage");
         if (opi == null) {
             document.getElementById("Premed-Opioid-Dosage").innerHTML = "Unable to Calculate";
         } else if (opi == "dose") {
             document.getElementById("Premed-Opioid-Dosage").innerHTML = "Enter Dosage";
-        } else {
+        } else if (opi == -1) {
+            document.getElementById("Premed-Opioid-Dosage").innerHTML = "Pre-set mL Amounts";
+        }
+         else {
             document.getElementById("Premed-Opioid-Dosage").innerHTML = opi + "mL";
         }
 
@@ -927,7 +962,10 @@ function calculateDosages() {
             document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Unable to Calculate";
         } else if (anti == "dose") {
             document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Enter Dosage";
-        } else {
+        } else if (anti == -1) {
+            document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = "Pre-set mL Amounts";
+        }
+         else {
             document.getElementById("Premed-Anticholinergic-Dosage").innerHTML = anti + "mL";
         }
 
@@ -936,7 +974,10 @@ function calculateDosages() {
             document.getElementById("Induction-Injectable-Dosage").innerHTML = "Unable to Calculate";
         } else if (induc == "dose") {
             document.getElementById("Induction-Injectable-Dosage").innerHTML = "Enter Dosage";
-        } else {
+        } else if (induc == -1) {
+            document.getElementById("Induction-Injectable-Dosage").innerHTML = "Pre-set mL Amounts";
+        }
+         else {
             document.getElementById("Induction-Injectable-Dosage").innerHTML = induc + "mL";
         }
 
@@ -945,7 +986,10 @@ function calculateDosages() {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Unable to Calculate";
         } else if (main == "dose") {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Enter Dosage";
-        } else {
+        } else if (main == -1) {
+            document.getElementById("Maintenance-Injectable-Dosage").innerHTML = "Pre-set mL Amounts";
+        }
+         else {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = main + "mL";
         }
 
@@ -967,10 +1011,7 @@ function calculateDosages() {
 
 function specificCalculations(id, name, dosage) {
     var dosageVal = document.getElementById(dosage).value;
-    if (dosageVal == "") {
-        return "dose";
-    }
-    dosageVal = parseFloat(dosageVal);
+ 
     var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
     weight = parseFloat(weight);
     var num = parseInt(id);
@@ -979,18 +1020,23 @@ function specificCalculations(id, name, dosage) {
     var values = cats[num].DropdownValues;
     var e = document.getElementById(name);
     var current = e.options[e.selectedIndex].text;
-    var concentraion;
+    var concentration;
     var maxDose;
     for (var i = 0; i < values.length; i++) {
         if (values[i].Label == current) {
-            concentraion = values[i].Concentration;
+            concentration = values[i].Concentration;
             maxDose = values[i].MaxDosage;
         }
 
     }
-    if (concentraion == null) {
+    if (concentration == null) {
         return null;
-    }
+    } else if (concentration == "-1") {
+         return -1;
+     }
+     if (dosageVal == "") {
+         return "dose";
+     }
     if (maxDose != 0) {
         if (maxDose < dosageVal) {
             //alert("Alert: Dosage greater than max for " + current +", automatically altered");
@@ -998,8 +1044,9 @@ function specificCalculations(id, name, dosage) {
             dosageVal = maxDose;
         }
     }
+    dosageVal = parseFloat(dosageVal);
     var dose = dosageVal * weight;
-    var mL = dose / concentraion;
+    var mL = dose / concentration;
     mL = mL.toFixed(2);
     return mL;
 
@@ -1019,8 +1066,335 @@ function popupBox(text) {
     });
     $(".ui-dialog .ui-widget-content").css("background-color", "White");
     $(".ui-dialog .ui-dialog-titlebar").css("background-color", "Red");
-    document.getElementById("dialog-modal").innerHTML = text;
+    $("#dialog-modal").text(text);
 
     //$("dialog-modal").dialog("open");
     //alert("here");
+}
+function errorCheckAll() {
+    var retVal = true;
+    var check = errorCheckPatientInfo();
+    if (!check) {
+        retVal = false;
+    }
+
+    check = errorCheckClinicalFindings();
+    if (!check) {
+        retVal = false;
+    }
+
+    check = errorCheckBloodwork();
+    if (!check) {
+        retVal = false;
+    }
+
+    check = errorCheckAnetheticPlan();
+    if (!check) {
+        retVal = false;
+    }
+
+    check = errorCheckInduction();
+    if (!check) {
+        retVal = false;
+    }
+
+    check = errorCheckMaintenance();
+    if (!check) {
+        retVal = false;
+    }
+
+    check = errorCheckMonitoring();
+    if (!check) {
+        retVal = false;
+    }
+    return retVal;
+}
+function errorCheckPatientInfo() {
+    var retVal = true;
+    var check = document.getElementById("Patient.PatientInfo.ProcedureOther").value;
+    if (check.length > 256) {
+        popupBox("The string in Procedure Other is too long");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.PatientInfo.BodyWeight").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Body Weight is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.PatientInfo.AgeInYears").value;
+    if (parseInt(check) > 127 || parseInt(check) < 0) {
+        popupBox("The value in Age in Years is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.PatientInfo.AgeInMonths").value;
+    if (parseInt(check) > 127 || parseInt(check) < 0) {
+        popupBox("The value in Age in Months is incorrectly formatted");
+        retVal = false;
+    }
+    return retVal;
+}
+
+function errorCheckClinicalFindings() {
+    var retVal = true;
+
+    var check = document.getElementById("Patient.ClinicalFindings.Temperature").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Temperature is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.ClinicalFindings.PulseRate").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Pulse Rate is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.ClinicalFindings.RespiratoryRate").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Respiratory Rate is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.ClinicalFindings.ReasonForClassification").value;
+    if (check.length > 250) {
+        popupBox("The string in Reason For Classification is too long");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.ClinicalFindings.OtherAnestheticConcerns").value;
+    if (check.length > 250) {
+        popupBox("The string in Other Anesthetic Concerns is too long");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.ClinicalFindings.CurrentMedications").value;
+    if (check.length > 250) {
+        popupBox("The string in Current Medications is too long");
+        retVal = false;
+    }
+
+    return retVal;
+
+}
+
+function errorCheckBloodwork() {
+    var retVal = true;
+
+    var check = document.getElementById("Patient.Bloodwork.PCV").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") +2)) {
+        popupBox("The value in PCV is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.TP").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in TP is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.Albumin").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Albumin is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.Globulin").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Globulin is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.WBC").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in WBC is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.NA").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in NA is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.K").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in K is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.Cl").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Cl is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.Ca").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Ca is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.iCa").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in iCa is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.Glucose").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Glucose is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.ALT").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in ALT is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.ALP").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in ALP is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.BUN").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in BUN is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.CREAT").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in CREAT is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.USG").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in USG is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.OtherType").value;
+    if (check.length > 24) {
+        popupBox("The string in Other Bloodwork is too long");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Bloodwork.OtherValue").value;
+    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Other Bloodwork Results is incorrectly formatted");
+        retVal = false;
+    }
+
+    return retVal;
+}
+
+function errorCheckAnetheticPlan() {
+    var retVal = true;
+
+    var check = document.getElementById("Patient.AnestheticPlan.PreMedications.SedativeDosage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Sedative Dosage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.AnestheticPlan.PreMedications.OpioidDosage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Opioid Dosage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.AnestheticPlan.PreMedications.AnticholinergicDosage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Anticholinergic Dosage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.AnestheticPlan.PreMedications.KetamineDosage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Ketamine Dosage is incorrectly formatted");
+        retVal = false;
+    }
+
+    return retVal;
+}
+function errorCheckInduction() {
+    var retVal = true;
+
+    var check = document.getElementById("Patient.AnestheticPlan.InjectionPlan.Dosage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Induction Injection Dosage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.AnestheticPlan.InhalantPlan.Percentage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Induction Inhalant Percentage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.AnestheticPlan.InhalantPlan.FlowRate").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Induction Inhalant Flow Rate is incorrectly formatted");
+        retVal = false;
+    }
+
+    return retVal;
+}
+function errorCheckMaintenance() {
+    var retVal = true;
+
+    var check = document.getElementById("Patient.Maintenance.MaintenanceInjectionDrug.Dosage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Maintenance Injection Dosage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Maintenance Inhalant Starting Percentage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Maintenance Inhalant Starting Flow Rate is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+        popupBox("The value in Maintenance Inhalant Maintenance Percentage is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate").value;
+    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+        popupBox("The value in Maintenance Inhalant Maintenance Flow Rate is incorrectly formatted");
+        retVal = false;
+    }
+
+    check = document.getElementById("Patient.Maintenance.MaintenanceOther.OtherAnestheticDrug").value;
+    if (check.length > 250) {
+        popupBox("The string in Other Anesthetic Drug is too long");
+        retVal = false;
+    }
+
+    return retVal;
+}
+function errorCheckMonitoring() {
+    var retVal = true;
+
+    var check = document.getElementById("Patient.Monitoring.OtherMonitoring").value;
+    if (check.length > 256) {
+        popupBox("The string in Other Monitoring is too long");
+        retVal = false;
+    }
+
+    return retVal;
 }

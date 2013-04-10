@@ -11,6 +11,7 @@ namespace SOAP.Models
         private decimal _dosage;
         private decimal _dose;
         private DropdownValue _drug;
+        private Boolean _checked;
 
         public enum LazyComponents {
             LOAD_ROUTE_WITH_DETAILS,
@@ -63,6 +64,12 @@ namespace SOAP.Models
         public bool HasValues()
         {
             return (_dose != 0.0M || _drug.Id != -1 || _dosage != 0.0M);
+        }
+
+        public Boolean Cheked
+        {
+            get { return _checked; }
+            set { _checked = true; }
         }
 
         public bool ValidateAnestheticPlanInjection()

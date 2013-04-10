@@ -7,10 +7,10 @@
     <div class="left half">
         <div class="input">
             <label>Drug Type</label>
-            <input type="radio" name="DrugType" id="Injectable" class="radio" onclick="showInputs(['Injectable-input']); hideInputs(['Inhalant-input'])" checked="checked"/>
-            <label for="Injectable" class="radio">Injectable</label>
-            <input type="radio" name="DrugType" id="Inhalant" class="radio" onclick="showInputs(['Inhalant-input']); hideInputs(['Injectable-input'])"/>
-            <label for="Inhalant" class="radio">Inhalant</label>
+            <input type="radio" name="DrugType" id="Patient.AnestheticPlan.InjectionPlan.Checked" class="radio" show="Injectable-input" hide="Inhalant-input" checked="checked"/>
+            <label for="Patient.AnestheticPlan.InjectionPlan.Checked" class="radio">Injectable</label>
+            <input type="radio" name="DrugType" id="Patient.AnestheticPlan.InhalantPlan.Checked" class="radio" show="Inhalant-input" hide="Injectable-input"/>
+            <label for="Patient.AnestheticPlan.InhalantPlan.Checked" class="radio">Inhalant</label>
         </div>
         <div id="Injectable-input">
                 <h4>Injectable</h4>
@@ -41,11 +41,11 @@
 			    </select>
              </div>
                <div class="input">
-			       <label>Starting Percentage</label>
+			       <label>Percentage</label>
                    <input type="text" name="InhalantDosage" class="inline" id="Patient.AnestheticPlan.InhalantPlan.Percentage" subgroup="InjectionPlan"/>
                 </div>
                  <div class="input">
-			       <label>Starting Oxygen Flow Rate</label>
+			       <label>Oxygen Flow Rate</label>
                    <input type="text" name="InhalantOxygen" class="inline" id="Patient.AnestheticPlan.InhalantPlan.FlowRate" subgroup="InjectionPlan"/>
                 </div>     
         </div>

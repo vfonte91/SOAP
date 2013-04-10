@@ -7,10 +7,10 @@
             <h2>Maintenance</h2>
             <div class="input">
                 <label>Drug Type</label>
-                <input type="radio" name="DrugType" id="MaintenanceInject" class="radio" onclick="showInputs(['Injectable-Maintenance-input']); hideInputs(['Inhalant-Maintenance-input'])" checked="checked"/>
-                <label for="MaintenanceInject" class="radio">Injectable</label>
-                <input type="radio" name="DrugType" id="MaintenanceInhalant" class="radio" onclick="showInputs(['Inhalant-Maintenance-input']); hideInputs(['Injectable-Maintenance-input'])"/>
-                <label for="MaintenanceInhalant" class="radio">Inhalant</label>
+                <input type="radio" name="MaintenanceDrugType" id="Patient.Maintenance.MaintenanceInjectionDrug.Checked" class="radio" show="Injectable-Maintenance-input" hide="Inhalant-Maintenance-input" checked="checked"/>
+                <label for="Patient.Maintenance.MaintenanceInjectionDrug.Checked" class="radio">Injectable</label>
+                <input type="radio" name="MaintenanceDrugType" id="Patient.Maintenance.MaintenanceInhalantDrug.Checked" class="radio" show="Inhalant-Maintenance-input" hide="Injectable-Maintenance-input"/>
+                <label for="Patient.Maintenance.MaintenanceInhalantDrug.Checked" class="radio">Inhalant</label>
                 </div>
                 <div id="Injectable-Maintenance-input">
                     <h4>Injectable</h4>
@@ -90,7 +90,7 @@
             <h4>Other</h4>
                 <div class="input">
                     <label>Intraoperative Analgesia: </label>
-                    <button type="button" id="Maintenance-OtherAnestheticDrug-IntraOperativeAnalgesia" class="toolTipButton" onclick="toolTipGenerate(18, 'Patien.Maintenance.MaintenanceOther.IntraoperativeAnalgesia')">?</button>
+                    <button type="button" id="Maintenance-OtherAnestheticDrug-IntraOperativeAnalgesia" class="toolTipButton" onclick="toolTipGenerate(18, 'Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia')">?</button>
                     <select name="IntraAnalgesia" id="Patient.Maintenance.MaintenanceOther.IntraoperativeAnalgesia">
 					</select>
                 </div>
