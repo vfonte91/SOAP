@@ -736,31 +736,91 @@ namespace SOAP.Controllers
 
         try
         {
-            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
+            PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(@"C:\Users\timko.29\project\SOAP\SOAP\PDFs\SOAP.pdf", FileMode.Create));
             doc.Open();
             PdfContentByte cb = writer.DirectContent;
             ColumnText ct = new ColumnText(cb);
-            Phrase myText = new Phrase("This is a text phrase");
-            string hi = "Hi";
-            Phrase myText2 = new Phrase("This is another test phrase");
-            Phrase myText3 = new Phrase(hi);
+
+            Phrase Anesthetist = new Phrase("ACE VENTURA");
+            Phrase Date = new Phrase("10-10-2000");
+            Phrase Clinician = new Phrase("PET DETECTIVE");
+            Phrase Stall = new Phrase("Central 354");
+            Phrase Procedure = new Phrase("Fix the Pet.");
+            Phrase BodyWeight = new Phrase("20");
+            Phrase Age = new Phrase("3.4");
+            Phrase Temperament = new Phrase("rabid, very dangerous..");
+
+            Phrase Temp = new Phrase("101.8");
+            Phrase Pulse = new Phrase("160");
+            Phrase Response = new Phrase("XXXXX");
+
+            Phrase CardiacAuscultation = new Phrase("What is this...?");
+            Phrase PulseQuality = new Phrase("ok i guess");
+            Phrase MucousMembraneColor = new Phrase("gross, dont ask");
+            Phrase CapillaryRefillTime = new Phrase("6 hours 15 minutes");
+            Phrase RespiratoryAuscultation = new Phrase("What is this?");
+            Phrase PhysicalStatusClassification = new Phrase("III");
 
 
-            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance("../Images/Test.jpg");
+            iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(@"C:\Users\timko.29\project\SOAP\SOAP\Images\Test.jpg");
             doc.Add(img);
 
-//parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
+            //parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
             //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
             //NOTE: bottommargin determines x coordinate
 
-            ct.SetSimpleColumn(myText, 150, 100, 300, 700, 15, Element.ALIGN_LEFT);
-            ct.Go();
 
-            ct.SetSimpleColumn(myText2, 150, 100, 100, 317, 15, Element.ALIGN_LEFT);
-            ct.Go();
+            //                          LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
+            ct.SetSimpleColumn(Anesthetist, 122, 752, 280, 767, 15, Element.ALIGN_LEFT);
+            ct.Go();   //ANESTHETIST
 
-            ct.SetSimpleColumn(myText3, 300, 100, 400, 317, 15, Element.ALIGN_LEFT);
-            ct.Go();
+            ct.SetSimpleColumn(Date, 77, 736, 290, 751, 15, Element.ALIGN_LEFT);
+            ct.Go();   //DATE
+
+            ct.SetSimpleColumn(Clinician, 108, 723, 280, 738, 15, Element.ALIGN_LEFT);
+            ct.Go();   //Clinician
+
+            ct.SetSimpleColumn(Stall, 185, 709, 280, 724, 15, Element.ALIGN_LEFT);
+            ct.Go();   //Stall
+
+            ct.SetSimpleColumn(Procedure, 116, 683, 280, 698, 15, Element.ALIGN_LEFT);
+            ct.Go();   //Procedure
+
+            ct.SetSimpleColumn(BodyWeight, 127, 655, 161, 670, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Body Weight
+
+            ct.SetSimpleColumn(Age, 235, 655, 280, 670, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Age
+
+            ct.SetSimpleColumn(Temperament, 138, 628, 280, 643, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Temperment
+
+            ct.SetSimpleColumn(Temp, 63, 598, 107, 613, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Temp
+
+            ct.SetSimpleColumn(Pulse, 135, 598, 165, 613, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Pulse
+
+            ct.SetSimpleColumn(Response, 207, 598, 250, 613, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Response
+
+            ct.SetSimpleColumn(CardiacAuscultation, 136, 584, 250, 599, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Cardiac Auscultation
+
+            ct.SetSimpleColumn(PulseQuality, 101, 571, 250, 586, 15, Element.ALIGN_LEFT);
+            ct.Go();  //PulseQuality
+
+            ct.SetSimpleColumn(MucousMembraneColor, 155, 557, 250, 572, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Mucous Membrane Color
+
+            ct.SetSimpleColumn(CapillaryRefillTime, 139, 543, 250, 558, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Capillary Refill Time
+
+            ct.SetSimpleColumn(RespiratoryAuscultation, 154, 529, 250, 544, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Respiratory Auscultation
+
+            ct.SetSimpleColumn(PhysicalStatusClassification, 176, 516, 250, 531, 15, Element.ALIGN_LEFT);
+            ct.Go();  //Physical Status Classification
 
         }
 
