@@ -795,14 +795,87 @@ namespace SOAP.Controllers
 
             try
             {
-                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
+                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP2.pdf", FileMode.Create));
                 doc.Open();
                 PdfContentByte cb = writer.DirectContent;
                 ColumnText ct = new ColumnText(cb);
-                Phrase myText = new Phrase("This is a text phrase");
-                string hi = "Hi";
-                Phrase myText2 = new Phrase("This is another test phrase");
-                Phrase myText3 = new Phrase(hi);
+
+
+                Phrase Anesthetist = new Phrase("ACE VENTURA");
+                Phrase Date = new Phrase("10-10-2000");
+                Phrase Clinician = new Phrase("PET DETECTIVE");
+                Phrase Stall = new Phrase("Central 354");
+                Phrase Procedure = new Phrase("Fix the Pet.");
+                Phrase BodyWeight = new Phrase("20");
+                Phrase Age = new Phrase("3.4");
+                Phrase Temperament = new Phrase("rabid, very dangerous..");
+
+                Phrase Temp = new Phrase("101.8");
+                Phrase Pulse = new Phrase("160");
+                Phrase Response = new Phrase("XXXXX");
+
+                Phrase CardiacAuscultation = new Phrase("What is this...?");
+                Phrase PulseQuality = new Phrase("ok i guess");
+                Phrase MucousMembraneColor = new Phrase("gross, dont ask");
+                Phrase CapillaryRefillTime = new Phrase("6 hours 15 minutes");
+                Phrase RespiratoryAuscultation = new Phrase("What is this?");
+                Phrase PhysicalStatusClassification = new Phrase("III");
+
+                Phrase ReasonForClassification = new Phrase("Reason for Classification");
+                Phrase CurrentMedications = new Phrase("Current Medications");
+                Phrase AnesthesiaConcerns = new Phrase("This is a concern, this is another concern, this is a last concern.");
+
+                Phrase Drug1 = new Phrase("DRUG 1");
+                Phrase Route1 = new Phrase("Route 1");
+                Phrase Dosage1 = new Phrase("Dosage 1");
+                Phrase DoseMg1 = new Phrase("DoseMg 1");
+                Phrase DoseMl1 = new Phrase("DoseMl 1");
+
+                Phrase Injectable1 = new Phrase("Injectable 1");
+
+                Phrase MaintenaceInjectable = new Phrase("DRUG #5");
+                Phrase InhalantType = new Phrase("Drug X");
+                Phrase InhalantInductionPercent = new Phrase("90.84%");
+                Phrase InhalantMaintenancePercent = new Phrase("64.82%");
+
+                Phrase OxygenFlowRate = new Phrase("875.9876");
+
+                Phrase BreathingSystem = new Phrase("x");
+
+                Phrase IntraoperativeAnalgesia = new Phrase("DRUG X, DRUG Y, DRUG Z.. . .");
+                Phrase OtherAnestheticDrugs = new Phrase(" DRUG A, DRUG B, DRUG C");
+                Phrase Monitoring = new Phrase("ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+                Phrase IVFluidType = new Phrase("IV TYPE X");
+                Phrase IVDoseMl1 = new Phrase("XX.XX");
+                Phrase IVDoseDrops1 = new Phrase("XXX");
+
+                Phrase MiniDrip = new Phrase("X");
+                Phrase MaxiDrip = new Phrase("X");
+
+                Phrase PreOpPainAssessment = new Phrase("This is a new pre op pain assessment. . . . ");
+                Phrase PostOpPainAssessment = new Phrase("This is a new post op pain assessment. . .");
+
+                Phrase PVC = new Phrase("XX.XX");
+                Phrase TP = new Phrase("XX.XX");
+                Phrase Alb = new Phrase("XX.XX");
+                Phrase Glob = new Phrase("XX.XX");
+                Phrase WBC = new Phrase("XX.XX");
+                Phrase Na = new Phrase("XX.X");
+                Phrase K = new Phrase("XX.X");
+                Phrase Cl = new Phrase("XX.X");
+                Phrase Ca = new Phrase("XX.X");
+                Phrase iCa = new Phrase("XX.X");
+                Phrase Glucose = new Phrase("XX.X");
+                Phrase ALT = new Phrase("XX.X");
+                Phrase ALP = new Phrase("XX.X");
+                Phrase BUN = new Phrase("XX.X");
+                Phrase CREAT = new Phrase("XX.X");
+                Phrase USG = new Phrase("XX.X");
+
+                Phrase OtherProblems = new Phrase("OTHER PROBLEMS");
+                Phrase OtherAnesthesia = new Phrase("SOMETHING. . .");
+
 
 
                 iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance("../Images/Test.jpg");
@@ -812,14 +885,316 @@ namespace SOAP.Controllers
                 //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
                 //NOTE: bottommargin determines x coordinate
 
-                ct.SetSimpleColumn(myText, 150, 100, 300, 700, 15, Element.ALIGN_LEFT);
-                ct.Go();
+                //parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
+                //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
+                //NOTE: bottommargin determines x coordinate
 
-                ct.SetSimpleColumn(myText2, 150, 100, 100, 317, 15, Element.ALIGN_LEFT);
-                ct.Go();
 
-                ct.SetSimpleColumn(myText3, 300, 100, 400, 317, 15, Element.ALIGN_LEFT);
-                ct.Go();
+
+                //                          LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
+
+                #region TOP HALF
+                ct.SetSimpleColumn(Anesthetist, 122, 752, 280, 767, 15, Element.ALIGN_LEFT);
+                ct.Go();   //ANESTHETIST
+
+                ct.SetSimpleColumn(Date, 77, 736, 290, 751, 15, Element.ALIGN_LEFT);
+                ct.Go();   //DATE
+
+                ct.SetSimpleColumn(Clinician, 108, 723, 280, 738, 15, Element.ALIGN_LEFT);
+                ct.Go();   //Clinician
+
+                ct.SetSimpleColumn(Stall, 185, 709, 280, 724, 15, Element.ALIGN_LEFT);
+                ct.Go();   //Stall
+
+                ct.SetSimpleColumn(Procedure, 116, 683, 280, 698, 15, Element.ALIGN_LEFT);
+                ct.Go();   //Procedure
+
+                ct.SetSimpleColumn(BodyWeight, 127, 655, 161, 670, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Body Weight
+
+                ct.SetSimpleColumn(Age, 235, 655, 280, 670, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Age
+
+                ct.SetSimpleColumn(Temperament, 138, 628, 280, 643, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Temperment
+
+                ct.SetSimpleColumn(Temp, 63, 598, 107, 613, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Temp
+
+                ct.SetSimpleColumn(Pulse, 135, 598, 165, 613, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Pulse
+
+                ct.SetSimpleColumn(Response, 207, 598, 250, 613, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Response
+
+                ct.SetSimpleColumn(CardiacAuscultation, 136, 584, 250, 599, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Cardiac Auscultation
+
+                ct.SetSimpleColumn(PulseQuality, 101, 571, 250, 586, 15, Element.ALIGN_LEFT);
+                ct.Go();  //PulseQuality
+
+                ct.SetSimpleColumn(MucousMembraneColor, 155, 557, 250, 572, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Mucous Membrane Color
+
+                ct.SetSimpleColumn(CapillaryRefillTime, 139, 543, 250, 558, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Capillary Refill Time
+
+                ct.SetSimpleColumn(RespiratoryAuscultation, 154, 529, 250, 544, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Respiratory Auscultation
+
+                ct.SetSimpleColumn(PhysicalStatusClassification, 176, 516, 250, 531, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Physical Status Classification
+
+                ct.SetSimpleColumn(ReasonForClassification, 40, 447, 250, 502, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Physical Status Classification
+
+                #endregion
+                ct.SetSimpleColumn(CurrentMedications, 30, 446, 250, 476, 15, Element.ALIGN_LEFT);
+                ct.Go();  //CurrentMedication
+
+                #region DRUGS
+                //       LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
+
+                ct.SetSimpleColumn(AnesthesiaConcerns, 40, 400, 550, 425, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Physical Status Classification
+
+                ct.SetSimpleColumn(Drug1, 95, 363, 200, 378, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug
+
+                ct.SetSimpleColumn(Route1, 201, 363, 270, 378, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Route
+
+                ct.SetSimpleColumn(Dosage1, 271, 363, 385, 378, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Dosage
+
+                ct.SetSimpleColumn(DoseMg1, 385, 363, 455, 378, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseMG
+
+                ct.SetSimpleColumn(DoseMl1, 456, 363, 550, 378, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseML
+
+
+                ct.SetSimpleColumn(Drug1, 95, 348, 200, 363, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug
+
+                ct.SetSimpleColumn(Route1, 201, 348, 270, 363, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Route
+
+                ct.SetSimpleColumn(Dosage1, 271, 348, 385, 363, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Dosage
+
+                ct.SetSimpleColumn(DoseMg1, 385, 348, 455, 363, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseMG
+
+                ct.SetSimpleColumn(DoseMl1, 456, 348, 550, 363, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseML
+
+                ct.SetSimpleColumn(Drug1, 95, 333, 200, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug
+
+                ct.SetSimpleColumn(Route1, 201, 333, 270, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Route
+
+                ct.SetSimpleColumn(Dosage1, 271, 333, 385, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Dosage
+
+                ct.SetSimpleColumn(DoseMg1, 385, 333, 455, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseMG
+
+                ct.SetSimpleColumn(DoseMl1, 456, 333, 550, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseML
+
+                #endregion
+
+                #region INJECTABLES
+
+                ct.SetSimpleColumn(Drug1, 95, 320, 200, 335, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug
+
+                ct.SetSimpleColumn(Route1, 201, 320, 270, 335, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Route
+
+                ct.SetSimpleColumn(Dosage1, 271, 320, 385, 335, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Dosage
+
+                ct.SetSimpleColumn(DoseMg1, 385, 320, 455, 335, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseMG
+
+                ct.SetSimpleColumn(DoseMl1, 456, 320, 550, 335, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseML
+
+                ct.SetSimpleColumn(Drug1, 95, 305, 200, 320, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug
+
+                ct.SetSimpleColumn(Route1, 201, 305, 270, 320, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Route
+
+                ct.SetSimpleColumn(Dosage1, 271, 305, 385, 320, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Dosage
+
+                ct.SetSimpleColumn(DoseMg1, 385, 305, 455, 320, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseMG
+
+                ct.SetSimpleColumn(DoseMl1, 456, 305, 550, 320, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseML
+                #endregion
+
+                #region MIDDLE HALF
+
+                ct.SetSimpleColumn(DoseMl1, 180, 295, 550, 310, 15, Element.ALIGN_LEFT);
+                ct.Go();  //MaintenaceInjectable
+
+                ct.SetSimpleColumn(InhalantType, 180, 280, 275, 295, 15, Element.ALIGN_LEFT);
+                ct.Go();  //InhalantType
+
+                ct.SetSimpleColumn(InhalantInductionPercent, 334, 280, 390, 295, 15, Element.ALIGN_LEFT);
+                ct.Go();  //InhalantInductionPercent
+
+                ct.SetSimpleColumn(InhalantMaintenancePercent, 495, 280, 536, 295, 15, Element.ALIGN_LEFT);
+                ct.Go();  //InhalantMaintenancePercent
+
+                ct.SetSimpleColumn(OxygenFlowRate, 210, 267, 275, 282, 15, Element.ALIGN_LEFT);
+                ct.Go();  //OxygenFlowRate
+
+                ct.SetSimpleColumn(InhalantInductionPercent, 334, 267, 390, 282, 15, Element.ALIGN_LEFT);
+                ct.Go();  //InhalantInductionPercent
+
+                ct.SetSimpleColumn(InhalantMaintenancePercent, 495, 267, 536, 282, 15, Element.ALIGN_LEFT);
+                ct.Go();  //InhalantMaintenancePercent
+
+                ct.SetSimpleColumn(InhalantMaintenancePercent, 495, 267, 536, 282, 15, Element.ALIGN_LEFT);
+                ct.Go();  //InhalantMaintenancePercent
+
+                #endregion
+
+                #region LOWERHALF
+
+
+                //TODO: Add if statement for either or checkbox option
+
+                ct.SetSimpleColumn(BreathingSystem, 193, 200, 210, 270, 15, Element.ALIGN_LEFT);
+                ct.Go();  //BreathingSystem
+
+                ct.SetSimpleColumn(BreathingSystem, 237, 200, 275, 270, 15, Element.ALIGN_LEFT);
+                ct.Go();  //BreathingSystem
+
+                ct.SetSimpleColumn(IntraoperativeAnalgesia, 35, 225, 575, 240, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IntraoperativeAnalgesia
+
+                ct.SetSimpleColumn(OtherAnestheticDrugs, 145, 212, 575, 227, 15, Element.ALIGN_LEFT);
+                ct.Go();  //OtherAnestheticDrugs
+
+                ct.SetSimpleColumn(Monitoring, 101, 145, 575, 200, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Monitoring
+
+
+                //                          LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
+
+                ct.SetSimpleColumn(IVFluidType, 105, 130, 232, 145, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IVFluidType
+
+                ct.SetSimpleColumn(IVDoseMl1, 278, 130, 333, 145, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IVDoseMl1
+
+                ct.SetSimpleColumn(IVDoseDrops1, 373, 130, 445, 145, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IVDoseDrops
+
+                ct.SetSimpleColumn(IVFluidType, 105, 116, 232, 131, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IVFluidType
+
+                ct.SetSimpleColumn(IVDoseMl1, 278, 116, 333, 131, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IVDoseMl1
+
+                ct.SetSimpleColumn(IVDoseDrops1, 373, 116, 445, 131, 15, Element.ALIGN_LEFT);
+                ct.Go();  //IVDoseDrops
+
+                ct.SetSimpleColumn(MaxiDrip, 127, 103, 135, 118, 15, Element.ALIGN_LEFT);
+                ct.Go();  //MaxiDrip
+
+                ct.SetSimpleColumn(MiniDrip, 271, 103, 280, 118, 15, Element.ALIGN_LEFT);
+                ct.Go();  //MiniDrip
+
+                ct.SetSimpleColumn(PreOpPainAssessment, 275, 583, 575, 613, 15, Element.ALIGN_LEFT);
+                ct.Go();    //PreOpPainAssessment
+
+                ct.SetSimpleColumn(PostOpPainAssessment, 275, 550, 575, 573, 15, Element.ALIGN_LEFT);
+                ct.Go();    //PostOpPainAssessment
+
+                #endregion
+
+
+                #region OTHER MISC. DRUGS
+
+                //                          LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
+
+                ct.SetSimpleColumn(PVC, 340, 530, 377, 545, 15, Element.ALIGN_LEFT);
+                ct.Go();    //PVC
+
+                ct.SetSimpleColumn(TP, 388, 530, 545, 545, 15, Element.ALIGN_LEFT);
+                ct.Go();    //TP
+
+                ct.SetSimpleColumn(Alb, 443, 530, 550, 545, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Alb
+
+                ct.SetSimpleColumn(Glob, 490, 530, 550, 545, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Glob
+
+                ct.SetSimpleColumn(WBC, 542, 530, 575, 545, 15, Element.ALIGN_LEFT);
+                ct.Go();    //WBC
+
+
+
+                ct.SetSimpleColumn(Na, 340, 515, 500, 530, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Na
+
+                ct.SetSimpleColumn(K, 388, 515, 550, 530, 15, Element.ALIGN_LEFT);
+                ct.Go();    //K
+
+                ct.SetSimpleColumn(Cl, 443, 515, 550, 530, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Cl
+
+                ct.SetSimpleColumn(Ca, 490, 515, 550, 530, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Ca
+
+                ct.SetSimpleColumn(iCa, 542, 515, 575, 530, 15, Element.ALIGN_LEFT);
+                ct.Go();    //iCa
+
+
+
+
+                ct.SetSimpleColumn(Glucose, 353, 503, 440, 518, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Glucose
+
+                ct.SetSimpleColumn(ALT, 448, 503, 545, 518, 15, Element.ALIGN_LEFT);
+                ct.Go();    //ALT
+
+                ct.SetSimpleColumn(ALP, 515, 503, 550, 518, 15, Element.ALIGN_LEFT);
+                ct.Go();    //ALP
+
+
+                ct.SetSimpleColumn(BUN, 343, 448, 440, 503, 15, Element.ALIGN_LEFT);
+                ct.Go();    //BUN
+
+                ct.SetSimpleColumn(CREAT, 435, 448, 545, 503, 15, Element.ALIGN_LEFT);
+                ct.Go();    //CREAT
+
+                ct.SetSimpleColumn(USG, 512, 448, 550, 503, 15, Element.ALIGN_LEFT);
+                ct.Go();    //USG
+
+                ct.SetSimpleColumn(OtherProblems, 380, 475, 550, 490, 15, Element.ALIGN_LEFT);
+                ct.Go();    //Other Problems
+
+                ct.SetSimpleColumn(OtherAnesthesia, 477, 462, 580, 477, 15, Element.ALIGN_LEFT);
+                ct.Go();    //OtherAnesthesia (Prior)
+
+
+
+
+
+
+                #endregion
+
+
 
             }
 
@@ -830,7 +1205,6 @@ namespace SOAP.Controllers
             {
                 doc.Close();
             }
-
 
             #endregion
 
