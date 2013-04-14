@@ -1,8 +1,8 @@
 ﻿var Patient = {
-    PatientInfo: { },
-    ClinicalFindings: { },
+    PatientInfo: {},
+    ClinicalFindings: {},
     Bloodwork: {},
-    AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
+    AnestheticPlan: { PreMedications: {}, InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
     Monitoring: []
 }
@@ -19,8 +19,6 @@ $(document).ready(function () {
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
     $("#Patient\\.Monitoring\\.Monitoring").multiselect({ header: "Monitoring" });
     $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
-    // tooltip does not work for <option>
-    // $(document).tooltip();
 
     //Hide all tab content that are not active
     $('#thumbs a.not-active').each(function () {
@@ -53,20 +51,18 @@ $(document).ready(function () {
     $("#register").click(function () {
         if (!$("#register-div").is(":visible")) {
             $("#register-div").slideDown('slow');
+            document.getElementById("cancelRegister").style.visibility = "visible";
         }
         else {
             //Register user
             var result = registerUser()
-            if (result == "success") {
-                //alert('Registration was succesful');
-                popupBox('Registration was succesful');
-                $("#register-div").slideUp('slow');
-            }
-            else {
-                //alert(result);
-                popupBox(result);
-            }
         }
+    });
+
+
+    $("#cancelRegister").click(function () {
+        $("#register-div").slideUp('slow');
+        document.getElementById("cancelRegister").style.visibility = "hidden";
     });
 
     if (sessionStorage.username && sessionStorage.password) {
@@ -100,6 +96,7 @@ $(document).ready(function () {
     $("#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.Checked").click(function () {
         toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
     });
+
 });
 
 function ExportToPDF() {
@@ -181,34 +178,27 @@ function buildBloodwork() {
 }
 
 function buildAnestheticPlanPremeds() {
-    Patient.AnestheticPlan.PreMedications = [];
+    Patient.AnestheticPlan.PreMedications = { SedativeDrug: {}, OpioidDrug: {},  AnticholinergicDrug: {}};
     var route = $("#Patient\\.AnestheticPlan\\.PreMedications\\.Route").val();
+    Patient.AnestheticPlan.PreMedications.Route = { Id: route };
+
     var sedative = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDrug").val();
     var sedativeDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDosage").val();
-    if (sedative || sedativeDosage) {
-        var sedativeObj = { Drug: { Id: sedative }, Route: { Id: route }, Dosage: sedativeDosage };
-        Patient.AnestheticPlan.PreMedications.push(sedativeObj);
-    }
+    Patient.AnestheticPlan.PreMedications.SedativeDrug = {Id: sedative};
+    Patient.AnestheticPlan.PreMedications.SedativeDosage = sedativeDosage;
 
     var oploid = $("#Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDrug").val();
     var oploidDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDosage").val();
-    if (oploid || oploidDosage) {
-        var oploidObj = { Drug: { Id: oploid }, Route: { Id: route }, Dosage: oploidDosage };
-        Patient.AnestheticPlan.PreMedications.push(oploidObj);
-    }
+    Patient.AnestheticPlan.PreMedications.OpioidDrug = { Id: oploid};
+    Patient.AnestheticPlan.PreMedications.OpioidDosage = oploidDosage;
 
     var antichol = $("#Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDrug").val();
     var anticholDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDosage").val();
-    if (antichol || anticholDosage) {
-        var anticholObj = { Drug: { Id: antichol }, Route: { Id: route }, Dosage: anticholDosage };
-        Patient.AnestheticPlan.PreMedications.push(anticholObj);
-    }
+    Patient.AnestheticPlan.PreMedications.AnticholinergicDrug = {Id: antichol};
+    Patient.AnestheticPlan.PreMedications.AnticholinergicDosage = anticholDosage;
 
     var ketamineDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.KetamineDosage").val();
-    if (ketamineDosage) {
-        var ketamineObj = { Drug: { Id: 183 }, Route: { Id: route }, Dosage: ketamineDosage };
-        Patient.AnestheticPlan.PreMedications.push(ketamineObj);
-    }
+    Patient.AnestheticPlan.PreMedications.KetamineDosage = ketamineDosage;
 }
 
 function buildInduction() {
@@ -309,7 +299,7 @@ function SaveForm() {
 
 function OpenForm(formId) {
     var pat = { PatientId: formId };
-    ajax('Post', 'GetPatient', JSON.stringify(pat), false)
+    ajax('Post', 'GetPatient', JSON.stringify(pat), true)
     .done(function (data) {
         if (data.success) {
             Patient = data.Patient;
@@ -417,7 +407,7 @@ function login(username, password) {
             $("#saved-forms-div").slideDown();
         });
 
-        DropdownCategories = GetAllDropdownCategories();
+        GetAllDropdownCategories();
 
         //Hides Admin tab if not admin
 
@@ -432,7 +422,7 @@ function login(username, password) {
         sessionStorage.username = username;
         sessionStorage.password = password;
 
-        populateAll();
+        
         GetUserForms();
         return true;
     }
@@ -533,44 +523,65 @@ function forgotPass() {
         height: 400,
         modal: true,
         draggable: false,
-        buttons: [ { text: "Ok", click: forgetClicked } ],
+        buttons: [{ text: "Ok", click: securityCheck}],
         open: function (event, ui) {
-            var textarea = $('<textarea style="height: 276px;">');
-            // getter
-
-
-            // getter
-
-
-            //$(this).html(textarea);
-
-            //$(textarea).redactor({ autoresize: false });
-
+            $("#usernameForgot").val("");
         }
     });
 }
 
+function securityCheck() {
+    var forgotUser = $("#usernameForgot").val();
+    var foobarredUser = {
+        Username: forgotUser
+    };
+    ajax('Post', 'GetSecurityQuestion', JSON.stringify(foobarredUser), true)
+        .done(function (data) {
+            if (data.success) {
+                $("#securityQuestionCheck").val(data.securityQuestion);
+                $("#forgot-password").dialog("close");
+                $("#security-Check").dialog({
+                    width: 600,
+                    height: 400,
+                    modal: true,
+                    draggable: false,
+                    buttons: [{ text: "Submit", click: function () {
+                        forgetClicked();
+                    }
+                    }]
+                });
+            }
+        })
+        .fail(function (data) {
+
+        });
+
+}
+    
+
 function forgetClicked() {
     var forgotUser = $("#usernameForgot").val();
-    var emailForgot = $("#emailForgot").val();
-    var ASFUser1 = {
+    var securityAnswer = $("#securityAnswerCheck").val();
+    var foobarUser = {
         Username: forgotUser,
-        EmailAddress: emailForgot
+        Member: {
+            SecurityAnswer: securityAnswer
+        }
     };
-    ajax('Post', 'CheckForgotPassword', JSON.stringify(ASFUser1), false)
+    ajax('Post', 'CheckSecurityAnswer', JSON.stringify(foobarUser), false)
     .done(function (data) {
 
         if (data.success) {
-         $("#forgot-password").dialog("close");
+         $("#security-Check").dialog("close");
                $("#change-password").dialog({
                     width:600,
                     height: 400,
                     modal: true,
                     draggable: false,
                     buttons:[{text: "Submit", click: function(){
-                            ChangePassword(ASFUser1);
-                        }
-                        }]
+                        ChangePassword(foobarUser);
+                    }
+                    }]
                 });
         }
         else {
@@ -624,10 +635,11 @@ function hidePriorAnesthesia() {
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', 'GetAllDropdownCategories', '', false)
+    ajax('Post', 'GetAllDropdownCategories', '', true)
     .done(function (data) {
         if (data.success) {
-            dCats = data.DropdownCategories;
+            DropdownCategories = data.DropdownCategories;
+            populateAll();
         }
         else {
         }
@@ -652,7 +664,7 @@ function PopulateAdminCategories() {
 function PopulateAdminDropdownValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        ajax('Post', 'GetDropdownValues', JSON.stringify(obj), false)
+        ajax('Post', 'GetDropdownValues', JSON.stringify(obj), true)
         .done(function (data) {
             if (data.success) {
                 var values = data.DropdownValues;
@@ -746,7 +758,6 @@ function validateUser(member, password) {
 }
 
 function registerUser() {
-    var returned = false;
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
     var userName = $.trim($("#username").val());
@@ -776,7 +787,7 @@ function registerUser() {
                 "Password": pwHash
             }
         };
-        ajax('Post', 'RegisterUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'RegisterUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) {
                 returned = "success";
@@ -786,16 +797,17 @@ function registerUser() {
                 $("#full-name").val("");
                 sessionStorage.username = userName;
                 sessionStorage.password = pwHash;
+                popupBox('Registration was succesful');
+                $("#register-div").slideUp('slow');
             }
             else {
-                returned = "User could not be registered";
+                popupBox("User could not be registered");
             }
         })
         .fail(function (data) {
-            returned = "User could not be registered";
+            popupBox("User could not be registered");
         });
     }
-    return returned;
 }
 
 function getUsers() {
@@ -803,7 +815,7 @@ function getUsers() {
 
     $("#users").empty();
 
-    ajax('Post', 'GetUsers', '', false)
+    ajax('Post', 'GetUsers', '', true)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
@@ -849,7 +861,7 @@ function promoteUser(users) {
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
-        }/// <reference path="http://localhost/VSOAP/Scripts/" />
+        }
         ajax('Post', 'PromoteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) 
@@ -873,19 +885,20 @@ function logOut() {
     //Reloads page
     location.reload();
 }
-
+//Toggle visibility of elements
 function toggleInputs(radioId, showIds, hideIds) {
+    //Check selected radio button
     radioId.attr('checked', 'checked');
     showInputs(showIds);
     hideInputs(hideIds);
 }
-
-//toggle visibilty for elements
+//Show array of elements
 function showInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
         $('#' + ids[i]).show('slow');
     }
 }
+//Hide array of elements
 function hideInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
         $('#' + ids[i]).hide('slow');
