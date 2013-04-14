@@ -228,6 +228,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\images\animated-overlay.gif" />
+    <Content Include="Content\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\images\ui-bg_flat_75_0a0b0a_40x100.png" />
+    <Content Include="Content\images\ui-bg_flat_75_e6e6e6_40x100.png" />
+    <Content Include="Content\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_75_f4f4f4_1x400.png" />
+    <Content Include="Content\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\images\ui-icons_322a2a_256x240.png" />
+    <Content Include="Content\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\images\ui-icons_f3f2f2_256x240.png" />
+    <Content Include="Content\jquery-ui-1.10.2.custom.min.css" />
     <Content Include="Content\jquery.multiselect.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -241,8 +258,6 @@
     <Content Include="Images\arrow_up.png" />
     <Content Include="Images\edutechnoPLbluecalibri.png" />
     <Content Include="Images\InActive.jpg" />
-    <Content Include="Images\small-question-mark.jpg" />
-    <Content Include="Images\small_question_mark.gif" />
     <Content Include="Images\Test.jpg" />
     <Content Include="Scripts\Control.js" />
     <Content Include="Scripts\IdEnum.js" />
