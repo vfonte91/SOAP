@@ -53,6 +53,7 @@ $(document).ready(function () {
     $("#register").click(function () {
         if (!$("#register-div").is(":visible")) {
             $("#register-div").slideDown('slow');
+            document.getElementById("cancelRegister").style.visibility = "visible";
         }
         else {
             //Register user
@@ -67,6 +68,11 @@ $(document).ready(function () {
                 popupBox(result);
             }
         }
+    });
+
+    $("#cancelRegister").click(function () {
+        $("#register-div").slideUp('slow');
+        document.getElementById("cancelRegister").style.visibility = "hidden";
     });
 
     if (sessionStorage.username && sessionStorage.password) {
