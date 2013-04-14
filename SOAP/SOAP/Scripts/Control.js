@@ -753,7 +753,27 @@ function editDropdownValue(id, label, desc, conc, dosage) {
 function deleteDropdownValue(id) { 
 }
 
-function addDropDownValue(idOfCat, value, desc) {}
+function addDropdownValue(id, label, desc, conc, dosage) {
+    var dropdown = {
+        Category: { Id: id },
+        Label: label,
+        Description: desc + " ",
+        Concentration: conc,
+        MaxDosage: dosage,
+        OtherFlag: "N"
+    }
+
+    ajax('Post', 'AddDropdownValue', JSON.stringify(dropdown), true)
+        .done(function (data) {
+            if (data.success)
+                popupBox("Value add successfully");
+            else
+                popupBox("Error: value could not be added");
+        })
+        .fail(function (data) {
+            popupBox("Error: value could not be added");
+        });
+}
 
 function validateUser(member, password) {
     var returned = false;
