@@ -705,7 +705,7 @@ function PopulateAdminDropdownValues(idOfCat) {
                     var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
                     var concInput = "<input type='text' id='" + id + "-conc' value='" + conc + "'/>";
                     var dosageInput = "<input type='text' id='" + id + "-dosage' value='" + dos + "'/>";
-                    var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
+                    var deleteButton = "<input type='button' class='submit' onclick='deleteDropdownValue(" + id + "," + idOfCat + ")' value='Delete'/>";
                     var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val(), $('#" + id + "-conc').val(), $('#" + id + "-dosage').val())\" value='Edit'/>";
                     var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + concInput + "</td><td>" + dosageInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
                     $("#dropdown-body").append(row);
@@ -730,7 +730,6 @@ function PopulateAdminDropdownValues(idOfCat) {
 
 // edits a dropdown value's label and/or description
 function editDropdownValue(id, label, desc, conc, dosage) {
-    var returned;
     var dropdown = {
         Id: id,
         Label: label,
@@ -751,12 +750,28 @@ function editDropdownValue(id, label, desc, conc, dosage) {
         });
 }
 
-function deleteDropdownValue(id) { 
+function deleteDropdownValue(id, CatId) {
+    var dropdown = {
+        Id: id
+    }
+
+    ajax('Post', 'DeleteDropdownValue', JSON.stringify(dropdown), true)
+        .done(function (data) {
+            if (data.success) {
+                popupBox("Value deleted successfully");
+                PopulateAdminDropdownValues(CatId);
+            }
+            else
+                popupBox("Error: value could not be deleted");
+        })
+        .fail(function (data) {
+            popupBox("Error: value could not be deleted");
+        });
 }
 
-function addDropdownValue(id, label, desc, conc, dosage) {
+function addDropdownValue(CatId, label, desc, conc, dosage) {
     var dropdown = {
-        Category: { Id: id },
+        Category: { Id: CatId },
         Label: label,
         Description: desc + " ",
         Concentration: conc,
@@ -766,8 +781,10 @@ function addDropdownValue(id, label, desc, conc, dosage) {
 
     ajax('Post', 'AddDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
-            if (data.success)
+            if (data.success) {
                 popupBox("Value add successfully");
+                PopulateAdminDropdownValues(CatId);
+            }
             else
                 popupBox("Error: value could not be added");
         })
