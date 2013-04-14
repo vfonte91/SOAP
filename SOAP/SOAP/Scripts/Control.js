@@ -103,7 +103,8 @@ $(document).ready(function () {
 });
 
 function ExportToPDF() {
-    ajax('Post', 'Export', JSON.stringify(Patient), true);
+    SaveForm();
+    ajax('Post', "ExportToPdf", JSON.stringify(Patient), true);
 }
 
 function buildPatientInfo() {

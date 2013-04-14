@@ -784,8 +784,11 @@ namespace SOAP.Controllers
 
         #endregion
 
-        public void Export()
+        public void Export(Patient p)
         {
+            //CALL SAVE FORM
+            //CALL GET FORM
+           
             #region PDF OUTPUT
 
             Document doc = new Document(PageSize.LETTER);
@@ -795,13 +798,27 @@ namespace SOAP.Controllers
 
             try
             {
-                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP2.pdf", FileMode.Create));
+                var imgpath = System.Web.HttpContext.Current.Server.MapPath("~/Images/Test.jpg");
+                var pdfpath = System.Web.HttpContext.Current.Server.MapPath("~/PDFs/SOAP.pdf");
+                Font NinePointFont = new Font(Font.NORMAL, 9f);
+
+                //PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
+                PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(pdfpath, FileMode.Create));
+
                 doc.Open();
+
+
+                iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance(imgpath);
+                doc.Add(img);
+
+
                 PdfContentByte cb = writer.DirectContent;
                 ColumnText ct = new ColumnText(cb);
 
 
-                Phrase Anesthetist = new Phrase("ACE VENTURA");
+                //string A1 = p.PatientInfo.Student.ToString();
+
+                Phrase Anesthetist = new Phrase(p.PatientInfo.Student.ToString());
                 Phrase Date = new Phrase("10-10-2000");
                 Phrase Clinician = new Phrase("PET DETECTIVE");
                 Phrase Stall = new Phrase("Central 354");
@@ -856,40 +873,33 @@ namespace SOAP.Controllers
                 Phrase PreOpPainAssessment = new Phrase("This is a new pre op pain assessment. . . . ");
                 Phrase PostOpPainAssessment = new Phrase("This is a new post op pain assessment. . .");
 
-                Phrase PVC = new Phrase("XX.XX");
-                Phrase TP = new Phrase("XX.XX");
-                Phrase Alb = new Phrase("XX.XX");
-                Phrase Glob = new Phrase("XX.XX");
-                Phrase WBC = new Phrase("XX.XX");
-                Phrase Na = new Phrase("XX.X");
-                Phrase K = new Phrase("XX.X");
-                Phrase Cl = new Phrase("XX.X");
-                Phrase Ca = new Phrase("XX.X");
-                Phrase iCa = new Phrase("XX.X");
-                Phrase Glucose = new Phrase("XX.X");
-                Phrase ALT = new Phrase("XX.X");
-                Phrase ALP = new Phrase("XX.X");
-                Phrase BUN = new Phrase("XX.X");
-                Phrase CREAT = new Phrase("XX.X");
-                Phrase USG = new Phrase("XX.X");
+                Phrase PVC = new Phrase("XX.X", NinePointFont);
+                Phrase TP = new Phrase("XX.X", NinePointFont);
+                Phrase Alb = new Phrase("XX.X", NinePointFont);
+                Phrase Glob = new Phrase("XX.X", NinePointFont);
+                Phrase WBC = new Phrase("XX.X", NinePointFont);
+                Phrase Na = new Phrase("XX.X", NinePointFont);
+                Phrase K = new Phrase("XX.X", NinePointFont);
+                Phrase Cl = new Phrase("XX.X", NinePointFont);
+                Phrase Ca = new Phrase("XX.X", NinePointFont);
+                Phrase iCa = new Phrase("XX.X", NinePointFont);
+                Phrase Glucose = new Phrase("XX.X", NinePointFont);
+                Phrase ALT = new Phrase("XX.X", NinePointFont);
+                Phrase ALP = new Phrase("XX.X", NinePointFont);
+                Phrase BUN = new Phrase("XX.X", NinePointFont);
+                Phrase CREAT = new Phrase("XX.X", NinePointFont);
+                Phrase USG = new Phrase("XX.X", NinePointFont);
 
                 Phrase OtherProblems = new Phrase("OTHER PROBLEMS");
                 Phrase OtherAnesthesia = new Phrase("SOMETHING. . .");
 
 
 
-                iTextSharp.text.Image img = iTextSharp.text.Image.GetInstance("../Images/Test.jpg");
-                doc.Add(img);
+
 
                 //parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
                 //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
                 //NOTE: bottommargin determines x coordinate
-
-                //parameters of SetSimpleColumn: (Phrase, leftmargin coordinate, bottommargin coordinate, box width, box height, line height, alignment)     
-                //NOTE: all dimensions start at the BOTTOM LEFT of the PDF... why? I dont fucking know, its retarded.
-                //NOTE: bottommargin determines x coordinate
-
-
 
                 //                          LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
 
@@ -948,9 +958,10 @@ namespace SOAP.Controllers
                 ct.SetSimpleColumn(ReasonForClassification, 40, 447, 250, 502, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Physical Status Classification
 
-                #endregion
                 ct.SetSimpleColumn(CurrentMedications, 30, 446, 250, 476, 15, Element.ALIGN_LEFT);
                 ct.Go();  //CurrentMedication
+
+                #endregion
 
                 #region DRUGS
                 //       LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
@@ -1162,7 +1173,7 @@ namespace SOAP.Controllers
 
 
 
-                ct.SetSimpleColumn(Glucose, 353, 503, 440, 518, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(Glucose, 355, 503, 440, 518, 15, Element.ALIGN_LEFT);
                 ct.Go();    //Glucose
 
                 ct.SetSimpleColumn(ALT, 448, 503, 545, 518, 15, Element.ALIGN_LEFT);
@@ -1193,8 +1204,6 @@ namespace SOAP.Controllers
 
 
                 #endregion
-
-
 
             }
 

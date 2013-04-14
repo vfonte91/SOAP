@@ -18,20 +18,6 @@ namespace SOAP.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Export(Patient pat)
-        {
-            Dictionary<string, object> dict = new Dictionary<string, object>();
-            try
-            {
-                service.Export();
-            }
-            catch
-            {
-
-            }
-            return Json(dict);
-        }
 
         [HttpPost]
         public ActionResult DoLogin(MembershipInfo user)
@@ -281,6 +267,22 @@ namespace SOAP.Controllers
             try
             {
                 service.SaveDropdownValue(dropdown);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult ExportToPdf(Patient p)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.Export(p);
                 dict["success"] = true;
             }
             catch
