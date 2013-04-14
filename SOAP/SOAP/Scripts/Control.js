@@ -65,20 +65,19 @@ $(document).ready(function () {
         document.getElementById("cancelRegister").style.visibility = "hidden";
     });
 
+    $("#login").click(function () {
+        var username = $.trim($("#username").val());
+        var password = $("#password").val();
+        var passwordHash = password.hashCode();
+        login(username, passwordHash);
+    });
+
     if (sessionStorage.username && sessionStorage.password) {
         if (login(sessionStorage.username, sessionStorage.password)) {
             if (sessionStorage.formId) {
                 OpenForm(sessionStorage.formId);
             }
         }
-    }
-    else {
-        $("#login").click(function () {
-            var username = $.trim($("#username").val());
-            var password = $("#password").val();
-            var passwordHash = password.hashCode();
-            login(username, passwordHash);
-        });
     }
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
@@ -741,17 +740,12 @@ function editDropdownValue(id, label, desc, conc, dosage) {
 
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
-            if (data.success) {
-                //alert("Value edited successfully");
+            if (data.success) 
                 popupBox("Value edited successfully");
-            }
-            else {
-                //alert("Error: value could not be edited");
+            else
                 popupBox("Error: value could not be edited");
-            }
         })
         .fail(function (data) {
-            //alert("Error: value could not be edited");
             popupBox("Error: value could not be edited");
         });
 }
