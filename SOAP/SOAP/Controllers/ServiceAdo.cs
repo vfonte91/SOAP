@@ -1698,9 +1698,9 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Dropdown_Types (
-                            CategoryId, Label, OtherFlag, Description
+                            CategoryId, Label, OtherFlag, Description, Concentration, MaxDosage
                             ) VALUES (
-                            @CategoryId, @Label, @OtherFlag, @Description
+                            @CategoryId, @Label, @OtherFlag, @Description, @Concentration, @MaxDosage
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
@@ -1711,6 +1711,14 @@ namespace SOAP.Controllers
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+                if (val.MaxDosage == -1)
+                    cmd.Parameters.Add("@MaxDosage", SqlDbType.Float).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MaxDosage", SqlDbType.Float).Value = val.MaxDosage;
+                if (val.Concentration == -1)
+                    cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = val.Concentration;
 
                 try
                 {

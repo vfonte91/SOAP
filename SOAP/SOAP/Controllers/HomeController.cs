@@ -334,5 +334,23 @@ namespace SOAP.Controllers
             }
             return Json(dict);
         }
+
+        [HttpPost]
+        public ActionResult AddDropdownValue(DropdownValue dropdown)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.CreateDropdownType(dropdown);
+                dict["success"] = true;
+            }
+            catch (Exception e)
+            {
+                dict["success"] = false;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
+            }
+            return Json(dict);
+        }
     }
 }
