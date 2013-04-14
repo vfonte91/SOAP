@@ -2680,16 +2680,25 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Dropdown_Types SET
-                            Label = @Label, Description = @Description
+                            Label = @Label, Description = @Description, Concentration = @Concentration, MaxDosage = @MaxDosage
                             WHERE
                             Id = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = val.Id;
                 cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
                 if (val.Description == null)
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+                if (val.MaxDosage == -1)
+                    cmd.Parameters.Add("@MaxDosage", SqlDbType.Float).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MaxDosage", SqlDbType.Float).Value = val.MaxDosage;
+                if (val.Concentration == -1)
+                    cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = val.Concentration;
                 try
                 {
                     conn.Open();

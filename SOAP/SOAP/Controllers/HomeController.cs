@@ -321,9 +321,11 @@ namespace SOAP.Controllers
                 service.SaveDropdownValue(dropdown);
                 dict["success"] = true;
             }
-            catch
+            catch (Exception e)
             {
                 dict["success"] = false;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
             }
             return Json(dict);
         }

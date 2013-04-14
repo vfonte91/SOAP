@@ -409,24 +409,20 @@ function login(username, password) {
         GetAllDropdownCategories();
 
         //Hides Admin tab if not admin
-
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
         else {
             getUsers();
-            PopulateAdminCategories();
         }
         //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
 
-        
         GetUserForms();
         return true;
     }
     else {
-        //alert('Validate User Failed');
         popupBox('Validate User Failed');
         return false;
     }
@@ -639,8 +635,8 @@ function GetAllDropdownCategories() {
         if (data.success) {
             DropdownCategories = data.DropdownCategories;
             populateAll();
-        }
-        else {
+            if (UserInformation.IsAdmin)
+                PopulateAdminCategories();
         }
     })
     .fail(function (data) {
@@ -674,38 +670,44 @@ function PopulateAdminDropdownValues(idOfCat) {
                     var id = values[i].Id;
                     var label = values[i].Label;
                     var desc = values[i].Description;
+                    var conc = values[i].Concentration;
+                    var dos = values[i].MaxDosage;
                     var labelInput = "<input type='text' id='" + id + "-label' value='" + label + "'/>";
                     var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
+                    var concInput = "<input type='text' id='" + id + "-conc' value='" + conc + "'/>";
+                    var dosageInput = "<input type='text' id='" + id + "-dosage' value='" + dos + "'/>";
                     var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
-                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())\" value='Edit'/>";
-                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
+                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val(), $('#" + id + "-conc').val(), $('#" + id + "-dosage').val())\" value='Edit'/>";
+                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + concInput + "</td><td>" + dosageInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
                     $("#dropdown-body").append(row);
                 }
                 //Row for adding new values
                 var newLabelInput = "<input type='text' id='new-label'/>";
                 var newDescInput = "<input type='text' id='new-desc'/>";
-                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val())' value='Add'/>";
-                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + addButton + "</td><td></td></tr>";
+                var newConcInput = "<input type='text' id='new-conc'/>";
+                var newDosageInput = "<input type='text' id='new-dosage'/>";
+                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val(),$(\"#new-conc\").val(),$(\"#new-dosage\").val())' value='Add'/>";
+                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + newConcInput + "</td><td>" + newDosageInput + "</td><td>" + addButton + "</td><td></td></tr>";
                 $("#dropdown-body").append(newRow);
             }
             else
-                //alert("Clould not get drop down values");
             popupBox("Could not get drop down values");
         })
         .fail(function (data) {
-            //alert("Clould not get drop down values");
             popupBox("Could not get drop down values");
         });
     }
 }
 
 // edits a dropdown value's label and/or description
-function editDropdownValue(id, label, desc) {
+function editDropdownValue(id, label, desc, conc, dosage) {
     var returned;
     var dropdown = {
         Id: id,
         Label: label,
-        Description: desc + " "
+        Description: desc + " ",
+        Concentration: conc,
+        MaxDosage: dosage
         }
 
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
