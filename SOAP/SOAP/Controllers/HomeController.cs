@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SOAP.Models;
@@ -288,8 +287,14 @@ namespace SOAP.Controllers
             try
             {
                 user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
-                service.ChangePassword(user, user.Member.OldPassword, user.Member.Password);
-                dict["success"] = true;
+                if (service.ChangePassword(user, user.Member.OldPassword, user.Member.Password))
+                {
+                    dict["success"] = true;
+                }
+                else
+                {
+                    dict["success"] = false;
+                }
             }
             catch
             {
@@ -307,9 +312,47 @@ namespace SOAP.Controllers
                 service.SaveDropdownValue(dropdown);
                 dict["success"] = true;
             }
-            catch
+            catch (Exception e)
             {
                 dict["success"] = false;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult AddDropdownValue(DropdownValue dropdown)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.CreateDropdownType(dropdown);
+                dict["success"] = true;
+            }
+            catch (Exception e)
+            {
+                dict["success"] = false;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteDropdownValue(DropdownValue dropdown)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                service.DeleteDropdownValue(dropdown);
+                dict["success"] = true;
+            }
+            catch (Exception e)
+            {
+                dict["success"] = false;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
             }
             return Json(dict);
         }

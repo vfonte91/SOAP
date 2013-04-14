@@ -65,20 +65,19 @@ $(document).ready(function () {
         document.getElementById("cancelRegister").style.visibility = "hidden";
     });
 
+    $("#login").click(function () {
+        var username = $.trim($("#username").val());
+        var password = $("#password").val();
+        var passwordHash = password.hashCode();
+        login(username, passwordHash);
+    });
+
     if (sessionStorage.username && sessionStorage.password) {
         if (login(sessionStorage.username, sessionStorage.password)) {
             if (sessionStorage.formId) {
                 OpenForm(sessionStorage.formId);
             }
         }
-    }
-    else {
-        $("#login").click(function () {
-            var username = $.trim($("#username").val());
-            var password = $("#password").val();
-            var passwordHash = password.hashCode();
-            login(username, passwordHash);
-        });
     }
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
@@ -202,7 +201,7 @@ function buildAnestheticPlanPremeds() {
 }
 
 function buildInduction() {
-    if ($('#Injectable').is(':checked')) {
+    if ($('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Checked').is(':checked')) {
         Patient.AnestheticPlan.InhalantPlan = {};
         Patient.AnestheticPlan.InjectionPlan = { Drug: {}, Route: {}, IVFluidType: {} };
         Patient.AnestheticPlan.InjectionPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Drug').val();
@@ -222,7 +221,7 @@ function buildInduction() {
 }
 
 function buildMaintenance() {
-    if ($('#MaintenanceInject').is(':checked')) {
+    if ($('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Checked').is(':checked')) {
         Patient.Maintenance.MaintenanceInhalantDrug = {};
         Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {} };
         Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
@@ -263,38 +262,40 @@ function buildMonitoring() {
 }
 
 function SaveForm() {
-    Patient.PatientInfo.FormCompleted = 'N';
-    buildAnestheticPlanPremeds();
-    buildInduction();
-    buildMaintenance();
-    buildPatientInfo();
-    buildClinicalFindings();
-    buildBloodwork();
-    buildMonitoring();
-    var url = "";
-    if (newPatient) {
-        url = 'CreateForm'
-    }
-    else {
-        url = 'SaveForm'
-    }
-    ajax('Post', url, JSON.stringify(Patient), true)
-    .done(function (data) {
-        if (data.success) {
-            //Reload user form dropdown
-            //alert("Form saved");
-            popupBox("Form saved");
-            GetUserForms();
-        }
-        else {
-            //alert("Error: Form could not be saved");
+    if (errorCheckAll()) {
+            Patient.PatientInfo.FormCompleted = 'N';
+            buildAnestheticPlanPremeds();
+            buildInduction();
+            buildMaintenance();
+            buildPatientInfo();
+            buildClinicalFindings();
+            buildBloodwork();
+            buildMonitoring();
+            var url = "";
+            if (newPatient) {
+                url = 'CreateForm'
+            }
+            else {
+                url = 'SaveForm'
+            }
+            ajax('Post', url, JSON.stringify(Patient), true)
+        .done(function (data) {
+            if (data.success) {
+                //Reload user form dropdown
+                //alert("Form saved");
+                popupBox("Form saved");
+                GetUserForms();
+            }
+            else {
+                //alert("Error: Form could not be saved");
+                popupBox("Error: Form could not be saved");
+            }
+        })
+        .fail(function (jqXHR, textStatus) {
             popupBox("Error: Form could not be saved");
-        }
-    })
-    .fail(function (jqXHR, textStatus) {
-        popupBox("Error: Form could not be saved");
-        //alert("Error: Form could not be saved");
-    });
+            //alert("Error: Form could not be saved");
+        });
+    } 
 }
 
 function OpenForm(formId) {
@@ -410,24 +411,20 @@ function login(username, password) {
         GetAllDropdownCategories();
 
         //Hides Admin tab if not admin
-
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
         else {
             getUsers();
-            PopulateAdminCategories();
         }
         //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
 
-        
         GetUserForms();
         return true;
     }
     else {
-        //alert('Validate User Failed');
         popupBox('Validate User Failed');
         return false;
     }
@@ -435,6 +432,9 @@ function login(username, password) {
 
 function editUserInformation() {
     var foobarredUser = UserInformation;
+    var currentPass = $('#Patient\\.Profile\\.CurrentPassword').val();
+    var newPass1 = $('#Patient\\.Profile\\.NewPassword').val();
+    var newPass2 = $('#Patient\\.Profile\\.NewPasswordTwo').val();
     foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
     foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
     ajax('Post', 'EditProfile', JSON.stringify(foobarredUser), true)
@@ -444,8 +444,6 @@ function editUserInformation() {
                 UserInformation.EmailAddress = foobarredUser.EmailAddress;
                 $("#profile-menu").slideToggle("slow")
                 $("#edit-profile-button").toggleClass("menu-close");
-                //alert('User Info Updated');
-                popupBox('User Info Updated');
             }
             else {
                 //alert('Error updating User Info');
@@ -456,6 +454,32 @@ function editUserInformation() {
             //alert('Error updating User Info');
             popupBox('Error updating User Info');
         });
+    if (currentPass && newPass1 && newPass2) {
+        if (newPass1 == newPass2) {
+            foobarredUser.Member.OldPassword = currentPass.hashCode();
+            foobarredUser.Member.Password = newPass1.hashCode();
+            ajax('Post', 'ChangePassword', JSON.stringify(foobarredUser), true)
+            .done(function (data) {
+                if (data.success) {
+                    $("#profile-menu").slideToggle("slow")
+                    $("#edit-profile-button").toggleClass("menu-close");
+                    //alert('User Info Updated');
+                    popupBox('User Info Updated');
+                }
+                else {
+                    //alert('Error updating User Info');
+                    popupBox('Current password is not correct');
+                }
+            })
+            .fail(function (data) {
+                //alert('Error updating User Info');
+                popupBox('Error updating User Info');
+            });
+        }
+        else {
+            popupBox('New passwords do not match');
+        }
+    }
 }
 
 function setProfileInfo() {
@@ -607,6 +631,7 @@ function ChangePassword(user) {
         .done(function (data) {
             if (data.success) {
                 $("#change-password").dialog("close");
+                popupBox('Password successfuly changed!');
             }
             else {
             }
@@ -640,8 +665,8 @@ function GetAllDropdownCategories() {
         if (data.success) {
             DropdownCategories = data.DropdownCategories;
             populateAll();
-        }
-        else {
+            if (UserInformation.IsAdmin)
+                PopulateAdminCategories();
         }
     })
     .fail(function (data) {
@@ -675,61 +700,99 @@ function PopulateAdminDropdownValues(idOfCat) {
                     var id = values[i].Id;
                     var label = values[i].Label;
                     var desc = values[i].Description;
+                    var conc = values[i].Concentration;
+                    var dos = values[i].MaxDosage;
                     var labelInput = "<input type='text' id='" + id + "-label' value='" + label + "'/>";
                     var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
-                    var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
-                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())\" value='Edit'/>";
-                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
+                    var concInput = "<input type='text' id='" + id + "-conc' value='" + conc + "'/>";
+                    var dosageInput = "<input type='text' id='" + id + "-dosage' value='" + dos + "'/>";
+                    var deleteButton = "<input type='button' class='submit' onclick='deleteDropdownValue(" + id + "," + idOfCat + ")' value='Delete'/>";
+                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val(), $('#" + id + "-conc').val(), $('#" + id + "-dosage').val())\" value='Edit'/>";
+                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + concInput + "</td><td>" + dosageInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
                     $("#dropdown-body").append(row);
                 }
                 //Row for adding new values
                 var newLabelInput = "<input type='text' id='new-label'/>";
                 var newDescInput = "<input type='text' id='new-desc'/>";
-                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val())' value='Add'/>";
-                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + addButton + "</td><td></td></tr>";
+                var newConcInput = "<input type='text' id='new-conc'/>";
+                var newDosageInput = "<input type='text' id='new-dosage'/>";
+                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val(),$(\"#new-conc\").val(),$(\"#new-dosage\").val())' value='Add'/>";
+                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + newConcInput + "</td><td>" + newDosageInput + "</td><td>" + addButton + "</td><td></td></tr>";
                 $("#dropdown-body").append(newRow);
             }
             else
-                //alert("Clould not get drop down values");
             popupBox("Could not get drop down values");
         })
         .fail(function (data) {
-            //alert("Clould not get drop down values");
             popupBox("Could not get drop down values");
         });
     }
 }
 
 // edits a dropdown value's label and/or description
-function editDropdownValue(id, label, desc) {
-    var returned;
+function editDropdownValue(id, label, desc, conc, dosage) {
     var dropdown = {
         Id: id,
         Label: label,
-        Description: desc + " "
+        Description: desc + " ",
+        Concentration: conc,
+        MaxDosage: dosage
         }
 
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
-            if (data.success) {
-                //alert("Value edited successfully");
+            if (data.success) 
                 popupBox("Value edited successfully");
-            }
-            else {
-                //alert("Error: value could not be edited");
+            else
                 popupBox("Error: value could not be edited");
-            }
         })
         .fail(function (data) {
-            //alert("Error: value could not be edited");
             popupBox("Error: value could not be edited");
         });
 }
 
-function deleteDropdownValue(id) { 
+function deleteDropdownValue(id, CatId) {
+    var dropdown = {
+        Id: id
+    }
+
+    ajax('Post', 'DeleteDropdownValue', JSON.stringify(dropdown), true)
+        .done(function (data) {
+            if (data.success) {
+                popupBox("Value deleted successfully");
+                PopulateAdminDropdownValues(CatId);
+            }
+            else
+                popupBox("Error: value could not be deleted");
+        })
+        .fail(function (data) {
+            popupBox("Error: value could not be deleted");
+        });
 }
 
-function addDropDownValue(idOfCat, value, desc) {}
+function addDropdownValue(CatId, label, desc, conc, dosage) {
+    var dropdown = {
+        Category: { Id: CatId },
+        Label: label,
+        Description: desc + " ",
+        Concentration: conc,
+        MaxDosage: dosage,
+        OtherFlag: "N"
+    }
+
+    ajax('Post', 'AddDropdownValue', JSON.stringify(dropdown), true)
+        .done(function (data) {
+            if (data.success) {
+                popupBox("Value add successfully");
+                PopulateAdminDropdownValues(CatId);
+            }
+            else
+                popupBox("Error: value could not be added");
+        })
+        .fail(function (data) {
+            popupBox("Error: value could not be added");
+        });
+}
 
 function validateUser(member, password) {
     var returned = false;
@@ -1132,7 +1195,7 @@ function errorCheckPatientInfo() {
     }
 
     check = document.getElementById("Patient.PatientInfo.BodyWeight").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Body Weight is incorrectly formatted");
         retVal = false;
     }
@@ -1155,19 +1218,19 @@ function errorCheckClinicalFindings() {
     var retVal = true;
 
     var check = document.getElementById("Patient.ClinicalFindings.Temperature").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Temperature is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.ClinicalFindings.PulseRate").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Pulse Rate is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.ClinicalFindings.RespiratoryRate").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Respiratory Rate is incorrectly formatted");
         retVal = false;
     }
@@ -1198,97 +1261,97 @@ function errorCheckBloodwork() {
     var retVal = true;
 
     var check = document.getElementById("Patient.Bloodwork.PCV").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") +2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in PCV is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.TP").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in TP is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.Albumin").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Albumin is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.Globulin").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Globulin is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.WBC").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in WBC is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.NA").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in NA is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.K").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in K is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.Cl").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Cl is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.Ca").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Ca is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.iCa").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in iCa is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.Glucose").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Glucose is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.ALT").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in ALT is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.ALP").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in ALP is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.BUN").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in BUN is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.CREAT").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in CREAT is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Bloodwork.USG").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in USG is incorrectly formatted");
         retVal = false;
     }
@@ -1300,7 +1363,7 @@ function errorCheckBloodwork() {
     }
 
     check = document.getElementById("Patient.Bloodwork.OtherValue").value;
-    if (check.indexOf(".") > 4 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
         popupBox("The value in Other Bloodwork Results is incorrectly formatted");
         retVal = false;
     }
@@ -1312,25 +1375,25 @@ function errorCheckAnetheticPlan() {
     var retVal = true;
 
     var check = document.getElementById("Patient.AnestheticPlan.PreMedications.SedativeDosage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Sedative Dosage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.AnestheticPlan.PreMedications.OpioidDosage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Opioid Dosage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.AnestheticPlan.PreMedications.AnticholinergicDosage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Anticholinergic Dosage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.AnestheticPlan.PreMedications.KetamineDosage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Ketamine Dosage is incorrectly formatted");
         retVal = false;
     }
@@ -1341,19 +1404,19 @@ function errorCheckInduction() {
     var retVal = true;
 
     var check = document.getElementById("Patient.AnestheticPlan.InjectionPlan.Dosage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Induction Injection Dosage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.AnestheticPlan.InhalantPlan.Percentage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Induction Inhalant Percentage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.AnestheticPlan.InhalantPlan.FlowRate").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Induction Inhalant Flow Rate is incorrectly formatted");
         retVal = false;
     }
@@ -1364,31 +1427,31 @@ function errorCheckMaintenance() {
     var retVal = true;
 
     var check = document.getElementById("Patient.Maintenance.MaintenanceInjectionDrug.Dosage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Maintenance Injection Dosage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.InductionPercentage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Maintenance Inhalant Starting Percentage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.InductionOxygenFlowRate").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Maintenance Inhalant Starting Flow Rate is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.MaintenancePercentage").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 2)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Maintenance Inhalant Maintenance Percentage is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.Maintenance.MaintenanceInhalantDrug.MaintenanceOxygenFlowRate").value;
-    if (check.indexOf(".") > 5 || check.length > (check.indexOf(".") + 3)) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 3)) || check.length > 5) {
         popupBox("The value in Maintenance Inhalant Maintenance Flow Rate is incorrectly formatted");
         retVal = false;
     }
