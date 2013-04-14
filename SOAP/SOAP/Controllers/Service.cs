@@ -204,11 +204,13 @@ namespace SOAP.Controllers
             return blood;
         }
 
-        public List<AnestheticPlanPremedication> GetAnestheticPreMedications(int patientId)
+        public AnestheticPlanPremedication GetAnestheticPreMedications(int patientId)
         {
             AnestheticPlanPremedication.LazyComponents[] list = 
             {
-                AnestheticPlanPremedication.LazyComponents.LOAD_DRUG_WITH_DETAILS,
+                AnestheticPlanPremedication.LazyComponents.LOAD_ANTICHOLINERGIC_DRUG_WITH_DETAILS,
+                AnestheticPlanPremedication.LazyComponents.LOAD_SEDATIVE_DRUG_WITH_DETAILS,
+                AnestheticPlanPremedication.LazyComponents.LOAD_OPIOID_DRUG_WITH_DETAILS,
                 AnestheticPlanPremedication.LazyComponents.LOAD_ROUTE_WITH_DETAILS
             };
             return service.GetAnestheticPlanPremedication(patientId, list);
@@ -362,7 +364,7 @@ namespace SOAP.Controllers
             if (pat.AnestheticPlan.InjectionPlan.HasValues())
                 CreateAnestheticInjectionPlans(pat);
 
-            if (pat.AnestheticPlan.PreMedications.Count > 0)
+            if (pat.AnestheticPlan.PreMedications.HasValues())
                 CreateAnestheticPremedications(pat);
         }
 
@@ -380,14 +382,8 @@ namespace SOAP.Controllers
 
         public void CreateAnestheticPremedications(Patient pat)
         {
-            foreach (AnestheticPlanPremedication a in pat.AnestheticPlan.PreMedications)
-            {
-                if (a.HasValues())
-                {
-                    a.PatientId = pat.PatientId;
-                    service.CreateAnestheticPlanPremedication(a);
-                }
-            }
+            pat.AnestheticPlan.PreMedications.PatientId = pat.PatientId;
+            service.CreateAnestheticPlanPremedication(pat.AnestheticPlan.PreMedications);
         }
 
         public void CreateMaintenance(Patient pat)
@@ -475,9 +471,10 @@ namespace SOAP.Controllers
                     SaveAnestheticInjectionPlans(pat.AnestheticPlan.InjectionPlan);
                 }
 
-                if (pat.AnestheticPlan.PreMedications.Count > 0)
+                if (pat.AnestheticPlan.PreMedications.HasValues())
                 {
-                    SaveAnestheticPremedications(pat);
+                    pat.AnestheticPlan.PreMedications.PatientId = pat.PatientId;
+                    SaveAnestheticPremedications(pat.AnestheticPlan.PreMedications);
                 }
             }
 
@@ -618,14 +615,11 @@ namespace SOAP.Controllers
                 service.CreateAnestheticPlanInjection(injects);
         }
 
-        public void SaveAnestheticPremedications(Patient pat)
+        public void SaveAnestheticPremedications(AnestheticPlanPremedication pat)
         {
             service.DeleteAnestheticPlanPremedication(pat.PatientId);
-            foreach (AnestheticPlanPremedication a in pat.AnestheticPlan.PreMedications)
-            {
-                a.PatientId = pat.PatientId;
-                service.CreateAnestheticPlanPremedication(a);
-            }
+            if (service.UpdateAnestheticPlanPremedication(pat) == 0)
+                service.CreateAnestheticPlanPremedication(pat);
         }
 
         public void SaveMaintenanceInhalantDrugs(MaintenanceInhalantDrug drugs)
