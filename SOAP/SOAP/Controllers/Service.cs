@@ -793,7 +793,9 @@ namespace SOAP.Controllers
         {
             //CALL SAVE FORM
             //CALL GET FORM
-           
+
+            GetPatient(p.PatientId);
+
             #region PDF OUTPUT
 
             Document doc = new Document(PageSize.LETTER);
@@ -820,34 +822,35 @@ namespace SOAP.Controllers
                 PdfContentByte cb = writer.DirectContent;
                 ColumnText ct = new ColumnText(cb);
 
+                Phrase Anesthetist = new Phrase(p.PatientInfo.Student.Username);
 
-                //string A1 = p.PatientInfo.Student.ToString();
 
-                Phrase Anesthetist = new Phrase(p.PatientInfo.Student.ToString());
-                Phrase Date = new Phrase("10-10-2000");
-                Phrase Clinician = new Phrase("PET DETECTIVE");
-                Phrase Stall = new Phrase("Central 354");
-                Phrase Procedure = new Phrase("Fix the Pet.");
-                Phrase BodyWeight = new Phrase("20");
-                Phrase Age = new Phrase("3.4");
-                Phrase Temperament = new Phrase("rabid, very dangerous..");
 
-                Phrase Temp = new Phrase("101.8");
-                Phrase Pulse = new Phrase("160");
-                Phrase Response = new Phrase("XXXXX");
+                Phrase Date = new Phrase(p.PatientInfo.ProcedureDate.ToString());
+                Phrase Clinician = new Phrase(p.PatientInfo.Clinician.Username);
+                Phrase Stall = new Phrase("");
+                Phrase Procedure = new Phrase(p.PatientInfo.Procedure.Category.ShortName);
+                Phrase BodyWeight = new Phrase(p.PatientInfo.BodyWeight.ToString());
+                Phrase Age = new Phrase(p.PatientInfo.AgeInYears.ToString() + " years "+p.PatientInfo.AgeInMonths.ToString() + " months");
+                Phrase Temperament = new Phrase(p.PatientInfo.Temperament.Description);
 
-                Phrase CardiacAuscultation = new Phrase("What is this...?");
-                Phrase PulseQuality = new Phrase("ok i guess");
-                Phrase MucousMembraneColor = new Phrase("gross, dont ask");
-                Phrase CapillaryRefillTime = new Phrase("6 hours 15 minutes");
-                Phrase RespiratoryAuscultation = new Phrase("What is this?");
-                Phrase PhysicalStatusClassification = new Phrase("III");
+                Phrase Temp = new Phrase(p.ClinicalFindings.Temperature.ToString());
+                Phrase Pulse = new Phrase(p.ClinicalFindings.PulseRate.ToString());
+                Phrase Response = new Phrase(" ");
 
-                Phrase ReasonForClassification = new Phrase("Reason for Classification");
-                Phrase CurrentMedications = new Phrase("Current Medications");
-                Phrase AnesthesiaConcerns = new Phrase("This is a concern, this is another concern, this is a last concern.");
+                Phrase CardiacAuscultation = new Phrase(" ");
+                Phrase PulseQuality = new Phrase(" ");
+                Phrase MucousMembraneColor = new Phrase(" ");
+                Phrase CapillaryRefillTime = new Phrase(" ");
+                Phrase RespiratoryAuscultation = new Phrase(" ");
+                Phrase PhysicalStatusClassification = new Phrase(" ");
 
-                Phrase Drug1 = new Phrase("DRUG 1");
+                Phrase ReasonForClassification = new Phrase(p.ClinicalFindings.ReasonForClassification);
+                Phrase CurrentMedications = new Phrase(p.ClinicalFindings.CurrentMedications);
+                Phrase AnesthesiaConcerns = new Phrase(" ");
+
+
+                Phrase Drug1 = new Phrase(p.AnestheticPlan.PreMedications.SedativeDrug.Label, NinePointFont);
                 Phrase Route1 = new Phrase("Route 1");
                 Phrase Dosage1 = new Phrase("Dosage 1");
                 Phrase DoseMg1 = new Phrase("DoseMg 1");
@@ -878,25 +881,25 @@ namespace SOAP.Controllers
                 Phrase PreOpPainAssessment = new Phrase("This is a new pre op pain assessment. . . . ");
                 Phrase PostOpPainAssessment = new Phrase("This is a new post op pain assessment. . .");
 
-                Phrase PVC = new Phrase("XX.X", NinePointFont);
-                Phrase TP = new Phrase("XX.X", NinePointFont);
-                Phrase Alb = new Phrase("XX.X", NinePointFont);
-                Phrase Glob = new Phrase("XX.X", NinePointFont);
-                Phrase WBC = new Phrase("XX.X", NinePointFont);
-                Phrase Na = new Phrase("XX.X", NinePointFont);
-                Phrase K = new Phrase("XX.X", NinePointFont);
-                Phrase Cl = new Phrase("XX.X", NinePointFont);
-                Phrase Ca = new Phrase("XX.X", NinePointFont);
-                Phrase iCa = new Phrase("XX.X", NinePointFont);
-                Phrase Glucose = new Phrase("XX.X", NinePointFont);
-                Phrase ALT = new Phrase("XX.X", NinePointFont);
-                Phrase ALP = new Phrase("XX.X", NinePointFont);
-                Phrase BUN = new Phrase("XX.X", NinePointFont);
-                Phrase CREAT = new Phrase("XX.X", NinePointFont);
-                Phrase USG = new Phrase("XX.X", NinePointFont);
+                Phrase PVC = new Phrase(p.Bloodwork.PCV.ToString(), NinePointFont);
+                Phrase TP = new Phrase(p.Bloodwork.TP.ToString(), NinePointFont);
+                Phrase Alb = new Phrase(p.Bloodwork.Albumin.ToString(), NinePointFont);
+                Phrase Glob = new Phrase(p.Bloodwork.Globulin.ToString(), NinePointFont);
+                Phrase WBC = new Phrase(p.Bloodwork.WBC.ToString(), NinePointFont);
+                Phrase Na = new Phrase(p.Bloodwork.NA.ToString(), NinePointFont);
+                Phrase K = new Phrase(p.Bloodwork.K.ToString(), NinePointFont);
+                Phrase Cl = new Phrase(p.Bloodwork.Cl.ToString(), NinePointFont);
+                Phrase Ca = new Phrase(p.Bloodwork.Ca.ToString(), NinePointFont);
+                Phrase iCa = new Phrase(p.Bloodwork.iCa.ToString(), NinePointFont);
+                Phrase Glucose = new Phrase(p.Bloodwork.Glucose.ToString(), NinePointFont);
+                Phrase ALT = new Phrase(p.Bloodwork.ALT.ToString(), NinePointFont);
+                Phrase ALP = new Phrase(p.Bloodwork.ALP.ToString(), NinePointFont);
+                Phrase BUN = new Phrase(p.Bloodwork.BUN.ToString(), NinePointFont);
+                Phrase CREAT = new Phrase(p.Bloodwork.CREAT.ToString(), NinePointFont);
+                Phrase USG = new Phrase(p.Bloodwork.USG.ToString(), NinePointFont);
 
-                Phrase OtherProblems = new Phrase("OTHER PROBLEMS");
-                Phrase OtherAnesthesia = new Phrase("SOMETHING. . .");
+                Phrase OtherProblems = new Phrase(p.Bloodwork.OtherType);
+                Phrase OtherAnesthesia = new Phrase(p.Bloodwork.OtherValue.ToString());
 
 
 
@@ -909,6 +912,7 @@ namespace SOAP.Controllers
                 //                          LEFT     BOT     WIDTH    HEIGHT   LINE HEIGHT          ALIGN
 
                 #region TOP HALF
+                
                 ct.SetSimpleColumn(Anesthetist, 122, 752, 280, 767, 15, Element.ALIGN_LEFT);
                 ct.Go();   //ANESTHETIST
 
@@ -927,10 +931,10 @@ namespace SOAP.Controllers
                 ct.SetSimpleColumn(BodyWeight, 127, 655, 161, 670, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Body Weight
 
-                ct.SetSimpleColumn(Age, 235, 655, 280, 670, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(Age, 235, 655, 525, 670, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Age
 
-                ct.SetSimpleColumn(Temperament, 138, 628, 280, 643, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(Temperament, 138, 628, 525, 643, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Temperment
 
                 ct.SetSimpleColumn(Temp, 63, 598, 107, 613, 15, Element.ALIGN_LEFT);
