@@ -27,6 +27,14 @@
                     <label>Email:</label>
                     <input type="text" id="email" />
                 </div>
+                <div class="input">
+                    <label>Enter Security Question:</label>
+                    <input type="text" id="securityQuestion" />
+                </div>
+                <div class="input">
+                    <label>Answer:</label>
+                    <input type="text" id="securityAnswer" />
+                </div>
             </div>
             <div class="input">
                 <input type="button" id="login" value="Login" class="submit left"/><!--
@@ -39,8 +47,15 @@
                     <label>UserName:</label>
                     <input type="text" id="usernameForgot" />
                     <p></p>  
-                    <label>Email:</label>
-                    <input type="text" id="emailForgot" />
+                    <!----<label>Email:</label>
+                    <input type="text" id="emailForgot" />--->
+            </div>
+            <div id ="security-Check" title="Security Question Check" style="display:none;">
+                <label>Security Question</label>
+                <input type="text" id ="securityQuestionCheck" />
+                <p></p>
+                <label>Answer</label>
+                <input type="text" id ="securityAnswerCheck" />
             </div>
             <div id="change-password" title="New Password" style="display:none;" >
                     <label>Enter new Password:</label>

@@ -538,7 +538,7 @@ function forgotPass() {
         height: 400,
         modal: true,
         draggable: false,
-        buttons: [ { text: "Ok", click: forgetClicked } ],
+        buttons: [ { text: "Ok", click: securityCheck } ],
         open: function (event, ui) {
             var textarea = $('<textarea style="height: 276px;">');
             // getter
@@ -555,6 +555,22 @@ function forgotPass() {
     });
 }
 
+function securityCheck() {
+    var forgotUser = $("usernameForgot").val();
+    //JSON stuff
+    $("#forgot-password").dialog("close");
+        $("#security-Check").dialog({
+            width: 600,
+            height: 400,
+            modal: true,
+            draggable: false,
+            buttons: [{ text: "Submit", click: function () {
+                forgetClicked();
+            }
+            }]
+        });
+    }
+
 function forgetClicked() {
     var forgotUser = $("#usernameForgot").val();
     var emailForgot = $("#emailForgot").val();
@@ -566,7 +582,7 @@ function forgetClicked() {
     .done(function (data) {
 
         if (data.success) {
-         $("#forgot-password").dialog("close");
+         $("#security-Check").dialog("close");
                $("#change-password").dialog({
                     width:600,
                     height: 400,
