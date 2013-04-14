@@ -2257,7 +2257,7 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Anesthetic_Plan_Inhalant SET
-                            DrugId = @DrugId, Dose =  @Dose, FlowRate = @FlowRate
+                            DrugId = @DrugId, Percentage =  @Percentage, FlowRate = @FlowRate
                             WHERE
                             PatientId = @PatientId";
 
@@ -2814,8 +2814,8 @@ namespace SOAP.Controllers
             int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"UPDATE dbo.IV_Fluid_Type_To_Patient SET
-                            DrugId = @DrugId, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate
+                string sql = @"UPDATE dbo.Maintenance_Inhalant_Drugs_To_Patient SET
+                            DrugId = @DrugId, InductionDose = @InductionDose, InductionOxygenFlowRate = @InductionOxygenFlowRate,
                             MaintenanceDose = @MaintenanceDose, MaintenanceOxygenFlowRate = @MaintenanceOxygenFlowRate, 
                             BreathingSystemId = @BreathingSystemId, BreathingBagSizeId = @BreathingBagSizeId
                             WHERE

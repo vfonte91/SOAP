@@ -201,7 +201,7 @@ function buildAnestheticPlanPremeds() {
 }
 
 function buildInduction() {
-    if ($('#Injectable').is(':checked')) {
+    if ($('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Checked').is(':checked')) {
         Patient.AnestheticPlan.InhalantPlan = {};
         Patient.AnestheticPlan.InjectionPlan = { Drug: {}, Route: {}, IVFluidType: {} };
         Patient.AnestheticPlan.InjectionPlan.Drug.Id = $('#Patient\\.AnestheticPlan\\.InjectionPlan\\.Drug').val();
@@ -221,7 +221,7 @@ function buildInduction() {
 }
 
 function buildMaintenance() {
-    if ($('#MaintenanceInject').is(':checked')) {
+    if ($('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Checked').is(':checked')) {
         Patient.Maintenance.MaintenanceInhalantDrug = {};
         Patient.Maintenance.MaintenanceInjectionDrug = { Drug: {}, RouteOfAdministration: {} };
         Patient.Maintenance.MaintenanceInjectionDrug.Drug.Id = $('#Patient\\.Maintenance\\.MaintenanceInjectionDrug\\.Drug').val();
@@ -629,6 +629,7 @@ function ChangePassword(user) {
         .done(function (data) {
             if (data.success) {
                 $("#change-password").dialog("close");
+                popupBox('Password successfuly changed!');
             }
             else {
             }

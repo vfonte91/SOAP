@@ -500,7 +500,7 @@ namespace SOAP.Controllers
 
                 if (pat.Maintenance.MaintenanceInjectionDrug.HasValues())
                 {
-                    pat.Maintenance.MaintenanceInhalantDrug.PatientId = pat.PatientId;
+                    pat.Maintenance.MaintenanceInjectionDrug.PatientId = pat.PatientId;
                     SaveMaintenanceInjectionDrugs(pat.Maintenance.MaintenanceInjectionDrug);
                 }
 
@@ -531,7 +531,7 @@ namespace SOAP.Controllers
             if (clinicalFindings.AnesthesiaConcerns.Count > 0)
             {
                 service.DeleteAnesthesiaConcern(clinicalFindings.PatientId);
-                SaveAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns);
+                SaveAnesthesiaConcerns(clinicalFindings.AnesthesiaConcerns, clinicalFindings.PatientId);
             }
         }
 
@@ -549,10 +549,11 @@ namespace SOAP.Controllers
                 service.CreatePriorAnesthesia(priors);
         }
 
-        public void SaveAnesthesiaConcerns(List<AnesthesiaConcern> concerns)
+        public void SaveAnesthesiaConcerns(List<AnesthesiaConcern> concerns, int patientId)
         {
             foreach (AnesthesiaConcern a in concerns)
             {
+                a.PatientId = patientId;
                 service.CreateAnesthesiaConcern(a);
             }
         }
