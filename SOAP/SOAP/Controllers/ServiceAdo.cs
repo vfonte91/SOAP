@@ -180,7 +180,7 @@ namespace SOAP.Controllers
                     while (read.Read())
                     {
                         string actualPassword = read["Password"].ToString();
-                        valid = (password.Equals(actualPassword));
+                        valid = PasswordHash.ValidatePassword(password, actualPassword);
                     }
                 }
                 catch (Exception e)

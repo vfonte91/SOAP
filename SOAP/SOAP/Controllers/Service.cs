@@ -31,6 +31,7 @@ namespace SOAP.Controllers
             if (service.CheckPassword(user.Username, oldpassword))
             {
                 user.Member.Password = newPassword;
+                user.Member.Username = user.Username; 
                 service.UpdateMembershipPassword(user.Member);
                 return true;
             }

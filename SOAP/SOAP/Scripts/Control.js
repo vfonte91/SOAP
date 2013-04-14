@@ -450,6 +450,9 @@ function login(username, password) {
 
 function editUserInformation() {
     var foobarredUser = UserInformation;
+    var currentPass = $('#Patient\\.Profile\\.CurrentPassword').val();
+    var newPass1 = $('#Patient\\.Profile\\.NewPassword').val();
+    var newPass2 = $('#Patient\\.Profile\\.NewPasswordTwo').val();
     foobarredUser.FullName = $("#Patient\\.Profile\\.FullName").val();
     foobarredUser.EmailAddress = $("#Patient\\.Profile\\.Email").val();
     ajax('Post', 'EditProfile', JSON.stringify(foobarredUser), true)
@@ -459,8 +462,6 @@ function editUserInformation() {
                 UserInformation.EmailAddress = foobarredUser.EmailAddress;
                 $("#profile-menu").slideToggle("slow")
                 $("#edit-profile-button").toggleClass("menu-close");
-                //alert('User Info Updated');
-                popupBox('User Info Updated');
             }
             else {
                 //alert('Error updating User Info');
@@ -471,6 +472,32 @@ function editUserInformation() {
             //alert('Error updating User Info');
             popupBox('Error updating User Info');
         });
+    if (currentPass && newPass1 && newPass2) {
+        if (newPass1 == newPass2) {
+            foobarredUser.Member.OldPassword = currentPass.hashCode();
+            foobarredUser.Member.Password = newPass1.hashCode();
+            ajax('Post', 'ChangePassword', JSON.stringify(foobarredUser), true)
+            .done(function (data) {
+                if (data.success) {
+                    $("#profile-menu").slideToggle("slow")
+                    $("#edit-profile-button").toggleClass("menu-close");
+                    //alert('User Info Updated');
+                    popupBox('User Info Updated');
+                }
+                else {
+                    //alert('Error updating User Info');
+                    popupBox('Current password is not correct');
+                }
+            })
+            .fail(function (data) {
+                //alert('Error updating User Info');
+                popupBox('Error updating User Info');
+            });
+        }
+        else {
+            popupBox('New passwords do not match');
+        }
+    }
 }
 
 function setProfileInfo() {

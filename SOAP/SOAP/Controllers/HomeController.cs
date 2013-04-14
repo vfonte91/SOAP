@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using SOAP.Models;
@@ -298,8 +297,14 @@ namespace SOAP.Controllers
             try
             {
                 user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
-                service.ChangePassword(user, user.Member.OldPassword, user.Member.Password);
-                dict["success"] = true;
+                if (service.ChangePassword(user, user.Member.OldPassword, user.Member.Password))
+                {
+                    dict["success"] = true;
+                }
+                else
+                {
+                    dict["success"] = false;
+                }
             }
             catch
             {
