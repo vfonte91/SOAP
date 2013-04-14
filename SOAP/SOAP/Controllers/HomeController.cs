@@ -54,9 +54,10 @@ namespace SOAP.Controllers
                     }
                 }
             }
-            catch
+            catch(Exception e)
             {
                 dict["success"] = false;
+                dict["error"] = e.Message;
             }
             return Json(dict);
         }
@@ -155,7 +156,8 @@ namespace SOAP.Controllers
             {
                 service.DeletePatient(pat);
                 dict["success"] = false;
-                dict["error"] = e.Message;
+                dict["message"] = e.Message;
+                dict["stacktrace"] = e.StackTrace;
             }
             return Json(dict);
         }
@@ -172,7 +174,8 @@ namespace SOAP.Controllers
             catch (Exception e)
             {
                 dict["success"] = false;
-                dict["error"] = e.Message;
+                dict["message"] = e.Message;
+                dict["stacktrace"] = e.StackTrace;
             }
             return Json(dict);
         }
@@ -237,7 +240,8 @@ namespace SOAP.Controllers
             catch (Exception e)
             {
                 dict["success"] = false;
-                dict["error"] = e.Message;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
             }
             return Json(dict);
         }
@@ -322,9 +326,11 @@ namespace SOAP.Controllers
                 service.SaveDropdownValue(dropdown);
                 dict["success"] = true;
             }
-            catch
+            catch (Exception e)
             {
                 dict["success"] = false;
+                dict["message"] = e.Message;
+                dict["source"] = e.StackTrace;
             }
             return Json(dict);
         }

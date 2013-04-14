@@ -1,8 +1,8 @@
 ﻿var Patient = {
-    PatientInfo: { },
-    ClinicalFindings: { },
+    PatientInfo: {},
+    ClinicalFindings: {},
     Bloodwork: {},
-    AnestheticPlan: { PreMedications: [], InjectionPlan: {}, InhalantPlan: {} },
+    AnestheticPlan: { PreMedications: {}, InjectionPlan: {}, InhalantPlan: {} },
     Maintenance: {},
     Monitoring: []
 }
@@ -19,8 +19,6 @@ $(document).ready(function () {
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
     $("#Patient\\.Monitoring\\.Monitoring").multiselect({ header: "Monitoring" });
     $("#Patient\\.Monitoring\\.Monitoring").multiselect("uncheckAll");
-    // tooltip does not work for <option>
-    // $(document).tooltip();
 
     //Hide all tab content that are not active
     $('#thumbs a.not-active').each(function () {
@@ -58,17 +56,9 @@ $(document).ready(function () {
         else {
             //Register user
             var result = registerUser()
-            if (result == "success") {
-                //alert('Registration was succesful');
-                popupBox('Registration was succesful');
-                $("#register-div").slideUp('slow');
-            }
-            else {
-                //alert(result);
-                popupBox(result);
-            }
         }
     });
+
 
     $("#cancelRegister").click(function () {
         $("#register-div").slideUp('slow');
@@ -106,6 +96,7 @@ $(document).ready(function () {
     $("#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.Checked").click(function () {
         toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
     });
+
 });
 
 function ExportToPDF() {
@@ -186,34 +177,27 @@ function buildBloodwork() {
 }
 
 function buildAnestheticPlanPremeds() {
-    Patient.AnestheticPlan.PreMedications = [];
+    Patient.AnestheticPlan.PreMedications = { SedativeDrug: {}, OpioidDrug: {},  AnticholinergicDrug: {}};
     var route = $("#Patient\\.AnestheticPlan\\.PreMedications\\.Route").val();
+    Patient.AnestheticPlan.PreMedications.Route = { Id: route };
+
     var sedative = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDrug").val();
     var sedativeDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.SedativeDosage").val();
-    if (sedative || sedativeDosage) {
-        var sedativeObj = { Drug: { Id: sedative }, Route: { Id: route }, Dosage: sedativeDosage };
-        Patient.AnestheticPlan.PreMedications.push(sedativeObj);
-    }
+    Patient.AnestheticPlan.PreMedications.SedativeDrug = {Id: sedative};
+    Patient.AnestheticPlan.PreMedications.SedativeDosage = sedativeDosage;
 
     var oploid = $("#Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDrug").val();
     var oploidDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.OpioidDosage").val();
-    if (oploid || oploidDosage) {
-        var oploidObj = { Drug: { Id: oploid }, Route: { Id: route }, Dosage: oploidDosage };
-        Patient.AnestheticPlan.PreMedications.push(oploidObj);
-    }
+    Patient.AnestheticPlan.PreMedications.OpioidDrug = { Id: oploid};
+    Patient.AnestheticPlan.PreMedications.OpioidDosage = oploidDosage;
 
     var antichol = $("#Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDrug").val();
     var anticholDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.AnticholinergicDosage").val();
-    if (antichol || anticholDosage) {
-        var anticholObj = { Drug: { Id: antichol }, Route: { Id: route }, Dosage: anticholDosage };
-        Patient.AnestheticPlan.PreMedications.push(anticholObj);
-    }
+    Patient.AnestheticPlan.PreMedications.AnticholinergicDrug = {Id: antichol};
+    Patient.AnestheticPlan.PreMedications.AnticholinergicDosage = anticholDosage;
 
     var ketamineDosage = $("#Patient\\.AnestheticPlan\\.PreMedications\\.KetamineDosage").val();
-    if (ketamineDosage) {
-        var ketamineObj = { Drug: { Id: 183 }, Route: { Id: route }, Dosage: ketamineDosage };
-        Patient.AnestheticPlan.PreMedications.push(ketamineObj);
-    }
+    Patient.AnestheticPlan.PreMedications.KetamineDosage = ketamineDosage;
 }
 
 function buildInduction() {
@@ -314,7 +298,7 @@ function SaveForm() {
 
 function OpenForm(formId) {
     var pat = { PatientId: formId };
-    ajax('Post', 'GetPatient', JSON.stringify(pat), false)
+    ajax('Post', 'GetPatient', JSON.stringify(pat), true)
     .done(function (data) {
         if (data.success) {
             Patient = data.Patient;
@@ -422,27 +406,23 @@ function login(username, password) {
             $("#saved-forms-div").slideDown();
         });
 
-        DropdownCategories = GetAllDropdownCategories();
+        GetAllDropdownCategories();
 
         //Hides Admin tab if not admin
-
         if (!UserInformation.IsAdmin) {
             $("#thumbs a.admin").addClass("disabled");
         }
         else {
             getUsers();
-            PopulateAdminCategories();
         }
         //Stores username and password
         sessionStorage.username = username;
         sessionStorage.password = password;
 
-        populateAll();
         GetUserForms();
         return true;
     }
     else {
-        //alert('Validate User Failed');
         popupBox('Validate User Failed');
         return false;
     }
@@ -677,12 +657,13 @@ function hidePriorAnesthesia() {
 
 function GetAllDropdownCategories() {
     var dCats;
-    ajax('Post', 'GetAllDropdownCategories', '', false)
+    ajax('Post', 'GetAllDropdownCategories', '', true)
     .done(function (data) {
         if (data.success) {
-            dCats = data.DropdownCategories;
-        }
-        else {
+            DropdownCategories = data.DropdownCategories;
+            populateAll();
+            if (UserInformation.IsAdmin)
+                PopulateAdminCategories();
         }
     })
     .fail(function (data) {
@@ -705,7 +686,7 @@ function PopulateAdminCategories() {
 function PopulateAdminDropdownValues(idOfCat) {
     if (idOfCat != 0) {
         var obj = { Id: idOfCat };
-        ajax('Post', 'GetDropdownValues', JSON.stringify(obj), false)
+        ajax('Post', 'GetDropdownValues', JSON.stringify(obj), true)
         .done(function (data) {
             if (data.success) {
                 var values = data.DropdownValues;
@@ -716,38 +697,44 @@ function PopulateAdminDropdownValues(idOfCat) {
                     var id = values[i].Id;
                     var label = values[i].Label;
                     var desc = values[i].Description;
+                    var conc = values[i].Concentration;
+                    var dos = values[i].MaxDosage;
                     var labelInput = "<input type='text' id='" + id + "-label' value='" + label + "'/>";
                     var descInput = "<input type='text' id='" + id + "-desc' value='" + desc + "'/>";
+                    var concInput = "<input type='text' id='" + id + "-conc' value='" + conc + "'/>";
+                    var dosageInput = "<input type='text' id='" + id + "-dosage' value='" + dos + "'/>";
                     var deleteButton = "<input type='button' class='submit' onclick='removeDropdownValue(" + id + ")' value='Delete'/>";
-                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val())\" value='Edit'/>";
-                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
+                    var editButton = "<input type='button' class='submit' onclick=\"editDropdownValue(" + id + ", $('#" + id + "-label').val(), $('#" + id + "-desc').val(), $('#" + id + "-conc').val(), $('#" + id + "-dosage').val())\" value='Edit'/>";
+                    var row = "<tr><td>" + labelInput + "</td><td>" + descInput + "</td><td>" + concInput + "</td><td>" + dosageInput + "</td><td>" + deleteButton + "</td><td>" + editButton + "</td></tr>";
                     $("#dropdown-body").append(row);
                 }
                 //Row for adding new values
                 var newLabelInput = "<input type='text' id='new-label'/>";
                 var newDescInput = "<input type='text' id='new-desc'/>";
-                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val())' value='Add'/>";
-                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + addButton + "</td><td></td></tr>";
+                var newConcInput = "<input type='text' id='new-conc'/>";
+                var newDosageInput = "<input type='text' id='new-dosage'/>";
+                var addButton = "<input type='button' class='submit' onclick='addDropdownValue(" + idOfCat + ", $(\"#new-label\").val(),$(\"#new-desc\").val(),$(\"#new-conc\").val(),$(\"#new-dosage\").val())' value='Add'/>";
+                var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + newConcInput + "</td><td>" + newDosageInput + "</td><td>" + addButton + "</td><td></td></tr>";
                 $("#dropdown-body").append(newRow);
             }
             else
-                //alert("Clould not get drop down values");
             popupBox("Could not get drop down values");
         })
         .fail(function (data) {
-            //alert("Clould not get drop down values");
             popupBox("Could not get drop down values");
         });
     }
 }
 
 // edits a dropdown value's label and/or description
-function editDropdownValue(id, label, desc) {
+function editDropdownValue(id, label, desc, conc, dosage) {
     var returned;
     var dropdown = {
         Id: id,
         Label: label,
-        Description: desc + " "
+        Description: desc + " ",
+        Concentration: conc,
+        MaxDosage: dosage
         }
 
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
@@ -799,7 +786,6 @@ function validateUser(member, password) {
 }
 
 function registerUser() {
-    var returned = false;
     var pw1 = $("#password").val();
     var pw2 = $("#password-repeat").val();
     var userName = $.trim($("#username").val());
@@ -829,7 +815,7 @@ function registerUser() {
                 "Password": pwHash
             }
         };
-        ajax('Post', 'RegisterUser', JSON.stringify(ASFUser1), false)
+        ajax('Post', 'RegisterUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) {
                 returned = "success";
@@ -839,16 +825,17 @@ function registerUser() {
                 $("#full-name").val("");
                 sessionStorage.username = userName;
                 sessionStorage.password = pwHash;
+                popupBox('Registration was succesful');
+                $("#register-div").slideUp('slow');
             }
             else {
-                returned = "User could not be registered";
+                popupBox("User could not be registered");
             }
         })
         .fail(function (data) {
-            returned = "User could not be registered";
+            popupBox("User could not be registered");
         });
     }
-    return returned;
 }
 
 function getUsers() {
@@ -856,7 +843,7 @@ function getUsers() {
 
     $("#users").empty();
 
-    ajax('Post', 'GetUsers', '', false)
+    ajax('Post', 'GetUsers', '', true)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
@@ -902,7 +889,7 @@ function promoteUser(users) {
     for (var i = 0; i < users.length; i++) {
         var ASFUser1 = {
             "Username": users[i]
-        }/// <reference path="http://localhost/VSOAP/Scripts/" />
+        }
         ajax('Post', 'PromoteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
             if (data.success) 
@@ -926,19 +913,20 @@ function logOut() {
     //Reloads page
     location.reload();
 }
-
+//Toggle visibility of elements
 function toggleInputs(radioId, showIds, hideIds) {
+    //Check selected radio button
     radioId.attr('checked', 'checked');
     showInputs(showIds);
     hideInputs(hideIds);
 }
-
-//toggle visibilty for elements
+//Show array of elements
 function showInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
         $('#' + ids[i]).show('slow');
     }
 }
+//Hide array of elements
 function hideInputs(ids) {
     for (var i = 0; i < ids.length; i++) {
         $('#' + ids[i]).hide('slow');

@@ -419,9 +419,9 @@ namespace SOAP.Controllers
             return anesPlanInhalant;
         }
 
-        public List<AnestheticPlanPremedication> GetAnestheticPlanPremedication(int patientId, params AnestheticPlanPremedication.LazyComponents[] lazyComponents)
+        public AnestheticPlanPremedication GetAnestheticPlanPremedication(int patientId, params AnestheticPlanPremedication.LazyComponents[] lazyComponents)
         {
-            List<AnestheticPlanPremedication> anesPlanPremed = new List<AnestheticPlanPremedication>();
+            AnestheticPlanPremedication anesPlanPremed = new AnestheticPlanPremedication();
             using (SqlConnection conn = new SqlConnection(connString))
             {
 
@@ -433,13 +433,25 @@ namespace SOAP.Controllers
 
                 foreach (AnestheticPlanPremedication.LazyComponents a in lazyComponents)
                 {
-                    if (a == AnestheticPlanPremedication.LazyComponents.LOAD_DRUG_WITH_DETAILS)
+                    if (a == AnestheticPlanPremedication.LazyComponents.LOAD_SEDATIVE_DRUG_WITH_DETAILS)
                     {
                         sql += @", b.CategoryId as 'b.CategoryId', b.Label as 'b.Label', b.OtherFlag as 'b.OtherFlag', b.Description as 'b.Description',
                                     b.Concentration as 'b.Concentration', b.MaxDosage as 'b.MaxDosage' ";
-                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as b ON a.DrugId = b.Id ";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as b ON a.SedativeDrugId = b.Id ";
                     }
+                    else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_OPIOID_DRUG_WITH_DETAILS)
+                        {
+                            sql += @", d.CategoryId as 'd.CategoryId', d.Label as 'd.Label', d.OtherFlag as 'd.OtherFlag', d.Description as 'd.Description',
+                                    d.Concentration as 'd.Concentration', d.MaxDosage as 'd.MaxDosage' ";
+                            from += @" LEFT OUTER JOIN dbo.Dropdown_Types as d ON a.OpioidDrugId = d.Id ";
+                        }
 
+                    else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ANTICHOLINERGIC_DRUG_WITH_DETAILS)
+                    {
+                        sql += @", e.CategoryId as 'e.CategoryId', e.Label as 'e.Label', e.OtherFlag as 'e.OtherFlag', e.Description as 'e.Description',
+                                    e.Concentration as 'e.Concentration', e.MaxDosage as 'e.MaxDosage' ";
+                        from += @" LEFT OUTER JOIN dbo.Dropdown_Types as e ON a.AnticholinergicDrugId = e.Id ";
+                    }
                     else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ROUTE_WITH_DETAILS)
                     {
                         sql += @", c.CategoryId as 'c.CategoryId', c.Label as 'c.Label', c.OtherFlag as 'c.OtherFlag', c.Description as 'c.Description',
@@ -459,7 +471,7 @@ namespace SOAP.Controllers
                     SqlDataReader read = cmd.ExecuteReader();
                     while (read.Read())
                     {
-                        anesPlanPremed.Add(new AnestheticPlanPremedicationCallback().ProcessRow(read, lazyComponents));
+                        anesPlanPremed = new AnestheticPlanPremedicationCallback().ProcessRow(read, lazyComponents);
                     }
                 }
                 catch (Exception e)
@@ -1360,25 +1372,45 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"INSERT INTO dbo.Anesthetic_Plan_Premed (
-                            PatientId, DrugId, RouteId, Dosage
+                            PatientId, RouteId, SedativeDosage, SedativeDrugId, OpioidDosage, OpioidDrugId, AnticholinergicDrugId, AnticholinergicDosage, KetamineDosage
                             ) VALUES (
-                            @PatientId, @DrugId, @RouteId, @Dosage
+                            @PatientId, @RouteId, @SedativeDosage, @SedativeDrugId, @OpioidDosage, @OpioidDrugId, @AnticholinergicDrugId, @AnticholinergicDosage, @KetamineDosage
                             )";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = premed.PatientId;
-                if (premed.Drug.Id == -1)
-                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                if (premed.SedativeDrug.Id == -1)
+                    cmd.Parameters.Add("@SedativeDrugId", SqlDbType.Int).Value = DBNull.Value;
                 else
-                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
+                    cmd.Parameters.Add("@SedativeDrugId", SqlDbType.Int).Value = premed.SedativeDrug.Id;
+                if (premed.SedativeDosage == 0.0M)
+                    cmd.Parameters.Add("@SedativeDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@SedativeDosage", SqlDbType.Decimal).Value = premed.SedativeDosage;
+                if (premed.OpioidDosage == 0.0M)
+                    cmd.Parameters.Add("@OpioidDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OpioidDosage", SqlDbType.Decimal).Value = premed.OpioidDosage;
+                if (premed.OpioidDrug.Id == -1)
+                    cmd.Parameters.Add("@OpioidDrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OpioidDrugId", SqlDbType.Int).Value = premed.OpioidDrug.Id;
+                if (premed.AnticholinergicDrug.Id == -1)
+                    cmd.Parameters.Add("@AnticholinergicDrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@AnticholinergicDrugId", SqlDbType.Int).Value = premed.AnticholinergicDrug.Id;
+                if (premed.AnticholinergicDosage == 0.0M)
+                    cmd.Parameters.Add("@AnticholinergicDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@AnticholinergicDosage", SqlDbType.Decimal).Value = premed.AnticholinergicDosage;
+                if (premed.KetamineDosage == 0.0M)
+                    cmd.Parameters.Add("@KetamineDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@KetamineDosage", SqlDbType.Decimal).Value = premed.KetamineDosage;
                 if (premed.Route.Id == -1)
                     cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = premed.Route.Id;
-                if (premed.Dosage == 0.0M)
-                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = DBNull.Value;
-                else
-                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = premed.Dosage;
                 try
                 {
                     conn.Open();
@@ -2306,25 +2338,47 @@ namespace SOAP.Controllers
             int returnNum = 0;
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"UDPATE dbo.Anesthetic_Plan_Premed SET
-                            DrugId = @DrugId, RouteId = @RouteId, Dosage = @Dosage
+                string sql = @"UPDATE dbo.Anesthetic_Plan_Premed SET
+                            RouteId = @RouteId, SedativeDosage = @SedativeDosage, SedativeDrugId = @SedativeDrugId, OpioidDosage = @OpioidDosage,
+                            OpioidDrugId = @OpioidDrugId, AnticholinergicDosage = @AnticholinergicDosage, AnticholinergicDrugId = @AnticholinergicDrugId,
+                            KetamineDosage = @KetamineDosage
                             WHERE
                             PatientId = @PatientId";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@PatientId", SqlDbType.Int).Value = premed.PatientId;
-                if (premed.Drug.Id == -1)
-                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = DBNull.Value;
+                if (premed.SedativeDrug.Id == -1)
+                    cmd.Parameters.Add("@SedativeDrugId", SqlDbType.Int).Value = DBNull.Value;
                 else
-                    cmd.Parameters.Add("@DrugId", SqlDbType.Int).Value = premed.Drug.Id;
+                    cmd.Parameters.Add("@SedativeDrugId", SqlDbType.Int).Value = premed.SedativeDrug.Id;
+                if (premed.SedativeDosage == 0.0M)
+                    cmd.Parameters.Add("@SedativeDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@SedativeDosage", SqlDbType.Decimal).Value = premed.SedativeDosage;
+                if (premed.OpioidDosage == 0.0M)
+                    cmd.Parameters.Add("@OpioidDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OpioidDosage", SqlDbType.Decimal).Value = premed.OpioidDosage;
+                if (premed.OpioidDrug.Id == -1)
+                    cmd.Parameters.Add("@OpioidDrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@OpioidDrugId", SqlDbType.Int).Value = premed.OpioidDrug.Id;
+                if (premed.AnticholinergicDrug.Id == -1)
+                    cmd.Parameters.Add("@AnticholinergicDrugId", SqlDbType.Int).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@AnticholinergicDrugId", SqlDbType.Int).Value = premed.AnticholinergicDrug.Id;
+                if (premed.AnticholinergicDosage == 0.0M)
+                    cmd.Parameters.Add("@AnticholinergicDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@AnticholinergicDosage", SqlDbType.Decimal).Value = premed.AnticholinergicDosage;
+                if (premed.KetamineDosage == 0.0M)
+                    cmd.Parameters.Add("@KetamineDosage", SqlDbType.Decimal).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@KetamineDosage", SqlDbType.Decimal).Value = premed.KetamineDosage;
                 if (premed.Route.Id == -1)
                     cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@RouteId", SqlDbType.Decimal).Value = premed.Route.Id;
-                if (premed.Dosage == 0.0M)
-                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = DBNull.Value;
-                else
-                    cmd.Parameters.Add("@Dosage", SqlDbType.Decimal).Value = premed.Dosage;
                 try
                 {
                     conn.Open();
@@ -2626,16 +2680,25 @@ namespace SOAP.Controllers
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.Dropdown_Types SET
-                            Label = @Label, Description = @Description
+                            Label = @Label, Description = @Description, Concentration = @Concentration, MaxDosage = @MaxDosage
                             WHERE
                             Id = @Id";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = val.Id;
                 cmd.Parameters.Add("@Label", SqlDbType.NVarChar).Value = val.Label;
                 if (val.Description == null)
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = DBNull.Value;
                 else
                     cmd.Parameters.Add("@Description", SqlDbType.NVarChar).Value = val.Description;
+                if (val.MaxDosage == -1)
+                    cmd.Parameters.Add("@MaxDosage", SqlDbType.Float).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@MaxDosage", SqlDbType.Float).Value = val.MaxDosage;
+                if (val.Concentration == -1)
+                    cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = DBNull.Value;
+                else
+                    cmd.Parameters.Add("@Concentration", SqlDbType.Float).Value = val.Concentration;
                 try
                 {
                     conn.Open();
@@ -3795,7 +3858,9 @@ namespace SOAP.Controllers
 
         private string BuildAnestheticPlanPremedicationSQL()
         {
-            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.DrugId as 'a.DrugId', a.RouteId as 'a.RouteId', a.Dosage as 'a.Dosage' ";
+            return @"SELECT a.Id as 'a.Id', a.PatientId as 'a.PatientId', a.RouteId as 'a.RouteId', a.SedativeDosage as 'a.SedativeDosage', a.SedativeDrugId as 'a.SedativeDrugId',
+                a.OpioidDosage as 'a.OpioidDosage', a.OpioidDrugId as 'a.OpioidDrugId', a.AnticholinergicDosage as 'a.AnticholinergicDosage', a.AnticholinergicDrugId as 'a.AnticholinergicDrugId',
+                a.KetamineDosage as 'a.KetamineDosage'";
         }
 
         private string BuildBloodworkSQL()
