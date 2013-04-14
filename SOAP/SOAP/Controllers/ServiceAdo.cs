@@ -97,31 +97,24 @@ namespace SOAP.Controllers
             return singleUser;
         }
 
-        #endregion
-
-        #region READ
-
-        public bool CheckUserForForgotPassword(ASFUser user)
+        public string GetSecurityQuestion(string username)
         {
-            bool valToReturn = false;
+            string secQuest = "";
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = BuildASFUserSQL();
-                string from = @"FROM dbo.ASF_User as a ";
-                string where = @"WHERE a.Username = @Username AND a.Email = @Email ";
+                // If user has correct password, then select user database
+                string sql = @"SELECT SecurityQuestion FROM dbo.aspnet_Membership WHERE Username = @Username ";
 
-                sql = sql + from + where;
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user.Username;
-                cmd.Parameters.Add("@Email", SqlDbType.NVarChar).Value = user.EmailAddress;
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+
                 try
                 {
                     conn.Open();
-                    
                     SqlDataReader read = cmd.ExecuteReader();
                     while (read.Read())
                     {
-                        valToReturn = true;
+                        secQuest = read["SecurityQuestion"].ToString();
                     }
                 }
                 catch (Exception e)
@@ -132,10 +125,79 @@ namespace SOAP.Controllers
                 {
                     conn.Close();
                 }
-
             }
-            return valToReturn;
+            return secQuest;
         }
+
+        public bool CheckSecurityAnswer(string username, string answer)
+        {
+            bool valid = false;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                // If user has correct password, then select user database
+                string sql = @"SELECT SecurityAnswer FROM dbo.aspnet_Membership WHERE Username = @Username ";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        string actualAnswer = read["SecurityAnswer"].ToString();
+                        valid = (answer.Equals(actualAnswer));
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return valid;
+        }
+
+        public bool CheckPassword(string username, string password)
+        {
+            bool valid = false;
+            using (SqlConnection conn = new SqlConnection(connString))
+            {
+                // If user has correct password, then select user database
+                string sql = @"SELECT Password FROM dbo.aspnet_Membership WHERE Username = @Username ";
+
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = username;
+
+                try
+                {
+                    conn.Open();
+                    SqlDataReader read = cmd.ExecuteReader();
+                    while (read.Read())
+                    {
+                        string actualPassword = read["Password"].ToString();
+                        valid = (password.Equals(actualPassword));
+                    }
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+            }
+            return valid;
+        }
+
+        #endregion
+
+        #region READ
 
         public List<ASFUser> GetASFUsers()
         {
@@ -2316,20 +2378,19 @@ namespace SOAP.Controllers
             }
         }
 
-        public bool UpdateMembershipPassword(MembershipInfo member, string oldpassword)
+        public bool UpdateMembershipPassword(MembershipInfo member)
         {
             bool b = false;
             using (SqlConnection conn = new SqlConnection(connString))
             {
-                string sql = @"UPDATE dbo.Anesthetic_Plan_Premed SET
+                string sql = @"UPDATE dbo.aspnet_Membership SET
                             Password = @Password
                             WHERE
-                            Username = @Username AND Password = @OldPassword";
+                            Username = @Username ";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = member.Password;
                 cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
-                cmd.Parameters.Add("@OldPassword", SqlDbType.NVarChar).Value = oldpassword;
 
                 try
                 {
@@ -2349,9 +2410,8 @@ namespace SOAP.Controllers
             return b;
         }
 
-        public bool UpdateForgottenPassword(MembershipInfo member)
+        public void UpdateForgottenPassword(string user, string newPassword)
         {
-            bool b = false;
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 string sql = @"UPDATE dbo.aspnet_Membership SET
@@ -2360,14 +2420,13 @@ namespace SOAP.Controllers
                             Username = @Username";
 
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = member.Password;
-                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = member.Username;
+                cmd.Parameters.Add("@Password", SqlDbType.NVarChar).Value = newPassword;
+                cmd.Parameters.Add("@Username", SqlDbType.NVarChar).Value = user;
 
                 try
                 {
                     conn.Open();
-                    if (cmd.ExecuteNonQuery() > 0)
-                        b = true;
+                    cmd.ExecuteNonQuery();
                 }
                 catch (Exception e)
                 {
@@ -2378,7 +2437,6 @@ namespace SOAP.Controllers
                     conn.Close();
                 }
             }
-            return b;
         }
 
         public int UpdateBloodwork(Bloodwork blood, string bloodworkName, decimal bloodworkValue)

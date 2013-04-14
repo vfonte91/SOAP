@@ -19,6 +19,9 @@ namespace SOAP.Models
         private DateTime _failedPasswordAttemptWindowStart;
         private int _failedPasswordAnswerAttemptCount;
         private DateTime _failedPasswordAnswerAttemptWindowStart;
+        private string _securityQuestion;
+        private string _securityAnswer;
+        private string _oldPassword;
 
         public string Username
         {
@@ -102,6 +105,24 @@ namespace SOAP.Models
         {
             get { return _failedPasswordAnswerAttemptWindowStart; }
             set { _failedPasswordAnswerAttemptWindowStart = value; }
+        }
+
+        public string SecurityQuestion
+        {
+            get { return _securityQuestion; }
+            set { _securityQuestion = value; }
+        }
+
+        public string SecurityAnswer
+        {
+            get { return _securityAnswer; }
+            set { _securityAnswer = value; }
+        }
+
+        public string OldPassword
+        {
+            get { return _oldPassword; }
+            set { _oldPassword = value; }
         }
 
         public MembershipInfo()

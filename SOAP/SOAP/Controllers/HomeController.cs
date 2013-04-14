@@ -244,12 +244,28 @@ namespace SOAP.Controllers
         }
 
         [HttpPost]
-        public ActionResult CheckForgotPassword(ASFUser user)
+        public ActionResult GetSecurityQuestion(ASFUser user)
         {
             Dictionary<string, object> dict = new Dictionary<string, object>();
             try
             {
-                dict["success"] = service.CheckUserForForgotPassword(user);
+                dict["securityQuestion"] = service.GetSecurityQuestion(user.Username);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult CheckSecurityAnswer(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                dict["success"] = service.CheckSecurityAnswer(user.Username, user.Member.SecurityAnswer);
             }
             catch
             {
@@ -265,7 +281,25 @@ namespace SOAP.Controllers
             try
             {
                 user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
-                dict["success"] = service.SaveForgottenPassword(user);
+                service.ChangeForgottenPassword(user);
+                dict["success"] = true;
+            }
+            catch
+            {
+                dict["success"] = false;
+            }
+            return Json(dict);
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(ASFUser user)
+        {
+            Dictionary<string, object> dict = new Dictionary<string, object>();
+            try
+            {
+                user.Member.Password = PasswordHash.CreateHash(user.Member.Password);
+                service.ChangePassword(user, user.Member.OldPassword, user.Member.Password);
+                dict["success"] = true;
             }
             catch
             {

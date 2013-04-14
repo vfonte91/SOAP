@@ -26,22 +26,33 @@ namespace SOAP.Controllers
             return service.GetUser(user);
         }
 
-        public bool ChangePassword(ASFUser user, string oldpassword)
+        public bool ChangePassword(ASFUser user, string oldpassword, string newPassword)
         {
-            if (service.UpdateMembershipPassword(user.Member, oldpassword))
+            if (service.CheckPassword(user.Username, oldpassword))
+            {
+                user.Member.Password = newPassword;
+                service.UpdateMembershipPassword(user.Member);
                 return true;
+            }
             else
+            {
                 return false;
+            }
         }
 
-        public bool CheckUserForForgotPassword(ASFUser user)
+        public string GetSecurityQuestion(string user)
         {
-            return service.CheckUserForForgotPassword(user);
+            return service.GetSecurityQuestion(user);
         }
 
-        public bool SaveForgottenPassword(ASFUser user)
+        public bool CheckSecurityAnswer(string user, string answer)
         {
-            return service.UpdateForgottenPassword(user.Member);
+            return service.CheckSecurityAnswer(user, answer);
+        }
+
+        public void ChangeForgottenPassword(ASFUser user)
+        {
+            service.UpdateForgottenPassword(user.Username, user.Member.Password);
         }
 
         #endregion
