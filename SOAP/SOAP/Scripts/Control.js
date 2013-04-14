@@ -538,47 +538,52 @@ function forgotPass() {
         height: 400,
         modal: true,
         draggable: false,
-        buttons: [ { text: "Ok", click: securityCheck } ],
+        buttons: [{ text: "Ok", click: securityCheck}],
         open: function (event, ui) {
-            var textarea = $('<textarea style="height: 276px;">');
-            // getter
-
-
-            // getter
-
-
-            //$(this).html(textarea);
-
-            //$(textarea).redactor({ autoresize: false });
-
+            $("#usernameForgot").val("");
         }
     });
 }
 
 function securityCheck() {
-    var forgotUser = $("usernameForgot").val();
-    //JSON stuff
-    $("#forgot-password").dialog("close");
-        $("#security-Check").dialog({
-            width: 600,
-            height: 400,
-            modal: true,
-            draggable: false,
-            buttons: [{ text: "Submit", click: function () {
-                forgetClicked();
+    var forgotUser = $("#usernameForgot").val();
+    var foobarredUser = {
+        Username: forgotUser
+    };
+    ajax('Post', 'GetSecurityQuestion', JSON.stringify(foobarredUser), true)
+        .done(function (data) {
+            if (data.success) {
+                $("#securityQuestionCheck").val(data.securityQuestion);
+                $("#forgot-password").dialog("close");
+                $("#security-Check").dialog({
+                    width: 600,
+                    height: 400,
+                    modal: true,
+                    draggable: false,
+                    buttons: [{ text: "Submit", click: function () {
+                        forgetClicked();
+                    }
+                    }]
+                });
             }
-            }]
+        })
+        .fail(function (data) {
+
         });
-    }
+
+}
+    
 
 function forgetClicked() {
     var forgotUser = $("#usernameForgot").val();
-    var emailForgot = $("#emailForgot").val();
-    var ASFUser1 = {
+    var securityAnswer = $("#securityAnswerCheck").val();
+    var foobarUser = {
         Username: forgotUser,
-        EmailAddress: emailForgot
+        Member: {
+            SecurityAnswer: securityAnswer
+        }
     };
-    ajax('Post', 'CheckForgotPassword', JSON.stringify(ASFUser1), false)
+    ajax('Post', 'CheckSecurityAnswer', JSON.stringify(foobarUser), false)
     .done(function (data) {
 
         if (data.success) {
@@ -589,9 +594,9 @@ function forgetClicked() {
                     modal: true,
                     draggable: false,
                     buttons:[{text: "Submit", click: function(){
-                            ChangePassword(ASFUser1);
-                        }
-                        }]
+                        ChangePassword(foobarUser);
+                    }
+                    }]
                 });
         }
         else {
