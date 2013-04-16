@@ -73,11 +73,7 @@ $(document).ready(function () {
     });
 
     if (sessionStorage.username && sessionStorage.password) {
-        if (login(sessionStorage.username, sessionStorage.password)) {
-            if (sessionStorage.formId) {
-                OpenForm(sessionStorage.formId);
-            }
-        }
+        login(sessionStorage.username, sessionStorage.password)
     }
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
@@ -96,6 +92,10 @@ $(document).ready(function () {
         toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
     });
 
+});
+
+$(document).on('beforeunload', function () {
+    alert("Yo");
 });
 
 function ExportToPDF() {
@@ -305,6 +305,7 @@ function OpenForm(formId) {
             Patient = data.Patient;
             newPatient = false;
             var patient = data.Patient;
+            sessionStorage.formId = formId;
             for (var i in patient) {
                 if (patient.hasOwnProperty(i)) {
                     var section = patient[i];
@@ -345,10 +346,13 @@ function OpenForm(formId) {
                                         if ($input2.length) {
                                             if (input2 && input2.hasOwnProperty('Id'))
                                                 $input2.val(input2.Id);
-                                            else if (input2 && input2.Checked == true)
-                                                toggleInputs(input2, $input2.attr('show'), $input2.attr('hide'));
-                                            else if (input2 && input2.Checked == false)
-                                                $input2.attr('checked', '');
+                                            else if (q === "Checked" && input2 == true) {
+                                                //Toggle section for either Injection or Inhalant inputs
+                                                toggleInputs($input2, $input2.attr('show').split(","), $input2.attr('hide').split(","));
+                                                $input2.attr('checked', 'checked');
+                                            }
+                                            else if (q === "Checked" && input2 == false)
+                                                $input2.removeAttr('checked');
                                             else if (input2 != -1)
                                                 $input2.val(input2);
                                         }
@@ -360,15 +364,12 @@ function OpenForm(formId) {
                 }
             }
             popupBox('Form Successfully Loaded');
-            //alert('Form Successfully Loaded');
         }
         else {
-            //alert("Could not open form");
             popupBox("Could not open form");
         }
     })
     .fail(function (data) {
-        //alert("Could not open form");
         popupBox("Could not open form");
     });
 }
@@ -516,6 +517,7 @@ function populateAll() {
     populate(20, "Patient\\.Monitoring\\.Monitoring");
     $('#Patient\\.ClinicalFindings\\.AnesthesiaConcerns').multiselect("refresh");
     $('#Patient\\.Monitoring\\.Monitoring').multiselect("refresh");
+    return true;
 }
 
 function populate(id, name) {
@@ -658,7 +660,6 @@ function hidePriorAnesthesia() {
 }
 
 function GetAllDropdownCategories() {
-    var dCats;
     ajax('Post', 'GetAllDropdownCategories', '', true)
     .done(function (data) {
         if (data.success) {
@@ -667,11 +668,11 @@ function GetAllDropdownCategories() {
             if (UserInformation.IsAdmin)
                 PopulateAdminCategories();
         }
+        PopulateDone = true;
     })
     .fail(function (data) {
-
+        PopulateDone = true;
     });
-    return dCats;
 }
 
 //Populates dropdown category select box on the Admin page
@@ -720,10 +721,10 @@ function PopulateAdminDropdownValues(idOfCat) {
                 $("#dropdown-body").append(newRow);
             }
             else
-            popupBox("Could not get drop down values");
+            popupBox("Could not get drop-down values");
         })
         .fail(function (data) {
-            popupBox("Could not get drop down values");
+            popupBox("Could not get drop-down values");
         });
     }
 }
