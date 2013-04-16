@@ -13,7 +13,12 @@ namespace SOAP.Models.Callbacks
             anesPlanInject.Id = Convert.ToInt32(read["a.Id"]);
             anesPlanInject.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
             if (read["a.DrugId"].ToString() != "")
+            {
                 anesPlanInject.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+                anesPlanInject.Checked = true;
+            }
+            else
+                anesPlanInject.Checked = false;
             if (read["a.RouteId"].ToString() != "")
                 anesPlanInject.Route.Id = Convert.ToInt32(read["a.RouteId"].ToString());
             if (read["a.Dosage"].ToString() != "")

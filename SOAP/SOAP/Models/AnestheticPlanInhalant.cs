@@ -58,10 +58,10 @@ namespace SOAP.Models
             return ((_percentage != 0.0M || _flowRate != 0.0M) && _drug.Id != -1);
         }
 
-        public Boolean Cheked
+        public Boolean Checked
         {
             get { return _checked; }
-            set { _checked = true; }
+            set { _checked = value; }
         }
 
         public bool ValidateAnestheticPlanInhalant()
