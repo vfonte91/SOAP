@@ -993,18 +993,15 @@ function toolTipGenerate(id, name) {
             description = values[i].Description;
         }
     }
-    if(description != "") {
-        //alert(description);
+    if(description) {
         popupBox(description);
     } else {
-        //alert("No description avaliable");
-
         popupBox("No Description Avaliable");
     }
 }
 function calculateDosages() {
 
-    var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
+    var weight = $("#Patient\\.PatientInfo\\.BodyWeight").val();
 
     var dose;
     var dosage;
@@ -1130,6 +1127,7 @@ function specificCalculations(id, name, dosage) {
     return mL;
 
 }
+
 function popupBox(text) {
     $("#dialog-modal").dialog(
     {
@@ -1145,11 +1143,10 @@ function popupBox(text) {
     });
     $(".ui-dialog .ui-widget-content").css("background-color", "White");
     $(".ui-dialog .ui-dialog-titlebar").css("background-color", "Red");
+    $("#dialog-modal").text("");
     $("#dialog-modal").text(text);
-
-    //$("dialog-modal").dialog("open");
-    //alert("here");
 }
+
 function errorCheckAll() {
     var retVal = true;
     var check = errorCheckPatientInfo();
