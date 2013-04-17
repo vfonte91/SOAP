@@ -77,39 +77,32 @@ input[type=button] {
 {
     font-weight: bold;
     padding-top: 16px;
+    float: right;
+    width: 230px;
+    display: inline;
 }
-#user-info span
-{
-    color:#fff;
-    top: 10px;
-    right: 0px;
-    position: absolute;
-}
-
-
 #user-info a.edit-profile
 {
-    display: inline;    
+    display: inline;
+    background-image: url('../Images/arrow_down.png');
+    background-repeat: no-repeat;
+    background-position: 100% 40%; 
+    padding-right: 30px;
+    text-decoration: none;
+    color: #fff;
 }
 
 #user-info a.export
 {
-    display: inline;    
-}
-
-#user-info a.export span 
-{
+    display: inline;
+    float: right;
+    margin-right: 30px;
     background-image: url('../Images/export-icon.png');
     background-repeat: no-repeat;
+    padding: 10px;
 }
 
-#user-info a.edit-profile span {
-    background-image: url('../Images/arrow_down.png');
-    background-repeat: no-repeat;
-    background-position: 50% 40%;
-}
-
-#user-info a.edit-profile.menu-open span {
+#user-info a.edit-profile.menu-open {
     background-image:url("../Images/arrow_up.png");
 }
 
@@ -283,7 +276,7 @@ form div.input input[type=text]:focus, form div.input textarea:focus, form div.i
   border: 1px solid red;
 }
 
-form div.input input.forgot-password 
+form div.input input#forgotPassword 
 {
     margin-left: 35%; 
 }

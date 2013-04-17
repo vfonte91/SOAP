@@ -399,11 +399,13 @@ function GetUserForms() {
 function login(username, password) {
     //Validate user
     if (validateUser(username, password)) {
-        //Shows saved forms after login
+        //Shows saved forms, settings, and export button after login
         $("#user-info a.edit-profile").show("slide");
+        $("#user-info #export-button").show("slide");
         $("#thumbs a.disabled").show("drop");
         $("#thumbs a.disabled").removeClass("disabled");
         $("#user-info a.edit-profile").removeClass("disabled");
+        $("#user-info #export-button").removeClass("disabled");
         $("#login-div").slideUp(function () {
             $("#saved-forms-div").slideDown();
         });
