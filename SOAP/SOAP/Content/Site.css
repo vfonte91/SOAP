@@ -75,29 +75,39 @@ input[type=button] {
 }
 #user-info     
 {
-    float:right;
-    margin-top:20px;
     font-weight: bold;
+    padding-top: 16px;
 }
 #user-info span
 {
     color:#fff;
-	margin:15px;
+    top: 10px;
+    right: 0px;
+    position: absolute;
 }
+
 
 #user-info a.edit-profile
 {
-    display:none;    
+    display: inline;    
+}
+
+#user-info a.export
+{
+    display: inline;    
+}
+
+#user-info a.export span 
+{
+    background-image: url('../Images/export-icon.png');
+    background-repeat: no-repeat;
 }
 
 #user-info a.edit-profile span {
-    background-image:url('../Images/arrow_down.png');
-    background-repeat:no-repeat;
-    background-position:100% 40%;
-    padding:4px 30px 6px 0;
+    background-image: url('../Images/arrow_down.png');
+    background-repeat: no-repeat;
+    background-position: 50% 40%;
 }
-
-#user-info a.menu-open {}
 
 #user-info a.edit-profile.menu-open span {
     background-image:url("../Images/arrow_up.png");
@@ -271,6 +281,11 @@ form div.input textarea
 form div.input input[type=text]:focus, form div.input textarea:focus, form div.input input[type=password]:focus {
   box-shadow: 0 0 5px red;
   border: 1px solid red;
+}
+
+form div.input input.forgot-password 
+{
+    margin-left: 35%; 
 }
 
 form div.input select {
