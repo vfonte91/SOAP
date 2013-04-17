@@ -92,10 +92,10 @@ namespace SOAP.Models
             set { _breathingBagSize = value; }
         }
 
-        public Boolean Cheked
+        public Boolean Checked
         {
             get { return _checked; }
-            set { _checked = true; }
+            set { _checked = value; }
         }
 
         public bool ValidateMaintenanceInhalantDrug()

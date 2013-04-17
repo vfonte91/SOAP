@@ -66,10 +66,10 @@ namespace SOAP.Models
             return (_dose != 0.0M || _drug.Id != -1 || _dosage != 0.0M);
         }
 
-        public Boolean Cheked
+        public Boolean Checked
         {
             get { return _checked; }
-            set { _checked = true; }
+            set { _checked = value; }
         }
 
         public bool ValidateAnestheticPlanInjection()

@@ -24,7 +24,6 @@ namespace SOAP.Models
             _id = -1;
             _routeOfAdministration = new DropdownValue();
             _drug = new DropdownValue();
-            _checked = false;
         }
 
         public bool HasValues()
@@ -68,10 +67,10 @@ namespace SOAP.Models
             set { _drug = value; }
         }
 
-        public Boolean Cheked
+        public Boolean Checked
         {
             get { return _checked; }
-            set { _checked = true; }
+            set { _checked = value; }
         }
 
         public bool ValidateMaintenanceInjectionDrug()

@@ -12,7 +12,12 @@ namespace SOAP.Models.Callbacks
             maintInhalantDrug.Id = Convert.ToInt32(read["a.Id"]);
             maintInhalantDrug.PatientId = Convert.ToInt32(read["a.PatientId"].ToString());
             if (read["a.DrugId"].ToString() != "")
+            {
                 maintInhalantDrug.Drug.Id = Convert.ToInt32(read["a.DrugId"].ToString());
+                maintInhalantDrug.Checked = true;
+            }
+            else
+                maintInhalantDrug.Checked = false;
             if (read["a.InductionDose"].ToString() != "")
                 maintInhalantDrug.InductionPercentage = Convert.ToDecimal(read["a.InductionDose"].ToString());
             if (read["a.InductionOxygenFlowRate"].ToString() != "")
