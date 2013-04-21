@@ -282,6 +282,11 @@ form div.input input#forgotPassword
     margin-left: 35%; 
 }
 
+form div.input input#newFormButton 
+{
+    margin-left: 35%; 
+}
+
 form div.input select {
   border: 1px solid #DDDDDD;
   padding: 8px;
