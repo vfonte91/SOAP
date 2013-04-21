@@ -6,15 +6,11 @@
     Maintenance: {},
     Monitoring: []
 }
-
 var newPatient = true;
-
 var UserInformation = new Object();
-
 var DropdownCategories = new Object();
 
 $(document).ready(function () {
-
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect({ header: "Anesthetic Concerns" });
     $("#Patient\\.ClinicalFindings\\.AnesthesiaConcerns").multiselect("uncheckAll");
     $("#Patient\\.Monitoring\\.Monitoring").multiselect({ header: "Monitoring" });
@@ -41,7 +37,7 @@ $(document).ready(function () {
     $("#register").click(function () {
         if (!$("#register-div").is(":visible")) {
             $("#register-div").slideDown('slow');
-            document.getElementById("cancelRegister").style.visibility = "visible";
+            $("#cancelRegister").show();
         }
         else {
             //Register user
@@ -49,17 +45,22 @@ $(document).ready(function () {
         }
     });
 
-
     $("#cancelRegister").click(function () {
         $("#register-div").slideUp('slow');
-        document.getElementById("cancelRegister").style.visibility = "hidden";
+        $("#cancelRegister").hide();
     });
 
     $("#login").click(function () {
         var username = $.trim($("#username").val());
-        var password = $("#password").val();
-        var passwordHash = password.hashCode();
-        login(username, passwordHash);
+        var password = $("#password").val().hashCode();
+        login(username, password);
+    });
+
+    //for login, enter key works for pressing login button
+    $("#password").keyup(function (event) {
+        if (event.keyCode == 13) {
+            $("#login").click();
+        }
     });
 
     if (sessionStorage.username && sessionStorage.password) {
@@ -85,7 +86,6 @@ $(document).ready(function () {
     $("#Patient\\.Maintenance\\.MaintenanceInhalantDrug\\.Checked").click(function () {
         toggleInputs($(this), $(this).attr('show').split(","), $(this).attr('hide').split(","));
     });
-
 });
 
 function ExportToPDF() {
@@ -396,15 +396,20 @@ function OpenForm(formId) {
             Patient = data.Patient;
             newPatient = false;
             var patient = data.Patient;
-            sessionStorage.formId = formId;
+            //Iterate over all sections in patient
             for (var i in patient) {
                 if (patient.hasOwnProperty(i)) {
+                    //Monitoring is an array of object, which is different from the rest of the sections
                     if (i == "Monitoring" && patient[i].length > 0) {
                         var monitoring = patient[i];
+                        //Get multiselect inputs
                         var $options = $("#Patient\\.Monitoring\\.Monitoring").multiselect("widget").find(':checkbox');
+                        //Iterate over all selected inputs
                         for (var option in monitoring) {
+                            //Get Id for input
                             var optionId = monitoring[option].Equipment.Id;
                             $options.each(function () {
+                                //this.click() has to be used to simulate clicking option
                                 if (this.value == optionId) this.click();
                             });
                         }
@@ -417,19 +422,21 @@ function OpenForm(formId) {
                         for (var j in section) {
                             if (section.hasOwnProperty(j)) {
                                 var input = section[j];
+                                //Select input using Patient, what section the input is in, and name of input
                                 var $input = $('#Patient\\.' + i + '\\.' + j);
                                 if ($input.length) {
                                     var value = section[j];
                                     if (value && value.length && typeof value != 'string') {
-                                        var valArray = new Array();
-                                        for (var k = 0; k < value.length; k++) {
-                                            var temp1 = value[k];
-                                            for (var r in temp1) {
-                                                if (temp1[r] && temp1[r].hasOwnProperty('Id'))
-                                                    valArray.push(temp1[r].Id);
-                                            }
+                                        //Used for multiselect inputs, such as Anesthetic Concerns
+                                        var $multiselect = $input.multiselect("widget").find(':checkbox');
+                                        for (var option in value) {
+                                            //Get Concern Id for setting multiselct input
+                                            var optionId = value[option].Concern.Id;
+                                            $multiselect.each(function () {
+                                                //this.click() has to be used to simulate clicking option
+                                                if (this.value == optionId) this.click();
+                                            });
                                         }
-                                        $input.val(valArray);
                                     }
                                     else {
                                         if (value && value.hasOwnProperty('Id'))
@@ -469,6 +476,7 @@ function OpenForm(formId) {
                     }
                 }
             }
+            //Change page to Patient Info
             SwitchTabs($('#t2'));
         }
         else {
@@ -489,7 +497,6 @@ function GetUserForms() {
             forms.append('<option value="0"> - Select One - </option>');
             for (var i = 0; i < data.Forms.length; i++) {
                 var date = new Date(parseInt(data.Forms[i].PatientInfo.DateSeenOn.substr(6)));
-                //date = (date.getMonth() + 1) + '/' + date.getDate() + '/' + date.getFullYear() + ', ' + date.getHours() + ':' + date.getMinutes();
                 var e = '<option value="' + data.Forms[i].PatientId + '">' + date.toLocaleString() + '</option>';
                 forms.append(e);
             }
@@ -498,7 +505,6 @@ function GetUserForms() {
         }
     })
     .fail(function (data) {
-
     });
 }
 
@@ -647,10 +653,8 @@ function populate(id, name) {
 }
 
 function forgotPass() {
-
     //on forgot password button press, open dialog box
     $("#forgot-password").dialog({
-
         width: 600,
         height: 400,
         modal: true,
@@ -663,7 +667,6 @@ function forgotPass() {
 }
 
 function securityCheck() {
-
     //open dialog box with security question
     var forgotUser = $("#usernameForgot").val();
     var foobarredUser = {
@@ -687,14 +690,11 @@ function securityCheck() {
             }
         })
         .fail(function (data) {
-
         });
-
 }
 
 
 function forgetClicked() {
-
     //check password, open change password dialog box
     var forgotUser = $("#usernameForgot").val();
     var securityAnswer = $("#securityAnswerCheck").val();
@@ -704,9 +704,8 @@ function forgetClicked() {
             SecurityAnswer: securityAnswer
         }
     };
-    ajax('Post', 'CheckSecurityAnswer', JSON.stringify(foobarUser), false)
+    ajax('Post', 'CheckSecurityAnswer', JSON.stringify(foobarUser), true)
     .done(function (data) {
-
         if (data.success) {
          $("#security-Check").dialog("close");
                $("#change-password").dialog({
@@ -724,7 +723,6 @@ function forgetClicked() {
         }
     })
     .fail(function (data) {
-
     });
 }
 
@@ -759,8 +757,6 @@ function ChangePassword(user) {
 }
 
 function showPriorAnesthesia() {
-    //$('#Patient.ClinicalFindings.Date').css('visibility','visible');
-    //$('#Patient.ClinicalFindings.Problems').css('visibility', 'visible');
     $('#Patient.ClinicalFindings.Date').show();
     $('#Patient.ClinicalFindings.Problems').show();
 }
@@ -832,7 +828,7 @@ function PopulateAdminDropdownValues(idOfCat) {
                 $("#dropdown-body").append(newRow);
             }
             else
-            popupBox("Could not get drop-down values");
+                popupBox("Could not get drop-down values");
         })
         .fail(function (data) {
             popupBox("Could not get drop-down values");
@@ -843,13 +839,12 @@ function PopulateAdminDropdownValues(idOfCat) {
 // edits a dropdown value's label and/or description
 function editDropdownValue(id, label, desc, conc, dosage) {
     var dropdown = {
-        Id: id,
-        Label: label,
-        Description: desc + " ",
-        Concentration: conc,
-        MaxDosage: dosage
+            Id: id,
+            Label: label,
+            Description: desc + " ",
+            Concentration: conc,
+            MaxDosage: dosage
         }
-
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
             if (data.success) 
@@ -866,7 +861,6 @@ function deleteDropdownValue(id, CatId) {
     var dropdown = {
         Id: id
     }
-
     ajax('Post', 'DeleteDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
             if (data.success) {
@@ -890,7 +884,6 @@ function addDropdownValue(CatId, label, desc, conc, dosage) {
         MaxDosage: dosage,
         OtherFlag: "N"
     }
-
     ajax('Post', 'AddDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
             if (data.success) {
@@ -988,12 +981,10 @@ function getUsers() {
     var users;
 
     $("#users").empty();
-
     ajax('Post', 'GetUsers', '', true)
     .done(function (data) {
         if (data.succes) {
             users = data.users;
-
             for (var i = 0; i < users.length; i++) {
                 var name = users[i].FullName;
                 var username = users[i].Username;
@@ -1077,6 +1068,7 @@ function hideInputs(ids) {
     }
 }
 
+//Simple string has function used for encrypting password
 String.prototype.hashCode = function(){
 	var hash = 0;
 	if (this.length == 0) return hash;
@@ -1110,8 +1102,8 @@ function toolTipGenerate(id, name) {
         popupBox("No Description Avaliable");
     }
 }
-function calculateDosages() {
 
+function calculateDosages() {
     //get body weight
     var weight = $("#Patient\\.PatientInfo\\.BodyWeight").val();
 
@@ -1242,23 +1234,16 @@ function specificCalculations(id, name, dosage) {
     var mL = dose / concentration;
     mL = mL.toFixed(2);
     return mL;
-
 }
 
 function popupBox(text) {
-
     //open dialog box with correct text
     $("#dialog-modal").dialog(
     {
-
         width: 350,
         height: 200,
         title: "Notification",
-
-        open: function (event, ui) {
-
-        }
-
+        open: function (event, ui) {}
     });
     $(".ui-dialog .ui-widget-content").css("background-color", "White");
     $(".ui-dialog .ui-dialog-titlebar").css("background-color", "Red");
@@ -1267,7 +1252,6 @@ function popupBox(text) {
 }
 
 function errorCheckAll() {
-
     //error checking for each page, for each text box
     var retVal = true;
     var check = errorCheckPatientInfo();
@@ -1599,10 +1583,3 @@ function errorCheckMonitoring() {
 
     return retVal;
 }
-
-//for login, enter key works for pressing login button
-$("#password").keyup(function (event) {
-    if (event.keyCode == 13) {
-        $("#login").click();
-    }
-});

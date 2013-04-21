@@ -39,16 +39,14 @@
             <div class="input">
                 <input type="button" id="login" value="Login" class="submit left"/>
                 <input type="button" id="forgotPassword" value="Forgot Password" class = "forgot-password" onclick="forgotPass()"/>
-                <input type="button" id="cancelRegister" value="Cancel" class="submit" style="margin-left:18%; visibility:hidden" />
+                <input type="button" id="cancelRegister" value="Cancel" class="submit" style="margin-left:18%; display:none" />
                 <input type="button" id="register" value="Register" class="submit right"/>
 
             </div>
             <div id="forgot-password" title="Forgot Password" style="display: none;">
                     <label>Username:</label>
                     <input type="text" id="usernameForgot" />
-                    <p></p>  
-                    <!----<label>Email:</label>
-                    <input type="text" id="emailForgot" />--->
+                    <p></p>
             </div>
             <div id ="security-Check" title="Security Question Check" style="display:none;">
                 <label>Security Question</label>
@@ -66,7 +64,6 @@
             </div>
             <div id ="new-form" title="New Form?" style="display:none;">
                 <label>Are you sure you want to make a new form? All current values will be deleted</label>
-               
             </div>
         </form>
     </div>
