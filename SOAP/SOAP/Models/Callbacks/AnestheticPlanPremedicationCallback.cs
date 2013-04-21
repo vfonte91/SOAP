@@ -43,25 +43,25 @@ namespace SOAP.Models.Callbacks
                 }
                 else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_OPIOID_DRUG_WITH_DETAILS && anesPlanPremed.OpioidDrug.Id != -1)
                 {
-                    anesPlanPremed.OpioidDrug.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
-                    anesPlanPremed.OpioidDrug.Label = read["b.Label"].ToString();
-                    anesPlanPremed.OpioidDrug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
-                    anesPlanPremed.OpioidDrug.Description = read["b.Description"].ToString();
-                    if (read["b.Concentration"].ToString() != "")
-                        anesPlanPremed.OpioidDrug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
-                    if (read["b.MaxDosage"].ToString() != "")
-                        anesPlanPremed.OpioidDrug.MaxDosage = Convert.ToDecimal(read["b.MaxDosage"].ToString());
+                    anesPlanPremed.OpioidDrug.Category.Id = Convert.ToInt32(read["d.CategoryId"].ToString());
+                    anesPlanPremed.OpioidDrug.Label = read["d.Label"].ToString();
+                    anesPlanPremed.OpioidDrug.OtherFlag = Convert.ToChar(read["d.OtherFlag"].ToString());
+                    anesPlanPremed.OpioidDrug.Description = read["d.Description"].ToString();
+                    if (read["d.Concentration"].ToString() != "")
+                        anesPlanPremed.OpioidDrug.Concentration = Convert.ToDecimal(read["d.Concentration"].ToString());
+                    if (read["d.MaxDosage"].ToString() != "")
+                        anesPlanPremed.OpioidDrug.MaxDosage = Convert.ToDecimal(read["d.MaxDosage"].ToString());
                 }
                 else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ANTICHOLINERGIC_DRUG_WITH_DETAILS && anesPlanPremed.AnticholinergicDrug.Id != -1)
                 {
-                    anesPlanPremed.AnticholinergicDrug.Category.Id = Convert.ToInt32(read["b.CategoryId"].ToString());
-                    anesPlanPremed.AnticholinergicDrug.Label = read["b.Label"].ToString();
-                    anesPlanPremed.AnticholinergicDrug.OtherFlag = Convert.ToChar(read["b.OtherFlag"].ToString());
-                    anesPlanPremed.AnticholinergicDrug.Description = read["b.Description"].ToString();
-                    if (read["b.Concentration"].ToString() != "")
-                        anesPlanPremed.AnticholinergicDrug.Concentration = Convert.ToDecimal(read["b.Concentration"].ToString());
-                    if (read["b.MaxDosage"].ToString() != "")
-                        anesPlanPremed.AnticholinergicDrug.MaxDosage = Convert.ToDecimal(read["b.MaxDosage"].ToString());
+                    anesPlanPremed.AnticholinergicDrug.Category.Id = Convert.ToInt32(read["e.CategoryId"].ToString());
+                    anesPlanPremed.AnticholinergicDrug.Label = read["e.Label"].ToString();
+                    anesPlanPremed.AnticholinergicDrug.OtherFlag = Convert.ToChar(read["e.OtherFlag"].ToString());
+                    anesPlanPremed.AnticholinergicDrug.Description = read["e.Description"].ToString();
+                    if (read["e.Concentration"].ToString() != "")
+                        anesPlanPremed.AnticholinergicDrug.Concentration = Convert.ToDecimal(read["e.Concentration"].ToString());
+                    if (read["e.MaxDosage"].ToString() != "")
+                        anesPlanPremed.AnticholinergicDrug.MaxDosage = Convert.ToDecimal(read["e.MaxDosage"].ToString());
                 }
                 else if (a == AnestheticPlanPremedication.LazyComponents.LOAD_ROUTE_WITH_DETAILS && anesPlanPremed.Route.Id != -1)
                 {
