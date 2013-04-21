@@ -104,6 +104,7 @@ function SwitchTabs(tab) {
 }
 
 $(document).keydown(function (e) {
+    //if left arrow key press
     if (e.keyCode == 37) {
         var current = $("#thumbs a.active").attr('id');
         var currentId;
@@ -113,14 +114,18 @@ $(document).keydown(function (e) {
             currentId = current.charAt(1);
         }
         currentId = parseInt(currentId);
+
+        //shift one tab left
         currentId = currentId - 1;
+
+        //unless at extreme left tab already
         if (currentId < 1) {
             currentId = 1;
         }
         SwitchTabs($("#t" + currentId));
     }
+    //if right arrow key press
     if (e.keyCode == 39) {
-        debugger;
         var current = $("#thumbs a.active").attr('id');
         var currentId
         if (current.length == 3) {
@@ -129,7 +134,11 @@ $(document).keydown(function (e) {
             currentId = current.charAt(1);
         }
         currentId = parseInt(currentId);
+        
+        //shift one tab right
         currentId = currentId + 1;
+
+        //unless at extreme right tab, different for admin and student
         if (currentId > 10 && UserInformation.IsAdmin) {
             currentId = 10;
         } else if (currentId > 9 && !UserInformation.IsAdmin) {
@@ -555,6 +564,8 @@ function setProfileInfo() {
 }
 
 function populateAll() {
+    //populate all of the drop down values from the database
+
     populate(1, "Patient\\.PatientInfo\\.Procedure");
     populate(2, "Patient\\.PatientInfo\\.Temperament");
     populate(4, "Patient\\.PatientInfo\\.PreOperationPainAssessment");
@@ -609,6 +620,8 @@ function populate(id, name) {
 }
 
 function forgotPass() {
+
+    //on forgot password button press, open dialog box
     $("#forgot-password").dialog({
 
         width: 600,
@@ -623,6 +636,8 @@ function forgotPass() {
 }
 
 function securityCheck() {
+
+    //open dialog box with security question
     var forgotUser = $("#usernameForgot").val();
     var foobarredUser = {
         Username: forgotUser
@@ -649,9 +664,11 @@ function securityCheck() {
         });
 
 }
-    
+
 
 function forgetClicked() {
+
+    //check password, open change password dialog box
     var forgotUser = $("#usernameForgot").val();
     var securityAnswer = $("#securityAnswerCheck").val();
     var foobarUser = {
@@ -685,6 +702,7 @@ function forgetClicked() {
 }
 
 function ChangePassword(user) {
+    //change password
     var pw1 = $("#newPassword").val();
     var pw2 = $("#newPasswordAgain").val();
     if (pw1 == pw2) {
@@ -709,7 +727,6 @@ function ChangePassword(user) {
         });
     }
     else {
-        //alert('Passwords do not match');
         popupBox('Passwords do not match');
     }
 }
@@ -1046,10 +1063,14 @@ String.prototype.hashCode = function(){
 	return hash.toString();
 }
 function toolTipGenerate(id, name) {
+
+    //generate the tooltips on the button press
     var num = parseInt(id);
     num = num - 1;
     var cats = DropdownCategories;
     var values = cats[num].DropdownValues;
+
+    //get the description based on currently selected values
     var e = document.getElementById(name);
     var current = e.options[e.selectedIndex].text;
     var description;
@@ -1066,15 +1087,16 @@ function toolTipGenerate(id, name) {
 }
 function calculateDosages() {
 
+    //get body weight
     var weight = $("#Patient\\.PatientInfo\\.BodyWeight").val();
 
     var dose;
     var dosage;
     var cats = DropdownCategories;
     if (weight != "") {
-        //dosage = weight * dose;
         weight = parseFloat(weight);
 
+        //call the function with correct ids for the dropdown and dosage inputs
         var sed = specificCalculations(21, "Patient.AnestheticPlan.PreMedications.SedativeDrug", "Patient.AnestheticPlan.PreMedications.SedativeDosage");
         if (sed == null) {
             document.getElementById("Premed-Sedative-Dosage").innerHTML = "Unable to Calculate";
@@ -1134,6 +1156,7 @@ function calculateDosages() {
             document.getElementById("Maintenance-Injectable-Dosage").innerHTML = main + "mL";
         }
 
+        //calculating the emergency values based on pre-set equations
         var epi = .1 * weight;
         document.getElementById("Emergency-Epinephrine").innerHTML = epi + "mL";
 
@@ -1151,8 +1174,8 @@ function calculateDosages() {
 }
 
 function specificCalculations(id, name, dosage) {
+    // getting the inputted values
     var dosageVal = document.getElementById(dosage).value;
- 
     var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
     weight = parseFloat(weight);
     var num = parseInt(id);
@@ -1163,6 +1186,8 @@ function specificCalculations(id, name, dosage) {
     var current = e.options[e.selectedIndex].text;
     var concentration;
     var maxDose;
+
+    //getting the values related to the selected dropdown value
     for (var i = 0; i < values.length; i++) {
         if (values[i].Label == current) {
             concentration = values[i].Concentration;
@@ -1170,22 +1195,24 @@ function specificCalculations(id, name, dosage) {
         }
 
     }
+    //if there is no concentraion entered, unable to calculate values
     if (concentration == null) {
         return null;
-    } else if (concentration == "-1") {
+    } else if (concentration == "-1") { // if the concentraion is not set because dropdown value calls for something else
          return -1;
      }
-     if (dosageVal == "") {
+     if (dosageVal == "") { // if the dosage was not entered
          return "dose";
      }
-    if (maxDose != 0) {
-        if (maxDose < dosageVal) {
-            //alert("Alert: Dosage greater than max for " + current +", automatically altered");
+    if (maxDose != 0) {//if there is a max dose for selected value
+        if (maxDose < dosageVal) {//if the seleceted dosage is greater than the max allowed dosage
             popupBox("Dosage more than maximum allowed detected. Automatically reduced.");
             dosageVal = maxDose;
         }
     }
     dosageVal = parseFloat(dosageVal);
+
+    //calculate the correct medicine amounts
     var dose = dosageVal * weight;
     var mL = dose / concentration;
     mL = mL.toFixed(2);
@@ -1194,6 +1221,8 @@ function specificCalculations(id, name, dosage) {
 }
 
 function popupBox(text) {
+
+    //open dialog box with correct text
     $("#dialog-modal").dialog(
     {
 
@@ -1213,6 +1242,8 @@ function popupBox(text) {
 }
 
 function errorCheckAll() {
+
+    //error checking for each page, for each text box
     var retVal = true;
     var check = errorCheckPatientInfo();
     if (!check) {
@@ -1251,21 +1282,23 @@ function errorCheckAll() {
     return retVal;
 }
 function errorCheckPatientInfo() {
+
+    //generate correct popup box for specific error
     var retVal = true;
     var check = document.getElementById("Patient.PatientInfo.ProcedureOther").value;
-    if (check.length > 256) {
+    if (check.length > 256) {//check for max length
         popupBox("The string in Procedure Other is too long");
         retVal = false;
     }
 
     check = document.getElementById("Patient.PatientInfo.BodyWeight").value;
-    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {
+    if ((check.indexOf(".") != -1 && check.length > (check.indexOf(".") + 2)) || check.length > 5) {//check for correct format, length of 5 max, only 1 number after decimal point
         popupBox("The value in Body Weight is incorrectly formatted");
         retVal = false;
     }
 
     check = document.getElementById("Patient.PatientInfo.AgeInYears").value;
-    if (parseInt(check) > 127 || parseInt(check) < 0) {
+    if (parseInt(check) > 127 || parseInt(check) < 0) {//check for tinyInt values
         popupBox("The value in Age in Years is incorrectly formatted");
         retVal = false;
     }
@@ -1279,6 +1312,8 @@ function errorCheckPatientInfo() {
 }
 
 function errorCheckClinicalFindings() {
+
+    //more of the same
     var retVal = true;
 
     var check = document.getElementById("Patient.ClinicalFindings.Temperature").value;
@@ -1540,6 +1575,7 @@ function errorCheckMonitoring() {
     return retVal;
 }
 
+//for login, enter key works for pressing login button
 $("#password").keyup(function (event) {
     if (event.keyCode == 13) {
         $("#login").click();
