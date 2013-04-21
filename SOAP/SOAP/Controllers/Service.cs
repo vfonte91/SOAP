@@ -883,13 +883,13 @@ namespace SOAP.Controllers
                 Phrase DoseMg1 = new Phrase(" ");
                 Phrase DoseMl1 = new Phrase(" ");
 
-                Phrase Drug2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDrug.Id.ToString(), NinePointFont);
+                Phrase Drug2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDrug.Label, NinePointFont);
                 Phrase Route2 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
                 Phrase Dosage2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDosage.ToString());
                 Phrase DoseMg2 = new Phrase(" ");
                 Phrase DoseMl2 = new Phrase(" ");
 
-                Phrase Drug3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDrug.Id.ToString(), NinePointFont);
+                Phrase Drug3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDrug.Label, NinePointFont);
                 Phrase Route3 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
                 Phrase Dosage3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
                 Phrase DoseMg3 = new Phrase(" ");
