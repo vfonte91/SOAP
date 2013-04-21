@@ -796,7 +796,8 @@ namespace SOAP.Controllers
             //CALL SAVE FORM
             //CALL GET FORM
 
-            GetPatient(p.PatientId);
+            p=  GetPatient(p.PatientId);
+            string username = p.PatientInfo.Clinician.Username;
 
             #region PDF OUTPUT
 
@@ -805,11 +806,40 @@ namespace SOAP.Controllers
 
             MemoryStream memStream = new MemoryStream();
 
+
+            #region MONITORING LOOP
+
+            string MonitoringFullList = "";
+            foreach (Monitoring m in p.Monitoring)
+            {
+                MonitoringFullList += m.Equipment.Label;
+            }
+
+            #endregion
+
+
+
+            #region ANESTHESIA CONCERNS LOOP
+
+            //string AnesthesiaConcerns = "";
+            //foreach (AnesthesiaConcern a in p.ClinicalFindings)
+            //{
+            //    AnesthesiaConcerns += a.Concern.Label;
+            //}
+
+
+            #endregion
+
+
             try
             {
                 var imgpath = System.Web.HttpContext.Current.Server.MapPath("~/Images/Test.jpg");
-                var pdfpath = System.Web.HttpContext.Current.Server.MapPath("~/PDFs/SOAP.pdf");
+                var pdfpath = System.Web.HttpContext.Current.Server.MapPath(@"~/PDFs/"+username+"_SOAP.pdf");
+
+                Font FivePointFont = new Font(Font.NORMAL, 5f);
+                Font SevenPointFont = new Font(Font.NORMAL, 7f);
                 Font NinePointFont = new Font(Font.NORMAL, 9f);
+                Font ElevenPointFont = new Font(Font.NORMAL, 11f);
 
                 //PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream("../PDFs/SOAP.pdf", FileMode.Create));
                 PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(pdfpath, FileMode.Create));
@@ -827,83 +857,156 @@ namespace SOAP.Controllers
                 Phrase Anesthetist = new Phrase(p.PatientInfo.Student.Username);
 
 
+                #region top variables
 
                 Phrase Date = new Phrase(p.PatientInfo.ProcedureDate.ToString());
                 Phrase Clinician = new Phrase(p.PatientInfo.Clinician.Username);
                 Phrase Stall = new Phrase("");
-                Phrase Procedure = new Phrase(p.PatientInfo.Procedure.Category.ShortName);
+                Phrase Procedure = new Phrase(p.PatientInfo.Procedure.Label);
                 Phrase BodyWeight = new Phrase(p.PatientInfo.BodyWeight.ToString());
                 Phrase Age = new Phrase(p.PatientInfo.AgeInYears.ToString() + " years "+p.PatientInfo.AgeInMonths.ToString() + " months");
-                Phrase Temperament = new Phrase(p.PatientInfo.Temperament.Description);
+                Phrase Temperament = new Phrase(p.PatientInfo.Temperament.Label, NinePointFont);
 
                 Phrase Temp = new Phrase(p.ClinicalFindings.Temperature.ToString());
                 Phrase Pulse = new Phrase(p.ClinicalFindings.PulseRate.ToString());
                 Phrase Response = new Phrase(" ");
 
-                Phrase CardiacAuscultation = new Phrase(" ");
-                Phrase PulseQuality = new Phrase(" ");
-                Phrase MucousMembraneColor = new Phrase(" ");
-                Phrase CapillaryRefillTime = new Phrase(" ");
-                Phrase RespiratoryAuscultation = new Phrase(" ");
-                Phrase PhysicalStatusClassification = new Phrase(" ");
+                Phrase CardiacAuscultation = new Phrase(p.ClinicalFindings.CardiacAuscultation.Label, NinePointFont);
+                Phrase PulseQuality = new Phrase(p.ClinicalFindings.PulseQuality.Label, NinePointFont);
+                Phrase MucousMembraneColor = new Phrase(p.ClinicalFindings.MucousMembraneColor.Label, NinePointFont);
+                Phrase CapillaryRefillTime = new Phrase(p.ClinicalFindings.CapillaryRefillTime.Label, NinePointFont);
+                Phrase RespiratoryAuscultation = new Phrase(p.ClinicalFindings.RespiratoryAuscultation.Label, NinePointFont);
+                Phrase PhysicalStatusClassification = new Phrase(p.ClinicalFindings.PhysicalStatusClassification.Label, NinePointFont);
 
                 Phrase ReasonForClassification = new Phrase(p.ClinicalFindings.ReasonForClassification);
                 Phrase CurrentMedications = new Phrase(p.ClinicalFindings.CurrentMedications);
-                Phrase AnesthesiaConcerns = new Phrase(" ");
+                Phrase AnesthesiaConcerns = new Phrase("");
+
+                #endregion
 
 
                 Phrase Drug1 = new Phrase(p.AnestheticPlan.PreMedications.SedativeDrug.Label, NinePointFont);
-                Phrase Route1 = new Phrase("Route 1");
-                Phrase Dosage1 = new Phrase("Dosage 1");
-                Phrase DoseMg1 = new Phrase("DoseMg 1");
-                Phrase DoseMl1 = new Phrase("DoseMl 1");
+                Phrase Route1 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
+                Phrase Dosage1 = new Phrase(p.AnestheticPlan.PreMedications.SedativeDosage.ToString());
+                Phrase DoseMg1 = new Phrase(" ");
+                Phrase DoseMl1 = new Phrase(" ");
 
-                Phrase Injectable1 = new Phrase("Injectable 1");
+                Phrase Drug2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDrug.Id.ToString(), NinePointFont);
+                Phrase Route2 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
+                Phrase Dosage2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDosage.ToString());
+                Phrase DoseMg2 = new Phrase(" ");
+                Phrase DoseMl2 = new Phrase(" ");
 
-                Phrase MaintenaceInjectable = new Phrase("DRUG #5");
-                Phrase InhalantType = new Phrase("Drug X");
-                Phrase InhalantInductionPercent = new Phrase("90.84%");
-                Phrase InhalantMaintenancePercent = new Phrase("64.82%");
+                Phrase Drug3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDrug.Id.ToString(), NinePointFont);
+                Phrase Route3 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
+                Phrase Dosage3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
+                Phrase DoseMg3 = new Phrase(" ");
+                Phrase DoseMl3 = new Phrase(" ");
 
-                Phrase OxygenFlowRate = new Phrase("875.9876");
+
+#region INDUCTIONS
+
+
+
+                Phrase InductionDrug1 = new Phrase(p.AnestheticPlan.InhalantPlan.Drug.Label, NinePointFont);
+                Phrase InjectableRoute1 = new Phrase(p.AnestheticPlan.InjectionPlan.Route.Label);
+                Phrase InjectableDosage1 = new Phrase(p.AnestheticPlan.InhalantPlan.Drug.Label, NinePointFont);
+                Phrase InjectableDoseMg1 = new Phrase(" ");
+                Phrase InjectableDoseMl1 = new Phrase(" ");
+
+                Phrase InductionDrug2 = new Phrase("");//p.AnestheticPlan.InjectionPlan.Drug.Label, NinePointFont);
+                Phrase InductionRoute2 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
+                Phrase InductionDosage2 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
+                Phrase InductionDoseMg2 = new Phrase(" ");
+                Phrase InductionDoseM2 = new Phrase(" ");
+#endregion
+
+#region MAINTENANCE
+                Phrase Injectable1 = new Phrase(p.Maintenance.MaintenanceInjectionDrug.Drug.Label, NinePointFont);
+
+                Phrase MaintenaceInjectable = new Phrase(p.Maintenance.MaintenanceInjectionDrug.Drug.Label, NinePointFont);
+                Phrase MaintenanceInhalant = new Phrase(p.Maintenance.MaintenanceInhalantDrug.Drug.Label, NinePointFont);
+
+                Phrase MaintenanceInhalantInductionPercent = new Phrase("");//p.Maintenance.MaintenanceInhalantDrug.InductionPercentage.ToString);
+                //Phrase MaintenanceInhalantInductionPercent = new Phrase("");
+
+                Phrase OxygenFlowRate = new Phrase("");
 
                 Phrase BreathingSystem = new Phrase("x");
 
-                Phrase IntraoperativeAnalgesia = new Phrase("DRUG X, DRUG Y, DRUG Z.. . .");
-                Phrase OtherAnestheticDrugs = new Phrase(" DRUG A, DRUG B, DRUG C");
-                Phrase Monitoring = new Phrase("ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+                Phrase IntraoperativeAnalgesia = new Phrase(p.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Label);
+                Phrase OtherAnestheticDrugs = new Phrase(p.Maintenance.MaintenanceOther.OtherAnestheticDrug, NinePointFont);
+                Phrase Monitoring = new Phrase(MonitoringFullList, NinePointFont);
 
-                Phrase IVFluidType = new Phrase("IV TYPE X");
+                Phrase IVFluidType = new Phrase(p.Maintenance.MaintenanceOther.IVFluidType.Label, FivePointFont);
                 Phrase IVDoseMl1 = new Phrase("XX.XX");
                 Phrase IVDoseDrops1 = new Phrase("XXX");
 
-                Phrase MiniDrip = new Phrase("X");
-                Phrase MaxiDrip = new Phrase("X");
+                Phrase MiniDrip = new Phrase("");
+                Phrase MaxiDrip = new Phrase("");
 
-                Phrase PreOpPainAssessment = new Phrase("This is a new pre op pain assessment. . . . ");
-                Phrase PostOpPainAssessment = new Phrase("This is a new post op pain assessment. . .");
+                Phrase PreOpPainAssessment = new Phrase(p.PatientInfo.PreOperationPainAssessment.Label);
+                Phrase PostOpPainAssessment = new Phrase(p.PatientInfo.PostOperationPainAssessment.Label);
+#endregion
 
+                #region Small Drugs
+
+                
                 Phrase PVC = new Phrase(p.Bloodwork.PCV.ToString(), NinePointFont);
+                if (p.Bloodwork.PCV == -1) {PVC = new Phrase("0", NinePointFont); };
+
                 Phrase TP = new Phrase(p.Bloodwork.TP.ToString(), NinePointFont);
+                if (p.Bloodwork.TP == -1) { TP = new Phrase("0", NinePointFont); };
+
                 Phrase Alb = new Phrase(p.Bloodwork.Albumin.ToString(), NinePointFont);
+                if (p.Bloodwork.Albumin == -1) { Alb = new Phrase("0", NinePointFont); };
+
                 Phrase Glob = new Phrase(p.Bloodwork.Globulin.ToString(), NinePointFont);
+                if (p.Bloodwork.Globulin == -1) { Glob = new Phrase("0", NinePointFont); };
+
                 Phrase WBC = new Phrase(p.Bloodwork.WBC.ToString(), NinePointFont);
+                if (p.Bloodwork.WBC == -1) { WBC = new Phrase("0", NinePointFont); };
+
+
+
                 Phrase Na = new Phrase(p.Bloodwork.NA.ToString(), NinePointFont);
+                if (p.Bloodwork.NA == -1) { Na = new Phrase("0", NinePointFont); };
+
                 Phrase K = new Phrase(p.Bloodwork.K.ToString(), NinePointFont);
+                if (p.Bloodwork.K == -1) { K = new Phrase("0", NinePointFont); };
+
                 Phrase Cl = new Phrase(p.Bloodwork.Cl.ToString(), NinePointFont);
+                if (p.Bloodwork.Cl == -1) { Cl = new Phrase("0", NinePointFont); };
+
                 Phrase Ca = new Phrase(p.Bloodwork.Ca.ToString(), NinePointFont);
+                if (p.Bloodwork.Ca == -1) { Ca = new Phrase("0", NinePointFont); };
+
                 Phrase iCa = new Phrase(p.Bloodwork.iCa.ToString(), NinePointFont);
+                if (p.Bloodwork.iCa == -1) { iCa = new Phrase("0", NinePointFont); };
+
                 Phrase Glucose = new Phrase(p.Bloodwork.Glucose.ToString(), NinePointFont);
+                if (p.Bloodwork.Glucose == -1) { Glucose = new Phrase("0", NinePointFont); };
+
                 Phrase ALT = new Phrase(p.Bloodwork.ALT.ToString(), NinePointFont);
+                if (p.Bloodwork.ALT == -1) { ALT = new Phrase("0", NinePointFont); };
+
                 Phrase ALP = new Phrase(p.Bloodwork.ALP.ToString(), NinePointFont);
+                if (p.Bloodwork.ALP == -1) { ALP = new Phrase("0", NinePointFont); };
+
                 Phrase BUN = new Phrase(p.Bloodwork.BUN.ToString(), NinePointFont);
+                if (p.Bloodwork.BUN == -1) { BUN = new Phrase("0", NinePointFont); };
+
                 Phrase CREAT = new Phrase(p.Bloodwork.CREAT.ToString(), NinePointFont);
+                if (p.Bloodwork.CREAT == -1) { CREAT = new Phrase("0", NinePointFont); };
+
                 Phrase USG = new Phrase(p.Bloodwork.USG.ToString(), NinePointFont);
+                if (p.Bloodwork.USG == -1) { USG = new Phrase("0", NinePointFont); };
 
                 Phrase OtherProblems = new Phrase(p.Bloodwork.OtherType);
+
                 Phrase OtherAnesthesia = new Phrase(p.Bloodwork.OtherValue.ToString());
 
-
+                #endregion
 
 
 
@@ -996,41 +1099,42 @@ namespace SOAP.Controllers
                 ct.Go();  //DoseML
 
 
-                ct.SetSimpleColumn(Drug1, 95, 348, 200, 363, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(Drug2, 95, 348, 200, 363, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Drug
 
-                ct.SetSimpleColumn(Route1, 201, 348, 270, 363, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(Route2, 201, 348, 270, 363, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Route
 
-                ct.SetSimpleColumn(Dosage1, 271, 348, 385, 363, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(Dosage2, 271, 348, 385, 363, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Dosage
 
-                ct.SetSimpleColumn(DoseMg1, 385, 348, 455, 363, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(DoseMg2, 385, 348, 455, 363, 15, Element.ALIGN_LEFT);
                 ct.Go();  //DoseMG
 
-                ct.SetSimpleColumn(DoseMl1, 456, 348, 550, 363, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(DoseMl2, 456, 348, 550, 363, 15, Element.ALIGN_LEFT);
                 ct.Go();  //DoseML
 
-                ct.SetSimpleColumn(Drug1, 95, 333, 200, 348, 15, Element.ALIGN_LEFT);
-                ct.Go();  //Drug
 
-                ct.SetSimpleColumn(Route1, 201, 333, 270, 348, 15, Element.ALIGN_LEFT);
-                ct.Go();  //Route
+                ct.SetSimpleColumn(Drug3, 95, 333, 200, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug3
 
-                ct.SetSimpleColumn(Dosage1, 271, 333, 385, 348, 15, Element.ALIGN_LEFT);
-                ct.Go();  //Dosage
+                ct.SetSimpleColumn(Route3, 201, 333, 270, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Route3
 
-                ct.SetSimpleColumn(DoseMg1, 385, 333, 455, 348, 15, Element.ALIGN_LEFT);
-                ct.Go();  //DoseMG
+                ct.SetSimpleColumn(Dosage3, 271, 333, 385, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Dosage3
 
-                ct.SetSimpleColumn(DoseMl1, 456, 333, 550, 348, 15, Element.ALIGN_LEFT);
-                ct.Go();  //DoseML
+                ct.SetSimpleColumn(DoseMg3, 385, 333, 455, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseMG3
+
+                ct.SetSimpleColumn(DoseMl3, 456, 333, 550, 348, 15, Element.ALIGN_LEFT);
+                ct.Go();  //DoseML3
 
                 #endregion
 
-                #region INJECTABLES
+                #region INDUCTION
 
-                ct.SetSimpleColumn(Drug1, 95, 320, 200, 335, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(InductionDrug1, 95, 320, 200, 335, 15, Element.ALIGN_LEFT);
                 ct.Go();  //Drug
 
                 ct.SetSimpleColumn(Route1, 201, 320, 270, 335, 15, Element.ALIGN_LEFT);
@@ -1045,46 +1149,46 @@ namespace SOAP.Controllers
                 ct.SetSimpleColumn(DoseMl1, 456, 320, 550, 335, 15, Element.ALIGN_LEFT);
                 ct.Go();  //DoseML
 
-                ct.SetSimpleColumn(Drug1, 95, 305, 200, 320, 15, Element.ALIGN_LEFT);
-                ct.Go();  //Drug
+                ct.SetSimpleColumn(InductionDrug2, 95, 305, 200, 320, 15, Element.ALIGN_LEFT);
+                ct.Go();  //Drug2
 
                 ct.SetSimpleColumn(Route1, 201, 305, 270, 320, 15, Element.ALIGN_LEFT);
-                ct.Go();  //Route
+                ct.Go();  //Route2
 
                 ct.SetSimpleColumn(Dosage1, 271, 305, 385, 320, 15, Element.ALIGN_LEFT);
-                ct.Go();  //Dosage
+                ct.Go();  //Dosage2
 
                 ct.SetSimpleColumn(DoseMg1, 385, 305, 455, 320, 15, Element.ALIGN_LEFT);
                 ct.Go();  //DoseMG
 
                 ct.SetSimpleColumn(DoseMl1, 456, 305, 550, 320, 15, Element.ALIGN_LEFT);
-                ct.Go();  //DoseML
+                ct.Go();  //DoseML2
                 #endregion
 
                 #region MIDDLE HALF
 
-                ct.SetSimpleColumn(DoseMl1, 180, 295, 550, 310, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenaceInjectable, 180, 295, 550, 310, 15, Element.ALIGN_LEFT);
                 ct.Go();  //MaintenaceInjectable
 
-                ct.SetSimpleColumn(InhalantType, 180, 280, 275, 295, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenanceInhalant, 180, 280, 275, 295, 15, Element.ALIGN_LEFT);
                 ct.Go();  //InhalantType
 
-                ct.SetSimpleColumn(InhalantInductionPercent, 334, 280, 390, 295, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenanceInhalantInductionPercent, 334, 280, 390, 295, 15, Element.ALIGN_LEFT);
                 ct.Go();  //InhalantInductionPercent
 
-                ct.SetSimpleColumn(InhalantMaintenancePercent, 495, 280, 536, 295, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenanceInhalantInductionPercent, 495, 280, 536, 295, 15, Element.ALIGN_LEFT);
                 ct.Go();  //InhalantMaintenancePercent
 
                 ct.SetSimpleColumn(OxygenFlowRate, 210, 267, 275, 282, 15, Element.ALIGN_LEFT);
                 ct.Go();  //OxygenFlowRate
 
-                ct.SetSimpleColumn(InhalantInductionPercent, 334, 267, 390, 282, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenanceInhalantInductionPercent, 334, 267, 390, 282, 15, Element.ALIGN_LEFT);
                 ct.Go();  //InhalantInductionPercent
 
-                ct.SetSimpleColumn(InhalantMaintenancePercent, 495, 267, 536, 282, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenanceInhalantInductionPercent, 495, 267, 536, 282, 15, Element.ALIGN_LEFT);
                 ct.Go();  //InhalantMaintenancePercent
 
-                ct.SetSimpleColumn(InhalantMaintenancePercent, 495, 267, 536, 282, 15, Element.ALIGN_LEFT);
+                ct.SetSimpleColumn(MaintenanceInhalantInductionPercent, 495, 267, 536, 282, 15, Element.ALIGN_LEFT);
                 ct.Go();  //InhalantMaintenancePercent
 
                 #endregion
