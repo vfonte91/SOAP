@@ -401,13 +401,15 @@ function OpenForm(formId) {
                     if (i == "Monitoring") {
                         var monitoring = patient[i];
                         for (var option in monitoring) {
-                            var optionId = monitoring[option].Id;
+                            var optionId = monitoring[option].Equipment.Id;
                             var $option = $("#Patient\\.Monitoring\\.Monitoring").multiselect("widget").find(':checkbox');
                             $option.each(function () {
-                                if (this.value == optionId)
-                                    this.click();
+                                if (this.value == optionId) this.click();
                             });
                         }
+                        //value for Other Monitoring is always in the last element in the array
+                        var otherVal = monitoring[monitoring.length - 1].OtherEquipment;
+                        $("#Patient\\.Monitoring\\.OtherMonitoring").val(otherVal);
                     }
                     else {
                         var section = patient[i];
