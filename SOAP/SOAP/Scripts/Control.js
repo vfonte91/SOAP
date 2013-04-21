@@ -63,7 +63,11 @@ $(document).ready(function () {
     });
 
     if (sessionStorage.username && sessionStorage.password) {
-        login(sessionStorage.username, sessionStorage.password)
+        login(sessionStorage.username, sessionStorage.password);
+        if (sessionStorage.patientInfoTab == "true") {
+            SwitchTabs($("#t2"));
+            sessionStorage.patientInfoTab = "false";
+        }
     }
 
     $("#Patient\\.PatientInfo\\.ProcedureDate").datepicker();
@@ -308,6 +312,7 @@ function buildMonitoring() {
 
 function NewForm() {
     //Reloads page
+    sessionStorage.patientInfoTab = "true";
     location.reload();
 }
 
@@ -382,53 +387,66 @@ function OpenForm(formId) {
             sessionStorage.formId = formId;
             for (var i in patient) {
                 if (patient.hasOwnProperty(i)) {
-                    var section = patient[i];
-                    for (var j in section) {
-                        if (section.hasOwnProperty(j)) {
-                            var input = section[j];
-                            var $input = $('#Patient\\.' + i + '\\.' + j);
-                            if ($input.length) {
-                                var value = section[j];
-                                if (value && value.length && typeof value != 'string') {
-                                    var valArray = new Array();
-                                    for (var k = 0; k < value.length; k++) {
-                                        var temp1 = value[k];
-                                        for (var r in temp1) {
-                                            if (temp1[r] && temp1[r].hasOwnProperty('Id'))
-                                                valArray.push(temp1[r].Id);
-                                        }
-                                    }
-                                    $input.val(valArray);
-                                }
-                                else {
-                                    if (value && value.hasOwnProperty('Id'))
-                                        $input.val(value.Id);
-                                    else if (typeof value == 'string' && value.search(/date/i) != -1) {
-                                        var date = new Date(parseInt(value.substr(6)));
-                                        $input.val(date.toLocaleDateString());
-                                    }
-                                    else if (value != -1)
-                                        $input.val(value);
-                                }
-                            }
-                            //Needed for AnesthesiaPlan
-                            else {
-                                for (var q in input) {
-                                    if (input.hasOwnProperty(q)) {
-                                        var input2 = input[q];
-                                        var $input2 = $('#Patient\\.' + i + '\\.' + j + '\\.' + q);
-                                        if ($input2.length) {
-                                            if (input2 && input2.hasOwnProperty('Id'))
-                                                $input2.val(input2.Id);
-                                            else if (q === "Checked" && input2 == true) {
-                                                //Toggle section for either Injection or Inhalant inputs
-                                                toggleInputs($input2, $input2.attr('show').split(","), $input2.attr('hide').split(","));
-                                                $input2.attr('checked', 'checked');
+                    if (i == "Monitoring") {
+                        var monitoring = patient[i];
+                        for (var option in monitoring) {
+                            var optionId = monitoring[option].Id;
+                            var $option = $("#Patient\\.Monitoring\\.Monitoring").multiselect("widget").find(':checkbox');
+                            $option.each(function () {
+                                if (this.value == optionId)
+                                    this.click();
+                            });
+                        }
+                    }
+                    else {
+                        var section = patient[i];
+                        for (var j in section) {
+                            if (section.hasOwnProperty(j)) {
+                                var input = section[j];
+                                var $input = $('#Patient\\.' + i + '\\.' + j);
+                                if ($input.length) {
+                                    var value = section[j];
+                                    if (value && value.length && typeof value != 'string') {
+                                        var valArray = new Array();
+                                        for (var k = 0; k < value.length; k++) {
+                                            var temp1 = value[k];
+                                            for (var r in temp1) {
+                                                if (temp1[r] && temp1[r].hasOwnProperty('Id'))
+                                                    valArray.push(temp1[r].Id);
                                             }
-                                            else if (q === "Checked" && input2 == false)
-                                                $input2.removeAttr('checked');
-                                            else if (input2 != -1)
-                                                $input2.val(input2);
+                                        }
+                                        $input.val(valArray);
+                                    }
+                                    else {
+                                        if (value && value.hasOwnProperty('Id'))
+                                            $input.val(value.Id);
+                                        else if (typeof value == 'string' && value.search(/date/i) != -1) {
+                                            var date = new Date(parseInt(value.substr(6)));
+                                            $input.val(date.toLocaleDateString());
+                                        }
+                                        else if (value != -1)
+                                            $input.val(value);
+                                    }
+                                }
+                                //Needed for AnesthesiaPlan
+                                else {
+                                    for (var q in input) {
+                                        if (input.hasOwnProperty(q)) {
+                                            var input2 = input[q];
+                                            var $input2 = $('#Patient\\.' + i + '\\.' + j + '\\.' + q);
+                                            if ($input2.length) {
+                                                if (input2 && input2.hasOwnProperty('Id'))
+                                                    $input2.val(input2.Id);
+                                                else if (q === "Checked" && input2 == true) {
+                                                    //Toggle section for either Injection or Inhalant inputs
+                                                    toggleInputs($input2, $input2.attr('show').split(","), $input2.attr('hide').split(","));
+                                                    $input2.attr('checked', 'checked');
+                                                }
+                                                else if (q === "Checked" && input2 == false)
+                                                    $input2.removeAttr('checked');
+                                                else if (input2 != -1)
+                                                    $input2.val(input2);
+                                            }
                                         }
                                     }
                                 }
