@@ -28,17 +28,7 @@ $(document).ready(function () {
 
     // When a link is clicked
     $("#thumbs a").click(function () {
-        if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
-            // switch previous tabs off
-            var prevContent = $('a.active').attr('nav');
-            $("a.active").removeClass("active");
-            // switch this tab on
-            $(this).addClass("active");
-            var currentContent = $('a.active').attr('nav');
-            $('#' + prevContent).hide('slide', function () {
-                $('#' + currentContent).show('slide');
-            });
-        }
+        SwitchTabs($(this));
     });
 
     //Button to open Edit Profile drop down
@@ -100,6 +90,20 @@ $(document).on('beforeunload', function () {
 
 function ExportToPDF() {
     ajax('Post', 'Export', JSON.stringify(Patient), true);
+}
+
+function SwitchTabs(tab) {
+    if (!tab.hasClass('active') && !tab.hasClass('disabled')) {
+        // switch previous tabs off
+        var prevContent = $('a.active').attr('nav');
+        $("a.active").removeClass("active");
+        // switch this tab on
+       tab.addClass("active");
+        var currentContent = $('a.active').attr('nav');
+        $('#' + prevContent).hide('slide', function () {
+            $('#' + currentContent).show('slide');
+        });
+    }
 }
 
 function buildPatientInfo() {
@@ -363,7 +367,7 @@ function OpenForm(formId) {
                     }
                 }
             }
-            popupBox('Form Successfully Loaded');
+            SwitchTabs($('#t2'));
         }
         else {
             popupBox("Could not open form");
