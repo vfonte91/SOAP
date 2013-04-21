@@ -85,7 +85,8 @@ $(document).ready(function () {
 });
 
 function ExportToPDF() {
-    ajax('Post', 'Export', JSON.stringify(Patient), true);
+    SaveForm(true);
+    ajax('Post', "ExportToPdf", JSON.stringify(Patient), true);
 }
 
 function SwitchTabs(tab) {
@@ -310,7 +311,7 @@ function NewForm() {
     location.reload();
 }
 
-function SaveForm() {
+function SaveForm(sync) {
     if (errorCheckAll()) {
             Patient.PatientInfo.FormCompleted = 'N';
             buildAnestheticPlanPremeds();
@@ -327,7 +328,13 @@ function SaveForm() {
             else {
                 url = 'SaveForm'
             }
+            if (sync) {
+
+                ajax('Post', url, JSON.stringify(Patient), false)
+            }
+            else{
             ajax('Post', url, JSON.stringify(Patient), true)
+            }
         .done(function (data) {
             if (data.success) {
                 //Reload user form dropdown
