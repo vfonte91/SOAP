@@ -16,6 +16,7 @@ body
     margin: 0;
     padding: 0;
     background-color: rgb(129, 129, 129);
+    min-width: 1363px;
 }
 .center 
 {
@@ -277,6 +278,11 @@ form div.input input[type=text]:focus, form div.input textarea:focus, form div.i
 }
 
 form div.input input#forgotPassword 
+{
+    margin-left: 35%; 
+}
+
+form div.input input#newFormButton 
 {
     margin-left: 35%; 
 }

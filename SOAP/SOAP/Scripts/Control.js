@@ -28,17 +28,7 @@ $(document).ready(function () {
 
     // When a link is clicked
     $("#thumbs a").click(function () {
-        if (!$(this).hasClass('active') && !$(this).hasClass('disabled')) {
-            // switch previous tabs off
-            var prevContent = $('a.active').attr('nav');
-            $("a.active").removeClass("active");
-            // switch this tab on
-            $(this).addClass("active");
-            var currentContent = $('a.active').attr('nav');
-            $('#' + prevContent).hide('slide', function () {
-                $('#' + currentContent).show('slide');
-            });
-        }
+        SwitchTabs($(this));
     });
 
     //Button to open Edit Profile drop down
@@ -94,14 +84,60 @@ $(document).ready(function () {
 
 });
 
-$(document).on('beforeunload', function () {
-    alert("Yo");
-});
-
 function ExportToPDF() {
     SaveForm();
     ajax('Post', "ExportToPdf", JSON.stringify(Patient), true);
 }
+
+function SwitchTabs(tab) {
+    if (!tab.hasClass('active') && !tab.hasClass('disabled')) {
+        // switch previous tabs off
+        var prevContent = $('a.active').attr('nav');
+        $("a.active").removeClass("active");
+        // switch this tab on
+       tab.addClass("active");
+        var currentContent = $('a.active').attr('nav');
+        $('#' + prevContent).hide('slide', function () {
+            $('#' + currentContent).show('slide');
+        });
+    }
+}
+
+$(document).keydown(function (e) {
+    if (e.keyCode == 37) {
+        var current = $("#thumbs a.active").attr('id');
+        var currentId;
+        if (current.length == 3) {
+            currentId = 10;
+        } else {
+            currentId = current.charAt(1);
+        }
+        currentId = parseInt(currentId);
+        currentId = currentId - 1;
+        if (currentId < 1) {
+            currentId = 1;
+        }
+        SwitchTabs($("#t" + currentId));
+    }
+    if (e.keyCode == 39) {
+        debugger;
+        var current = $("#thumbs a.active").attr('id');
+        var currentId
+        if (current.length == 3) {
+            currentId = 10;
+        } else {
+            currentId = current.charAt(1);
+        }
+        currentId = parseInt(currentId);
+        currentId = currentId + 1;
+        if (currentId > 10 && UserInformation.IsAdmin) {
+            currentId = 10;
+        } else if (currentId > 9 && !UserInformation.IsAdmin) {
+            currentId = 9;
+        }
+        SwitchTabs($("#t" + currentId));
+    }
+});
 
 function buildPatientInfo() {
     var procedure = $('#Patient\\.PatientInfo\\.Procedure').val();
@@ -261,6 +297,11 @@ function buildMonitoring() {
     }
 }
 
+function NewForm() {
+    //Reloads page
+    location.reload();
+}
+
 function SaveForm() {
     if (errorCheckAll()) {
             Patient.PatientInfo.FormCompleted = 'N';
@@ -364,7 +405,7 @@ function OpenForm(formId) {
                     }
                 }
             }
-            popupBox('Form Successfully Loaded');
+            SwitchTabs($('#t2'));
         }
         else {
             popupBox("Could not open form");
@@ -994,18 +1035,15 @@ function toolTipGenerate(id, name) {
             description = values[i].Description;
         }
     }
-    if(description != "") {
-        //alert(description);
+    if(description) {
         popupBox(description);
     } else {
-        //alert("No description avaliable");
-
         popupBox("No Description Avaliable");
     }
 }
 function calculateDosages() {
 
-    var weight = document.getElementById("Patient.PatientInfo.BodyWeight").value;
+    var weight = $("#Patient\\.PatientInfo\\.BodyWeight").val();
 
     var dose;
     var dosage;
@@ -1131,6 +1169,7 @@ function specificCalculations(id, name, dosage) {
     return mL;
 
 }
+
 function popupBox(text) {
     $("#dialog-modal").dialog(
     {
@@ -1146,11 +1185,10 @@ function popupBox(text) {
     });
     $(".ui-dialog .ui-widget-content").css("background-color", "White");
     $(".ui-dialog .ui-dialog-titlebar").css("background-color", "Red");
+    $("#dialog-modal").text("");
     $("#dialog-modal").text(text);
-
-    //$("dialog-modal").dialog("open");
-    //alert("here");
 }
+
 function errorCheckAll() {
     var retVal = true;
     var check = errorCheckPatientInfo();
@@ -1478,3 +1516,9 @@ function errorCheckMonitoring() {
 
     return retVal;
 }
+
+$("#password").keyup(function (event) {
+    if (event.keyCode == 13) {
+        $("#login").click();
+    }
+});

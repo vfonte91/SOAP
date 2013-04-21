@@ -535,14 +535,6 @@ namespace SOAP.Controllers
             }
         }
 
-        //public void SaveCurrentMedications(List<CurrentMedication> meds)
-        //{
-        //    foreach (CurrentMedication c in meds)
-        //    {
-        //        service.UpdateCurrentMedication(c);
-        //    }
-        //}
-
         public void SavePriorAnesthesia(PriorAnesthesia priors)
         {
             if (service.UpdatePriorAnesthesia(priors) == 0)
