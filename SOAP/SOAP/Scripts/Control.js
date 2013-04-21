@@ -398,16 +398,16 @@ function OpenForm(formId) {
             sessionStorage.formId = formId;
             for (var i in patient) {
                 if (patient.hasOwnProperty(i)) {
-                    if (i == "Monitoring") {
+                    if (i == "Monitoring" && patient[i].length > 0) {
                         var monitoring = patient[i];
+                        var $options = $("#Patient\\.Monitoring\\.Monitoring").multiselect("widget").find(':checkbox');
                         for (var option in monitoring) {
                             var optionId = monitoring[option].Equipment.Id;
-                            var $option = $("#Patient\\.Monitoring\\.Monitoring").multiselect("widget").find(':checkbox');
-                            $option.each(function () {
+                            $options.each(function () {
                                 if (this.value == optionId) this.click();
                             });
                         }
-                        //value for Other Monitoring is always in the last element in the array
+                        //value for Other Monitoring is always in the last element of array
                         var otherVal = monitoring[monitoring.length - 1].OtherEquipment;
                         $("#Patient\\.Monitoring\\.OtherMonitoring").val(otherVal);
                     }
