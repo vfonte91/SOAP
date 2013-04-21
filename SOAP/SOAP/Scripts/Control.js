@@ -108,10 +108,12 @@ function SwitchTabs(tab) {
 }
 
 $(document).keydown(function (e) {
+    var current;
+    var currentId;
     //if left arrow key press
     if (e.keyCode == 37) {
-        var current = $("#thumbs a.active").attr('id');
-        var currentId;
+         current = $("#thumbs a.active").attr('id');
+         currentId;
         if (current.length == 3) {
             currentId = 10;
         } else {
@@ -130,15 +132,15 @@ $(document).keydown(function (e) {
     }
     //if right arrow key press
     if (e.keyCode == 39) {
-        var current = $("#thumbs a.active").attr('id');
-        var currentId
+         current = $("#thumbs a.active").attr('id');
+         currentId
         if (current.length == 3) {
             currentId = 10;
         } else {
             currentId = current.charAt(1);
         }
         currentId = parseInt(currentId);
-        
+
         //shift one tab right
         currentId = currentId + 1;
 
@@ -312,9 +314,23 @@ function buildMonitoring() {
 }
 
 function NewForm() {
+    $("#new-form").dialog({
+        width: 600,
+        height: 400,
+        modal: true,
+        draggable: false,
+        buttons: [{ text: "Yes", click: function () {
+            $("#new-form").dialog("close");
+            sessionStorage.patientInfoTab = "true";
+            location.reload();
+        }
+    }, { text: "Cancel", click: function () {
+            $("#new-form").dialog("close");
+        } 
+        }]
+    });
     //Reloads page
-    sessionStorage.patientInfoTab = "true";
-    location.reload();
+
 }
 
 function SaveForm(sync) {
@@ -339,20 +355,17 @@ function SaveForm(sync) {
                 ajax('Post', url, JSON.stringify(Patient), false)
                 .done(function (data) {
                     if (data.success) {
-                        //Reload user form dropdown
-                        //alert("Form saved");
+                        //Reload user form dropdown                    
                         Patient.PatientId = data.patientId;
                         popupBox("Form saved");
                         GetUserForms();
                     }
                     else {
-                        //alert("Error: Form could not be saved");
                         popupBox("Error: Form could not be saved");
                     }
                 })
         .fail(function (jqXHR, textStatus) {
             popupBox("Error: Form could not be saved");
-            //alert("Error: Form could not be saved");
         });
             }
             else{
@@ -360,18 +373,15 @@ function SaveForm(sync) {
             .done(function (data) {
             if (data.success) {
                 //Reload user form dropdown
-                //alert("Form saved");
                 popupBox("Form saved");
                 GetUserForms();
             }
             else {
-                //alert("Error: Form could not be saved");
                 popupBox("Error: Form could not be saved");
             }
         })
         .fail(function (jqXHR, textStatus) {
             popupBox("Error: Form could not be saved");
-            //alert("Error: Form could not be saved");
         });
             }
         
@@ -392,13 +402,15 @@ function OpenForm(formId) {
                     if (i == "Monitoring") {
                         var monitoring = patient[i];
                         for (var option in monitoring) {
-                            var optionId = monitoring[option].Id;
+                            var optionId = monitoring[option].Equipment.Id;
                             var $option = $("#Patient\\.Monitoring\\.Monitoring").multiselect("widget").find(':checkbox');
                             $option.each(function () {
-                                if (this.value == optionId)
-                                    this.click();
+                                if (this.value == optionId) this.click();
                             });
                         }
+                        //value for Other Monitoring is always in the last element in the array
+                        var otherVal = monitoring[monitoring.length - 1].OtherEquipment;
+                        $("#Patient\\.Monitoring\\.OtherMonitoring").val(otherVal);
                     }
                     else {
                         var section = patient[i];
@@ -542,12 +554,10 @@ function editUserInformation() {
                 $("#edit-profile-button").toggleClass("menu-close");
             }
             else {
-                //alert('Error updating User Info');
                 popupBox('Error updating User Info');
             }
         })
         .fail(function (data) {
-            //alert('Error updating User Info');
             popupBox('Error updating User Info');
         });
     if (currentPass && newPass1 && newPass2) {
@@ -559,16 +569,13 @@ function editUserInformation() {
                 if (data.success) {
                     $("#profile-menu").slideToggle("slow")
                     $("#edit-profile-button").toggleClass("menu-close");
-                    //alert('User Info Updated');
                     popupBox('User Info Updated');
                 }
                 else {
-                    //alert('Error updating User Info');
                     popupBox('Current password is not correct');
                 }
             })
             .fail(function (data) {
-                //alert('Error updating User Info');
                 popupBox('Error updating User Info');
             });
         }
@@ -1019,7 +1026,6 @@ function deleteUser(users) {
             });
     }
     getUsers();
-    //alert(returned);
     popupBox(returned);
 }
 
@@ -1040,7 +1046,6 @@ function promoteUser(users) {
             returned += "Error: " + users[i] + " could not be promoted. ";
         });
     }
-    //alert(returned);
     popupBox(returned);
 }
 
