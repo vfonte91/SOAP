@@ -84,10 +84,6 @@ $(document).ready(function () {
 
 });
 
-$(document).on('beforeunload', function () {
-    alert("Yo");
-});
-
 function ExportToPDF() {
     ajax('Post', 'Export', JSON.stringify(Patient), true);
 }
@@ -262,6 +258,11 @@ function buildMonitoring() {
         var val = { OtherEquipment: otherValue };
         Patient.Monitoring.push(val);
     }
+}
+
+function NewForm() {
+    //Reloads page
+    location.reload();
 }
 
 function SaveForm() {
@@ -1478,3 +1479,9 @@ function errorCheckMonitoring() {
 
     return retVal;
 }
+
+$("#password").keyup(function (event) {
+    if (event.keyCode == 13) {
+        $("#login").click();
+    }
+});
