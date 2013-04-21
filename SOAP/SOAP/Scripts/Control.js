@@ -1474,3 +1474,9 @@ function errorCheckMonitoring() {
 
     return retVal;
 }
+
+$("#password").keyup(function (event) {
+    if (event.keyCode == 13) {
+        $("#login").click();
+    }
+});
