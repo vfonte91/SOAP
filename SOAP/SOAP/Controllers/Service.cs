@@ -650,11 +650,9 @@ namespace SOAP.Controllers
         public void SaveMonitoring(Patient pat)
         {
             service.DeleteMonitoring(pat.PatientId);
-            foreach (Monitoring m in pat.Monitoring)
-            {
+            foreach (Monitoring m in pat.Monitoring) {
                 m.PatientId = pat.PatientId;
-                if (service.UpdateMonitoring(m) == 0)
-                    service.CreateMonitoring(m);
+                service.CreateMonitoring(m);
             }
         }
 

@@ -294,6 +294,7 @@ function buildMaintenance() {
 
 function buildMonitoring() {
     var monitorValues = $("#Patient\\.Monitoring\\.Monitoring").multiselect("getChecked");
+    Patient.Monitoring = [];
     for (var i = 0; i < monitorValues.length; i++) {
         var idOfVal = monitorValues[i].getAttribute("value");
         var val = { Equipment: { Id: idOfVal} };
