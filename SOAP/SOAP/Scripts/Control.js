@@ -106,6 +106,42 @@ function SwitchTabs(tab) {
     }
 }
 
+$(document).keydown(function (e) {
+    if (e.keyCode == 37) {
+        var current = $("#thumbs a.active").attr('id');
+        var currentId;
+        if (current.length == 3) {
+            currentId = 10;
+        } else {
+            currentId = current.charAt(1);
+        }
+        currentId = parseInt(currentId);
+        currentId = currentId - 1;
+        if (currentId < 1) {
+            currentId = 1;
+        }
+        SwitchTabs($("#t" + currentId));
+    }
+    if (e.keyCode == 39) {
+        debugger;
+        var current = $("#thumbs a.active").attr('id');
+        var currentId
+        if (current.length == 3) {
+            currentId = 10;
+        } else {
+            currentId = current.charAt(1);
+        }
+        currentId = parseInt(currentId);
+        currentId = currentId + 1;
+        if (currentId > 10 && UserInformation.IsAdmin) {
+            currentId = 10;
+        } else if (currentId > 9 && !UserInformation.IsAdmin) {
+            currentId = 9;
+        }
+        SwitchTabs($("#t" + currentId));
+    }
+});
+
 function buildPatientInfo() {
     var procedure = $('#Patient\\.PatientInfo\\.Procedure').val();
     var otherProcedure = $('#Patient\\.PatientInfo\\.ProcedureOther').val();
