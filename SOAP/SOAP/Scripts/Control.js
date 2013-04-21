@@ -322,11 +322,26 @@ function SaveForm(sync) {
             if (sync) {
 
                 ajax('Post', url, JSON.stringify(Patient), false)
+                .done(function (data) {
+                    if (data.success) {
+                        //Reload user form dropdown
+                        //alert("Form saved");
+                        popupBox("Form saved");
+                        GetUserForms();
+                    }
+                    else {
+                        //alert("Error: Form could not be saved");
+                        popupBox("Error: Form could not be saved");
+                    }
+                })
+        .fail(function (jqXHR, textStatus) {
+            popupBox("Error: Form could not be saved");
+            //alert("Error: Form could not be saved");
+        });
             }
             else{
-            ajax('Post', url, JSON.stringify(Patient), true)
-            }
-        .done(function (data) {
+                ajax('Post', url, JSON.stringify(Patient), true)
+            .done(function (data) {
             if (data.success) {
                 //Reload user form dropdown
                 //alert("Form saved");
@@ -342,6 +357,8 @@ function SaveForm(sync) {
             popupBox("Error: Form could not be saved");
             //alert("Error: Form could not be saved");
         });
+            }
+        
     } 
 }
 

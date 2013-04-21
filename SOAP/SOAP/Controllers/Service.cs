@@ -788,8 +788,8 @@ namespace SOAP.Controllers
             //CALL SAVE FORM
             //CALL GET FORM
 
-            p=  GetPatient(p.PatientId);
-            string username = p.PatientInfo.Clinician.Username;
+            Patient gottenP=  GetPatient(p.PatientId);
+            string username = gottenP.PatientInfo.Clinician.Username;
 
             #region PDF OUTPUT
 
@@ -802,7 +802,7 @@ namespace SOAP.Controllers
             #region MONITORING LOOP
 
             string MonitoringFullList = "";
-            foreach (Monitoring m in p.Monitoring)
+            foreach (Monitoring m in gottenP.Monitoring)
             {
                 MonitoringFullList += m.Equipment.Label;
             }
@@ -846,52 +846,52 @@ namespace SOAP.Controllers
                 PdfContentByte cb = writer.DirectContent;
                 ColumnText ct = new ColumnText(cb);
 
-                Phrase Anesthetist = new Phrase(p.PatientInfo.Student.Username);
+                Phrase Anesthetist = new Phrase(gottenP.PatientInfo.Student.Username);
 
 
                 #region top variables
 
-                Phrase Date = new Phrase(p.PatientInfo.ProcedureDate.ToString());
-                Phrase Clinician = new Phrase(p.PatientInfo.Clinician.Username);
+                Phrase Date = new Phrase(gottenP.PatientInfo.ProcedureDate.ToString());
+                Phrase Clinician = new Phrase(gottenP.PatientInfo.Clinician.Username);
                 Phrase Stall = new Phrase("");
-                Phrase Procedure = new Phrase(p.PatientInfo.Procedure.Label);
-                Phrase BodyWeight = new Phrase(p.PatientInfo.BodyWeight.ToString());
-                Phrase Age = new Phrase(p.PatientInfo.AgeInYears.ToString() + " years "+p.PatientInfo.AgeInMonths.ToString() + " months");
-                Phrase Temperament = new Phrase(p.PatientInfo.Temperament.Label, NinePointFont);
+                Phrase Procedure = new Phrase(gottenP.PatientInfo.Procedure.Label);
+                Phrase BodyWeight = new Phrase(gottenP.PatientInfo.BodyWeight.ToString());
+                Phrase Age = new Phrase(gottenP.PatientInfo.AgeInYears.ToString() + " years "+gottenP.PatientInfo.AgeInMonths.ToString() + " months");
+                Phrase Temperament = new Phrase(gottenP.PatientInfo.Temperament.Label, NinePointFont);
 
-                Phrase Temp = new Phrase(p.ClinicalFindings.Temperature.ToString());
-                Phrase Pulse = new Phrase(p.ClinicalFindings.PulseRate.ToString());
+                Phrase Temp = new Phrase(gottenP.ClinicalFindings.Temperature.ToString());
+                Phrase Pulse = new Phrase(gottenP.ClinicalFindings.PulseRate.ToString());
                 Phrase Response = new Phrase(" ");
 
-                Phrase CardiacAuscultation = new Phrase(p.ClinicalFindings.CardiacAuscultation.Label, NinePointFont);
-                Phrase PulseQuality = new Phrase(p.ClinicalFindings.PulseQuality.Label, NinePointFont);
-                Phrase MucousMembraneColor = new Phrase(p.ClinicalFindings.MucousMembraneColor.Label, NinePointFont);
-                Phrase CapillaryRefillTime = new Phrase(p.ClinicalFindings.CapillaryRefillTime.Label, NinePointFont);
-                Phrase RespiratoryAuscultation = new Phrase(p.ClinicalFindings.RespiratoryAuscultation.Label, NinePointFont);
-                Phrase PhysicalStatusClassification = new Phrase(p.ClinicalFindings.PhysicalStatusClassification.Label, NinePointFont);
+                Phrase CardiacAuscultation = new Phrase(gottenP.ClinicalFindings.CardiacAuscultation.Label, NinePointFont);
+                Phrase PulseQuality = new Phrase(gottenP.ClinicalFindings.PulseQuality.Label, NinePointFont);
+                Phrase MucousMembraneColor = new Phrase(gottenP.ClinicalFindings.MucousMembraneColor.Label, NinePointFont);
+                Phrase CapillaryRefillTime = new Phrase(gottenP.ClinicalFindings.CapillaryRefillTime.Label, NinePointFont);
+                Phrase RespiratoryAuscultation = new Phrase(gottenP.ClinicalFindings.RespiratoryAuscultation.Label, NinePointFont);
+                Phrase PhysicalStatusClassification = new Phrase(gottenP.ClinicalFindings.PhysicalStatusClassification.Label, NinePointFont);
 
-                Phrase ReasonForClassification = new Phrase(p.ClinicalFindings.ReasonForClassification);
-                Phrase CurrentMedications = new Phrase(p.ClinicalFindings.CurrentMedications);
+                Phrase ReasonForClassification = new Phrase(gottenP.ClinicalFindings.ReasonForClassification);
+                Phrase CurrentMedications = new Phrase(gottenP.ClinicalFindings.CurrentMedications);
                 Phrase AnesthesiaConcerns = new Phrase("");
 
                 #endregion
 
 
-                Phrase Drug1 = new Phrase(p.AnestheticPlan.PreMedications.SedativeDrug.Label, NinePointFont);
-                Phrase Route1 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
-                Phrase Dosage1 = new Phrase(p.AnestheticPlan.PreMedications.SedativeDosage.ToString());
+                Phrase Drug1 = new Phrase(gottenP.AnestheticPlan.PreMedications.SedativeDrug.Label, NinePointFont);
+                Phrase Route1 = new Phrase(gottenP.AnestheticPlan.PreMedications.Route.Label);
+                Phrase Dosage1 = new Phrase(gottenP.AnestheticPlan.PreMedications.SedativeDosage.ToString());
                 Phrase DoseMg1 = new Phrase(" ");
                 Phrase DoseMl1 = new Phrase(" ");
 
-                Phrase Drug2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDrug.Label, NinePointFont);
-                Phrase Route2 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
-                Phrase Dosage2 = new Phrase(p.AnestheticPlan.PreMedications.OpioidDosage.ToString());
+                Phrase Drug2 = new Phrase(gottenP.AnestheticPlan.PreMedications.OpioidDrug.Label, NinePointFont);
+                Phrase Route2 = new Phrase(gottenP.AnestheticPlan.PreMedications.Route.Label);
+                Phrase Dosage2 = new Phrase(gottenP.AnestheticPlan.PreMedications.OpioidDosage.ToString());
                 Phrase DoseMg2 = new Phrase(" ");
                 Phrase DoseMl2 = new Phrase(" ");
 
-                Phrase Drug3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDrug.Label, NinePointFont);
-                Phrase Route3 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
-                Phrase Dosage3 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
+                Phrase Drug3 = new Phrase(gottenP.AnestheticPlan.PreMedications.AnticholinergicDrug.Label, NinePointFont);
+                Phrase Route3 = new Phrase(gottenP.AnestheticPlan.PreMedications.Route.Label);
+                Phrase Dosage3 = new Phrase(gottenP.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
                 Phrase DoseMg3 = new Phrase(" ");
                 Phrase DoseMl3 = new Phrase(" ");
 
@@ -900,103 +900,103 @@ namespace SOAP.Controllers
 
 
 
-                Phrase InductionDrug1 = new Phrase(p.AnestheticPlan.InhalantPlan.Drug.Label, NinePointFont);
-                Phrase InjectableRoute1 = new Phrase(p.AnestheticPlan.InjectionPlan.Route.Label);
-                Phrase InjectableDosage1 = new Phrase(p.AnestheticPlan.InhalantPlan.Drug.Label, NinePointFont);
+                Phrase InductionDrug1 = new Phrase(gottenP.AnestheticPlan.InhalantPlan.Drug.Label, NinePointFont);
+                Phrase InjectableRoute1 = new Phrase(gottenP.AnestheticPlan.InjectionPlan.Route.Label);
+                Phrase InjectableDosage1 = new Phrase(gottenP.AnestheticPlan.InhalantPlan.Drug.Label, NinePointFont);
                 Phrase InjectableDoseMg1 = new Phrase(" ");
                 Phrase InjectableDoseMl1 = new Phrase(" ");
 
-                Phrase InductionDrug2 = new Phrase("");//p.AnestheticPlan.InjectionPlan.Drug.Label, NinePointFont);
-                Phrase InductionRoute2 = new Phrase(p.AnestheticPlan.PreMedications.Route.Label);
-                Phrase InductionDosage2 = new Phrase(p.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
+                Phrase InductionDrug2 = new Phrase("");//gottenP.AnestheticPlan.InjectionPlan.Drug.Label, NinePointFont);
+                Phrase InductionRoute2 = new Phrase(gottenP.AnestheticPlan.PreMedications.Route.Label);
+                Phrase InductionDosage2 = new Phrase(gottenP.AnestheticPlan.PreMedications.AnticholinergicDosage.ToString());
                 Phrase InductionDoseMg2 = new Phrase(" ");
                 Phrase InductionDoseM2 = new Phrase(" ");
 #endregion
 
 #region MAINTENANCE
-                Phrase Injectable1 = new Phrase(p.Maintenance.MaintenanceInjectionDrug.Drug.Label, NinePointFont);
+                Phrase Injectable1 = new Phrase(gottenP.Maintenance.MaintenanceInjectionDrug.Drug.Label, NinePointFont);
 
-                Phrase MaintenaceInjectable = new Phrase(p.Maintenance.MaintenanceInjectionDrug.Drug.Label, NinePointFont);
-                Phrase MaintenanceInhalant = new Phrase(p.Maintenance.MaintenanceInhalantDrug.Drug.Label, NinePointFont);
+                Phrase MaintenaceInjectable = new Phrase(gottenP.Maintenance.MaintenanceInjectionDrug.Drug.Label, NinePointFont);
+                Phrase MaintenanceInhalant = new Phrase(gottenP.Maintenance.MaintenanceInhalantDrug.Drug.Label, NinePointFont);
 
-                Phrase MaintenanceInhalantInductionPercent = new Phrase("");//p.Maintenance.MaintenanceInhalantDrug.InductionPercentage.ToString);
+                Phrase MaintenanceInhalantInductionPercent = new Phrase("");//gottenP.Maintenance.MaintenanceInhalantDrug.InductionPercentage.ToString);
                 //Phrase MaintenanceInhalantInductionPercent = new Phrase("");
 
                 Phrase OxygenFlowRate = new Phrase("");
 
                 Phrase BreathingSystem = new Phrase("x");
 
-                Phrase IntraoperativeAnalgesia = new Phrase(p.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Label);
-                Phrase OtherAnestheticDrugs = new Phrase(p.Maintenance.MaintenanceOther.OtherAnestheticDrug, NinePointFont);
+                Phrase IntraoperativeAnalgesia = new Phrase(gottenP.Maintenance.MaintenanceOther.IntraoperativeAnalgesia.Label);
+                Phrase OtherAnestheticDrugs = new Phrase(gottenP.Maintenance.MaintenanceOther.OtherAnestheticDrug, NinePointFont);
                 Phrase Monitoring = new Phrase(MonitoringFullList, NinePointFont);
 
-                Phrase IVFluidType = new Phrase(p.Maintenance.MaintenanceOther.IVFluidType.Label, FivePointFont);
+                Phrase IVFluidType = new Phrase(gottenP.Maintenance.MaintenanceOther.IVFluidType.Label, FivePointFont);
                 Phrase IVDoseMl1 = new Phrase("XX.XX");
                 Phrase IVDoseDrops1 = new Phrase("XXX");
 
                 Phrase MiniDrip = new Phrase("");
                 Phrase MaxiDrip = new Phrase("");
 
-                Phrase PreOpPainAssessment = new Phrase(p.PatientInfo.PreOperationPainAssessment.Label);
-                Phrase PostOpPainAssessment = new Phrase(p.PatientInfo.PostOperationPainAssessment.Label);
+                Phrase PreOpPainAssessment = new Phrase(gottenP.PatientInfo.PreOperationPainAssessment.Label);
+                Phrase PostOpPainAssessment = new Phrase(gottenP.PatientInfo.PostOperationPainAssessment.Label);
 #endregion
 
                 #region Small Drugs
 
                 
-                Phrase PVC = new Phrase(p.Bloodwork.PCV.ToString(), NinePointFont);
-                if (p.Bloodwork.PCV == -1) {PVC = new Phrase("0", NinePointFont); };
+                Phrase PVC = new Phrase(gottenP.Bloodwork.PCV.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.PCV == -1) {PVC = new Phrase("0", NinePointFont); };
 
-                Phrase TP = new Phrase(p.Bloodwork.TP.ToString(), NinePointFont);
-                if (p.Bloodwork.TP == -1) { TP = new Phrase("0", NinePointFont); };
+                Phrase TP = new Phrase(gottenP.Bloodwork.TP.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.TP == -1) { TP = new Phrase("0", NinePointFont); };
 
-                Phrase Alb = new Phrase(p.Bloodwork.Albumin.ToString(), NinePointFont);
-                if (p.Bloodwork.Albumin == -1) { Alb = new Phrase("0", NinePointFont); };
+                Phrase Alb = new Phrase(gottenP.Bloodwork.Albumin.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.Albumin == -1) { Alb = new Phrase("0", NinePointFont); };
 
-                Phrase Glob = new Phrase(p.Bloodwork.Globulin.ToString(), NinePointFont);
-                if (p.Bloodwork.Globulin == -1) { Glob = new Phrase("0", NinePointFont); };
+                Phrase Glob = new Phrase(gottenP.Bloodwork.Globulin.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.Globulin == -1) { Glob = new Phrase("0", NinePointFont); };
 
-                Phrase WBC = new Phrase(p.Bloodwork.WBC.ToString(), NinePointFont);
-                if (p.Bloodwork.WBC == -1) { WBC = new Phrase("0", NinePointFont); };
+                Phrase WBC = new Phrase(gottenP.Bloodwork.WBC.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.WBC == -1) { WBC = new Phrase("0", NinePointFont); };
 
 
 
-                Phrase Na = new Phrase(p.Bloodwork.NA.ToString(), NinePointFont);
-                if (p.Bloodwork.NA == -1) { Na = new Phrase("0", NinePointFont); };
+                Phrase Na = new Phrase(gottenP.Bloodwork.NA.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.NA == -1) { Na = new Phrase("0", NinePointFont); };
 
-                Phrase K = new Phrase(p.Bloodwork.K.ToString(), NinePointFont);
-                if (p.Bloodwork.K == -1) { K = new Phrase("0", NinePointFont); };
+                Phrase K = new Phrase(gottenP.Bloodwork.K.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.K == -1) { K = new Phrase("0", NinePointFont); };
 
-                Phrase Cl = new Phrase(p.Bloodwork.Cl.ToString(), NinePointFont);
-                if (p.Bloodwork.Cl == -1) { Cl = new Phrase("0", NinePointFont); };
+                Phrase Cl = new Phrase(gottenP.Bloodwork.Cl.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.Cl == -1) { Cl = new Phrase("0", NinePointFont); };
 
-                Phrase Ca = new Phrase(p.Bloodwork.Ca.ToString(), NinePointFont);
-                if (p.Bloodwork.Ca == -1) { Ca = new Phrase("0", NinePointFont); };
+                Phrase Ca = new Phrase(gottenP.Bloodwork.Ca.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.Ca == -1) { Ca = new Phrase("0", NinePointFont); };
 
-                Phrase iCa = new Phrase(p.Bloodwork.iCa.ToString(), NinePointFont);
-                if (p.Bloodwork.iCa == -1) { iCa = new Phrase("0", NinePointFont); };
+                Phrase iCa = new Phrase(gottenP.Bloodwork.iCa.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.iCa == -1) { iCa = new Phrase("0", NinePointFont); };
 
-                Phrase Glucose = new Phrase(p.Bloodwork.Glucose.ToString(), NinePointFont);
-                if (p.Bloodwork.Glucose == -1) { Glucose = new Phrase("0", NinePointFont); };
+                Phrase Glucose = new Phrase(gottenP.Bloodwork.Glucose.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.Glucose == -1) { Glucose = new Phrase("0", NinePointFont); };
 
-                Phrase ALT = new Phrase(p.Bloodwork.ALT.ToString(), NinePointFont);
-                if (p.Bloodwork.ALT == -1) { ALT = new Phrase("0", NinePointFont); };
+                Phrase ALT = new Phrase(gottenP.Bloodwork.ALT.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.ALT == -1) { ALT = new Phrase("0", NinePointFont); };
 
-                Phrase ALP = new Phrase(p.Bloodwork.ALP.ToString(), NinePointFont);
-                if (p.Bloodwork.ALP == -1) { ALP = new Phrase("0", NinePointFont); };
+                Phrase ALP = new Phrase(gottenP.Bloodwork.ALP.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.ALP == -1) { ALP = new Phrase("0", NinePointFont); };
 
-                Phrase BUN = new Phrase(p.Bloodwork.BUN.ToString(), NinePointFont);
-                if (p.Bloodwork.BUN == -1) { BUN = new Phrase("0", NinePointFont); };
+                Phrase BUN = new Phrase(gottenP.Bloodwork.BUN.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.BUN == -1) { BUN = new Phrase("0", NinePointFont); };
 
-                Phrase CREAT = new Phrase(p.Bloodwork.CREAT.ToString(), NinePointFont);
-                if (p.Bloodwork.CREAT == -1) { CREAT = new Phrase("0", NinePointFont); };
+                Phrase CREAT = new Phrase(gottenP.Bloodwork.CREAT.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.CREAT == -1) { CREAT = new Phrase("0", NinePointFont); };
 
-                Phrase USG = new Phrase(p.Bloodwork.USG.ToString(), NinePointFont);
-                if (p.Bloodwork.USG == -1) { USG = new Phrase("0", NinePointFont); };
+                Phrase USG = new Phrase(gottenP.Bloodwork.USG.ToString(), NinePointFont);
+                if (gottenP.Bloodwork.USG == -1) { USG = new Phrase("0", NinePointFont); };
 
-                Phrase OtherProblems = new Phrase(p.Bloodwork.OtherType);
+                Phrase OtherProblems = new Phrase(gottenP.Bloodwork.OtherType);
 
-                Phrase OtherAnesthesia = new Phrase(p.Bloodwork.OtherValue.ToString());
+                Phrase OtherAnesthesia = new Phrase(gottenP.Bloodwork.OtherValue.ToString());
 
                 #endregion
 
@@ -1314,8 +1314,9 @@ namespace SOAP.Controllers
 
             }
 
-            catch
+            catch (Exception e)
             {
+                throw e;
             }
             finally
             {
