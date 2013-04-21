@@ -307,6 +307,16 @@ function buildMonitoring() {
 }
 
 function NewForm() {
+    $("#new-form").dialog({
+        width: 600,
+        height: 400,
+        modal: true,
+        draggable: false,
+        buttons: [{ text: "Submit", click: function () {
+            forgetClicked();
+        }
+        }]
+    });
     //Reloads page
     location.reload();
 }
