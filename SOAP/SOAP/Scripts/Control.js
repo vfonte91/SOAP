@@ -341,6 +341,7 @@ function SaveForm(sync) {
                     if (data.success) {
                         //Reload user form dropdown
                         //alert("Form saved");
+                        Patient.PatientId = data.patientId;
                         popupBox("Form saved");
                         GetUserForms();
                     }

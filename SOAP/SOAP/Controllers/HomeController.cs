@@ -136,6 +136,7 @@ namespace SOAP.Controllers
             try
             {
                 service.CreatePatient(pat);
+                dict["patientId"] = pat.PatientId;
                 dict["success"] = true;
             }
             catch (Exception e)
