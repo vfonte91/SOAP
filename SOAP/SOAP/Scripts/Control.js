@@ -63,8 +63,10 @@ $(document).ready(function () {
         }
     });
 
+    //Check if username and password was stored
     if (sessionStorage.username && sessionStorage.password) {
         login(sessionStorage.username, sessionStorage.password);
+        //If new form was clicked, go to Patient Info tab
         if (sessionStorage.patientInfoTab == "true") {
             SwitchTabs($("#t2"));
             sessionStorage.patientInfoTab = "false";
@@ -89,8 +91,11 @@ $(document).ready(function () {
 });
 
 function ExportToPDF() {
-    SaveForm(true);
-    ajax('Post', "ExportToPdf", JSON.stringify(Patient), true);
+    SaveForm(false);
+    ajax('Post', "ExportToPdf", JSON.stringify(Patient), true)
+    .fail(function () {
+        popupBox("Error: Form could not be exported");
+    });
 }
 
 function SwitchTabs(tab) {
@@ -330,49 +335,30 @@ function NewForm() {
         }]
     });
     //Reloads page
-
 }
 
-function SaveForm(sync) {
+function SaveForm(async) {
     if (errorCheckAll()) {
-            Patient.PatientInfo.FormCompleted = 'N';
-            buildAnestheticPlanPremeds();
-            buildInduction();
-            buildMaintenance();
-            buildPatientInfo();
-            buildClinicalFindings();
-            buildBloodwork();
-            buildMonitoring();
-            var url = "";
-            if (newPatient) {
-                url = 'CreateForm'
-            }
-            else {
-                url = 'SaveForm'
-            }
-            if (sync) {
-
-                ajax('Post', url, JSON.stringify(Patient), false)
-                .done(function (data) {
-                    if (data.success) {
-                        //Reload user form dropdown                    
-                        Patient.PatientId = data.patientId;
-                        popupBox("Form saved");
-                        GetUserForms();
-                    }
-                    else {
-                        popupBox("Error: Form could not be saved");
-                    }
-                })
-        .fail(function (jqXHR, textStatus) {
-            popupBox("Error: Form could not be saved");
-        });
-            }
-            else{
-                ajax('Post', url, JSON.stringify(Patient), true)
-            .done(function (data) {
+        Patient.PatientInfo.FormCompleted = 'N';
+        buildAnestheticPlanPremeds();
+        buildInduction();
+        buildMaintenance();
+        buildPatientInfo();
+        buildClinicalFindings();
+        buildBloodwork();
+        buildMonitoring();
+        var url = "";
+        if (newPatient) {
+            url = 'CreateForm'
+        }
+        else {
+            url = 'SaveForm'
+        }
+        ajax('Post', url, JSON.stringify(Patient), async)
+        .done(function (data) {
             if (data.success) {
                 //Reload user form dropdown
+                if (!async) Patient.PatientId = data.patientId;
                 popupBox("Form saved");
                 GetUserForms();
             }
@@ -380,11 +366,9 @@ function SaveForm(sync) {
                 popupBox("Error: Form could not be saved");
             }
         })
-        .fail(function (jqXHR, textStatus) {
+        .fail(function () {
             popupBox("Error: Form could not be saved");
         });
-            }
-        
     } 
 }
 
