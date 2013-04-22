@@ -674,7 +674,6 @@ function securityCheck() {
         });
 }
 
-
 function forgetClicked() {
     //check password, open change password dialog box
     var forgotUser = $("#usernameForgot").val();
@@ -808,12 +807,9 @@ function PopulateAdminDropdownValues(idOfCat) {
                 var newRow = "<tr><td>" + newLabelInput + "</td><td>" + newDescInput + "</td><td>" + newConcInput + "</td><td>" + newDosageInput + "</td><td>" + addButton + "</td><td></td></tr>";
                 $("#dropdown-body").append(newRow);
             }
-            else
-                popupBox("Could not get drop-down values");
+            else popupBox("Could not get drop-down values");
         })
-        .fail(function (data) {
-            popupBox("Could not get drop-down values");
-        });
+        .fail(function (data)  {popupBox("Could not get drop-down values"); });
     }
 }
 
@@ -828,14 +824,10 @@ function editDropdownValue(id, label, desc, conc, dosage) {
         }
         ajax('Post', 'EditDropdownValue', JSON.stringify(dropdown), true)
         .done(function (data) {
-            if (data.success) 
-                popupBox("Value edited successfully");
-            else
-                popupBox("Error: value could not be edited");
+            if (data.success) popupBox("Value edited successfully");
+            elsepopupBox("Error: value could not be edited");
         })
-        .fail(function (data) {
-            popupBox("Error: value could not be edited");
-        });
+        .fail(function (data) { popupBox("Error: value could not be edited"); });
 }
 
 function deleteDropdownValue(id, CatId) {
@@ -848,12 +840,9 @@ function deleteDropdownValue(id, CatId) {
                 popupBox("Value deleted successfully");
                 PopulateAdminDropdownValues(CatId);
             }
-            else
-                popupBox("Error: value could not be deleted");
+            else  popupBox("Error: value could not be deleted");
         })
-        .fail(function (data) {
-            popupBox("Error: value could not be deleted");
-        });
+        .fail(function (data) { popupBox("Error: value could not be deleted"); });
 }
 
 function addDropdownValue(CatId, label, desc, conc, dosage) {
@@ -871,12 +860,9 @@ function addDropdownValue(CatId, label, desc, conc, dosage) {
                 popupBox("Value add successfully");
                 PopulateAdminDropdownValues(CatId);
             }
-            else
-                popupBox("Error: value could not be added");
+            else popupBox("Error: value could not be added");
         })
-        .fail(function (data) {
-            popupBox("Error: value could not be added");
-        });
+        .fail(function (data) { popupBox("Error: value could not be added"); });
 }
 
 function validateUser(member, password) {
@@ -899,9 +885,7 @@ function validateUser(member, password) {
             }
         });
     }
-    else {
-        returned = false;
-    }
+    else returned = false;
     return returned;
 }
 
@@ -912,19 +896,10 @@ function registerUser() {
     var fullName = $("#full-name").val();
     var email = $("#email").val()
 
-    if (!userName) {
-        returned = "Must enter username";
-    }
-    else if (pw1 != pw2 || !pw1) {
-        returned = "Passwords do not match";
-    }
-    else if (!fullName) {
-        returned = "Must enter full name";
-    }
-    else if (!email) {
-        returned = "Must enter email address";
-    }
-    else {
+    if (!userName)  returned = "Must enter username";
+    else if (pw1 != pw2 || !pw1)  returned = "Passwords do not match";
+    else if (!fullName) returned = "Must enter full name";
+    else if (!email)  returned = "Must enter email address";
         var pwHash = pw1.hashCode();
         var ASFUser1 = {
             "Username": userName,
@@ -948,13 +923,9 @@ function registerUser() {
                 popupBox('Registration was succesful');
                 $("#register-div").slideUp('slow');
             }
-            else {
-                popupBox("User could not be registered");
-            }
+            else popupBox("User could not be registered");
         })
-        .fail(function (data) {
-            popupBox("User could not be registered");
-        });
+        .fail(function (data) { popupBox("User could not be registered"); });
     }
 }
 
@@ -972,12 +943,9 @@ function getUsers() {
                 $("#users").append("<option value='" + username + "'>" + name + " - " + username + "</option>");
             }
         }
-        else
-            returned = false;
+        else returned = false;
     })
-    .fail(function (data) {
-        returned = false;
-    });
+    .fail(function (data) { returned = false; });
 }
 
 function deleteUser(users) {
@@ -988,14 +956,10 @@ function deleteUser(users) {
         };
         ajax('Post', 'DeleteUser', JSON.stringify(ASFUser1), true)
             .done(function (data) {
-                if (data.success)
-                    returned += users[i] + " deleted. ";
-                else
-                    returned += "Error: " + users[i] + " could not be deleted. ";
+                if (data.success)returned += users[i] + " deleted. ";
+                else returned += "Error: " + users[i] + " could not be deleted. ";
             })
-            .fail(function (data) {
-                returned += "Error: " + users[i] + " could not be deleted. ";
-            });
+            .fail(function (data) { returned += "Error: " + users[i] + " could not be deleted. ";  });
     }
     getUsers();
     popupBox(returned);
@@ -1009,14 +973,10 @@ function promoteUser(users) {
         }
         ajax('Post', 'PromoteUser', JSON.stringify(ASFUser1), true)
         .done(function (data) {
-            if (data.success) 
-                returned += users[i] + " promoted. ";
-            else
-                returned += "Error: " + users[i] + " could not be promoted. ";
+            if (data.success) returned += users[i] + " promoted. ";
+            else returned += "Error: " + users[i] + " could not be promoted. ";
         })
-        .fail(function (data) {
-            returned += "Error: " + users[i] + " could not be promoted. ";
-        });
+        .fail(function (data) { returned += "Error: " + users[i] + " could not be promoted. ";});
     }
     popupBox(returned);
 }
@@ -1073,15 +1033,10 @@ function toolTipGenerate(id, name) {
     var current = e.options[e.selectedIndex].text;
     var description;
     for (var i = 0; i < values.length; i++) {
-        if (values[i].Label == current) {
-            description = values[i].Description;
-        }
+        if (values[i].Label == current) description = values[i].Description;
     }
-    if(description) {
-        popupBox(description);
-    } else {
-        popupBox("No Description Avaliable");
-    }
+    if(description) popupBox(description);
+    else popupBox("No Description Avaliable");
 }
 
 function calculateDosages() {
@@ -1194,14 +1149,11 @@ function specificCalculations(id, name, dosage) {
 
     }
     //if there is no concentraion entered, unable to calculate values
-    if (concentration == null) {
-        return null;
-    } else if (concentration == "-1") { // if the concentraion is not set because dropdown value calls for something else
-         return -1;
-     }
-     if (dosageVal == "") { // if the dosage was not entered
-         return "dose";
-     }
+    if (concentration == null) return null; 
+   // if the concentraion is not set because dropdown value calls for something else
+    else if (concentration == "-1") return -1;
+   // if the dosage was not entered
+   if (dosageVal == "") return "dose";
     if (maxDose != 0) {//if there is a max dose for selected value
         if (maxDose < dosageVal) {//if the seleceted dosage is greater than the max allowed dosage
             popupBox("Dosage more than maximum allowed detected. Automatically reduced.");
@@ -1236,43 +1188,22 @@ function errorCheckAll() {
     //error checking for each page, for each text box
     var retVal = true;
     var check = errorCheckPatientInfo();
-    if (!check) {
-        retVal = false;
-    }
-
+    if (!check)  retVal = false;
     check = errorCheckClinicalFindings();
-    if (!check) {
-        retVal = false;
-    }
-
+    if (!check) retVal = false;
     check = errorCheckBloodwork();
-    if (!check) {
-        retVal = false;
-    }
-
+    if (!check) retVal = false;
     check = errorCheckAnetheticPlan();
-    if (!check) {
-        retVal = false;
-    }
-
+    if (!check) retVal = false;
     check = errorCheckInduction();
-    if (!check) {
-        retVal = false;
-    }
-
+    if (!check)  retVal = false;
     check = errorCheckMaintenance();
-    if (!check) {
-        retVal = false;
-    }
-
+    if (!check) retVal = false;
     check = errorCheckMonitoring();
-    if (!check) {
-        retVal = false;
-    }
+    if (!check)  retVal = false;
     return retVal;
 }
 function errorCheckPatientInfo() {
-
     //generate correct popup box for specific error
     var retVal = true;
     var check = document.getElementById("Patient.PatientInfo.ProcedureOther").value;
@@ -1302,7 +1233,6 @@ function errorCheckPatientInfo() {
 }
 
 function errorCheckClinicalFindings() {
-
     //more of the same
     var retVal = true;
 
@@ -1555,12 +1485,10 @@ function errorCheckMaintenance() {
 }
 function errorCheckMonitoring() {
     var retVal = true;
-
     var check = document.getElementById("Patient.Monitoring.OtherMonitoring").value;
     if (check.length > 256) {
         popupBox("The string in Other Monitoring is too long");
         retVal = false;
     }
-
     return retVal;
 }
