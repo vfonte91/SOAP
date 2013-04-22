@@ -262,7 +262,6 @@
     <Content Include="Images\InActive.jpg" />
     <Content Include="Images\Test.jpg" />
     <Content Include="Scripts\Control.js" />
-    <Content Include="Scripts\IdEnum.js" />
     <Content Include="Scripts\jquery.multiselect.min.js" />
     <Content Include="Views\Home\Banner.cshtml" />
     <Content Include="Web.config">
@@ -277,7 +276,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
