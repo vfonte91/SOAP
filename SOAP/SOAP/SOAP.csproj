@@ -246,6 +246,7 @@
     <Content Include="Content\images\ui-icons_f3f2f2_256x240.png" />
     <Content Include="Content\jquery-ui-1.10.2.custom.min.css" />
     <Content Include="Content\jquery.multiselect.css" />
+    <Content Include="Content\Site.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\Active.jpg" />
