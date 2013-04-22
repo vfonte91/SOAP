@@ -98,17 +98,16 @@ function ExportToPDF() {
     });
 }
 
-function SwitchTabs(tab) {
-    if (!tab.hasClass('active') && !tab.hasClass('disabled')) {
+function SwitchTabs($tab) {
+    if (!$tab.hasClass('active') && !$tab.hasClass('disabled')) {
         // switch previous tabs off
-        var prevContent = $('a.active').attr('nav');
+        $('#tabs').find('div.item').each(function () {
+            if ($(this).attr('id') == $tab.attr('nav')) $(this).show('slide');
+            else $(this).hide('slide');
+        });
         $("a.active").removeClass("active");
         // switch this tab on
-       tab.addClass("active");
-        var currentContent = $('a.active').attr('nav');
-        $('#' + prevContent).hide('slide', function () {
-            $('#' + currentContent).show('slide');
-        });
+        $tab.addClass("active");
     }
 }
 
@@ -118,7 +117,6 @@ $(document).keydown(function (e) {
     //if left arrow key press
     if (e.keyCode == 37) {
          current = $("#thumbs a.active").attr('id');
-         currentId;
         if (current.length == 3) {
             currentId = 10;
         } else {
@@ -138,7 +136,6 @@ $(document).keydown(function (e) {
     //if right arrow key press
     if (e.keyCode == 39) {
          current = $("#thumbs a.active").attr('id');
-         currentId
         if (current.length == 3) {
             currentId = 10;
         } else {
