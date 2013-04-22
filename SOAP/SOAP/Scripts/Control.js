@@ -102,7 +102,7 @@ function SwitchTabs($tab) {
     if (!$tab.hasClass('active') && !$tab.hasClass('disabled')) {
         // switch previous tabs off
         $('#tabs').find('div.item').each(function () {
-            if ($(this).attr('id') == $tab.attr('nav')) $(this).show('slide');
+            if ($(this).attr('id') == $tab.attr('nav')) $(this).show('slide', 'slow');
             else $(this).hide('slide');
         });
         $("a.active").removeClass("active");
@@ -373,7 +373,7 @@ function OpenForm(formId) {
     var pat = { PatientId: formId };
     ajax('Post', 'GetPatient', JSON.stringify(pat), true)
     .done(function (data) {
-        if (data.success) {
+        if (data.success && formId != 0) {
             Patient = data.Patient;
             newPatient = false;
             var patient = data.Patient;
